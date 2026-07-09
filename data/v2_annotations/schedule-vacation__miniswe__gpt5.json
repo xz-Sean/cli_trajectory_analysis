@@ -1,0 +1,52 @@
+{
+  "case_id": "schedule-vacation__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "tool_use",
+  "primary_failure_subtype": "shell_syntax_errors",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "verification",
+  "contributing_failure_1_subtype": "unverified_output_correctness",
+  "root_cause_label": "repeated_shell_syntax_failures_followed_by_unverified_output_correctness",
+  "one_sentence_failure_summary": "Three consecutive steps failed due to shell syntax errors from fragile monolithic here-doc chaining, and the late recovery at step 4 ran without verifying that the parsed availability and selected vacation window were correct, resulting in a wrong final answer.",
+  "m": 5,
+  "t_err": 1,
+  "t_err_evidence": "Step 1 issues a massive monolithic chained command with multiple here-docs separated by &&, which immediately produces 'Syntax error: && unexpected' and causes all intended file creation and script execution to fail.",
+  "t_commit": 4,
+  "t_commit_evidence": "Step 4 executes the inline Python orchestrator successfully (returncode 0), writing vacation_dates.txt without any verification; per the step 5 analysis, Charlie's availability is empty, making the output incorrect and the failure locked in.",
+  "t_surface": null,
+  "t_surface_evidence": null,
+  "timepoint_confidence": "medium",
+  "trigger_mechanism": "capability_limit",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent repeatedly failed to generate syntactically valid shell commands for chaining multiple here-docs with &&, a known fragile pattern, indicating a code-generation capability limitation. Even after recovery in step 4, the parsing logic for Charlie's TRAVEL_TEXT format with month-range unavailability likely produced empty availability, but the agent lacked the verification step to catch this.",
+  "forewarning_present": true,
+  "forewarning_first_step": 1,
+  "forewarning_types": [
+    "command_error"
+  ],
+  "forewarning_evidence": "Step 1 terminal output shows '/bin/sh: 149: Syntax error: \"&&\" unexpected', a clear command error forewarning the same failure pattern at steps 2 and 3.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 2,
+  "num_recovery_attempts": 2,
+  "tail_dominant_behavior": "verification_theater",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "X"],
+    [2, 2, "X"],
+    [3, 3, "X"],
+    [4, 4, "X"],
+    [5, 5, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_commit",
+    "t_surface",
+    "tail_dominant_behavior"
+  ]
+}

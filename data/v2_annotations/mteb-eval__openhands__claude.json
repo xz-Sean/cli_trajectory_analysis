@@ -1,0 +1,42 @@
+{
+  "case_id": "mteb-eval__openhands__claude",
+  "schema_version": "v2",
+  "m": 30,
+  "action_segments": [
+    [1, 2, "P"],
+    [3, 4, "X"],
+    [5, 8, "P"],
+    [9, 9, "X"],
+    [10, 16, "E"],
+    [17, 17, "X"],
+    [18, 18, "W"],
+    [19, 20, "X"],
+    [21, 21, "W"],
+    [22, 22, "X"],
+    [23, 23, "P"],
+    [24, 27, "V"],
+    [28, 29, "V"],
+    [30, 30, "C"]
+  ],
+  "num_error_events": 5,
+  "first_error_step": 3,
+  "first_error_evidence": "pip install mteb sentence-transformers failed with exit code -1 at step 3; at step 9, the evaluation script fails with ModuleNotFoundError because the openhands venv (/opt/openhands-venv/bin/python) does not have mteb installed",
+  "num_recoveries": 2,
+  "max_detour_length": 13,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 26,
+  "verification_evidence": "Step 26 reads /app/results/sentence-transformers__all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/STS12.json directly, confirming cosine_spearman=0.72369 > 0.7 and the correct MTEB result format before the completion claim at step 30",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent installed dependencies and wrote an evaluation script but required multiple recovery cycles—first diagnosing a Python interpreter/package mismatch between the openhands venv and the system Python where mteb was installed, then fixing a HuggingFace cache symlink error—before successfully running the MTEB STS12 evaluation with all-MiniLM-L6-v2 and achieving cosine_spearman=0.72369.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": [
+    "action_segments"
+  ]
+}

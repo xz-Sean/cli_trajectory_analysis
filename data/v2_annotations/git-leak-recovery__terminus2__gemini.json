@@ -1,0 +1,32 @@
+{
+  "case_id": "git-leak-recovery__terminus2__gemini",
+  "schema_version": "v2",
+  "m": 9,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 4, "E"],
+    [5, 6, "E"],
+    [7, 7, "W"],
+    [8, 8, "V"],
+    [9, 9, "C"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 4,
+  "first_error_evidence": "git fsck --unreachable returned no output; agent had expected to find unreachable objects there but the commit was reflog-reachable, requiring a pivot to git reflog",
+  "num_recoveries": 1,
+  "max_detour_length": 1,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 8,
+  "verification_evidence": "Step 8: agent ran cat /app/secret.txt (confirmed secret written), git show 6b4c75c (fatal error confirmed deletion), and git log --oneline (confirmed remaining history intact) before marking task_complete=true",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent explored the repo history via git log, then tried git fsck (found nothing), pivoted to git reflog to locate the removed commit containing the secret, recovered it with git show, wrote it to /app/secret.txt, and permanently purged the commit using git reflog expire and git gc --prune=now.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

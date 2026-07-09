@@ -1,0 +1,53 @@
+{
+  "case_id": "mteb-retrieve__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "methodology",
+  "primary_failure_category": "wrong_api_usage",
+  "primary_failure_subtype": "missing_mteb_prompt_types",
+  "contributing_failure_1_layer": "execution",
+  "contributing_failure_1_category": "environment_obstacle_mishandled",
+  "contributing_failure_1_subtype": "dependency_installation_failures",
+  "root_cause_label": "Agent used SentenceTransformer directly instead of mteb.get_model with PromptType.query/passage, then abandoned model-based retrieval entirely and wrote a heuristic guess",
+  "one_sentence_failure_summary": "The agent never used the required MTEB encoder interface with prompt types, repeatedly failed due to missing dependencies and timeouts, and ultimately wrote a manually guessed line to the result file rather than computing the correct 5th-nearest document.",
+  "m": 9,
+  "t_err": 1,
+  "t_err_evidence": "Step 1 uses SentenceTransformer directly without the MTEB encoder interface (mteb.get_model) and without required PromptType.query/passage, making the retrieval methodologically incorrect from the first action.",
+  "t_commit": 8,
+  "t_commit_evidence": "Step 8 writes line 24 (Windows Agent Arena) to /app/result.txt via a heuristic manual guess ('sed -n 24p /app/data.txt > /app/result.txt') without any model computation, locking in an incorrect result.",
+  "t_surface": 8,
+  "t_surface_evidence": "Step 8 produces an observable wrong output: line 24 is written to /app/result.txt based on manual reasoning rather than the required model-based ranking.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent lacked knowledge that this benchmark requires using mteb.get_model with a specific revision and encoding with PromptType.query (for the query) and PromptType.passage (for documents) under task_name='SciFact'. Without this domain knowledge, it used SentenceTransformer directly, producing different embeddings and an incorrect ranking.",
+  "forewarning_present": true,
+  "forewarning_first_step": 2,
+  "forewarning_types": [
+    "command_error",
+    "repeated_command"
+  ],
+  "forewarning_evidence": "Steps 2-4 produce repeated ModuleNotFoundError (numpy, then sentence_transformers), signaling environment problems. Step 5 pivots to a remote API call. Steps 6-7 show the agent exploring data manually, suggesting it no longer trusts its ability to run the model programmatically.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 5,
+  "num_recovery_attempts": 4,
+  "tail_dominant_behavior": "new_wrong_direction",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "X"],
+    [2, 4, "R"],
+    [5, 5, "X"],
+    [6, 7, "E"],
+    [8, 8, "W"],
+    [9, 9, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "contributing_failure_1_layer",
+    "contributing_failure_1_category"
+  ]
+}

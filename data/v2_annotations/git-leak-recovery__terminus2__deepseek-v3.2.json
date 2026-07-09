@@ -1,0 +1,32 @@
+{
+  "case_id": "git-leak-recovery__terminus2__deepseek-v3.2",
+  "schema_version": "v2",
+  "m": 33,
+  "action_segments": [
+    [1, 13, "E"],
+    [14, 14, "W"],
+    [15, 15, "V"],
+    [16, 18, "X"],
+    [19, 31, "V"],
+    [32, 33, "E"]
+  ],
+  "num_error_events": 0,
+  "first_error_step": null,
+  "first_error_evidence": null,
+  "num_recoveries": 0,
+  "max_detour_length": 0,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 19,
+  "verification_evidence": "Step 19: git fsck --unreachable --no-reflogs returns no output confirming all unreachable objects were pruned; steps 22-25 further verify the secret is absent from all reachable commits and blobs; step 29 re-reads /app/secret.txt to confirm correct content.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "direct",
+  "one_sentence_strategy_summary": "The agent systematically searched reachable then unreachable git objects, found the secret in a dangling blob via git fsck, wrote it to /app/secret.txt, then cleaned the repository with git prune/reflog expire/gc and exhaustively verified removal.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

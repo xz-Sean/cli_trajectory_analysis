@@ -1,0 +1,41 @@
+{
+  "case_id": "cross-entropy-method__terminus2__gemini",
+  "schema_version": "v2",
+  "m": 10,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 2, "X"],
+    [3, 3, "E"],
+    [4, 4, "E"],
+    [5, 5, "W"],
+    [6, 6, "W"],
+    [7, 7, "W"],
+    [8, 8, "W"],
+    [9, 9, "V"],
+    [10, 10, "C"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 6,
+  "first_error_evidence": "Step 6 writes a buggy evaluate_plans_memoized that incorrectly handles cache hits by re-simulating the prefix then calling self.step(action) three times (including a nonsensical subtraction), producing wrong rewards.",
+  "num_recoveries": 1,
+  "max_detour_length": 1,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 9,
+  "verification_evidence": "Step 9 terminal output shows pytest was run (truncated '======' output), and agent reports all 41 tests passed before marking task_complete=true.",
+  "suspicious_pass": true,
+  "suspicious_pass_type": "other",
+  "suspicious_pass_evidence": "Throughout steps 5-8, the terminal output consistently shows the original unmodified cross_entropy.py with TODO/pass placeholders after each cat-heredoc write command, suggesting the write commands may not have executed as shown; the step 9 pytest output is truncated to just '======' with no visible pass count; the agent's reports of decreasing test failures (36->25->12->0) cannot be confirmed from the terminal outputs displayed.",
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent iteratively implemented the three required methods (step, evaluate_plans_memoized, optimize) one at a time using cat-heredoc file overwrites, fixing a buggy memoization implementation in the second attempt before implementing the cross-entropy optimization loop.",
+  "confidence": "medium",
+  "long_traj": false,
+  "uncertain_fields": [
+    "num_error_events",
+    "first_error_step",
+    "verification_before_claim",
+    "suspicious_pass"
+  ]
+}

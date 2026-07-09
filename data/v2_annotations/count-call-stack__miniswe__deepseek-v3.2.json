@@ -1,0 +1,53 @@
+{
+  "case_id": "count-call-stack__miniswe__deepseek-v3.2",
+  "schema_version": "v2",
+  "primary_failure_layer": "implementation",
+  "primary_failure_category": "parsing_logic",
+  "primary_failure_subtype": "incorrect_delimiter_detection",
+  "contributing_failure_1_layer": "verification",
+  "contributing_failure_1_category": "premature_completion_claim",
+  "contributing_failure_1_subtype": "incorrect_output_accepted",
+  "root_cause_label": "capability_limit",
+  "one_sentence_failure_summary": "The agent wrote a Python parser that failed to correctly detect trace boundaries (stripping whitespace before tab-checking) and subsequently accepted incorrect output as correct, claiming completion despite persistent format and count discrepancies.",
+  "m": 9,
+  "t_err": 3,
+  "t_err_evidence": "Step 3: The agent writes a Python script using `line.strip()` before checking `line.startswith('\\t')`, which destroys tab information and prevents correct detection of trace headers; the script produces 0 stack traces when run.",
+  "t_commit": 9,
+  "t_commit_evidence": "Step 9: The agent echoes COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT and claims the output 'looks correct', locking in the flawed result with incorrect counts (631 traces with still-flawed parsing and mismatched indentation) without further correction.",
+  "t_surface": 5,
+  "t_surface_evidence": "Step 5: cat /app/output.txt shows 'Found 0 stack traces / Number of unique call sites (based on top 3 frames): 0 / Total stack traces analyzed: 0', clearly indicating the parser produced no results.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "capability_limit",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent had a correct high-level plan (parse traces by header, extract top-3 frames, group and count) but generated code with a logic bug: calling strip() before the tab-check destroyed the whitespace that identifies frame lines vs. header lines. This is a code-generation quality failure where the plan was sound but execution was flawed.",
+  "forewarning_present": true,
+  "forewarning_first_step": 5,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 5 output shows '0 stack traces' and '0 unique call sites', which clearly signals the parser is completely broken before t_commit at step 9.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 6,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "verification_theater",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 5,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 3, "W"],
+    [4, 4, "X"],
+    [5, 5, "V"],
+    [6, 6, "W"],
+    [7, 7, "X"],
+    [8, 8, "V"],
+    [9, 9, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_commit"
+  ]
+}

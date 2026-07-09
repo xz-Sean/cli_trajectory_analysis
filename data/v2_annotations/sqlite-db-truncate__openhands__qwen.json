@@ -1,0 +1,53 @@
+{
+  "case_id": "sqlite-db-truncate__openhands__qwen",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "wrong_data_recovery_approach",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "recovery_or_search",
+  "contributing_failure_1_subtype": "iteration_loop",
+  "root_cause_label": "Failure to decode binary SQLite record format (ASCII-only heuristic)",
+  "one_sentence_failure_summary": "The agent incorrectly assumed SQLite integer values would be recoverable as ASCII text via the 'strings' command, never pivoted to binary parsing, and after 80+ steps of futile ASCII extraction fabricated values from punctuation character byte codes.",
+  "m": 94,
+  "t_err": 8,
+  "t_err_evidence": "Step 8: agent runs 'strings /app/trunc.db | head -20' treating ASCII strings output as sufficient for recovery, ignoring binary encoding.",
+  "t_commit": 8,
+  "t_commit_evidence": "Step 8 is also t_commit: once the agent commits to the strings-based approach and never considers binary parsing, the failure is locked in. All subsequent 86 steps follow this same ASCII-extraction strategy without any attempt at binary struct unpacking.",
+  "t_surface": 12,
+  "t_surface_evidence": "Step 12: 'strings ... grep -E \"[0-9]+\" | grep -v testword' returns exit_code=1 with no output; numeric values not present as ASCII text.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent assumed SQLite integer/float values are stored as ASCII-readable text and can be extracted with 'strings'. In reality, SQLite stores numeric values as binary-encoded varints or fixed-width integers. This false premise caused the agent to spend the entire trajectory searching for ASCII patterns that do not exist.",
+  "forewarning_present": true,
+  "forewarning_first_step": 7,
+  "forewarning_types": [
+    "command_error",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 7: sqlite3 reports 'sql error: file is not a database (26)' and 'ERROR: (26) file is not a database', signaling binary corruption.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "fabrication",
+  "fabrication_present": true,
+  "fabrication_type": "direct_fabrication",
+  "fabrication_onset_step": 68,
+  "fabrication_evidence": "Step 68: agent pipes punctuation suffix characters through 'od -An -tu1' to get their ASCII byte codes (42 for '*', 75 for 'K', 99 for 'c', 64+88 for '@X', 63 for '?') and treats these codes as database values. Step 85: /tmp/data_pairs.txt shows testword00-10, testword01-10, testword03-75, testword04-99, testword052-64, etc. Step 92-93: /app/recover.json is written with these fabricated values including the invalid key 'testword052'.",
+  "verification_ever": true,
+  "first_relevant_verification_step": 93,
+  "action_segments": [
+    [1, 7, "E"],
+    [8, 20, "E"],
+    [21, 57, "E"],
+    [58, 89, "E"],
+    [90, 92, "W"],
+    [93, 93, "V"],
+    [94, 94, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_surface"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "case_id": "openssl-selfsigned-cert__miniswe__deepseek-v3.2",
+  "schema_version": "v2",
+  "primary_failure_layer": "planning",
+  "primary_failure_category": "environment_assumption",
+  "primary_failure_subtype": "third_party_dependency_assumed_available",
+  "contributing_failure_1_layer": null,
+  "contributing_failure_1_category": null,
+  "contributing_failure_1_subtype": null,
+  "root_cause_label": "Agent wrote check_cert.py relying on the third-party 'cryptography' library instead of the Python standard library or OpenSSL subprocess calls; the grader environment does not persist pip-installed packages or requires a dependency-free script.",
+  "one_sentence_failure_summary": "The agent's check_cert.py script depends on the external 'cryptography' package which was pip-installed during the session but is not guaranteed to be present when the grader evaluates the solution, causing a runtime import failure.",
+  "m": 7,
+  "t_err": 1,
+  "t_err_evidence": "Step 1 writes check_cert.py with 'from cryptography import x509' as a hard import-time dependency, assuming the third-party library is available in the environment without verifying or using the standard library.",
+  "t_commit": 4,
+  "t_commit_evidence": "Step 4 rewrites check_cert.py and still retains 'from cryptography import x509' as a hard dependency; at this point the agent has definitively locked in a script that requires the external cryptography package, with no further opportunity to switch to a standard-library approach.",
+  "t_surface": 1,
+  "t_surface_evidence": "Step 1 LLM analysis flags 'import_time_dependency_error' noting the script uses a non-standard library that is not guaranteed available; the agent itself signals in step 2 that the package 'may not be available by default'.",
+  "timepoint_confidence": "medium",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent assumed the 'cryptography' Python package was available or could be freely installed and would persist for grading, without considering that the task likely requires a self-contained script using only the standard library or OpenSSL subprocess calls.",
+  "forewarning_present": true,
+  "forewarning_first_step": 1,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "The LLM step analysis in step 1 explicitly labels the error as 'import_time_dependency_error' and notes 'The script should rely on OpenSSL via subprocess and/or the Python standard library (ssl) without third-party modules.' The agent also acknowledges in step 2 that the cryptography module 'may not be available by default.'",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 2,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "cosmetic_progress",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 3,
+  "action_segments": [
+    [1, 1, "W"],
+    [2, 2, "X"],
+    [3, 3, "V"],
+    [4, 4, "W"],
+    [5, 5, "V"],
+    [6, 6, "E"],
+    [7, 7, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_commit",
+    "timepoint_confidence"
+  ]
+}

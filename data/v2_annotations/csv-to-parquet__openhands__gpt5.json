@@ -1,0 +1,30 @@
+{
+  "case_id": "csv-to-parquet__openhands__gpt5",
+  "schema_version": "v2",
+  "m": 8,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 6, "X"],
+    [7, 7, "X"],
+    [8, 8, "C"]
+  ],
+  "num_error_events": 5,
+  "first_error_step": 2,
+  "first_error_evidence": "Step 2: IPython cell fails with ModuleNotFoundError: No module named 'pyarrow' and pip unavailable (%pip fails with 'No module named pip').",
+  "num_recoveries": 5,
+  "max_detour_length": 5,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 7,
+  "verification_evidence": "Step 7 command includes 'ls -lh /app/data.parquet' at the end and the output shows 'Wrote /app/data.parquet size 2276 bytes' confirming file creation before the finish call in step 8.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "After five successive environment failures (missing pip, ensurepip, PEP 668 restriction, missing python3-pyarrow apt package, missing duckdb apt package), the agent correctly recovered by creating a Python venv with python3-venv, installing pandas+pyarrow inside it, and converting the CSV to Parquet successfully.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

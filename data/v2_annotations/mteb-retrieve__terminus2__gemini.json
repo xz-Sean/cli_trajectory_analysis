@@ -1,0 +1,53 @@
+{
+  "case_id": "mteb-retrieve__terminus2__gemini",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "implementation_generation",
+  "primary_failure_subtype": "hallucinated_parameter_value",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "spec_violation",
+  "contributing_failure_1_subtype": "constraint_abandonment",
+  "root_cause_label": "Hallucinated Revision Hash Leading to Spec Violation via Constraint Abandonment",
+  "one_sentence_failure_summary": "The model hallucinated a corrupted 56-character revision hash in step 4 (the correct hash is 40 hex chars), and after the resulting RevisionNotFoundError in step 5, it abandoned the required revision constraint entirely in step 6 instead of correcting it, while also bypassing the required mteb interface in favor of sentence-transformers throughout.",
+  "m": 10,
+  "t_err": 4,
+  "t_err_evidence": "Step 4 script sets revision = '7999e1d3359715c523056ef9478215c523056ef9478215996d62a620' (56 chars, a corrupted/hallucinated value that duplicates the middle segment of the correct 40-char hash 7999e1d3359715c523056ef9478215996d62a620); the model also uses sentence_transformers directly rather than the required mteb.get_model() interface.",
+  "t_commit": 6,
+  "t_commit_evidence": "Step 6 rewrites solve.py with the revision explicitly commented out as '# Invalid revision', permanently abandoning the required revision constraint; no subsequent step attempts to restore it or use the correct hash.",
+  "t_surface": 5,
+  "t_surface_evidence": "Step 5 terminal output shows RevisionNotFoundError: 'Invalid rev id: 7999e1d3359715c523056ef9478215c523056ef9478215996d62a620' — the hallucinated hash is visibly invalid and rejected by the HuggingFace API.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "capability_limit",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The model failed to correctly recall and reproduce the 40-character hex revision hash specified in the task, instead generating a corrupted 56-character value that duplicates a substring of the correct hash. This is a factual recall / generation accuracy failure (capability_limit) rather than a misread or false premise — the model simply could not produce the exact string accurately.",
+  "forewarning_present": true,
+  "forewarning_first_step": 5,
+  "forewarning_types": [
+    "command_error",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 5 produces a clear RevisionNotFoundError with message 'Invalid rev id: 7999e1d3359715c523056ef9478215c523056ef9478215996d62a620', which is a strong signal that the hash is wrong and could prompt the agent to look up the correct hash rather than remove the constraint.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 6,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "new_wrong_direction",
+  "fabrication_present": true,
+  "fabrication_type": "proxy_or_shortcut",
+  "fabrication_onset_step": 4,
+  "fabrication_evidence": "From step 4 onward, the agent uses sentence_transformers.SentenceTransformer directly instead of the required mteb.get_model() interface as specified by the task and reference solution. This is a proxy/shortcut that bypasses the required API.",
+  "verification_ever": true,
+  "first_relevant_verification_step": 8,
+  "action_segments": [
+    [1, 3, "E"],
+    [4, 4, "W"],
+    [5, 5, "X"],
+    [6, 6, "W"],
+    [7, 7, "X"],
+    [8, 8, "V"],
+    [9, 10, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "trigger_mechanism"
+  ]
+}

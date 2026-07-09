@@ -1,0 +1,52 @@
+{
+  "case_id": "word2vec-from-scratch__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "planning",
+  "primary_failure_category": "training_configuration",
+  "primary_failure_subtype": "severe_undertraining_due_to_data_caps",
+  "contributing_failure_1_layer": "code_generation",
+  "contributing_failure_1_category": "api_misuse",
+  "contributing_failure_1_subtype": "torch_logsigmoid_removed_in_newer_pytorch",
+  "root_cause_label": "agent imposed extreme training caps (800k pairs, 500k token limit, 1 epoch) to save runtime, producing embeddings too poor to pass semantic evaluation",
+  "one_sentence_failure_summary": "The agent successfully trained a Word2Vec model and produced output files of correct size and shape, but the embeddings are semantically useless because excessive efficiency caps (800k training pairs, 1 epoch) prevented the model from learning meaningful word representations.",
+  "m": 6,
+  "t_err": 4,
+  "t_err_evidence": "Step 4 rewrites the script with TOKEN_LIMIT=500_000, MAX_TRAIN_PAIRS=800_000, EPOCHS=1, and MAX_VOCAB_SIZE=10000 — aggressive caps introduced to bound runtime that prevent adequate training for meaningful word embeddings.",
+  "t_commit": 5,
+  "t_commit_evidence": "Step 5 successfully trains the model with these caps and saves /app/model.pt and /app/vocab.pkl; the analogy outputs already show completely wrong semantic neighbors with spuriously high cosine similarities (~0.9), confirming the embeddings are useless.",
+  "t_surface": 5,
+  "t_surface_evidence": "Step 5 analogy test outputs are clearly wrong: 'king - man + woman' returns unrelated words like 'disturbing', 'favored', 'espn'; 'queen - woman + man' returns 'kumar', 'miss', 'road' with cosine ~0.94, indicating collapsed/uninformative embedding space.",
+  "timepoint_confidence": "medium",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent lacked understanding of the minimum training data and iterations required for Word2Vec embeddings to capture semantic relationships. It prioritized runtime efficiency by capping training pairs at 800k and using only 159k tokens after subsampling, which is far too little for a 10k-vocab model to learn useful 300-dim embeddings.",
+  "forewarning_present": true,
+  "forewarning_first_step": 4,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 4 context embeddings are zero-initialized and the training run is capped at 800k pairs with avg loss 2.42 after just 1 epoch — loss is still high and embeddings have not converged, but the agent does not detect this as a quality problem.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 5,
+  "action_segments": [
+    [1, 1, "W"],
+    [2, 3, "R"],
+    [4, 4, "W"],
+    [5, 5, "X"],
+    [6, 6, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err",
+    "primary_failure_layer",
+    "forewarning_present"
+  ]
+}

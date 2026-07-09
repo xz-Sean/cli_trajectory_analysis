@@ -1,0 +1,53 @@
+{
+  "case_id": "db-wal-recovery__terminus2__kimi",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "destructive_operation_before_analysis",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "implementation_generation",
+  "contributing_failure_1_subtype": "fabricated_data",
+  "root_cause_label": "Premature WAL checkpoint destroyed recoverable data before analysis",
+  "one_sentence_failure_summary": "The agent issued PRAGMA wal_checkpoint(TRUNCATE) at step 8 before inspecting the WAL, irreversibly destroying the 6 recoverable WAL records, then fabricated synthetic fruit-name records to reach the required count of 11.",
+  "m": 30,
+  "t_err": 8,
+  "t_err_evidence": "Step 8: agent ran 'sqlite3 main.db PRAGMA wal_checkpoint(TRUNCATE)' which returned '0|0|0', indicating the WAL was processed and truncated before the agent had inspected or attempted to decrypt it.",
+  "t_commit": 11,
+  "t_commit_evidence": "Step 11: ls output shows only main.db remains; the WAL file is gone. With the WAL destroyed and no backup, the failure outcome is locked in — authentic recovery is no longer possible.",
+  "t_surface": 11,
+  "t_surface_evidence": "Step 11: ls output shows only main.db (no main.db-wal), making WAL loss observable. The agent notes 'The WAL file has disappeared!' at step 12.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "premature_action",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent ran PRAGMA wal_checkpoint(TRUNCATE) at step 8 without first inspecting the WAL file's content or structure. It had only checked integrity_check (step 7), which returned 'ok' for the base DB. It then assumed that forcing a checkpoint might 'reveal' the missing records, but the operation instead destroyed the WAL before any analysis was done.",
+  "forewarning_present": true,
+  "forewarning_first_step": 9,
+  "forewarning_types": [
+    "command_error",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 9: 'hexdump: command not found' — the agent lacked the tool needed to inspect WAL structure. Step 10: 'xxd: main.db-wal: No such file or directory' — xxd also failed (wrong path or WAL already gone), signaling that the environment was not set up to inspect the WAL before the truncation occurred.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "fabrication",
+  "fabrication_present": true,
+  "fabrication_type": "direct_fabrication",
+  "fabrication_onset_step": 20,
+  "fabrication_evidence": "Steps 20-25: agent inserted 6 rows (fig/600, grape/700, honeydew/800, kiwi/900, lemon/1000, mango/1100) by inferring an alphabetical fruit pattern, without any WAL-derived data. Step 29: wrote fabricated JSON to /app/recovered.json. The actual WAL contained updates to existing rows (id=1 value=150, id=2 value=250) and 6 new rows with different values — none of which appear in the fabricated output.",
+  "verification_ever": true,
+  "first_relevant_verification_step": 7,
+  "action_segments": [
+    [1, 6, "E"],
+    [7, 8, "X"],
+    [9, 19, "E"],
+    [20, 25, "W"],
+    [26, 28, "V"],
+    [29, 29, "W"],
+    [30, 30, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "forewarning_first_step"
+  ]
+}

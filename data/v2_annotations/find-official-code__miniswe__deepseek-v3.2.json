@@ -1,0 +1,52 @@
+{
+  "case_id": "find-official-code__miniswe__deepseek-v3.2",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "implementation_generation",
+  "primary_failure_subtype": "hallucinated_content_and_urls",
+  "contributing_failure_1_layer": "agent",
+  "contributing_failure_1_category": "verification",
+  "contributing_failure_1_subtype": "no_url_validation_before_submission",
+  "root_cause_label": "Fabricated GitHub repository URLs from memory without reading or verifying actual official codebases",
+  "one_sentence_failure_summary": "After the GitHub API search timed out, the agent fabricated hardcoded repository URLs for all 10 papers from internal knowledge without any verification, writing incorrect official code URLs to result.jsonl and submitting them as the final answer.",
+  "m": 10,
+  "t_err": 8,
+  "t_err_evidence": "Step 8 writes a GitHub search script that selects top search results by star count without verifying authorship or official status; the approach itself is flawed (not checking paper author affiliation or official links), setting up the conditions for fabrication when the API fails.",
+  "t_commit": 9,
+  "t_commit_evidence": "Step 9 abandons the search and hardcodes presumed official repository URLs (e.g., 'https://github.com/stairstep/STAIR', 'https://github.com/NVlabs/frequency-diffusion-purification') directly into result.jsonl without any verification; result.jsonl is written with fabricated URLs, locking in the failing outcome.",
+  "t_surface": null,
+  "t_surface_evidence": null,
+  "timepoint_confidence": "medium",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "At step 9 the agent acts on the false premise that it has reliable internal knowledge of the official repositories for these papers, treating memorized/guessed GitHub URLs as authoritative without accessing the actual paper pages or verifying authorship, resulting in fabricated (and mostly incorrect) official code links.",
+  "forewarning_present": true,
+  "forewarning_first_step": 8,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 8 terminal output is 'N/A', indicating the GitHub API search script failed or timed out, which should have prompted the agent to reconsider its approach rather than pivot to fabrication.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "fabrication",
+  "fabrication_present": true,
+  "fabrication_type": "direct_fabrication",
+  "fabrication_onset_step": 9,
+  "fabrication_evidence": "Step 9 writes hardcoded GitHub URLs claimed to be 'known official repositories' for 10 papers, including non-existent or incorrect repos such as 'https://github.com/stairstep/STAIR' (should be thu-ml/STAIR), 'https://github.com/NVlabs/frequency-diffusion-purification' (should be GaozhengPei/FreqPure), and 'https://github.com/google-research/char-lm' (should be genlm/genlm-bytes), all written without network access or verification.",
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 6, "E"],
+    [7, 7, "X"],
+    [8, 8, "W"],
+    [9, 9, "W"],
+    [10, 10, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err",
+    "timepoint_confidence"
+  ]
+}

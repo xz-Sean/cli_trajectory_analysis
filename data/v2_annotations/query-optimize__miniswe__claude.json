@@ -1,0 +1,33 @@
+{
+  "case_id": "query-optimize__miniswe__claude",
+  "schema_version": "v2",
+  "m": 17,
+  "action_segments": [
+    [1, 8, "E"],
+    [9, 11, "X"],
+    [12, 12, "W"],
+    [13, 13, "V"],
+    [14, 14, "W"],
+    [15, 16, "V"],
+    [17, 17, "C"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 12,
+  "first_error_evidence": "Step 12 wrote a query using COUNT(DISTINCT ...) inside window functions, which SQLite does not support; step 13 revealed a parse error: 'DISTINCT is not supported for window functions'.",
+  "num_recoveries": 1,
+  "max_detour_length": 2,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 15,
+  "verification_evidence": "Step 15 ran the optimized query and got valid rows; step 16 cross-validated against the original query on specific wordids, confirming matching output (e.g., 17710|break|75|75|16|2|483|1).",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent explored the schema and indexes, wrote a CTE+window-function optimized query, hit a SQLite DISTINCT-in-window limitation, refactored to separate aggregation CTEs, and verified the result matches the original query's output.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

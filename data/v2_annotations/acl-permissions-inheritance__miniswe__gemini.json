@@ -1,0 +1,51 @@
+{
+  "case_id": "acl-permissions-inheritance__miniswe__gemini",
+  "schema_version": "v2",
+  "primary_failure_layer": "agent",
+  "primary_failure_category": "spec_violation",
+  "primary_failure_subtype": "incorrect_path_pivot",
+  "contributing_failure_1_layer": "agent",
+  "contributing_failure_1_category": "misread_output",
+  "contributing_failure_1_subtype": "missed_successful_command",
+  "root_cause_label": "Incorrect Path Pivot Due to Root User Misunderstanding",
+  "one_sentence_failure_summary": "The agent pivoted to ~/srv/shared instead of /srv/shared after misreading the step-2 output and falsely concluding mkdir had failed, never realizing it was already running as root.",
+  "m": 13,
+  "t_err": 2,
+  "t_err_evidence": "mkdir -p /srv/shared && sudo groupadd research; output: sudo: not found; agent concluded it lacked permissions for /srv/shared",
+  "t_commit": 3,
+  "t_commit_evidence": "I lack permissions to create /srv/shared. I'll use /tmp/srv/shared instead.",
+  "t_surface": 11,
+  "t_surface_evidence": "getfacl output: # file: root/srv/shared, # owner: root — revealing agent was root the whole time",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "misread_output",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "In step 2, the agent ran `mkdir -p /srv/shared && sudo groupadd research`. The output `sudo: not found` actually implies mkdir succeeded (the && chain reached sudo), but the agent misread this as evidence that it lacked permissions for /srv/shared, triggering the path pivot.",
+  "forewarning_present": true,
+  "forewarning_first_step": 2,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 2 output is only 'sudo: not found' — mkdir succeeded silently, which the agent should have interpreted as success",
+  "awareness": "aware_too_late",
+  "first_awareness_step": 11,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "cosmetic_progress",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 11,
+  "action_segments": [
+    [1, 1, "X"],
+    [2, 3, "X"],
+    [4, 6, "X"],
+    [7, 10, "W"],
+    [11, 12, "V"],
+    [13, 13, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

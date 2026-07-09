@@ -1,0 +1,53 @@
+{
+  "case_id": "incompatible-python-fasttext__openhands__devstral",
+  "schema_version": "v2",
+  "primary_failure_layer": "agent",
+  "primary_failure_category": "environment_setup",
+  "primary_failure_subtype": "wrong_python_environment_targeted",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "verification",
+  "contributing_failure_1_subtype": "oracle_path_not_exercised",
+  "root_cause_label": "Wrong Python Environment Targeted — Installed Into Venv Instead of Patching System Fasttext",
+  "one_sentence_failure_summary": "After observing that the OpenHands venv lacks access to system site-packages, the agent incorrectly concluded the fix was to install fasttext into the venv, never investigating the actual numpy 2.x API incompatibility in the system-wide fasttext installation that the benchmark's pytest runner uses.",
+  "m": 17,
+  "t_err": 7,
+  "t_err_evidence": "pip install fasttext -> Requirement already satisfied: fasttext in /usr/local/lib/python3.13/site-packages (wrong env, not venv)",
+  "t_commit": 7,
+  "t_commit_evidence": "At step 7 the agent runs 'pip install fasttext' targeting the system environment (which already has it) and then at step 8 runs 'pip install --force-reinstall --no-cache-dir fasttext', committing entirely to reinstalling fasttext rather than patching the numpy incompatibility in FastText.py; no subsequent step pursues the correct fix.",
+  "t_surface": 10,
+  "t_surface_evidence": "import fasttext -> ModuleNotFoundError: No module named 'fasttext' (still fails after install attempt)",
+  "timepoint_confidence": "medium",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent observed that the venv's sys.path excludes system site-packages and jumped to the conclusion that making fasttext importable inside the venv was the required fix. This false premise caused it to ignore the actual root cause: a numpy 2.x API change (np.array with copy=False -> np.asarray) in /usr/local/lib/python3.13/site-packages/fasttext/FastText.py. The agent never tested the system python3 interpreter directly, never triggered the real AttributeError, and never realized the benchmark runs under system Python.",
+  "forewarning_present": true,
+  "forewarning_first_step": 4,
+  "forewarning_types": [
+    "command_error",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "ModuleNotFoundError: No module named 'fasttext'",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 2,
+  "tail_dominant_behavior": "verification_theater",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 13,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 6, "E"],
+    [7, 12, "X"],
+    [13, 15, "V"],
+    [16, 16, "E"],
+    [17, 17, "V"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err",
+    "forewarning_first_step"
+  ]
+}

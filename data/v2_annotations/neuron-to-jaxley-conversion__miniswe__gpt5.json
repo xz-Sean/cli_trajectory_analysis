@@ -1,0 +1,53 @@
+{
+  "case_id": "neuron-to-jaxley-conversion__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "implementation",
+  "primary_failure_category": "api_misuse",
+  "primary_failure_subtype": "placeholder_instead_of_real_api",
+  "contributing_failure_1_layer": "environment",
+  "contributing_failure_1_category": "dependency_unavailable",
+  "contributing_failure_1_subtype": "jaxley_not_importable_for_introspection",
+  "root_cause_label": "knowledge_gap_jaxley_channel_api",
+  "one_sentence_failure_summary": "The agent lacked knowledge of the Jaxley Channel API and wrote placeholder Python classes that merely store parameters instead of using the actual jaxley.channels.Channel base class and cell.insert() to register working channels.",
+  "m": 10,
+  "t_err": 9,
+  "t_err_evidence": "In step 9, the agent writes jaxley_conversion.py with custom placeholder classes (Passive, MammalianSpike35, Cad, Extracellular, Xtra) that only hold parameter values and use setattr on branch objects, rather than subclassing jaxley's Channel base class and calling the proper Jaxley insertion API.",
+  "t_commit": 9,
+  "t_commit_evidence": "After step 9 overwrites jaxley_conversion.py with the non-functional placeholder implementation, there is no further editing attempt; step 10 is merely an echo submission command, locking in the incorrect implementation.",
+  "t_surface": null,
+  "t_surface_evidence": null,
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent did not know the Jaxley Channel API (how to subclass jaxley.channels.Channel and call cell.insert() with channel objects). When runtime introspection failed in step 6 due to jaxley not being installed in the interactive shell, the agent had no fallback knowledge and resorted to writing ad-hoc placeholder classes that mimic the NEURON structure conceptually but are not compatible with the Jaxley simulation framework.",
+  "forewarning_present": true,
+  "forewarning_first_step": 6,
+  "forewarning_types": [
+    "command_error",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 6 returns 'ModuleNotFoundError: No module named jaxley' when the agent tries to introspect the Jaxley API at runtime. This signals that the agent cannot verify the correct API usage before writing the implementation, foreshadowing that the resulting code may be incompatible with the actual Jaxley framework.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 5, "E"],
+    [6, 7, "E"],
+    [8, 8, "W"],
+    [9, 9, "W"],
+    [10, 10, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "primary_failure_layer",
+    "contributing_failure_1_layer"
+  ]
+}

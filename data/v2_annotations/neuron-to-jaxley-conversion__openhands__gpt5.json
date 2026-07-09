@@ -1,0 +1,52 @@
+{
+  "case_id": "neuron-to-jaxley-conversion__openhands__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "agent",
+  "primary_failure_category": "task_understanding",
+  "primary_failure_subtype": "spec_neglect_over_environment_setup",
+  "contributing_failure_1_layer": "environment",
+  "contributing_failure_1_category": "environment_setup",
+  "contributing_failure_1_subtype": "resource_exhaustion_crash",
+  "root_cause_label": "Agent consumed all 9 steps on environment probing and dependency installation without ever writing the required conversion code",
+  "one_sentence_failure_summary": "The agent spent its entire 9-step budget on exploring and attempting to install jaxley rather than writing the add_channels() conversion code it was tasked with, and the final step crashed due to resource exhaustion when importing jaxley.",
+  "m": 9,
+  "t_err": 4,
+  "t_err_evidence": "Step 4: After reading all relevant source files (steps 1-3), the agent switched to dynamic API probing via IPython instead of writing the conversion code; it received a ModuleNotFoundError for jaxley and interpreted this as requiring environment setup rather than proceeding to write the code from the information already gathered.",
+  "t_commit": 7,
+  "t_commit_evidence": "Step 7: After successfully bootstrapping pip and beginning jaxley installation, the agent committed to a 'get environment working first' strategy with no steps remaining for actual code writing; step 8 repeats the jaxley install and step 9 is the final crashing probe, leaving zero steps for the conversion task.",
+  "t_surface": 9,
+  "t_surface_evidence": "Step 9: The runtime crashed due to resource exhaustion when importing jaxley in IPython, making the failure observable; the agent explicitly acknowledges the crash and loss of prior state.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "spec_neglect",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The task required writing Python code to implement add_channels() by translating biophysical parameters from the NEURON file — a code-writing task that did not require running or testing jaxley in the environment. The agent already had all necessary information after reading the files in steps 1-3, but instead of writing the code it pivoted to dynamic environment probing and dependency installation, never returning to the actual task.",
+  "forewarning_present": true,
+  "forewarning_first_step": 4,
+  "forewarning_types": [
+    "command_error",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 4: ModuleNotFoundError for jaxley signaled an environment problem. Step 5: 'No module named pip' with exit code 1 signaled that the normal install path was blocked. These signals could have prompted a strategy shift to just writing the code without execution.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 2,
+  "tail_dominant_behavior": "new_wrong_direction",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 3, "E"],
+    [4, 4, "X"],
+    [5, 5, "X"],
+    [6, 6, "E"],
+    [7, 8, "X"],
+    [9, 9, "X"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

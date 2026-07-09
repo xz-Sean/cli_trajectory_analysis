@@ -1,0 +1,50 @@
+{
+  "case_id": "extract-elf__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "wrong_address_normalization_strategy",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "implementation_generation",
+  "contributing_failure_1_subtype": "incorrect_base_address_hardcoding",
+  "root_cause_label": "program_header_based_base_normalization_mismatched_with_section_address_reference",
+  "one_sentence_failure_summary": "The agent chose PT_LOAD segment parsing with a hardcoded 0x400000 base normalization for ET_DYN instead of reading .text/.data/.rodata via section headers, producing address keys that do not match the reference output.",
+  "m": 5,
+  "t_err": 2,
+  "t_err_evidence": "Step 2 implements extract.js using PT_LOAD program header parsing and emits addresses based on p_vaddr from segments, which is the wrong extraction strategy; the reference requires section-header-based extraction of .text/.data/.rodata virtual addresses.",
+  "t_commit": 4,
+  "t_commit_evidence": "Step 4 rewrites extract.js with a hardcoded 0x400000 base for ET_DYN and immediately submits at step 5 without verifying against reference output, locking in the incorrect PT_LOAD-based approach.",
+  "t_surface": 2,
+  "t_surface_evidence": "Step 2 output shows addresses starting at '0','4','8'... which the agent recognized as wrong (PIE binary yielding zero-based addresses), prompting diagnostic exploration in step 3.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent assumed that parsing PT_LOAD segments and mapping their file-backed bytes to virtual addresses was the correct extraction method, without verifying whether the reference solution uses section headers instead. This false assumption about the required approach led to implementing the wrong strategy from the start.",
+  "forewarning_present": true,
+  "forewarning_first_step": 2,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 2 output shows keys '0','4','8'... (zero-based) rather than the expected non-zero section virtual addresses, signaling the mapping approach is incorrect.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 3,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": true,
+  "fabrication_type": "proxy_or_shortcut",
+  "fabrication_onset_step": 5,
+  "fabrication_evidence": "Step 5 echoes COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT and claims the solution works and addresses match expectations, without running any comparison against the reference output; the implementation still uses the wrong PT_LOAD-based strategy with hardcoded base normalization.",
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 2, "W"],
+    [3, 3, "E"],
+    [4, 4, "W"],
+    [5, 5, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_surface"
+  ]
+}

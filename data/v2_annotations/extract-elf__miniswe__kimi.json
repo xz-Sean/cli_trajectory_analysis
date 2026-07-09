@@ -1,0 +1,31 @@
+{
+  "case_id": "extract-elf__miniswe__kimi",
+  "schema_version": "v2",
+  "m": 16,
+  "action_segments": [
+    [1, 6, "E"],
+    [7, 7, "W"],
+    [8, 9, "X"],
+    [10, 15, "V"],
+    [16, 16, "C"]
+  ],
+  "num_error_events": 2,
+  "first_error_step": 2,
+  "first_error_evidence": "Step 2: 'file: not found' when attempting to identify the binary type",
+  "num_recoveries": 2,
+  "max_detour_length": 3,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 8,
+  "verification_evidence": "Step 8: agent runs 'node extract.js a.out' and observes JSON output with address-value pairs; Steps 13-14 cross-validate specific values (e.g., address 16312 = 0x3dc8 = 15816 confirmed against objdump hex output)",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent explored the binary with readelf/objdump (adapting when 'file' and 'jq' were unavailable), wrote a Node.js ELF parser that reads section headers and extracts 4-byte non-zero values from allocated sections, tested it, and verified correctness by cross-referencing extracted values against objdump hex output.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

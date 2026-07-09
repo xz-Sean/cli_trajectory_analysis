@@ -1,0 +1,51 @@
+{
+  "case_id": "triton-interpret__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "knowledge_gap",
+  "primary_failure_subtype": "unsupported_triton_api",
+  "contributing_failure_1_layer": "environment",
+  "contributing_failure_1_category": "environment_setup",
+  "contributing_failure_1_subtype": "dependency_version_conflict",
+  "root_cause_label": "Knowledge Gap on tl.tanh Unavailability and Repeated Dependency Failures",
+  "one_sentence_failure_summary": "The agent repeatedly failed to install compatible torch/triton versions and baked an unsupported tl.tanh call into every kernel revision, ultimately writing and submitting an unverified, non-runnable implementation.",
+  "m": 8,
+  "t_err": 1,
+  "t_err_evidence": "Step 1: agent requests torch==2.4.1 which is not available (versions 2.5.0+ only); pip immediately rejects it with 'Could not find a version that satisfies the requirement torch==2.4.1'.",
+  "t_commit": 2,
+  "t_commit_evidence": "Step 2: agent introduces tl.tanh into the kernel (a Triton CPU-interpreter-unsupported intrinsic) while still failing to install compatible packages; from this point every subsequent kernel revision carries the same tl.tanh bug and no successful run ever occurs.",
+  "t_surface": 1,
+  "t_surface_evidence": "Step 1 terminal output shows: 'ERROR: Could not find a version that satisfies the requirement torch==2.4.1' - the first clear observable failure signal.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent lacks knowledge of (a) which torch versions are available/compatible with triton==3.4.0, and (b) that tl.tanh is not supported in Triton's CPU interpret mode. It assumes both without verification, causing all subsequent install and kernel execution attempts to fail.",
+  "forewarning_present": true,
+  "forewarning_first_step": 1,
+  "forewarning_types": [
+    "command_error",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 1 pip install error explicitly lists available torch versions (2.5.0, 2.5.1, 2.6.0, ..., 2.9.1), providing a clear signal about which versions are actually available. Steps 3-5 show 'N/A' terminal output indicating commands silently failed.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 5,
+  "tail_dominant_behavior": "thrash_repeat",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "W"],
+    [2, 5, "R"],
+    [6, 7, "W"],
+    [8, 8, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err",
+    "trigger_mechanism"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "case_id": "gomoku-planner__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "wrong_algorithm_design",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "verification",
+  "contributing_failure_1_subtype": "missing_output_validation",
+  "root_cause_label": "Unvalidated heuristic image-parsing algorithm produces incorrect board state and wrong blocking move",
+  "one_sentence_failure_summary": "The agent designs a fragile heuristic algorithm to parse the Gomoku board image via darkness-profile peaks and brightness thresholds, never validates the parsed board state or resulting move, and submits an incorrect blocking move (7,5).",
+  "m": 6,
+  "t_err": 1,
+  "t_err_evidence": "Step 1 introduces the complete algorithmic design: grid line detection via brightness-profile darkness peaks and stone classification via fixed brightness thresholds. These heuristics are not robust for reliably reconstructing a Gomoku board, yet the agent commits to this approach without any prior validation or exploration of the image.",
+  "t_commit": 4,
+  "t_commit_evidence": "Step 4 successfully installs Pillow via pip and runs the solver script, which writes move '7,5' to /app/move.txt. After this point, the wrong move is committed to disk and the agent has no remaining steps to correct it.",
+  "t_surface": 5,
+  "t_surface_evidence": "Step 5 reads /app/move.txt and reveals the output '7,5', which is the incorrect blocking move. This is the first step where the wrong output is directly observable in terminal output.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "capability_limit",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent's overall plan (parse image, detect board state, find optimal blocking move) is conceptually correct, but the code it generates to execute that plan uses heuristics (darkness profile peaks for grid detection, fixed brightness thresholds for stone classification) that are insufficiently robust for accurate image-based board reconstruction. The algorithm fails silently, producing a plausible-looking but incorrect move.",
+  "forewarning_present": true,
+  "forewarning_first_step": 1,
+  "forewarning_types": [
+    "command_error"
+  ],
+  "forewarning_evidence": "Step 1 produces a ModuleNotFoundError for PIL, indicating the environment was not verified before running the image-parsing approach. Steps 2 and 3 also have environment errors (pip --user restricted, apt lock), all strictly before t_commit at step 4.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 5,
+  "action_segments": [
+    [1, 1, "W"],
+    [2, 4, "R"],
+    [5, 5, "V"],
+    [6, 6, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "forewarning_present"
+  ]
+}

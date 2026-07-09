@@ -1,0 +1,30 @@
+{
+  "case_id": "multi-source-data-merger__terminus2__kimi",
+  "schema_version": "v2",
+  "m": 21,
+  "action_segments": [
+    [1, 7, "E"],
+    [8, 8, "W"],
+    [9, 9, "X"],
+    [10, 21, "V"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 7,
+  "first_error_evidence": "Step 7 ran pandas to inspect source_c parquet schema but terminal showed '(command not found in terminal output)'; the agent proceeded to write a script assuming source_c has columns 'userId', 'userName', 'joined', 'active' without confirmed verification.",
+  "num_recoveries": 0,
+  "max_detour_length": 0,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 13,
+  "verification_evidence": "Step 13 ran 'cat /app/conflicts.json' and confirmed the output file contains correct structure with 3 conflicts resolved by source_a priority. Step 15 ran 'ls -la' to confirm both output files exist with non-zero sizes.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "direct",
+  "one_sentence_strategy_summary": "The agent explored all three data source schemas, wrote a single Python merge script applying field mappings and priority-based conflict resolution (A>B>C), executed it successfully in one shot, then verified outputs via file inspection and conflict report review.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

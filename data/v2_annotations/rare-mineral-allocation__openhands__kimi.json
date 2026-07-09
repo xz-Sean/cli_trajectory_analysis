@@ -1,0 +1,53 @@
+{
+  "case_id": "rare-mineral-allocation__openhands__kimi",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "completion_protocol",
+  "primary_failure_subtype": "premature_completion",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "implementation_generation",
+  "contributing_failure_1_subtype": "missing_output_artifact",
+  "root_cause_label": "missing_solution_txt_and_premature_completion_with_unmet_optimality_check",
+  "one_sentence_failure_summary": "The agent never saved the required solution.txt artifact (instead saving to optimal_solution.npy), and declared completion at step 18 despite a high gradient norm (~1624) indicating the solution failed the optimality check.",
+  "m": 18,
+  "t_err": 16,
+  "t_err_evidence": "Step 16: Agent saves the optimized solution to '/app/optimal_solution.npy' instead of the required '/app/solution.txt', violating the output specification while reporting 'Solution saved to /app/optimal_solution.npy'.",
+  "t_commit": 18,
+  "t_commit_evidence": "Step 18: Agent calls finish() declaring the task complete, with solution at the wrong path and no further action to create solution.txt or address the high gradient norm (~1624), locking in the failing outcome.",
+  "t_surface": 17,
+  "t_surface_evidence": "Step 17: Output explicitly reports 'Optimality check (gradient norm): 1624.210144' and still references saving to '/app/optimal_solution.npy', providing visible signals that neither the gradient tolerance nor the correct output path requirement are met.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "spec_neglect",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent never read or checked the task specification for the required output file path (solution.txt) or format. Throughout the entire trajectory it only saved to /app/optimal_solution.npy, and it also overlooked the optimality tolerance requirement, proceeding to claim completion despite high gradient norm.",
+  "forewarning_present": true,
+  "forewarning_first_step": 17,
+  "forewarning_types": [
+    "contradictory_evidence"
+  ],
+  "forewarning_evidence": "Step 17 explicitly prints 'Optimality check (gradient norm): 1624.210144', signaling the solution does not satisfy optimality criteria, and reports the wrong save path (/app/optimal_solution.npy). These signals appear before the final completion claim at step 18.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 17,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 17,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 3, "E"],
+    [4, 4, "P"],
+    [5, 9, "X"],
+    [10, 15, "W"],
+    [16, 16, "X"],
+    [17, 17, "V"],
+    [18, 18, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

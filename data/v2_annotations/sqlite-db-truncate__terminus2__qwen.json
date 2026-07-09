@@ -1,0 +1,51 @@
+{
+  "case_id": "sqlite-db-truncate__terminus2__qwen",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "wrong_recovery_approach",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "implementation_generation",
+  "contributing_failure_1_subtype": "output_parsing_error",
+  "root_cause_label": "Incorrect Data Extraction Strategy (Heuristic String Parsing)",
+  "one_sentence_failure_summary": "The agent misread the strings utility output, incorrectly treating trailing printable ASCII noise as the actual integer values stored in the corrupted SQLite database, and built a flawed JSON extractor on top of that misinterpretation.",
+  "m": 21,
+  "t_err": 13,
+  "t_err_evidence": "At step 13, the agent sees 'testword09?', 'testword08@X', 'testword07c', etc. from strings and explicitly decides that the trailing characters (?, @, c) represent the stored values, writing 'testwordXX might have ? as its value'. The actual integer values are binary-encoded and not captured by strings.",
+  "t_commit": 16,
+  "t_commit_evidence": "At step 16, the agent redirects filtered strings output to temp_data.txt with 'strings trunc.db | grep testword > temp_data.txt', locking in the wrong data source. From this point the only input to the JSON generator is this flawed file.",
+  "t_surface": 21,
+  "t_surface_evidence": "At step 21, the generated recover.json contains values like 63 (ASCII '?'), 64 (ASCII '@'), 99 (ASCII 'c'), 75 (ASCII 'K') — ASCII codes of printable noise rather than actual database integer values. The word 'testword052' is also mangled, confirming incorrect recovery.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "misread_output",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "At step 13, the agent reads the strings output and misinterprets trailing printable characters appended to 'testwordXX' tokens as the encoded numeric values. These characters are actually ASCII artifacts from adjacent binary data that strings partially surfaces; the real integer values are stored in binary format that strings does not preserve.",
+  "forewarning_present": true,
+  "forewarning_first_step": 14,
+  "forewarning_types": [
+    "repeated_command",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Steps 14 and 15 repeat the same strings command hoping to find more context about values, but each time get identical output with no numeric value information. The output consistently shows only the same 10 lines with trailing printable noise and some entries having no trailing chars at all (testword03, testword02, testword01, testword00), which should signal that the trailing chars are not reliable value encodings.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "new_wrong_direction",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 21,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 7, "X"],
+    [8, 15, "E"],
+    [16, 20, "W"],
+    [21, 21, "V"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "forewarning_first_step"
+  ]
+}

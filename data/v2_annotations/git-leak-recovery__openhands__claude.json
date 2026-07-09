@@ -1,0 +1,32 @@
+{
+  "case_id": "git-leak-recovery__openhands__claude",
+  "schema_version": "v2",
+  "m": 20,
+  "action_segments": [
+    [1, 6, "E"],
+    [7, 7, "W"],
+    [8, 9, "E"],
+    [10, 11, "X"],
+    [12, 19, "V"],
+    [20, 20, "C"]
+  ],
+  "num_error_events": 2,
+  "first_error_step": 14,
+  "first_error_evidence": "Step 14: 'git cat-file -p' called via xargs with multiple arguments yields 'fatal: too many arguments'; the fallback echo masked the failure. Step 15: find -exec syntax error ('missing argument to -exec').",
+  "num_recoveries": 1,
+  "max_detour_length": 2,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 12,
+  "verification_evidence": "Step 12 confirms the secret-containing commit da92e1d is no longer accessible. Step 16 scans .git directory and finds no secret pattern. Steps 17-19 verify git log, working tree status, README.md contents, and /app/secret.txt contents.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent explored git history via reflog to find and recover the orphaned secret commit, wrote the secret to /app/secret.txt, then expired reflogs and ran aggressive garbage collection to purge the secret from history, with two minor verification command errors that were self-corrected before the final completion claim.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}
