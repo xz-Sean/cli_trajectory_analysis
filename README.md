@@ -81,3 +81,9 @@ the LLM-draft step followed. Oracle prompt: inside `scripts/build_oracle_batch.p
 The replay itself (Docker, Terminal-Bench images at commit `d28711d0`, raw trajectories) is
 described in `validation/README.md`; the shipped `runs/` files are its complete output.
 
+
+## License and citation
+Scripts are released under the MIT License (`LICENSE`); the annotated dataset, validation
+outputs, figures and documentation are released under CC BY 4.0 (`LICENSE-DATA`). You may use
+either for any purpose; if you do, please cite the paper (BibTeX/APA via the "Cite this
+repository" button on GitHub, metadata in `CITATION.cff`).
