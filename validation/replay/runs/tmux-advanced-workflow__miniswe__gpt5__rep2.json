@@ -1,0 +1,531 @@
+{
+ "cid": "tmux-advanced-workflow__miniswe__gpt5",
+ "task": "tmux-advanced-workflow",
+ "scaffold": "miniswe",
+ "model": "gpt5",
+ "m": 5,
+ "kmin": 1,
+ "kmax": 5,
+ "rep": 2,
+ "started": 1793046404.621824,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 0.0,
+   "out_sim": 1.0,
+   "out_tail": "Completed. Processed {records} records.\")\n    55\t        \n    56\t        # Log completion\n    57\t        with open(log_file, 'a') as log:\n    58\t            log.write(f\"{datetime.now()} - Completed processing of {input_file}. Processed {records} records.\\n\")\n    59\t            \n    60\t    except Exception as e:\n    61\t        print(f\"Error: {e}\")\n    62\t        # Log error\n    63\t        with open(log_file, 'a') as log:\n    64\t            log.write(f\"{datetime.now()} - Error processing {input_file}: {e}\\n\")\n    65\t        sys.exit(1)\n    66\t\n    67\tif __name__ == \"__main__\":\n    68\t    main()\n"
+  },
+  {
+   "k": 2,
+   "type": "keystroke",
+   "secs": 0.0,
+   "out_sim": 1.0,
+   "out_tail": ""
+  },
+  {
+   "k": 3,
+   "type": "keystroke",
+   "secs": 0.0,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 4,
+   "type": "keystroke",
+   "secs": 0.0,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 0.0,
+   "out_sim": 1.0,
+   "out_tail": "COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_bug_fixed"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 475ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ...F.                                           [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_bug_fixed ________________________________\n\n    def test_bug_fixed():\n        \"\"\"Test that the script can be run successfully after the bug fix.\"\"\"\n        # Create a temporary output file\n        output_file = \"/app/project/data/test_output.csv\"\n    \n        # Run the process_data.py script\n        result = subprocess.run(\n            [\n                \"python\",\n                \"/app/project/src/process_data.py\",\n                \"/app/project/data/input.csv\",\n                output_file,\n            ],\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check that the script executed successfully\n        assert result.returncode == 0, f\"Script failed with error: {result.stderr}\"\n    \n        # Check that the output file was created\n        assert os.path.exists(output_file), \"Output file was not created\"\n    \n        # Check the content of the output file\n        with open(output_file, \"r\") as f:\n            lines = f.readlines()\n    \n        # Verify that we have the expected number of processed lines\n        # (should be 9, excluding the error)\n>       assert len(lines) == 9, f\"Expected 9 processed lines, got {len(lines)}\"\nE       AssertionError: Expected 9 processed lines, got 18\nE       assert 18 == 9\nE        +  where 18 = len(['2023-01-01,A001,16.70,First entry\\n', '\\n', '2023-01-02,A002,24.07,Normal operation\\n', '\\n', '2023-01-04,A004,33.77,High value\\n', '\\n', ...])\n\n/tests/test_outputs.py:65: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_logs_generated\nFAILED ../tests/test_outputs.py::test_bug_fixed - AssertionError: Expected 9 ...\n========================= 1 failed, 4 passed in 5.23s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 2,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_process_script_bug_fixed",
+       "../subtests/test_sub.py::test_must_log_shows_processing_runs"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_fix_is_strip_on_split"
+      ]
+     }
+    },
+    "sub_raw_tail": "            sys.exit(1)\nE         \nE         if __name__ == \"__main__\":\nE             main()\nE         \nE       assert ('strip()' in '#!/usr/bin/env python3\\nimport sys\\nimport time\\nimport random\\nimport os\\nfrom datetime import datetime\\n\\ndef proce...time.now()} - Error processing {input_file}: {e}\\\\n\")\\n        sys.exit(1)\\n\\nif __name__ == \"__main__\":\\n    main()\\n' and \"line.split(',')\" not in '#!/usr/bin/...    main()\\n'\nE         \nE         \"line.split(',')\" is contained here:\nE             parts = line.split(',')\nE                   if len(parts) >= 3:\nE                       # Convert value to float and apply transformation\nE                       try:\nE                           # Simulated processing with occasional failures...\nE         \nE         ...Full output truncated (49 lines hidden), use '-vv' to show)\n\n/subtests/test_sub.py:52: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nFAILED ../subtests/test_sub.py::test_must_process_script_bug_fixed - Assertio...\nFAILED ../subtests/test_sub.py::test_must_log_shows_processing_runs - Asserti...\nFAILED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split - Asserti...\n========================= 3 failed, 2 passed in 5.09s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_bug_fixed",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 312ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_bug_fixed\nPASSED ../tests/test_outputs.py::test_logs_generated\n============================== 5 passed in 5.06s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_process_script_bug_fixed\nPASSED ../subtests/test_sub.py::test_must_log_shows_processing_runs\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nPASSED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split\n============================== 5 passed in 5.05s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "1": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_bug_fixed"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 392ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ...F.                                           [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_bug_fixed ________________________________\n\n    def test_bug_fixed():\n        \"\"\"Test that the script can be run successfully after the bug fix.\"\"\"\n        # Create a temporary output file\n        output_file = \"/app/project/data/test_output.csv\"\n    \n        # Run the process_data.py script\n        result = subprocess.run(\n            [\n                \"python\",\n                \"/app/project/src/process_data.py\",\n                \"/app/project/data/input.csv\",\n                output_file,\n            ],\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check that the script executed successfully\n        assert result.returncode == 0, f\"Script failed with error: {result.stderr}\"\n    \n        # Check that the output file was created\n        assert os.path.exists(output_file), \"Output file was not created\"\n    \n        # Check the content of the output file\n        with open(output_file, \"r\") as f:\n            lines = f.readlines()\n    \n        # Verify that we have the expected number of processed lines\n        # (should be 9, excluding the error)\n>       assert len(lines) == 9, f\"Expected 9 processed lines, got {len(lines)}\"\nE       AssertionError: Expected 9 processed lines, got 18\nE       assert 18 == 9\nE        +  where 18 = len(['2023-01-01,A001,16.31,First entry\\n', '\\n', '2023-01-02,A002,24.36,Normal operation\\n', '\\n', '2023-01-04,A004,33.74,High value\\n', '\\n', ...])\n\n/tests/test_outputs.py:65: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_logs_generated\nFAILED ../tests/test_outputs.py::test_bug_fixed - AssertionError: Expected 9 ...\n========================= 1 failed, 4 passed in 5.07s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 2,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_process_script_bug_fixed",
+       "../subtests/test_sub.py::test_must_log_shows_processing_runs"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_fix_is_strip_on_split"
+      ]
+     }
+    },
+    "sub_raw_tail": "            sys.exit(1)\nE         \nE         if __name__ == \"__main__\":\nE             main()\nE         \nE       assert ('strip()' in '#!/usr/bin/env python3\\nimport sys\\nimport time\\nimport random\\nimport os\\nfrom datetime import datetime\\n\\ndef proce...time.now()} - Error processing {input_file}: {e}\\\\n\")\\n        sys.exit(1)\\n\\nif __name__ == \"__main__\":\\n    main()\\n' and \"line.split(',')\" not in '#!/usr/bin/...    main()\\n'\nE         \nE         \"line.split(',')\" is contained here:\nE             parts = line.split(',')\nE                   if len(parts) >= 3:\nE                       # Convert value to float and apply transformation\nE                       try:\nE                           # Simulated processing with occasional failures...\nE         \nE         ...Full output truncated (49 lines hidden), use '-vv' to show)\n\n/subtests/test_sub.py:52: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nFAILED ../subtests/test_sub.py::test_must_process_script_bug_fixed - Assertio...\nFAILED ../subtests/test_sub.py::test_must_log_shows_processing_runs - Asserti...\nFAILED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split - Asserti...\n========================= 3 failed, 2 passed in 5.05s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_bug_fixed",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 341ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_bug_fixed\nPASSED ../tests/test_outputs.py::test_logs_generated\n============================== 5 passed in 5.07s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_process_script_bug_fixed\nPASSED ../subtests/test_sub.py::test_must_log_shows_processing_runs\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nPASSED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split\n============================== 5 passed in 5.03s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "2": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_bug_fixed"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 306ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ...F.                                           [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_bug_fixed ________________________________\n\n    def test_bug_fixed():\n        \"\"\"Test that the script can be run successfully after the bug fix.\"\"\"\n        # Create a temporary output file\n        output_file = \"/app/project/data/test_output.csv\"\n    \n        # Run the process_data.py script\n        result = subprocess.run(\n            [\n                \"python\",\n                \"/app/project/src/process_data.py\",\n                \"/app/project/data/input.csv\",\n                output_file,\n            ],\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check that the script executed successfully\n        assert result.returncode == 0, f\"Script failed with error: {result.stderr}\"\n    \n        # Check that the output file was created\n        assert os.path.exists(output_file), \"Output file was not created\"\n    \n        # Check the content of the output file\n        with open(output_file, \"r\") as f:\n            lines = f.readlines()\n    \n        # Verify that we have the expected number of processed lines\n        # (should be 9, excluding the error)\n>       assert len(lines) == 9, f\"Expected 9 processed lines, got {len(lines)}\"\nE       AssertionError: Expected 9 processed lines, got 18\nE       assert 18 == 9\nE        +  where 18 = len(['2023-01-01,A001,16.32,First entry\\n', '\\n', '2023-01-02,A002,24.25,Normal operation\\n', '\\n', '2023-01-04,A004,34.41,High value\\n', '\\n', ...])\n\n/tests/test_outputs.py:65: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_logs_generated\nFAILED ../tests/test_outputs.py::test_bug_fixed - AssertionError: Expected 9 ...\n========================= 1 failed, 4 passed in 5.07s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 2,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_process_script_bug_fixed",
+       "../subtests/test_sub.py::test_must_log_shows_processing_runs"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_fix_is_strip_on_split"
+      ]
+     }
+    },
+    "sub_raw_tail": "            sys.exit(1)\nE         \nE         if __name__ == \"__main__\":\nE             main()\nE         \nE       assert ('strip()' in '#!/usr/bin/env python3\\nimport sys\\nimport time\\nimport random\\nimport os\\nfrom datetime import datetime\\n\\ndef proce...time.now()} - Error processing {input_file}: {e}\\\\n\")\\n        sys.exit(1)\\n\\nif __name__ == \"__main__\":\\n    main()\\n' and \"line.split(',')\" not in '#!/usr/bin/...    main()\\n'\nE         \nE         \"line.split(',')\" is contained here:\nE             parts = line.split(',')\nE                   if len(parts) >= 3:\nE                       # Convert value to float and apply transformation\nE                       try:\nE                           # Simulated processing with occasional failures...\nE         \nE         ...Full output truncated (49 lines hidden), use '-vv' to show)\n\n/subtests/test_sub.py:52: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nFAILED ../subtests/test_sub.py::test_must_process_script_bug_fixed - Assertio...\nFAILED ../subtests/test_sub.py::test_must_log_shows_processing_runs - Asserti...\nFAILED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split - Asserti...\n========================= 3 failed, 2 passed in 5.05s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_bug_fixed",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 293ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_bug_fixed\nPASSED ../tests/test_outputs.py::test_logs_generated\n============================== 5 passed in 5.06s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_process_script_bug_fixed\nPASSED ../subtests/test_sub.py::test_must_log_shows_processing_runs\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nPASSED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split\n============================== 5 passed in 5.06s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "3": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_bug_fixed"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 493ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ...F.                                           [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_bug_fixed ________________________________\n\n    def test_bug_fixed():\n        \"\"\"Test that the script can be run successfully after the bug fix.\"\"\"\n        # Create a temporary output file\n        output_file = \"/app/project/data/test_output.csv\"\n    \n        # Run the process_data.py script\n        result = subprocess.run(\n            [\n                \"python\",\n                \"/app/project/src/process_data.py\",\n                \"/app/project/data/input.csv\",\n                output_file,\n            ],\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check that the script executed successfully\n        assert result.returncode == 0, f\"Script failed with error: {result.stderr}\"\n    \n        # Check that the output file was created\n        assert os.path.exists(output_file), \"Output file was not created\"\n    \n        # Check the content of the output file\n        with open(output_file, \"r\") as f:\n            lines = f.readlines()\n    \n        # Verify that we have the expected number of processed lines\n        # (should be 9, excluding the error)\n>       assert len(lines) == 9, f\"Expected 9 processed lines, got {len(lines)}\"\nE       AssertionError: Expected 9 processed lines, got 18\nE       assert 18 == 9\nE        +  where 18 = len(['2023-01-01,A001,15.96,First entry\\n', '\\n', '2023-01-02,A002,23.75,Normal operation\\n', '\\n', '2023-01-04,A004,34.35,High value\\n', '\\n', ...])\n\n/tests/test_outputs.py:65: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_logs_generated\nFAILED ../tests/test_outputs.py::test_bug_fixed - AssertionError: Expected 9 ...\n========================= 1 failed, 4 passed in 5.08s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 2,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_process_script_bug_fixed",
+       "../subtests/test_sub.py::test_must_log_shows_processing_runs"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_fix_is_strip_on_split"
+      ]
+     }
+    },
+    "sub_raw_tail": "            sys.exit(1)\nE         \nE         if __name__ == \"__main__\":\nE             main()\nE         \nE       assert ('strip()' in '#!/usr/bin/env python3\\nimport sys\\nimport time\\nimport random\\nimport os\\nfrom datetime import datetime\\n\\ndef proce...time.now()} - Error processing {input_file}: {e}\\\\n\")\\n        sys.exit(1)\\n\\nif __name__ == \"__main__\":\\n    main()\\n' and \"line.split(',')\" not in '#!/usr/bin/...    main()\\n'\nE         \nE         \"line.split(',')\" is contained here:\nE             parts = line.split(',')\nE                   if len(parts) >= 3:\nE                       # Convert value to float and apply transformation\nE                       try:\nE                           # Simulated processing with occasional failures...\nE         \nE         ...Full output truncated (49 lines hidden), use '-vv' to show)\n\n/subtests/test_sub.py:52: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nFAILED ../subtests/test_sub.py::test_must_process_script_bug_fixed - Assertio...\nFAILED ../subtests/test_sub.py::test_must_log_shows_processing_runs - Asserti...\nFAILED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split - Asserti...\n========================= 3 failed, 2 passed in 5.03s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_bug_fixed",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 255ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_bug_fixed\nPASSED ../tests/test_outputs.py::test_logs_generated\n============================== 5 passed in 5.07s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_process_script_bug_fixed\nPASSED ../subtests/test_sub.py::test_must_log_shows_processing_runs\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nPASSED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split\n============================== 5 passed in 5.05s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "4": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_bug_fixed"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 260ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ...F.                                           [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_bug_fixed ________________________________\n\n    def test_bug_fixed():\n        \"\"\"Test that the script can be run successfully after the bug fix.\"\"\"\n        # Create a temporary output file\n        output_file = \"/app/project/data/test_output.csv\"\n    \n        # Run the process_data.py script\n        result = subprocess.run(\n            [\n                \"python\",\n                \"/app/project/src/process_data.py\",\n                \"/app/project/data/input.csv\",\n                output_file,\n            ],\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check that the script executed successfully\n        assert result.returncode == 0, f\"Script failed with error: {result.stderr}\"\n    \n        # Check that the output file was created\n        assert os.path.exists(output_file), \"Output file was not created\"\n    \n        # Check the content of the output file\n        with open(output_file, \"r\") as f:\n            lines = f.readlines()\n    \n        # Verify that we have the expected number of processed lines\n        # (should be 9, excluding the error)\n>       assert len(lines) == 9, f\"Expected 9 processed lines, got {len(lines)}\"\nE       AssertionError: Expected 9 processed lines, got 18\nE       assert 18 == 9\nE        +  where 18 = len(['2023-01-01,A001,16.59,First entry\\n', '\\n', '2023-01-02,A002,24.55,Normal operation\\n', '\\n', '2023-01-04,A004,34.43,High value\\n', '\\n', ...])\n\n/tests/test_outputs.py:65: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_logs_generated\nFAILED ../tests/test_outputs.py::test_bug_fixed - AssertionError: Expected 9 ...\n========================= 1 failed, 4 passed in 5.07s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 2,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_process_script_bug_fixed",
+       "../subtests/test_sub.py::test_must_log_shows_processing_runs"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_fix_is_strip_on_split"
+      ]
+     }
+    },
+    "sub_raw_tail": "            sys.exit(1)\nE         \nE         if __name__ == \"__main__\":\nE             main()\nE         \nE       assert ('strip()' in '#!/usr/bin/env python3\\nimport sys\\nimport time\\nimport random\\nimport os\\nfrom datetime import datetime\\n\\ndef proce...time.now()} - Error processing {input_file}: {e}\\\\n\")\\n        sys.exit(1)\\n\\nif __name__ == \"__main__\":\\n    main()\\n' and \"line.split(',')\" not in '#!/usr/bin/...    main()\\n'\nE         \nE         \"line.split(',')\" is contained here:\nE             parts = line.split(',')\nE                   if len(parts) >= 3:\nE                       # Convert value to float and apply transformation\nE                       try:\nE                           # Simulated processing with occasional failures...\nE         \nE         ...Full output truncated (49 lines hidden), use '-vv' to show)\n\n/subtests/test_sub.py:52: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nFAILED ../subtests/test_sub.py::test_must_process_script_bug_fixed - Assertio...\nFAILED ../subtests/test_sub.py::test_must_log_shows_processing_runs - Asserti...\nFAILED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split - Asserti...\n========================= 3 failed, 2 passed in 5.05s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_bug_fixed",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 282ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_bug_fixed\nPASSED ../tests/test_outputs.py::test_logs_generated\n============================== 5 passed in 5.06s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_process_script_bug_fixed\nPASSED ../subtests/test_sub.py::test_must_log_shows_processing_runs\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nPASSED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split\n============================== 5 passed in 5.03s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_bug_fixed"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 862ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ...F.                                           [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_bug_fixed ________________________________\n\n    def test_bug_fixed():\n        \"\"\"Test that the script can be run successfully after the bug fix.\"\"\"\n        # Create a temporary output file\n        output_file = \"/app/project/data/test_output.csv\"\n    \n        # Run the process_data.py script\n        result = subprocess.run(\n            [\n                \"python\",\n                \"/app/project/src/process_data.py\",\n                \"/app/project/data/input.csv\",\n                output_file,\n            ],\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check that the script executed successfully\n        assert result.returncode == 0, f\"Script failed with error: {result.stderr}\"\n    \n        # Check that the output file was created\n        assert os.path.exists(output_file), \"Output file was not created\"\n    \n        # Check the content of the output file\n        with open(output_file, \"r\") as f:\n            lines = f.readlines()\n    \n        # Verify that we have the expected number of processed lines\n        # (should be 9, excluding the error)\n>       assert len(lines) == 9, f\"Expected 9 processed lines, got {len(lines)}\"\nE       AssertionError: Expected 9 processed lines, got 18\nE       assert 18 == 9\nE        +  where 18 = len(['2023-01-01,A001,16.00,First entry\\n', '\\n', '2023-01-02,A002,24.05,Normal operation\\n', '\\n', '2023-01-04,A004,34.13,High value\\n', '\\n', ...])\n\n/tests/test_outputs.py:65: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_logs_generated\nFAILED ../tests/test_outputs.py::test_bug_fixed - AssertionError: Expected 9 ...\n========================= 1 failed, 4 passed in 5.06s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 2,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_process_script_bug_fixed",
+       "../subtests/test_sub.py::test_must_log_shows_processing_runs"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_fix_is_strip_on_split"
+      ]
+     }
+    },
+    "sub_raw_tail": "            sys.exit(1)\nE         \nE         if __name__ == \"__main__\":\nE             main()\nE         \nE       assert ('strip()' in '#!/usr/bin/env python3\\nimport sys\\nimport time\\nimport random\\nimport os\\nfrom datetime import datetime\\n\\ndef proce...time.now()} - Error processing {input_file}: {e}\\\\n\")\\n        sys.exit(1)\\n\\nif __name__ == \"__main__\":\\n    main()\\n' and \"line.split(',')\" not in '#!/usr/bin/...    main()\\n'\nE         \nE         \"line.split(',')\" is contained here:\nE             parts = line.split(',')\nE                   if len(parts) >= 3:\nE                       # Convert value to float and apply transformation\nE                       try:\nE                           # Simulated processing with occasional failures...\nE         \nE         ...Full output truncated (49 lines hidden), use '-vv' to show)\n\n/subtests/test_sub.py:52: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nFAILED ../subtests/test_sub.py::test_must_process_script_bug_fixed - Assertio...\nFAILED ../subtests/test_sub.py::test_must_log_shows_processing_runs - Asserti...\nFAILED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split - Asserti...\n========================= 3 failed, 2 passed in 5.04s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_tmux_installed",
+     "../tests/test_outputs.py::test_project_structure",
+     "../tests/test_outputs.py::test_scripts_executable",
+     "../tests/test_outputs.py::test_bug_fixed",
+     "../tests/test_outputs.py::test_logs_generated"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 293ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_bug_fixed\nPASSED ../tests/test_outputs.py::test_logs_generated\n============================== 5 passed in 5.05s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_process_script_bug_fixed\nPASSED ../subtests/test_sub.py::test_must_log_shows_processing_runs\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nPASSED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split\n============================== 5 passed in 5.03s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793046875.7158048
+}

@@ -1,0 +1,78 @@
+{
+ "task": "build-linux-kernel-qemu",
+ "pristine": {
+  "passed": 0,
+  "failed": 1,
+  "total": 1,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_expect"
+  ],
+  "raw_tail": ") ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nhead: error reading '/proc/self/exe': Bad file descriptor\nhead: failed to close '/proc/self/exe': Bad file descriptor\nERROR: unknown platform bitness\nsh: 1812: [: Illegal number: \ndownloading uv 0.7.13 x86_64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\n<jemalloc>: MADV_DONTNEED does not work (memset will be used instead)\n<jemalloc>: (This is the expected behaviour if you are running under QEMU)\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\n<jemalloc>: MADV_DONTNEED does not work (memset will be used instead)\n<jemalloc>: (This is the expected behaviour if you are running under QEMU)\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 680ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 449ms\nInstalled 5 packages in 156ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n<jemalloc>: MADV_DONTNEED does not work (memset will be used instead)\n<jemalloc>: (This is the expected behaviour if you are running under QEMU)\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n_________________________________ test_expect __________________________________\n\n    def test_expect():\n        \"\"\"Test that built Linux kernel boots in QEMU and shows custom printk message.\"\"\"\n    \n        exp_path = Path(\"a.exp\")\n        exp_path.write_text(expect)\n    \n        result = subprocess.run(\n            [\"expect\", \"-f\", str(exp_path)], capture_output=True, text=True\n        )\n    \n        actual_output = result.stdout\n        expected_output = \"Hello, this is a custom kernel\"\n    \n>       assert expected_output in actual_output, (\n            f\"Expected '{expected_output}' to be in post-agent.txt\"\n        )\nE       AssertionError: Expected 'Hello, this is a custom kernel' to be in post-agent.txt\nE       assert 'Hello, this is a custom kernel' in \"spawn qemu-system-x86_64 -kernel /app/linux-6.9/arch/x86/boot/bzImage -initrd /app/ramfs/initramfs.cpio.gz -append co...ttyS0 -nographic\\nqemu: could not open kernel file '/app/linux-6.9/arch/x86/boot/bzImage': No such file or directory\\n\"\n\n/tests/test_outputs.py:45: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_expect - AssertionError: Expected 'Hell...\n============================== 1 failed in 1.60s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 5,
+    "total": 5,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_kernel_source_is_linux_6_9",
+     "../subtests/test_sub.py::test_must_bzImage_built",
+     "../subtests/test_sub.py::test_must_printk_added_to_source",
+     "../subtests/test_sub.py::test_must_built_kernel_contains_message",
+     "../subtests/test_sub.py::test_must_initramfs_generated"
+    ]
+   },
+   "mustnot": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_untested_printk_is_inside_start_kernel_with_KERN_INFO"
+    ]
+   }
+  },
+  "sub_raw_tail": " open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/linux-6.9/init/main.c'\n\n/usr/lib/python3.12/pathlib.py:1015: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_initramfs_list_modified\nPASSED ../subtests/test_sub.py::test_mustnot_basic_init_or_busybox_removed\nSKIPPED [1] ../subtests/test_sub.py:48: no initramfs yet\nFAILED ../subtests/test_sub.py::test_must_kernel_source_is_linux_6_9 - FileNo...\nFAILED ../subtests/test_sub.py::test_must_bzImage_built - AssertionError: bzI...\nFAILED ../subtests/test_sub.py::test_must_printk_added_to_source - FileNotFou...\nFAILED ../subtests/test_sub.py::test_must_built_kernel_contains_message - Ass...\nFAILED ../subtests/test_sub.py::test_must_initramfs_generated - AssertionErro...\nFAILED ../subtests/test_sub.py::test_untested_printk_is_inside_start_kernel_with_KERN_INFO\n==================== 6 failed, 2 passed, 1 skipped in 1.54s ====================\nWARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 0,
+  "failed": 1,
+  "total": 1,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_expect"
+  ],
+  "raw_tail": "6) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nhead: error reading '/proc/self/exe': Bad file descriptor\nhead: failed to close '/proc/self/exe': Bad file descriptor\nERROR: unknown platform bitness\nsh: 1812: [: Illegal number: \ndownloading uv 0.7.13 x86_64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\n<jemalloc>: MADV_DONTNEED does not work (memset will be used instead)\n<jemalloc>: (This is the expected behaviour if you are running under QEMU)\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\n<jemalloc>: MADV_DONTNEED does not work (memset will be used instead)\n<jemalloc>: (This is the expected behaviour if you are running under QEMU)\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 232ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 273ms\nInstalled 5 packages in 57ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n<jemalloc>: MADV_DONTNEED does not work (memset will be used instead)\n<jemalloc>: (This is the expected behaviour if you are running under QEMU)\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n_________________________________ test_expect __________________________________\n\n    def test_expect():\n        \"\"\"Test that built Linux kernel boots in QEMU and shows custom printk message.\"\"\"\n    \n        exp_path = Path(\"a.exp\")\n        exp_path.write_text(expect)\n    \n        result = subprocess.run(\n            [\"expect\", \"-f\", str(exp_path)], capture_output=True, text=True\n        )\n    \n        actual_output = result.stdout\n        expected_output = \"Hello, this is a custom kernel\"\n    \n>       assert expected_output in actual_output, (\n            f\"Expected '{expected_output}' to be in post-agent.txt\"\n        )\nE       AssertionError: Expected 'Hello, this is a custom kernel' to be in post-agent.txt\nE       assert 'Hello, this is a custom kernel' in \"spawn qemu-system-x86_64 -kernel /app/linux-6.9/arch/x86/boot/bzImage -initrd /app/ramfs/initramfs.cpio.gz -append co...ttyS0 -nographic\\nqemu: could not open kernel file '/app/linux-6.9/arch/x86/boot/bzImage': No such file or directory\\n\"\n\n/tests/test_outputs.py:45: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_expect - AssertionError: Expected 'Hell...\n============================== 1 failed in 0.43s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_bzImage_built",
+     "../subtests/test_sub.py::test_must_built_kernel_contains_message"
+    ]
+   },
+   "mustnot": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "must carry the string\n>       vm = SRC/\"vmlinux\"; assert vm.exists(), \"vmlinux not present (kernel not built)\"\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: vmlinux not present (kernel not built)\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/linux-6.9/vmlinux').exists\n\n/subtests/test_sub.py:31: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_kernel_source_is_linux_6_9\nPASSED ../subtests/test_sub.py::test_must_printk_added_to_source\nPASSED ../subtests/test_sub.py::test_must_initramfs_generated\nPASSED ../subtests/test_sub.py::test_mustnot_initramfs_list_modified\nPASSED ../subtests/test_sub.py::test_mustnot_basic_init_or_busybox_removed\nPASSED ../subtests/test_sub.py::test_mustnot_message_only_faked_outside_kernel\nPASSED ../subtests/test_sub.py::test_untested_printk_is_inside_start_kernel_with_KERN_INFO\nFAILED ../subtests/test_sub.py::test_must_bzImage_built - AssertionError: bzI...\nFAILED ../subtests/test_sub.py::test_must_built_kernel_contains_message - Ass...\n========================= 2 failed, 7 passed in 0.28s ==========================\nWARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested\n",
+  "oracle_rc": 0
+ }
+}

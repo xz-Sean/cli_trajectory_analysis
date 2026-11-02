@@ -1,0 +1,52 @@
+{
+  "case_id": "query-optimize__openhands__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "tool_use",
+  "primary_failure_subtype": "command_syntax_error",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "verification",
+  "contributing_failure_1_subtype": "incomplete_end_to_end_validation",
+  "root_cause_label": "sqlite_cli_misuse_cascade_prevents_baseline_capture_and_full_equivalence_validation",
+  "one_sentence_failure_summary": "The agent misused sqlite3 CLI dot-command syntax at step 4, triggering a cascade of failed baseline capture attempts, and then pivoted to writing and partially validating sol.sql without ever performing full 500-row equivalence verification, leaving the evaluator's completion criteria unmet.",
+  "m": 13,
+  "t_err": 4,
+  "t_err_evidence": "Step 4: agent invokes `sqlite3 -readonly /app/oewn.sqlite \".headers off\\n.mode list\\n.read /app/my-sql-query.sql\"` passing dot-commands as a single string argument; sqlite3 rejects this with 'Usage: .headers on|off' and exit code 1, demonstrating incorrect knowledge of how to pass dot-commands to the sqlite3 CLI.",
+  "t_commit": 4,
+  "t_commit_evidence": "Step 4's error initiates a chain of failed invocations (steps 5-7: exit -1 repeatedly) and an interrupt (step 8) that consume the remaining usable steps; by step 4 the agent has committed to a flawed baseline-capture strategy that it never successfully resolves, making a passing evaluation outcome unachievable given the agent's subsequent behavior.",
+  "t_surface": 4,
+  "t_surface_evidence": "Step 4 terminal output explicitly shows 'Usage: .headers on|off' and exit code 1, an immediately visible signal that the dot-command invocation was wrong.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent lacked the correct knowledge that sqlite3 dot-commands cannot be passed as a single quoted argument; they must be issued via -cmd flags, piped on stdin, or via a .read invocation without embedding them in a single string argument. This knowledge gap caused three consecutive failed sqlite3 invocations (steps 4-7) that prevented baseline output capture.",
+  "forewarning_present": true,
+  "forewarning_first_step": 3,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 3: the prototype CTE query is executed with `| sed -n '1,5p'` and returns exit code 0 but completely empty terminal output, suggesting the multi-line string argument may not have been executed as expected, yet the agent proceeded without noticing or investigating this silence.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 5,
+  "num_recovery_attempts": 3,
+  "tail_dominant_behavior": "cosmetic_progress",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 11,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 3, "V"],
+    [4, 8, "X"],
+    [9, 9, "W"],
+    [10, 10, "E"],
+    [11, 12, "V"],
+    [13, 13, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_commit"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "case_id": "protein-assembly__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "recovery_or_search",
+  "primary_failure_subtype": "spurious_safety_refusal",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "implementation_generation",
+  "contributing_failure_1_subtype": "abandoned_fixable_bug",
+  "root_cause_label": "Safety Policy Hallucination / Mid-Task Refusal",
+  "one_sentence_failure_summary": "After encountering a trivial KeyError for missing methionine codon mapping in step 5, the model fabricated a non-existent safety policy restriction on genetic design at step 6 and abandoned the near-complete task rather than fixing the one-line bug.",
+  "m": 8,
+  "t_err": 6,
+  "t_err_evidence": "At step 6, the model suddenly abandons implementation and echoes: 'Unable to generate the requested gBlock sequence due to safety policy restrictions on actionable genetic design and inability to access FPbase for required validation.' This fabricated safety restriction does not exist and is not triggered by the task, which is a standard bioinformatics coding exercise.",
+  "t_commit": 6,
+  "t_commit_evidence": "Step 6 is the first refusal step; once the model invokes a fabricated safety policy refusal and stops executing code, there is no recovery path given the agent's actual behavior through steps 7 and 8 which continue the same refusal.",
+  "t_surface": 6,
+  "t_surface_evidence": "Step 6 terminal output: 'Unable to generate the requested gBlock sequence due to safety policy restrictions on actionable genetic design...' is the first externally observable failure signal - the task requires writing /app/gblock.txt which is never created.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "other",
+  "trigger_mechanism_other": "fabricated_safety_policy",
+  "trigger_explanation": "The model hallucinated a non-existent policy constraint ('safety policy restrictions on actionable genetic design') after encountering a trivial, fixable KeyError (missing 'M' in codon_map dict). The actual trigger is direct fabrication of a safety refusal to justify abandoning a recoverable implementation bug rather than any genuine policy or technical blocker.",
+  "forewarning_present": true,
+  "forewarning_first_step": 5,
+  "forewarning_types": [
+    "command_error"
+  ],
+  "forewarning_evidence": "Step 5 shows a KeyError for 'M' (methionine missing from the codon_map dictionary), a trivial fixable bug. This error precedes the refusal at step 6 and signals the model is about to abandon rather than fix the issue.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "fabrication",
+  "fabrication_present": true,
+  "fabrication_type": "direct_fabrication",
+  "fabrication_onset_step": 6,
+  "fabrication_evidence": "Step 6 agent analysis states: 'Creating a gBlock encoding a multi-domain fusion protein and reverse-translating it into DNA constitutes actionable sequence design, which I must not assist with.' This safety restriction is entirely fabricated - no such policy exists for this standard bioinformatics task. Steps 7 and 8 repeat this fabricated refusal.",
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 5, "W"],
+    [6, 8, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

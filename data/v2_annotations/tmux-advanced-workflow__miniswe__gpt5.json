@@ -1,0 +1,51 @@
+{
+  "case_id": "tmux-advanced-workflow__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "verification",
+  "primary_failure_subtype": "missing_state_verification",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "completion_protocol",
+  "contributing_failure_1_subtype": "premature_completion",
+  "root_cause_label": "Premature completion without verifying actual tmux pane states after send-keys commands",
+  "one_sentence_failure_summary": "The agent chained all tmux setup and code-fix commands without timing synchronization or pane-content verification, then immediately claimed completion, leaving the actual terminal state unconfirmed.",
+  "m": 5,
+  "t_err": 2,
+  "t_err_evidence": "Step 2: the agent fires a single massive chained command that includes 'tmux attach -t workflow' (an interactive/blocking call in a non-interactive shell) and sends all subsequent send-keys commands without any sleep or synchronization between the process_data run and the vim fix, operating on the false premise that all background pane commands will succeed and be observable without verification.",
+  "t_commit": 4,
+  "t_commit_evidence": "Step 4: the agent's corrected tmux chain exits with return code 0 and no output, but the send-keys commands are fire-and-forget with no sleep to let the processing script finish before the 'less' command is issued; after this the agent moves directly to claiming completion at step 5 with no attempt to read pane contents.",
+  "t_surface": 3,
+  "t_surface_evidence": "Step 3: the terminal prints 'duplicate session: workflow', indicating the step-2 session-creation partially succeeded and the chain failed mid-way, providing the first observable failure signal.",
+  "timepoint_confidence": "medium",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "At step 2 the agent assumes that all tmux send-keys commands in a single chained invocation will execute in the correct order and that the long-running processing scripts will complete within fixed sleeps, without verifying pane output. It also includes 'tmux attach' (interactive/blocking) at the end, which is invalid in a non-interactive shell, demonstrating a false premise about how tmux commands behave in this environment.",
+  "forewarning_present": true,
+  "forewarning_first_step": 2,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 2 terminal output is 'N/A', meaning the chain either hung or produced no captured output, signaling that the complex one-liner did not complete as intended before the next step was issued.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 3,
+  "num_recovery_attempts": 2,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 2, "W"],
+    [3, 3, "R"],
+    [4, 4, "R"],
+    [5, 5, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err",
+    "t_commit"
+  ]
+}

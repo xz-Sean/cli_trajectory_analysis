@@ -1,0 +1,700 @@
+{
+ "cid": "train-fasttext__terminus2__qwen",
+ "task": "train-fasttext",
+ "scaffold": "terminus2",
+ "model": "qwen",
+ "m": 74,
+ "kmin": 10,
+ "kmax": 16,
+ "rep": 0,
+ "started": 1793145831.4597266,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.594,
+   "out_tail": "root@5fb016ea8993:/app# ls -la\ntotal 20\ndrwxr-xr-x 1 root root 4096 Oct 26 17:53 .\ndrwxr-xr-x 1 root root 4096 Oct 28 00:07 ..\ndrwxr-xr-x 1 root root 4096 Oct 26 17:53 data\nroot@5fb016ea8993:/app#\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.093,
+   "out_tail": "root@5fb016ea8993:/app# cd data && ls -la\ntotal 297184\ndrwxr-xr-x 1 root root      4096 Oct 26 17:53 .\ndrwxr-xr-x 1 root root      4096 Oct 26 17:53 ..\n-rw-r--r-- 1 root root   4844861 Oct 26 17:53 test-00000-of-00001.parquet\n-rw-r--r-- 1 root root 299436850 Oct 26 17:53 train-00000-of-00001.parquet\nroot@5fb016ea8993:/app/data#"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.169,
+   "out_tail": "root@5fb016ea8993:/app/data# which fasttext\nroot@5fb016ea8993:/app/data#"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 4.3,
+   "out_sim": 0.473,
+   "out_tail": "root@5fb016ea8993:/app/data# apt-get update\nHit:1 http://deb.debian.org/debian bookworm InRelease\nGet:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]\nGet:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]\nGet:4 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [358 kB]\nFetched 448 kB in 0s (1043 kB/s)\nReading package lists... Done\nroot@5fb016ea8993:/app/data#"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.023,
+   "out_tail": "root@5fb016ea8993:/app/data# apt-cache search fasttext\nfasttext - Efficient learning of word representations and sentence classification library\nlibfasttext-dev - Header files of fastText\nlibfasttext0 - Library files of fastText\npython3-fasttext - fastText binding for Python3\nroot@5fb016ea8993:/app/data#"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 11.5,
+   "out_sim": 0.962,
+   "out_tail": "Setting up fasttext (0.9.2+ds-1+b1) ...\nSetting up python3-pybind11 (2.10.3-1) ...\nSetting up liblapack3:amd64 (3.11.0-2) ...\nupdate-alternatives: using /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3 to provide /usr/lib/x86_64-linux-gnu/liblapack.so.3 (liblapack.so.3-x86_64-linux-gnu) in auto mode\nSetting up pkgconf:amd64 (1.8.1-1) ...\nSetting up libeigen3-dev (3.4.0-4) ...\nSetting up pkg-config:amd64 (1.8.1-1) ...\nSetting up python3-numpy (1:1.24.2-1+deb12u1) ...\nSetting up python3-fasttext (0.9.2+ds-1+b1) ...\nProcessing triggers for libc-bin (2.36-9+deb12u9) ...\nroot@5fb016ea8993:/app/data#"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.291,
+   "out_tail": "root@5fb016ea8993:/app/data# python3 -c \"import pandas as pd; import pyarrow as pa; print('pandas and pyarrow are available')\"\npandas and pyarrow are available\nroot@5fb016ea8993:/app/data#"
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.217,
+   "out_tail": "ine)\n>     print(f\"Converted data saved to {output_file}\")\n>\n> if __name__ == \"__main__\":\n>     print(\"Examining training data...\")\n>     train_df = examine_parquet('train-00000-of-00001.parquet')\n>\n>     print(\"\\n\\nExamining test data...\")\n>     test_df = examine_parquet('test-00000-of-00001.parquet')\n>\n>     # Assuming columns are 'text' and 'label', adjust as needed\n>     # Convert training data\n>     convert_to_fasttext(train_df, 'text', 'label', '../train.txt')\n>\n>     # Convert test data\n>     convert_to_fasttext(test_df, 'text', 'label', '../test.txt')\n> EOF\nroot@5fb016ea8993:/app/data#"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 5.0,
+   "out_sim": 0.936,
+   "out_tail": "  int64\ntext     object\ndtype: object\n\n\nExamining test data...\nFile: test-00000-of-00001.parquet\nShape: (10000, 2)\nColumns: ['label', 'text']\nFirst few rows:\n       label                                               text\n11872      4  This place was incredible, and totally lived u...\n40828      3  I had seen the signs up as I went by for a whi...\n36400      3  I like this place for lunch. It is relativley ...\n5166       0  I checked out this dealership on Yelp prior to...\n30273      2  Of course an Apple Store is an Apple Store, bu...\n\nData types:\nlabel     int64\ntext     object\ndtype: object"
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.118,
+   "out_tail": "cd .."
+  },
+  {
+   "k": 11,
+   "type": "bash",
+   "secs": 82.7,
+   "out_sim": 0.101,
+   "out_tail": "root@5fb016ea8993:/app# fasttext supervised -input train.txt -output model -dim 100 -lr 0.1 -wordNgrams 2 -minCount 1 -bucket 100000 -epoch 5 -thread 4\nRead 88M words\nNumber of words:  1622077\nNumber of labels: 5\nProgress: 100.0% words/sec/thread: 1579121 lr:  0.000000 avg.loss:  0.860697 ETA:   0h 0m 0s"
+  },
+  {
+   "k": 12,
+   "type": "empty",
+   "secs": 3.5,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 13,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.209,
+   "out_tail": "root@5fb016ea8993:/app# ls -lh model.bin\n-rw-r--r-- 1 root root 690M Oct 28 00:13 model.bin\nroot@5fb016ea8993:/app#"
+  },
+  {
+   "k": 14,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.056,
+   "out_tail": "root@5fb016ea8993:/app# ls -la\ntotal 2914764\ndrwxr-xr-x 1 root root       4096 Oct 28 00:13 .\ndrwxr-xr-x 1 root root       4096 Oct 28 00:34 ..\ndrwxr-xr-x 1 root root       4096 Oct 28 00:07 data\n-rw-r--r-- 1 root root  723176323 Oct 28 00:13 model.bin\n-rw-r--r-- 1 root root 1770153345 Oct 28 00:15 model.vec\n-rw-r--r-- 1 root root    7537775 Oct 28 00:09 test.txt\n-rw-r--r-- 1 root root  483811554 Oct 28 00:09 train.txt\nroot@5fb016ea8993:/app#"
+  },
+  {
+   "k": 15,
+   "type": "empty",
+   "secs": 3.2,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 16,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.056,
+   "out_tail": "root@5fb016ea8993:/app# ls -la\ntotal 2914764\ndrwxr-xr-x 1 root root       4096 Oct 28 00:13 .\ndrwxr-xr-x 1 root root       4096 Oct 28 00:48 ..\ndrwxr-xr-x 1 root root       4096 Oct 28 00:07 data\n-rw-r--r-- 1 root root  723176323 Oct 28 00:13 model.bin\n-rw-r--r-- 1 root root 1770153345 Oct 28 00:15 model.vec\n-rw-r--r-- 1 root root    7537775 Oct 28 00:09 test.txt\n-rw-r--r-- 1 root root  483811554 Oct 28 00:09 train.txt\nroot@5fb016ea8993:/app#"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "raw_tail": "t-wheel (4.2MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading scipy (35.9MiB)\nDownloading numpy (16.5MiB)\n Downloading fasttext-wheel\n Downloading numpy\n Downloading scikit-learn\n Downloading scipy\nPrepared 9 packages in 1.25s\nInstalled 14 packages in 6.19s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_accuracy _________________________________\n\n    def test_accuracy():\n        \"\"\"Test accuracy of the fasttext model on the test set.\"\"\"\n>       model = fasttext.load_model(\"/app/model.bin\")\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:14: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n.tbench-testing/lib/python3.11/site-packages/fasttext/FastText.py:441: in load_model\n    return _FastText(model_path=path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <fasttext.FastText._FastText object at 0x7a0d99597350>\nmodel_path = '/app/model.bin', args = None\n\n    def __init__(self, model_path=None, args=None):\n        self.f = fasttext.fasttext()\n        if model_path is not None:\n>           self.f.loadModel(model_path)\nE           ValueError: /app/model.bin cannot be opened for loading!\n\n.tbench-testing/lib/python3.11/site-packages/fasttext/FastText.py:98: ValueError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_______________________________ test_model_size ________________________________\n\n    def test_model_size():\n        \"\"\"Test the size of the model.\"\"\"\n>       model_size = os.path.getsize(\"/app/model.bin\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:35: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nfilename = '/app/model.bin'\n\n>   ???\nE   FileNotFoundError: [Errno 2] No such file or directory: '/app/model.bin'\n\n<frozen genericpath>:50: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_accuracy - ValueError: /app/model.bin c...\nFAILED ../tests/test_outputs.py::test_model_size - FileNotFoundError: [Errno ...\n============================== 2 failed in 2.54s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 4,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_model_bin_exists",
+       "../subtests/test_sub.py::test_must_model_under_150mb",
+       "../subtests/test_sub.py::test_must_model_loads_and_predicts",
+       "../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "astText.py:441: in load_model\n    return _FastText(model_path=path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <fasttext.FastText._FastText object at 0x76f3aefb3dd0>\nmodel_path = '/app/model.bin', args = None\n\n    def __init__(self, model_path=None, args=None):\n        self.f = fasttext.fasttext()\n        if model_path is not None:\n>           self.f.loadModel(model_path)\nE           ValueError: /app/model.bin cannot be opened for loading!\n\n.tbench-testing/lib/python3.11/site-packages/fasttext/FastText.py:98: ValueError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nSKIPPED [1] ../subtests/test_sub.py:42: no model\nFAILED ../subtests/test_sub.py::test_must_model_bin_exists - AssertionError: ...\nFAILED ../subtests/test_sub.py::test_must_model_under_150mb - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_model_loads_and_predicts - ValueErr...\nFAILED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\n==================== 4 failed, 1 passed, 1 skipped in 1.01s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 1.40s\nDownloading scikit-learn (12.3MiB)\nDownloading fasttext-wheel (4.2MiB)\nDownloading scipy (35.9MiB)\nDownloading numpy (16.5MiB)\n Downloading fasttext-wheel\n Downloading scikit-learn\n Downloading numpy\n Downloading scipy\nPrepared 9 packages in 2.44s\nInstalled 14 packages in 11.89s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n________________________________ test_accuracy _________________________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_accuracy\nPASSED ../tests/test_outputs.py::test_model_size\n============================== 2 passed in 7.54s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": " PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n________________ test_must_accuracy_above_0_62_on_private_test _________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_under_150mb\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\n============================== 6 passed in 7.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "10": {
+   "tests": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "raw_tail": "35.9MiB)\nDownloading numpy (16.5MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading fasttext-wheel (4.2MiB)\n Downloading fasttext-wheel\n Downloading scikit-learn\n Downloading numpy\n Downloading scipy\nPrepared 9 packages in 1.11s\nInstalled 14 packages in 2.25s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_accuracy _________________________________\n\n    def test_accuracy():\n        \"\"\"Test accuracy of the fasttext model on the test set.\"\"\"\n>       model = fasttext.load_model(\"/app/model.bin\")\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:14: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n.tbench-testing/lib/python3.11/site-packages/fasttext/FastText.py:441: in load_model\n    return _FastText(model_path=path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <fasttext.FastText._FastText object at 0x70c2baa22e10>\nmodel_path = '/app/model.bin', args = None\n\n    def __init__(self, model_path=None, args=None):\n        self.f = fasttext.fasttext()\n        if model_path is not None:\n>           self.f.loadModel(model_path)\nE           ValueError: /app/model.bin cannot be opened for loading!\n\n.tbench-testing/lib/python3.11/site-packages/fasttext/FastText.py:98: ValueError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_______________________________ test_model_size ________________________________\n\n    def test_model_size():\n        \"\"\"Test the size of the model.\"\"\"\n>       model_size = os.path.getsize(\"/app/model.bin\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:35: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nfilename = '/app/model.bin'\n\n>   ???\nE   FileNotFoundError: [Errno 2] No such file or directory: '/app/model.bin'\n\n<frozen genericpath>:50: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_accuracy - ValueError: /app/model.bin c...\nFAILED ../tests/test_outputs.py::test_model_size - FileNotFoundError: [Errno ...\n============================== 2 failed in 3.25s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 4,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_model_bin_exists",
+       "../subtests/test_sub.py::test_must_model_under_150mb",
+       "../subtests/test_sub.py::test_must_model_loads_and_predicts",
+       "../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "astText.py:441: in load_model\n    return _FastText(model_path=path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <fasttext.FastText._FastText object at 0x7b08429b3ed0>\nmodel_path = '/app/model.bin', args = None\n\n    def __init__(self, model_path=None, args=None):\n        self.f = fasttext.fasttext()\n        if model_path is not None:\n>           self.f.loadModel(model_path)\nE           ValueError: /app/model.bin cannot be opened for loading!\n\n.tbench-testing/lib/python3.11/site-packages/fasttext/FastText.py:98: ValueError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nSKIPPED [1] ../subtests/test_sub.py:42: no model\nFAILED ../subtests/test_sub.py::test_must_model_bin_exists - AssertionError: ...\nFAILED ../subtests/test_sub.py::test_must_model_under_150mb - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_model_loads_and_predicts - ValueErr...\nFAILED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\n==================== 4 failed, 1 passed, 1 skipped in 0.83s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 242ms\nDownloading fasttext-wheel (4.2MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading scipy (35.9MiB)\nDownloading numpy (16.5MiB)\n Downloading fasttext-wheel\n Downloading numpy\n Downloading scikit-learn\n Downloading scipy\nPrepared 9 packages in 1.73s\nInstalled 14 packages in 12.25s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n________________________________ test_accuracy _________________________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_accuracy\nPASSED ../tests/test_outputs.py::test_model_size\n============================== 2 passed in 6.46s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": " PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n________________ test_must_accuracy_above_0_62_on_private_test _________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_under_150mb\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\n============================== 6 passed in 6.56s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "11": {
+   "tests": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "raw_tail": "Using CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 275ms\nDownloading scipy (35.9MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading fasttext-wheel (4.2MiB)\nDownloading numpy (16.5MiB)\n Downloading fasttext-wheel\n Downloading scikit-learn\n Downloading numpy\n Downloading scipy\nPrepared 9 packages in 1.68s\nInstalled 14 packages in 866ms\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_accuracy _________________________________\n\n    def test_accuracy():\n        \"\"\"Test accuracy of the fasttext model on the test set.\"\"\"\n        model = fasttext.load_model(\"/app/model.bin\")\n    \n        true_labels = []\n        predicted_labels = []\n    \n        with open(\"/tests/private_test.txt\", \"r\", encoding=\"utf-8\") as f:\n            for line in f:\n                parts = line.strip().split(\" \", 1)\n                if len(parts) == 2:\n                    true_label = parts[0]\n                    text = parts[1]\n                    prediction = model.predict(text)[0][0]\n                    true_labels.append(true_label)\n                    predicted_labels.append(prediction)\n    \n        accuracy = accuracy_score(true_labels, predicted_labels)\n>       assert accuracy > ACCURACY_THRESHOLD\nE       assert 0.6127 > 0.62\n\n/tests/test_outputs.py:30: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_______________________________ test_model_size ________________________________\n\n    def test_model_size():\n        \"\"\"Test the size of the model.\"\"\"\n        model_size = os.path.getsize(\"/app/model.bin\")\n>       assert model_size < MAX_MODEL_SIZE\nE       assert 723176323 < 157286400\n\n/tests/test_outputs.py:36: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_accuracy - assert 0.6127 > 0.62\nFAILED ../tests/test_outputs.py::test_model_size - assert 723176323 < 157286400\n============================== 2 failed in 7.56s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 2,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_model_under_150mb",
+       "../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "b.py:33: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n==================================== PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\nFAILED ../subtests/test_sub.py::test_must_model_under_150mb - AssertionError:...\nFAILED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\n========================= 2 failed, 4 passed in 8.69s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 555ms\nDownloading fasttext-wheel (4.2MiB)\nDownloading scipy (35.9MiB)\nDownloading numpy (16.5MiB)\nDownloading scikit-learn (12.3MiB)\n Downloading fasttext-wheel\n Downloading numpy\n Downloading scikit-learn\n Downloading scipy\nPrepared 9 packages in 1.63s\nInstalled 14 packages in 4.02s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n________________________________ test_accuracy _________________________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_accuracy\nPASSED ../tests/test_outputs.py::test_model_size\n============================== 2 passed in 7.36s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": " PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n________________ test_must_accuracy_above_0_62_on_private_test _________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_under_150mb\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\n============================== 6 passed in 8.14s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "12": {
+   "tests": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "raw_tail": "Using CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 244ms\nDownloading scikit-learn (12.3MiB)\nDownloading numpy (16.5MiB)\nDownloading fasttext-wheel (4.2MiB)\nDownloading scipy (35.9MiB)\n Downloading fasttext-wheel\n Downloading numpy\n Downloading scikit-learn\n Downloading scipy\nPrepared 9 packages in 1.03s\nInstalled 14 packages in 797ms\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_accuracy _________________________________\n\n    def test_accuracy():\n        \"\"\"Test accuracy of the fasttext model on the test set.\"\"\"\n        model = fasttext.load_model(\"/app/model.bin\")\n    \n        true_labels = []\n        predicted_labels = []\n    \n        with open(\"/tests/private_test.txt\", \"r\", encoding=\"utf-8\") as f:\n            for line in f:\n                parts = line.strip().split(\" \", 1)\n                if len(parts) == 2:\n                    true_label = parts[0]\n                    text = parts[1]\n                    prediction = model.predict(text)[0][0]\n                    true_labels.append(true_label)\n                    predicted_labels.append(prediction)\n    \n        accuracy = accuracy_score(true_labels, predicted_labels)\n>       assert accuracy > ACCURACY_THRESHOLD\nE       assert 0.6127 > 0.62\n\n/tests/test_outputs.py:30: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_______________________________ test_model_size ________________________________\n\n    def test_model_size():\n        \"\"\"Test the size of the model.\"\"\"\n        model_size = os.path.getsize(\"/app/model.bin\")\n>       assert model_size < MAX_MODEL_SIZE\nE       assert 723176323 < 157286400\n\n/tests/test_outputs.py:36: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_accuracy - assert 0.6127 > 0.62\nFAILED ../tests/test_outputs.py::test_model_size - assert 723176323 < 157286400\n============================== 2 failed in 6.54s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 2,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_model_under_150mb",
+       "../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "b.py:33: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n==================================== PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\nFAILED ../subtests/test_sub.py::test_must_model_under_150mb - AssertionError:...\nFAILED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\n========================= 2 failed, 4 passed in 9.76s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 1.77s\nDownloading numpy (16.5MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading scipy (35.9MiB)\nDownloading fasttext-wheel (4.2MiB)\n Downloading fasttext-wheel\n Downloading numpy\n Downloading scikit-learn\n Downloading scipy\nPrepared 9 packages in 1.92s\nInstalled 14 packages in 25.55s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n________________________________ test_accuracy _________________________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_accuracy\nPASSED ../tests/test_outputs.py::test_model_size\n============================== 2 passed in 6.59s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": " PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n________________ test_must_accuracy_above_0_62_on_private_test _________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_under_150mb\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\n============================== 6 passed in 6.99s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "13": {
+   "tests": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "raw_tail": "Using CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 345ms\nDownloading numpy (16.5MiB)\nDownloading fasttext-wheel (4.2MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading scipy (35.9MiB)\n Downloading fasttext-wheel\n Downloading scikit-learn\n Downloading numpy\n Downloading scipy\nPrepared 9 packages in 1.82s\nInstalled 14 packages in 836ms\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_accuracy _________________________________\n\n    def test_accuracy():\n        \"\"\"Test accuracy of the fasttext model on the test set.\"\"\"\n        model = fasttext.load_model(\"/app/model.bin\")\n    \n        true_labels = []\n        predicted_labels = []\n    \n        with open(\"/tests/private_test.txt\", \"r\", encoding=\"utf-8\") as f:\n            for line in f:\n                parts = line.strip().split(\" \", 1)\n                if len(parts) == 2:\n                    true_label = parts[0]\n                    text = parts[1]\n                    prediction = model.predict(text)[0][0]\n                    true_labels.append(true_label)\n                    predicted_labels.append(prediction)\n    \n        accuracy = accuracy_score(true_labels, predicted_labels)\n>       assert accuracy > ACCURACY_THRESHOLD\nE       assert 0.6127 > 0.62\n\n/tests/test_outputs.py:30: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_______________________________ test_model_size ________________________________\n\n    def test_model_size():\n        \"\"\"Test the size of the model.\"\"\"\n        model_size = os.path.getsize(\"/app/model.bin\")\n>       assert model_size < MAX_MODEL_SIZE\nE       assert 723176323 < 157286400\n\n/tests/test_outputs.py:36: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_accuracy - assert 0.6127 > 0.62\nFAILED ../tests/test_outputs.py::test_model_size - assert 723176323 < 157286400\n============================== 2 failed in 7.91s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 2,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_model_under_150mb",
+       "../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "b.py:33: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n==================================== PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\nFAILED ../subtests/test_sub.py::test_must_model_under_150mb - AssertionError:...\nFAILED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\n========================= 2 failed, 4 passed in 9.26s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 553ms\nDownloading fasttext-wheel (4.2MiB)\nDownloading scipy (35.9MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading numpy (16.5MiB)\n Downloading fasttext-wheel\n Downloading scikit-learn\n Downloading numpy\n Downloading scipy\nPrepared 9 packages in 2.08s\nInstalled 14 packages in 28.97s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n________________________________ test_accuracy _________________________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_accuracy\nPASSED ../tests/test_outputs.py::test_model_size\n============================== 2 passed in 6.71s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": " PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n________________ test_must_accuracy_above_0_62_on_private_test _________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_under_150mb\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\n============================== 6 passed in 7.66s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "14": {
+   "tests": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "raw_tail": "Using CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 331ms\nDownloading numpy (16.5MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading scipy (35.9MiB)\nDownloading fasttext-wheel (4.2MiB)\n Downloading fasttext-wheel\n Downloading numpy\n Downloading scikit-learn\n Downloading scipy\nPrepared 9 packages in 1.69s\nInstalled 14 packages in 8.69s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_accuracy _________________________________\n\n    def test_accuracy():\n        \"\"\"Test accuracy of the fasttext model on the test set.\"\"\"\n        model = fasttext.load_model(\"/app/model.bin\")\n    \n        true_labels = []\n        predicted_labels = []\n    \n        with open(\"/tests/private_test.txt\", \"r\", encoding=\"utf-8\") as f:\n            for line in f:\n                parts = line.strip().split(\" \", 1)\n                if len(parts) == 2:\n                    true_label = parts[0]\n                    text = parts[1]\n                    prediction = model.predict(text)[0][0]\n                    true_labels.append(true_label)\n                    predicted_labels.append(prediction)\n    \n        accuracy = accuracy_score(true_labels, predicted_labels)\n>       assert accuracy > ACCURACY_THRESHOLD\nE       assert 0.6127 > 0.62\n\n/tests/test_outputs.py:30: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_______________________________ test_model_size ________________________________\n\n    def test_model_size():\n        \"\"\"Test the size of the model.\"\"\"\n        model_size = os.path.getsize(\"/app/model.bin\")\n>       assert model_size < MAX_MODEL_SIZE\nE       assert 723176323 < 157286400\n\n/tests/test_outputs.py:36: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_accuracy - assert 0.6127 > 0.62\nFAILED ../tests/test_outputs.py::test_model_size - assert 723176323 < 157286400\n============================== 2 failed in 7.39s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 2,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_model_under_150mb",
+       "../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "b.py:33: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n==================================== PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\nFAILED ../subtests/test_sub.py::test_must_model_under_150mb - AssertionError:...\nFAILED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\n========================= 2 failed, 4 passed in 9.17s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 707ms\nDownloading numpy (16.5MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading fasttext-wheel (4.2MiB)\nDownloading scipy (35.9MiB)\n Downloading fasttext-wheel\n Downloading numpy\n Downloading scikit-learn\n Downloading scipy\nPrepared 9 packages in 2.52s\nInstalled 14 packages in 2.26s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n________________________________ test_accuracy _________________________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_accuracy\nPASSED ../tests/test_outputs.py::test_model_size\n============================== 2 passed in 11.20s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": " PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n________________ test_must_accuracy_above_0_62_on_private_test _________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_under_150mb\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\n============================== 6 passed in 10.55s ==============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "15": {
+   "tests": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "raw_tail": "Using CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 489ms\nDownloading numpy (16.5MiB)\nDownloading scipy (35.9MiB)\nDownloading fasttext-wheel (4.2MiB)\nDownloading scikit-learn (12.3MiB)\n Downloading fasttext-wheel\n Downloading numpy\n Downloading scikit-learn\n Downloading scipy\nPrepared 9 packages in 1.58s\nInstalled 14 packages in 21.83s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_accuracy _________________________________\n\n    def test_accuracy():\n        \"\"\"Test accuracy of the fasttext model on the test set.\"\"\"\n        model = fasttext.load_model(\"/app/model.bin\")\n    \n        true_labels = []\n        predicted_labels = []\n    \n        with open(\"/tests/private_test.txt\", \"r\", encoding=\"utf-8\") as f:\n            for line in f:\n                parts = line.strip().split(\" \", 1)\n                if len(parts) == 2:\n                    true_label = parts[0]\n                    text = parts[1]\n                    prediction = model.predict(text)[0][0]\n                    true_labels.append(true_label)\n                    predicted_labels.append(prediction)\n    \n        accuracy = accuracy_score(true_labels, predicted_labels)\n>       assert accuracy > ACCURACY_THRESHOLD\nE       assert 0.6127 > 0.62\n\n/tests/test_outputs.py:30: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_______________________________ test_model_size ________________________________\n\n    def test_model_size():\n        \"\"\"Test the size of the model.\"\"\"\n        model_size = os.path.getsize(\"/app/model.bin\")\n>       assert model_size < MAX_MODEL_SIZE\nE       assert 723176323 < 157286400\n\n/tests/test_outputs.py:36: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_accuracy - assert 0.6127 > 0.62\nFAILED ../tests/test_outputs.py::test_model_size - assert 723176323 < 157286400\n============================== 2 failed in 7.75s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 2,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_model_under_150mb",
+       "../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "b.py:33: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n==================================== PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\nFAILED ../subtests/test_sub.py::test_must_model_under_150mb - AssertionError:...\nFAILED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\n========================= 2 failed, 4 passed in 9.08s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 198ms\nDownloading scipy (35.9MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading numpy (16.5MiB)\nDownloading fasttext-wheel (4.2MiB)\n Downloading fasttext-wheel\n Downloading numpy\n Downloading scikit-learn\n Downloading scipy\nPrepared 9 packages in 1.03s\nInstalled 14 packages in 16.51s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n________________________________ test_accuracy _________________________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_accuracy\nPASSED ../tests/test_outputs.py::test_model_size\n============================== 2 passed in 5.30s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": " PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n________________ test_must_accuracy_above_0_62_on_private_test _________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_under_150mb\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\n============================== 6 passed in 7.35s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "16": {
+   "tests": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "raw_tail": "Using CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 1.22s\nDownloading scipy (35.9MiB)\nDownloading scikit-learn (12.3MiB)\nDownloading fasttext-wheel (4.2MiB)\nDownloading numpy (16.5MiB)\n Downloading fasttext-wheel\n Downloading scikit-learn\n Downloading numpy\n Downloading scipy\nPrepared 9 packages in 2.53s\nInstalled 14 packages in 29.19s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_accuracy _________________________________\n\n    def test_accuracy():\n        \"\"\"Test accuracy of the fasttext model on the test set.\"\"\"\n        model = fasttext.load_model(\"/app/model.bin\")\n    \n        true_labels = []\n        predicted_labels = []\n    \n        with open(\"/tests/private_test.txt\", \"r\", encoding=\"utf-8\") as f:\n            for line in f:\n                parts = line.strip().split(\" \", 1)\n                if len(parts) == 2:\n                    true_label = parts[0]\n                    text = parts[1]\n                    prediction = model.predict(text)[0][0]\n                    true_labels.append(true_label)\n                    predicted_labels.append(prediction)\n    \n        accuracy = accuracy_score(true_labels, predicted_labels)\n>       assert accuracy > ACCURACY_THRESHOLD\nE       assert 0.6127 > 0.62\n\n/tests/test_outputs.py:30: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_______________________________ test_model_size ________________________________\n\n    def test_model_size():\n        \"\"\"Test the size of the model.\"\"\"\n        model_size = os.path.getsize(\"/app/model.bin\")\n>       assert model_size < MAX_MODEL_SIZE\nE       assert 723176323 < 157286400\n\n/tests/test_outputs.py:36: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_accuracy - assert 0.6127 > 0.62\nFAILED ../tests/test_outputs.py::test_model_size - assert 723176323 < 157286400\n============================== 2 failed in 9.45s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 2,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_model_under_150mb",
+       "../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "b.py:33: AssertionError\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n==================================== PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\nFAILED ../subtests/test_sub.py::test_must_model_under_150mb - AssertionError:...\nFAILED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\n========================= 2 failed, 4 passed in 9.98s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_accuracy",
+     "../tests/test_outputs.py::test_model_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 1.76s\nDownloading scikit-learn (12.3MiB)\nDownloading scipy (35.9MiB)\nDownloading numpy (16.5MiB)\nDownloading fasttext-wheel (4.2MiB)\n Downloading fasttext-wheel\n Downloading numpy\n Downloading scikit-learn\n Downloading scipy\nPrepared 9 packages in 4.05s\nInstalled 14 packages in 1m 19s\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n________________________________ test_accuracy _________________________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_accuracy\nPASSED ../tests/test_outputs.py::test_model_size\n============================== 2 passed in 6.16s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": " PASSES ====================================\n______________________ test_must_model_loads_and_predicts ______________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n________________ test_must_accuracy_above_0_62_on_private_test _________________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n_____________ test_untested_model_labels_are_the_five_yelp_classes _____________\n----------------------------- Captured stderr call -----------------------------\nWarning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_under_150mb\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\n============================== 6 passed in 7.39s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793149334.8203313
+}

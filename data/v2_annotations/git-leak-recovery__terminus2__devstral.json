@@ -1,0 +1,31 @@
+{
+  "case_id": "git-leak-recovery__terminus2__devstral",
+  "schema_version": "v2",
+  "m": 8,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 3, "E"],
+    [4, 4, "W"],
+    [5, 7, "V"],
+    [8, 8, "C"]
+  ],
+  "num_error_events": 0,
+  "first_error_step": null,
+  "first_error_evidence": null,
+  "num_recoveries": 0,
+  "max_detour_length": 0,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 5,
+  "verification_evidence": "Step 5: agent ran 'git fsck --lost-found' confirming no dangling commits remain, checked 'git log --oneline' showing legitimate commits intact, and ran 'git grep -i secret\\[' to confirm no secrets in any commits. Step 6: verified /app/secret.txt contains the correct secret and reflog is empty. Step 7: confirmed no secret-containing files in any commit via rev-list loop.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "direct",
+  "one_sentence_strategy_summary": "The agent immediately inspected the git reflog to find a dangling commit containing the secret, extracted it to /app/secret.txt, then purged all git history via reflog expiry and aggressive garbage collection, followed by thorough multi-step verification.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

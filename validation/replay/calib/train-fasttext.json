@@ -1,0 +1,74 @@
+{
+ "task": "train-fasttext",
+ "pristine": {
+  "passed": 0,
+  "failed": 2,
+  "total": 2,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_accuracy",
+   "../tests/test_outputs.py::test_model_size"
+  ],
+  "raw_tail": "nt at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 1.10s\nDownloading pygments (1.2MiB)\nDownloading scipy (33.9MiB)\nDownloading scikit-learn (11.7MiB)\nDownloading fasttext-wheel (2.7MiB)\nDownloading numpy (13.3MiB)\n Downloading fasttext-wheel\n Downloading pygments\n Downloading scikit-learn\n Downloading numpy\n Downloading scipy\nPrepared 14 packages in 4.04s\nInstalled 14 packages in 124ms\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_accuracy _________________________________\n\n    def test_accuracy():\n        \"\"\"Test accuracy of the fasttext model on the test set.\"\"\"\n>       model = fasttext.load_model(\"/app/model.bin\")\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:14: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n.tbench-testing/lib/python3.11/site-packages/fasttext/FastText.py:436: in load_model\n    return _FastText(model_path=path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <fasttext.FastText._FastText object at 0xecd91ccdd450>\nmodel_path = '/app/model.bin', args = None\n\n    def __init__(self, model_path=None, args=None):\n        self.f = fasttext.fasttext()\n        if model_path is not None:\n>           self.f.loadModel(model_path)\nE           ValueError: /app/model.bin cannot be opened for loading!\n\n.tbench-testing/lib/python3.11/site-packages/fasttext/FastText.py:94: ValueError\n_______________________________ test_model_size ________________________________\n\n    def test_model_size():\n        \"\"\"Test the size of the model.\"\"\"\n>       model_size = os.path.getsize(\"/app/model.bin\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:35: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nfilename = '/app/model.bin'\n\n>   ???\nE   FileNotFoundError: [Errno 2] No such file or directory: '/app/model.bin'\n\n<frozen genericpath>:50: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_accuracy - ValueError: /app/model.bin c...\nFAILED ../tests/test_outputs.py::test_model_size - FileNotFoundError: [Errno ...\n============================== 2 failed in 1.72s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_model_bin_exists",
+     "../subtests/test_sub.py::test_must_model_under_150mb",
+     "../subtests/test_sub.py::test_must_model_loads_and_predicts",
+     "../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test"
+    ]
+   },
+   "mustnot": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/subtests/test_sub.py:14: in _model\n    return fasttext.load_model(str(MODEL))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/fasttext/FastText.py:436: in load_model\n    return _FastText(model_path=path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <fasttext.FastText._FastText object at 0xeb8a965a24d0>\nmodel_path = '/app/model.bin', args = None\n\n    def __init__(self, model_path=None, args=None):\n        self.f = fasttext.fasttext()\n        if model_path is not None:\n>           self.f.loadModel(model_path)\nE           ValueError: /app/model.bin cannot be opened for loading!\n\n.tbench-testing/lib/python3.11/site-packages/fasttext/FastText.py:94: ValueError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nSKIPPED [1] ../subtests/test_sub.py:42: no model\nFAILED ../subtests/test_sub.py::test_must_model_bin_exists - AssertionError: ...\nFAILED ../subtests/test_sub.py::test_must_model_under_150mb - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_model_loads_and_predicts - ValueErr...\nFAILED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\n==================== 4 failed, 1 passed, 1 skipped in 1.13s ====================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 2,
+  "failed": 0,
+  "total": 2,
+  "passed_names": [
+   "../tests/test_outputs.py::test_accuracy",
+   "../tests/test_outputs.py::test_model_size"
+  ],
+  "failed_names": [],
+  "raw_tail": "debian.org/debian bookworm/main arm64 curl arm64 7.88.1-10+deb12u15 [310 kB]\ndebconf: delaying package configuration, since apt-utils is not installed\nFetched 677 kB in 0s (1626 kB/s)\nSelecting previously unselected package libcurl4:arm64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 18680 files and directories currently installed.)\nPreparing to unpack .../libcurl4_7.88.1-10+deb12u15_arm64.deb ...\nUnpacking libcurl4:arm64 (7.88.1-10+deb12u15) ...\nSelecting previously unselected package curl.\nPreparing to unpack .../curl_7.88.1-10+deb12u15_arm64.deb ...\nUnpacking curl (7.88.1-10+deb12u15) ...\nSetting up libcurl4:arm64 (7.88.1-10+deb12u15) ...\nSetting up curl (7.88.1-10+deb12u15) ...\nProcessing triggers for libc-bin (2.36-9+deb12u14) ...\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.11.2 interpreter at: /usr/bin/python3.11\nCreating virtual environment at: .tbench-testing\nPinned `.python-version` to `3.11`\nUsing Python 3.11.2 environment at: .tbench-testing\nResolved 14 packages in 630ms\nDownloading numpy (13.3MiB)\nDownloading pygments (1.2MiB)\nDownloading fasttext-wheel (2.7MiB)\nDownloading scikit-learn (11.7MiB)\nDownloading scipy (33.9MiB)\n Downloading pygments\n Downloading fasttext-wheel\n Downloading scikit-learn\n Downloading numpy\n Downloading scipy\nPrepared 14 packages in 16.74s\nInstalled 14 packages in 192ms\n + cloudpickle==3.1.2\n + fasttext-wheel==0.9.2\n + iniconfig==2.3.1\n + joblib==1.6.0\n + numpy==1.24.0\n + packaging==26.3\n + pluggy==1.7.0\n + pybind11==3.1.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scikit-learn==1.7.0\n + scipy==1.15.3\n + setuptools==84.2.1\n + threadpoolctl==3.7.0\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_accuracy\nPASSED ../tests/test_outputs.py::test_model_size\n============================== 2 passed in 5.11s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_model_bin_exists\nPASSED ../subtests/test_sub.py::test_must_model_under_150mb\nPASSED ../subtests/test_sub.py::test_must_model_loads_and_predicts\nPASSED ../subtests/test_sub.py::test_must_accuracy_above_0_62_on_private_test\nPASSED ../subtests/test_sub.py::test_mustnot_data_files_modified\nPASSED ../subtests/test_sub.py::test_untested_model_labels_are_the_five_yelp_classes\n============================== 6 passed in 4.91s ===============================\n",
+  "oracle_rc": 0
+ }
+}

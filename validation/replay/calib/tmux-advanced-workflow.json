@@ -1,0 +1,81 @@
+{
+ "task": "tmux-advanced-workflow",
+ "pristine": {
+  "passed": 4,
+  "failed": 1,
+  "total": 5,
+  "passed_names": [
+   "../tests/test_outputs.py::test_tmux_installed",
+   "../tests/test_outputs.py::test_project_structure",
+   "../tests/test_outputs.py::test_scripts_executable",
+   "../tests/test_outputs.py::test_logs_generated"
+  ],
+  "failed_names": [
+   "../tests/test_outputs.py::test_bug_fixed"
+  ],
+  "raw_tail": "/root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 704ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 117ms\nInstalled 5 packages in 21ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ...F.                                           [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_bug_fixed ________________________________\n\n    def test_bug_fixed():\n        \"\"\"Test that the script can be run successfully after the bug fix.\"\"\"\n        # Create a temporary output file\n        output_file = \"/app/project/data/test_output.csv\"\n    \n        # Run the process_data.py script\n        result = subprocess.run(\n            [\n                \"python\",\n                \"/app/project/src/process_data.py\",\n                \"/app/project/data/input.csv\",\n                output_file,\n            ],\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check that the script executed successfully\n        assert result.returncode == 0, f\"Script failed with error: {result.stderr}\"\n    \n        # Check that the output file was created\n        assert os.path.exists(output_file), \"Output file was not created\"\n    \n        # Check the content of the output file\n        with open(output_file, \"r\") as f:\n            lines = f.readlines()\n    \n        # Verify that we have the expected number of processed lines\n        # (should be 9, excluding the error)\n>       assert len(lines) == 9, f\"Expected 9 processed lines, got {len(lines)}\"\nE       AssertionError: Expected 9 processed lines, got 18\nE       assert 18 == 9\nE        +  where 18 = len(['2023-01-01,A001,16.06,First entry\\n', '\\n', '2023-01-02,A002,24.43,Normal operation\\n', '\\n', '2023-01-04,A004,33.90,High value\\n', '\\n', ...])\n\n/tests/test_outputs.py:65: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_logs_generated\nFAILED ../tests/test_outputs.py::test_bug_fixed - AssertionError: Expected 9 ...\n========================= 1 failed, 4 passed in 5.12s ==========================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_process_script_bug_fixed",
+     "../subtests/test_sub.py::test_must_log_shows_processing_runs"
+    ]
+   },
+   "mustnot": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_untested_fix_is_strip_on_split"
+    ]
+   }
+  },
+  "sub_raw_tail": "            sys.exit(1)\nE         \nE         if __name__ == \"__main__\":\nE             main()\nE         \nE       assert ('strip()' in '#!/usr/bin/env python3\\nimport sys\\nimport time\\nimport random\\nimport os\\nfrom datetime import datetime\\n\\ndef proce...time.now()} - Error processing {input_file}: {e}\\\\n\")\\n        sys.exit(1)\\n\\nif __name__ == \"__main__\":\\n    main()\\n' and \"line.split(',')\" not in '#!/usr/bin/...    main()\\n'\nE         \nE         \"line.split(',')\" is contained here:\nE             parts = line.split(',')\nE                   if len(parts) >= 3:\nE                       # Convert value to float and apply transformation\nE                       try:\nE                           # Simulated processing with occasional failures...\nE         \nE         ...Full output truncated (49 lines hidden), use '-vv' to show)\n\n/subtests/test_sub.py:52: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nFAILED ../subtests/test_sub.py::test_must_process_script_bug_fixed - Assertio...\nFAILED ../subtests/test_sub.py::test_must_log_shows_processing_runs - Asserti...\nFAILED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split - Asserti...\n========================= 3 failed, 2 passed in 5.05s ==========================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 5,
+  "failed": 0,
+  "total": 5,
+  "passed_names": [
+   "../tests/test_outputs.py::test_tmux_installed",
+   "../tests/test_outputs.py::test_project_structure",
+   "../tests/test_outputs.py::test_scripts_executable",
+   "../tests/test_outputs.py::test_bug_fixed",
+   "../tests/test_outputs.py::test_logs_generated"
+  ],
+  "failed_names": [],
+  "raw_tail": "ded, 2 newly installed, 0 to remove and 46 not upgraded.\nNeed to get 677 kB of archives.\nAfter this operation, 1431 kB of additional disk space will be used.\nGet:1 http://deb.debian.org/debian bookworm/main arm64 libcurl4 arm64 7.88.1-10+deb12u15 [367 kB]\nGet:2 http://deb.debian.org/debian bookworm/main arm64 curl arm64 7.88.1-10+deb12u15 [310 kB]\ndebconf: delaying package configuration, since apt-utils is not installed\nFetched 677 kB in 0s (3352 kB/s)\nSelecting previously unselected package libcurl4:arm64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 13681 files and directories currently installed.)\nPreparing to unpack .../libcurl4_7.88.1-10+deb12u15_arm64.deb ...\nUnpacking libcurl4:arm64 (7.88.1-10+deb12u15) ...\nSelecting previously unselected package curl.\nPreparing to unpack .../curl_7.88.1-10+deb12u15_arm64.deb ...\nUnpacking curl (7.88.1-10+deb12u15) ...\nSetting up libcurl4:arm64 (7.88.1-10+deb12u15) ...\nSetting up curl (7.88.1-10+deb12u15) ...\nProcessing triggers for libc-bin (2.36-9+deb12u9) ...\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 357ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 337ms\nInstalled 5 packages in 44ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_tmux_installed\nPASSED ../tests/test_outputs.py::test_project_structure\nPASSED ../tests/test_outputs.py::test_scripts_executable\nPASSED ../tests/test_outputs.py::test_bug_fixed\nPASSED ../tests/test_outputs.py::test_logs_generated\n============================== 5 passed in 5.07s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_process_script_bug_fixed\nPASSED ../subtests/test_sub.py::test_must_log_shows_processing_runs\nPASSED ../subtests/test_sub.py::test_mustnot_input_or_monitor_modified\nPASSED ../subtests/test_sub.py::test_mustnot_scripts_lose_exec_bit\nPASSED ../subtests/test_sub.py::test_untested_fix_is_strip_on_split\n============================== 5 passed in 5.04s ===============================\n",
+  "oracle_rc": 0
+ }
+}

@@ -1,0 +1,52 @@
+{
+  "case_id": "train-fasttext__openhands__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "environment",
+  "primary_failure_category": "environment_setup",
+  "primary_failure_subtype": "dependency_missing",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "recovery_or_search",
+  "contributing_failure_1_subtype": "premature_abandonment",
+  "root_cause_label": "Budget exhaustion from cascading environment setup failures compounded by meta-planning waste",
+  "one_sentence_failure_summary": "The agent exhausted its entire 10-step budget on cascading environment setup failures (missing pip, wrong interpreter, PEP 668) and non-productive meta-planning (4 of 10 steps spent updating a task tracker), leaving no steps to perform data processing, model training, or output file creation.",
+  "m": 10,
+  "t_err": 4,
+  "t_err_evidence": "At step 4, after two failed install attempts (steps 2-3), the agent pivots to creating a 7-item task-tracker plan instead of immediately trying an alternative installation method, wasting 3 consecutive steps (4, 5, 6) on meta-planning with only 10 total steps available.",
+  "t_commit": 9,
+  "t_commit_evidence": "Step 9 successfully installs all dependencies via a venv, but step 10 (the final step) is spent updating the task tracker rather than starting data processing, making failure certain: there are no remaining steps to read schema, convert data, or train the model.",
+  "t_surface": 10,
+  "t_surface_evidence": "At step 10 (the last step), the agent updates the task tracker marking 'data-explore' as in_progress, confirming that no actual data processing, training, or model.bin output was ever produced.",
+  "timepoint_confidence": "medium",
+  "trigger_mechanism": "environment_obstacle_mishandled",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "After encountering pip unavailability in the OpenHands venv (step 2-3), the agent's response was to spend 3 consecutive steps (4, 5, 6) creating and reviewing a meta-level task plan instead of immediately trying system pip, apt-get install of Python packages, or a venv approach. This squandered critical budget in a 10-step trajectory where every step is valuable.",
+  "forewarning_present": true,
+  "forewarning_first_step": 3,
+  "forewarning_types": [
+    "command_error",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 3 shows '%pip: No module named pip' error, and step 7 shows exit code 1 with '/opt/openhands-venv/bin/python3: No module named pip' — both clearly signal that the install approach is wrong, yet the agent continued with similar strategies and wasted budget on planning.",
+  "awareness": "aware_too_late",
+  "first_awareness_step": 9,
+  "num_recovery_attempts": 3,
+  "tail_dominant_behavior": "cosmetic_progress",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 3, "X"],
+    [4, 6, "P"],
+    [7, 9, "X"],
+    [10, 10, "P"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err",
+    "t_commit"
+  ]
+}

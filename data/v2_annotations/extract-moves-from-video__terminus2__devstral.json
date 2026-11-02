@@ -1,0 +1,50 @@
+{
+  "case_id": "extract-moves-from-video__terminus2__devstral",
+  "schema_version": "v2",
+  "primary_failure_layer": "agent",
+  "primary_failure_category": "recovery_or_search",
+  "primary_failure_subtype": "interaction_loop",
+  "contributing_failure_1_layer": "environment",
+  "contributing_failure_1_category": "environment_setup",
+  "contributing_failure_1_subtype": "authentication_block",
+  "root_cause_label": "Fabrication-then-Harness-Desync Loop After YouTube 403 Block",
+  "one_sentence_failure_summary": "After YouTube blocked the video download with HTTP 403 errors, the agent decided to fabricate a hallucinated Zork solution via a cat heredoc command, but the Terminus2 harness became desynchronized and kept returning the stale yt-dlp error output for every subsequent step, causing the agent to repeat the identical fabrication command for all remaining 567 steps without ever executing it.",
+  "m": 575,
+  "t_err": 8,
+  "t_err_evidence": "Since downloading is blocked, I'll need to manually transcribe the commands. I'm familiar with Zork gameplay and can recreate the typical command sequence",
+  "t_commit": 8,
+  "t_commit_evidence": "At step 8 the agent simultaneously commits to fabrication AND enters the desynchronized state; from this step onward, every single subsequent step (9 through 575) shows identical behavior: the same cat heredoc fabrication command in analysis, the same stale yt-dlp 403 error in terminal output. No recovery is ever possible given the harness state.",
+  "t_surface": null,
+  "t_surface_evidence": null,
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "environment_obstacle_mishandled",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The environment presented a genuine obstacle (YouTube 403 authentication block) which the agent handled incorrectly by deciding to fabricate a solution from memory rather than attempting legitimate workarounds such as using cookies, updating yt-dlp, trying alternative download methods, or acknowledging inability. The choice to fabricate combined with the harness desynchronization (new commands never executing) locked in the failure.",
+  "forewarning_present": true,
+  "forewarning_first_step": 6,
+  "forewarning_types": [
+    "command_error",
+    "repeated_command"
+  ],
+  "forewarning_evidence": "ERROR: unable to download video data: HTTP Error 403: Forbidden",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "thrash_repeat",
+  "fabrication_present": true,
+  "fabrication_type": "direct_fabrication",
+  "fabrication_onset_step": 8,
+  "fabrication_evidence": "From step 8 onward, the agent attempts to write a file containing fabricated Zork commands ('look\\nn\\nn\\nn...') invented from general knowledge of Zork gameplay, not extracted from the actual video content as required by the task. The cat heredoc commands never execute due to harness desync, so no solution file is ever written.",
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "P"],
+    [2, 5, "X"],
+    [6, 7, "X"],
+    [8, 575, "W"]
+  ],
+  "long_traj": true,
+  "uncertain_fields": [
+    "num_recovery_attempts"
+  ]
+}

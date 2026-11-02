@@ -1,0 +1,73 @@
+{
+ "task": "vul-flink",
+ "pristine": {
+  "passed": 0,
+  "failed": 1,
+  "total": 1,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_upload_and_verify_success_file"
+  ],
+  "raw_tail": "state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\n0 upgraded, 0 newly installed, 0 to remove and 52 not upgraded.\n/tests/run-tests.sh: line 12: /opt/flink/flink-dist/target/flink-1.11.2-bin/flink-1.11.2/bin/start-cluster.sh: No such file or directory\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 146ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 170ms\nInstalled 5 packages in 61ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n_____________________ test_upload_and_verify_success_file ______________________\n\n    def test_upload_and_verify_success_file():\n        # First verify Flink REST is working\n>       _wait_for_flink_rest()\n\n/tests/test_outputs.py:88: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nmax_retries = 60, retry_delay_sec = 1.0\n\n    def _wait_for_flink_rest(max_retries: int = 60, retry_delay_sec: float = 1.0) -> None:\n        \"\"\"Verify Flink REST is reachable before proceeding.\"\"\"\n        last_status = None\n        last_error = None\n        for _ in range(max_retries):\n            try:\n                conn = http.client.HTTPConnection(\"localhost\", 8081, timeout=5)\n                conn.request(\"GET\", \"/jars\")\n                resp = conn.getresponse()\n                last_status = resp.status\n                _ = resp.read()\n                conn.close()\n                if 200 <= last_status < 300:\n                    return\n            except (ConnectionRefusedError, TimeoutError, socket.timeout, OSError) as exc:\n                last_error = exc\n            time.sleep(retry_delay_sec)\n    \n        if last_error is not None:\n            msg = f\"Flink REST not reachable on localhost:8081; last error: {last_error}\"\n>           raise AssertionError(msg)\nE           AssertionError: Flink REST not reachable on localhost:8081; last error: [Errno 111] Connection refused\n\n/tests/test_outputs.py:33: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_upload_and_verify_success_file - Assert...\n========================= 1 failed in 60.20s (0:01:00) =========================\n",
+  "sub": {
+   "must": {
+    "passed": 1,
+    "failed": 3,
+    "total": 4,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_fix_is_in_source_code",
+     "../subtests/test_sub.py::test_must_distribution_rebuilt",
+     "../subtests/test_sub.py::test_must_traversal_upload_does_not_create_file"
+    ]
+   },
+   "mustnot": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_untested_normal_upload_still_works"
+    ]
+   }
+  },
+  "sub_raw_tail": ": Flink REST not reachable on localhost:8081 (distribution not built/started)\nE       assert False\nE        +  where False = _rest_up()\n\n/subtests/test_sub.py:51: AssertionError\n___________________ test_untested_normal_upload_still_works ____________________\n\n    def test_untested_normal_upload_still_works():\n        # \"Normal uploads (without path components in the filename) continue to work as before\"\n>       assert _rest_up(), \"Flink REST not reachable on localhost:8081\"\nE       AssertionError: Flink REST not reachable on localhost:8081\nE       assert False\nE        +  where False = _rest_up()\n\n/subtests/test_sub.py:78: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_no_tmp_success_left_by_official_probe\nPASSED ../subtests/test_sub.py::test_mustnot_source_tree_removed\nPASSED ../subtests/test_sub.py::test_mustnot_source_files_deleted\nSKIPPED [1] ../subtests/test_sub.py:71: REST not reachable; nothing to check\nFAILED ../subtests/test_sub.py::test_must_fix_is_in_source_code - AssertionEr...\nFAILED ../subtests/test_sub.py::test_must_distribution_rebuilt - AssertionErr...\nFAILED ../subtests/test_sub.py::test_must_traversal_upload_does_not_create_file\nFAILED ../subtests/test_sub.py::test_untested_normal_upload_still_works - Ass...\n=================== 4 failed, 3 passed, 1 skipped in 37.76s ====================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 1,
+  "failed": 0,
+  "total": 1,
+  "passed_names": [
+   "../tests/test_outputs.py::test_upload_and_verify_success_file"
+  ],
+  "failed_names": [],
+  "raw_tail": "e [126 kB]\nGet:5 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 Packages [1776 kB]\nGet:6 http://ports.ubuntu.com/ubuntu-ports noble/multiverse arm64 Packages [274 kB]\nGet:7 http://ports.ubuntu.com/ubuntu-ports noble/restricted arm64 Packages [113 kB]\nGet:8 http://ports.ubuntu.com/ubuntu-ports noble/universe arm64 Packages [19.0 MB]\nGet:9 http://ports.ubuntu.com/ubuntu-ports noble-updates/multiverse arm64 Packages [104 kB]\nGet:10 http://ports.ubuntu.com/ubuntu-ports noble-updates/restricted arm64 Packages [3251 kB]\nGet:11 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 Packages [1790 kB]\nGet:12 http://ports.ubuntu.com/ubuntu-ports noble-updates/universe arm64 Packages [2215 kB]\nGet:13 http://ports.ubuntu.com/ubuntu-ports noble-backports/multiverse arm64 Packages [669 B]\nGet:14 http://ports.ubuntu.com/ubuntu-ports noble-backports/main arm64 Packages [49.0 kB]\nGet:15 http://ports.ubuntu.com/ubuntu-ports noble-backports/universe arm64 Packages [36.3 kB]\nGet:16 http://ports.ubuntu.com/ubuntu-ports noble-security/restricted arm64 Packages [3129 kB]\nGet:17 http://ports.ubuntu.com/ubuntu-ports noble-security/universe arm64 Packages [1638 kB]\nGet:18 http://ports.ubuntu.com/ubuntu-ports noble-security/multiverse arm64 Packages [99.1 kB]\nGet:19 http://ports.ubuntu.com/ubuntu-ports noble-security/main arm64 Packages [1476 kB]\nFetched 35.6 MB in 2s (14.3 MB/s)\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\n0 upgraded, 0 newly installed, 0 to remove and 52 not upgraded.\nStarting cluster.\nStarting standalonesession daemon on host d1052d4e139c.\nStarting taskexecutor daemon on host d1052d4e139c.\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 85ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 103ms\nInstalled 5 packages in 6ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_upload_and_verify_success_file\n============================== 1 passed in 5.22s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_fix_is_in_source_code\nPASSED ../subtests/test_sub.py::test_must_distribution_rebuilt\nPASSED ../subtests/test_sub.py::test_must_traversal_upload_does_not_create_file\nPASSED ../subtests/test_sub.py::test_must_no_tmp_success_left_by_official_probe\nPASSED ../subtests/test_sub.py::test_mustnot_source_tree_removed\nPASSED ../subtests/test_sub.py::test_mustnot_source_files_deleted\nPASSED ../subtests/test_sub.py::test_mustnot_rest_api_behaviour_changed\nPASSED ../subtests/test_sub.py::test_untested_normal_upload_still_works\n============================== 8 passed in 3.79s ===============================\n",
+  "oracle_rc": 0
+ }
+}

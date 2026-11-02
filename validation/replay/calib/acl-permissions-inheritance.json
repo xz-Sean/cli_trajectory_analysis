@@ -1,0 +1,91 @@
+{
+ "task": "acl-permissions-inheritance",
+ "pristine": {
+  "passed": 0,
+  "failed": 9,
+  "total": 9,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_directory_exists_and_basic_permissions",
+   "../tests/test_outputs.py::test_current_acl_settings",
+   "../tests/test_outputs.py::test_default_acl_inheritance",
+   "../tests/test_outputs.py::test_alice_can_create_and_bob_can_access",
+   "../tests/test_outputs.py::test_bob_can_create_and_alice_can_access",
+   "../tests/test_outputs.py::test_subdirectory_inheritance",
+   "../tests/test_outputs.py::test_outside_users_denied_access",
+   "../tests/test_outputs.py::test_file_permissions_inheritance",
+   "../tests/test_outputs.py::test_execute_permissions_on_scripts"
+  ],
+  "raw_tail": "Popen constructor.\n        \"\"\"\n        if input is not None:\n            if kwargs.get('stdin') is not None:\n                raise ValueError('stdin and input arguments may not both be used.')\n            kwargs['stdin'] = PIPE\n    \n        if capture_output:\n            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:\n                raise ValueError('stdout and stderr arguments may not be used '\n                                 'with capture_output.')\n            kwargs['stdout'] = PIPE\n            kwargs['stderr'] = PIPE\n    \n        with Popen(*popenargs, **kwargs) as process:\n            try:\n                stdout, stderr = process.communicate(input, timeout=timeout)\n            except TimeoutExpired as exc:\n                process.kill()\n                if _mswindows:\n                    # Windows accumulates the output in a single blocking\n                    # read() call run on child threads, with the timeout\n                    # being done in a join() on those threads.  communicate()\n                    # _after_ kill() is required to collect that and add it\n                    # to the exception.\n                    exc.stdout, exc.stderr = process.communicate()\n                else:\n                    # POSIX _communicate already populated the output so\n                    # far into the TimeoutExpired exception.\n                    process.wait()\n                raise\n            except:  # Including KeyboardInterrupt, communicate handled that.\n                process.kill()\n                # We don't call process.wait() as .__exit__ does that for us.\n                raise\n            retcode = process.poll()\n            if check and retcode:\n>               raise CalledProcessError(retcode, process.args,\n                                         output=stdout, stderr=stderr)\nE               subprocess.CalledProcessError: Command '['bash', '-lc', 'runuser -u alice -- bash -lc \\'echo \"#!/bin/bash\\necho Test output\" > /srv/shared/test_script.sh\\'']' returned non-zero exit status 1.\n\n/usr/lib/python3.12/subprocess.py:571: CalledProcessError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_directory_exists_and_basic_permissions\nFAILED ../tests/test_outputs.py::test_current_acl_settings - subprocess.Calle...\nFAILED ../tests/test_outputs.py::test_default_acl_inheritance - subprocess.Ca...\nFAILED ../tests/test_outputs.py::test_alice_can_create_and_bob_can_access - s...\nFAILED ../tests/test_outputs.py::test_bob_can_create_and_alice_can_access - s...\nFAILED ../tests/test_outputs.py::test_subdirectory_inheritance - subprocess.C...\nFAILED ../tests/test_outputs.py::test_outside_users_denied_access - Assertion...\nFAILED ../tests/test_outputs.py::test_file_permissions_inheritance - subproce...\nFAILED ../tests/test_outputs.py::test_execute_permissions_on_scripts - subpro...\n============================== 9 failed in 0.51s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 5,
+    "total": 5,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_directory_group_and_mode_2770",
+     "../subtests/test_sub.py::test_must_current_acl_entries",
+     "../subtests/test_sub.py::test_must_default_acl_entries",
+     "../subtests/test_sub.py::test_must_alice_file_accessible_by_bob_and_inherits_acl",
+     "../subtests/test_sub.py::test_must_outside_user_denied"
+    ]
+   },
+   "mustnot": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_untested_current_mask_allows_full_permissions"
+    ]
+   }
+  },
+  "sub_raw_tail": "tested_current_mask_allows_full_permissions ______________\n\n    def test_untested_current_mask_allows_full_permissions():\n        # instruction: \"Set proper mask to allow full permissions\" -- official tests only check the *default* mask\n>       assert \"mask::rwx\" in _acl()\n                              ^^^^^^\n\n/subtests/test_sub.py:61: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _acl():\n>       if not os.path.isdir(D): pytest.fail(f\"{D} missing\")\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: /srv/shared missing\n\n/subtests/test_sub.py:11: Failed\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_users_or_group_broken\nSKIPPED [1] ../subtests/test_sub.py:51: directory not created yet\nFAILED ../subtests/test_sub.py::test_must_directory_group_and_mode_2770 - Ass...\nFAILED ../subtests/test_sub.py::test_must_current_acl_entries - Failed: /srv/...\nFAILED ../subtests/test_sub.py::test_must_default_acl_entries - Failed: /srv/...\nFAILED ../subtests/test_sub.py::test_must_alice_file_accessible_by_bob_and_inherits_acl\nFAILED ../subtests/test_sub.py::test_must_outside_user_denied - Failed: /srv/...\nFAILED ../subtests/test_sub.py::test_untested_current_mask_allows_full_permissions\n==================== 6 failed, 1 passed, 1 skipped in 0.03s ====================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 9,
+  "failed": 0,
+  "total": 9,
+  "passed_names": [
+   "../tests/test_outputs.py::test_directory_exists_and_basic_permissions",
+   "../tests/test_outputs.py::test_current_acl_settings",
+   "../tests/test_outputs.py::test_default_acl_inheritance",
+   "../tests/test_outputs.py::test_alice_can_create_and_bob_can_access",
+   "../tests/test_outputs.py::test_bob_can_create_and_alice_can_access",
+   "../tests/test_outputs.py::test_subdirectory_inheritance",
+   "../tests/test_outputs.py::test_outside_users_denied_access",
+   "../tests/test_outputs.py::test_file_permissions_inheritance",
+   "../tests/test_outputs.py::test_execute_permissions_on_scripts"
+  ],
+  "failed_names": [],
+  "raw_tail": "dfsg1-5ubuntu3.1_arm64.deb ...\nUnpacking libsasl2-modules:arm64 (2.1.28+dfsg1-5ubuntu3.1) ...\nSetting up libkeyutils1:arm64 (1.6.3-3build1) ...\nSetting up libbrotli1:arm64 (1.1.0-2ubuntu0.1) ...\nSetting up libsasl2-modules:arm64 (2.1.28+dfsg1-5ubuntu3.1) ...\nSetting up libpsl5t64:arm64 (0.21.2-1.1build1) ...\nSetting up libnghttp2-14:arm64 (1.59.0-1ubuntu0.4) ...\nSetting up krb5-locales (1.20.1-6ubuntu2.10) ...\nSetting up libldap-common (2.6.10+dfsg-0ubuntu0.24.04.1) ...\nSetting up libkrb5support0:arm64 (1.20.1-6ubuntu2.10) ...\nSetting up libsasl2-modules-db:arm64 (2.1.28+dfsg1-5ubuntu3.1) ...\nSetting up librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2build7) ...\nSetting up libk5crypto3:arm64 (1.20.1-6ubuntu2.10) ...\nSetting up libsasl2-2:arm64 (2.1.28+dfsg1-5ubuntu3.1) ...\nSetting up libkrb5-3:arm64 (1.20.1-6ubuntu2.10) ...\nSetting up publicsuffix (20231001.0357-0.1) ...\nSetting up libldap2:arm64 (2.6.10+dfsg-0ubuntu0.24.04.1) ...\nSetting up libgssapi-krb5-2:arm64 (1.20.1-6ubuntu2.10) ...\nSetting up libssh-4:arm64 (0.10.6-2ubuntu0.5) ...\nSetting up libcurl4t64:arm64 (8.5.0-2ubuntu10.16) ...\nSetting up curl (8.5.0-2ubuntu10.16) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.4) ...\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 125ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 167ms\nInstalled 5 packages in 13ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 9 items\n\n../tests/test_outputs.py .........                                       [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_directory_exists_and_basic_permissions\nPASSED ../tests/test_outputs.py::test_current_acl_settings\nPASSED ../tests/test_outputs.py::test_default_acl_inheritance\nPASSED ../tests/test_outputs.py::test_alice_can_create_and_bob_can_access\nPASSED ../tests/test_outputs.py::test_bob_can_create_and_alice_can_access\nPASSED ../tests/test_outputs.py::test_subdirectory_inheritance\nPASSED ../tests/test_outputs.py::test_outside_users_denied_access\nPASSED ../tests/test_outputs.py::test_file_permissions_inheritance\nPASSED ../tests/test_outputs.py::test_execute_permissions_on_scripts\n============================== 9 passed in 0.44s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_directory_group_and_mode_2770\nPASSED ../subtests/test_sub.py::test_must_current_acl_entries\nPASSED ../subtests/test_sub.py::test_must_default_acl_entries\nPASSED ../subtests/test_sub.py::test_must_alice_file_accessible_by_bob_and_inherits_acl\nPASSED ../subtests/test_sub.py::test_must_outside_user_denied\nPASSED ../subtests/test_sub.py::test_mustnot_files_created_in_shared_dir\nPASSED ../subtests/test_sub.py::test_mustnot_users_or_group_broken\nPASSED ../subtests/test_sub.py::test_untested_current_mask_allows_full_permissions\n============================== 8 passed in 0.05s ===============================\n",
+  "oracle_rc": 0
+ }
+}

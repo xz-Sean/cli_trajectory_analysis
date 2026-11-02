@@ -1,0 +1,31 @@
+{
+  "case_id": "git-leak-recovery__terminus2__claude",
+  "schema_version": "v2",
+  "m": 17,
+  "action_segments": [
+    [1, 7, "E"],
+    [8, 8, "W"],
+    [9, 9, "V"],
+    [10, 11, "X"],
+    [12, 17, "V"]
+  ],
+  "num_error_events": 0,
+  "first_error_step": null,
+  "first_error_evidence": null,
+  "num_recoveries": 0,
+  "max_detour_length": 0,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 9,
+  "verification_evidence": "Step 9: agent ran 'cat /app/secret.txt' and confirmed the recovered secret 'secret[lost_and_found_in_git]' was correctly written. Steps 12-17 verify the repository cleanup was successful (empty reflog, no dangling objects, correct commit history, no grep hits).",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "direct",
+  "one_sentence_strategy_summary": "The agent directly explored git internals (reflog, fsck) to locate the dangling commit containing the leaked secret, wrote it to the required path, then cleaned up the repository by expiring the reflog and running aggressive garbage collection.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

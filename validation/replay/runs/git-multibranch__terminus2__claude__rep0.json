@@ -1,0 +1,649 @@
+{
+ "cid": "git-multibranch__terminus2__claude",
+ "task": "git-multibranch",
+ "scaffold": "terminus2",
+ "model": "claude",
+ "m": 44,
+ "kmin": 9,
+ "kmax": 15,
+ "rep": 0,
+ "started": 1793192660.69788,
+ "steps": [
+  {
+   "k": 1,
+   "type": "empty",
+   "secs": 3.2,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 2,
+   "type": "empty",
+   "secs": 3.2,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 3,
+   "type": "empty",
+   "secs": 3.2,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 5.8,
+   "out_sim": 0.536,
+   "out_tail": "root@a298e80705e8:/app# apt install -y git openssh-server nginx openssl\nReading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-server is already the newest version (1:9.6p1-3ubuntu13.20).\nnginx is already the newest version (1.24.0-2ubuntu7.19).\nopenssl is already the newest version (3.0.13-0ubuntu3.16).\nopenssl set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\nroot@a298e80705e8:/app#\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 4.4,
+   "out_sim": 0.198,
+   "out_tail": "root@a298e80705e8:/app# useradd -m -s /bin/bash git\nroot@a298e80705e8:/app#"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 4.8,
+   "out_sim": 0.177,
+   "out_tail": "root@a298e80705e8:/app# echo 'git:password' | chpasswd\nroot@a298e80705e8:/app#"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 4.4,
+   "out_sim": 0.224,
+   "out_tail": "root@a298e80705e8:/app# mkdir -p /git\nroot@a298e80705e8:/app#"
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.021,
+   "out_tail": "cd /git && git init --bare project.git\nhint: Using 'master' as the name for the initial branch. This default branch name\nhint: is subject to change. To configure the initial branch name to use in all\nhint: of your new repositories, which will suppress this warning, call:\nhint:\nhint:   git config --global init.defaultBranch <name>\nhint:\nhint: Names commonly chosen instead of 'master' are 'main', 'trunk' and\nhint: 'development'. The just-created branch can be renamed via this command:\nhint:\nhint:   git branch -m <name>\nInitialized empty Git repository in /git/project.git/\nroot@a298e80705e8:/git#"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 4.9,
+   "out_sim": 0.191,
+   "out_tail": "root@a298e80705e8:/git# chown -R git:git /git\nroot@a298e80705e8:/git#"
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.144,
+   "out_tail": "root@a298e80705e8:/git# mkdir -p /var/www/html/main /var/www/html/dev\nroot@a298e80705e8:/git#"
+  },
+  {
+   "k": 11,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.164,
+   "out_tail": "root@a298e80705e8:/git# chown -R www-data:www-data /var/www/html\nroot@a298e80705e8:/git#"
+  },
+  {
+   "k": 12,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.155,
+   "out_tail": "root@a298e80705e8:/git# sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config\nroot@a298e80705e8:/git#"
+  },
+  {
+   "k": 13,
+   "type": "bash",
+   "secs": 4.1,
+   "out_sim": 0.77,
+   "out_tail": "root@a298e80705e8:/git# systemctl restart ssh\nSystem has not been booted with systemd as init system (PID 1). Can't operate.\nFailed to connect to bus: Host is down\nroot@a298e80705e8:/git#"
+  },
+  {
+   "k": 14,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.913,
+   "out_tail": "root@a298e80705e8:/git# systemctl enable ssh\nSynchronizing state of ssh.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.\nExecuting: /usr/lib/systemd/systemd-sysv-install enable ssh\nCreated symlink /etc/systemd/system/sshd.service \u2192 /usr/lib/systemd/system/ssh.service.\nCreated symlink /etc/systemd/system/multi-user.target.wants/ssh.service \u2192 /usr/lib/systemd/system/ssh.service.\nroot@a298e80705e8:/git#"
+  },
+  {
+   "k": 15,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.171,
+   "out_tail": "root@a298e80705e8:/git# mkdir -p /etc/nginx/ssl\nroot@a298e80705e8:/git#"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "3.20).\nopenssh-client set to manually installed.\nSuggested packages:\n  tk8.6 tcl-tclreadline\nThe following NEW packages will be installed:\n  expect libtcl8.6 tcl-expect tcl8.6\n0 upgraded, 4 newly installed, 0 to remove and 25 not upgraded.\nNeed to get 1249 kB of archives.\nAfter this operation, 4764 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libtcl8.6 amd64 8.6.14+dfsg-1build1 [988 kB]\nGet:2 http://archive.ubuntu.com/ubuntu noble/main amd64 tcl8.6 amd64 8.6.14+dfsg-1build1 [14.7 kB]\nGet:3 http://archive.ubuntu.com/ubuntu noble/universe amd64 tcl-expect amd64 5.45.4-3 [110 kB]\nGet:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 expect amd64 5.45.4-3 [137 kB]\nFetched 1249 kB in 2s (795 kB/s)\nSelecting previously unselected package libtcl8.6:amd64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 23622 files and directories currently installed.)\nPreparing to unpack .../libtcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl8.6.\nPreparing to unpack .../tcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking tcl8.6 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl-expect:amd64.\nPreparing to unpack .../tcl-expect_5.45.4-3_amd64.deb ...\nUnpacking tcl-expect:amd64 (5.45.4-3) ...\nSelecting previously unselected package expect.\nPreparing to unpack .../expect_5.45.4-3_amd64.deb ...\nUnpacking expect (5.45.4-3) ...\nSetting up libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 44.37s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "l8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 48c41b6] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 31ea976] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n========================= 1 passed in 66.83s (0:01:06) =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "9": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "3.20).\nopenssh-client set to manually installed.\nSuggested packages:\n  tk8.6 tcl-tclreadline\nThe following NEW packages will be installed:\n  expect libtcl8.6 tcl-expect tcl8.6\n0 upgraded, 4 newly installed, 0 to remove and 25 not upgraded.\nNeed to get 1249 kB of archives.\nAfter this operation, 4764 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libtcl8.6 amd64 8.6.14+dfsg-1build1 [988 kB]\nGet:2 http://archive.ubuntu.com/ubuntu noble/main amd64 tcl8.6 amd64 8.6.14+dfsg-1build1 [14.7 kB]\nGet:3 http://archive.ubuntu.com/ubuntu noble/universe amd64 tcl-expect amd64 5.45.4-3 [110 kB]\nGet:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 expect amd64 5.45.4-3 [137 kB]\nFetched 1249 kB in 1s (889 kB/s)\nSelecting previously unselected package libtcl8.6:amd64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 23622 files and directories currently installed.)\nPreparing to unpack .../libtcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl8.6.\nPreparing to unpack .../tcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking tcl8.6 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl-expect:amd64.\nPreparing to unpack .../tcl-expect_5.45.4-3_amd64.deb ...\nUnpacking tcl-expect:amd64 (5.45.4-3) ...\nSelecting previously unselected package expect.\nPreparing to unpack .../expect_5.45.4-3_amd64.deb ...\nUnpacking expect (5.45.4-3) ...\nSetting up libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 48.17s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "l8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 97f0207] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 18caad6] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 257 bytes | 257.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n========================= 1 passed in 88.96s (0:01:28) =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "10": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "3.20).\nopenssh-client set to manually installed.\nSuggested packages:\n  tk8.6 tcl-tclreadline\nThe following NEW packages will be installed:\n  expect libtcl8.6 tcl-expect tcl8.6\n0 upgraded, 4 newly installed, 0 to remove and 25 not upgraded.\nNeed to get 1249 kB of archives.\nAfter this operation, 4764 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libtcl8.6 amd64 8.6.14+dfsg-1build1 [988 kB]\nGet:2 http://archive.ubuntu.com/ubuntu noble/main amd64 tcl8.6 amd64 8.6.14+dfsg-1build1 [14.7 kB]\nGet:3 http://archive.ubuntu.com/ubuntu noble/universe amd64 tcl-expect amd64 5.45.4-3 [110 kB]\nGet:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 expect amd64 5.45.4-3 [137 kB]\nFetched 1249 kB in 5s (231 kB/s)\nSelecting previously unselected package libtcl8.6:amd64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 23622 files and directories currently installed.)\nPreparing to unpack .../libtcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl8.6.\nPreparing to unpack .../tcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking tcl8.6 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl-expect:amd64.\nPreparing to unpack .../tcl-expect_5.45.4-3_amd64.deb ...\nUnpacking tcl-expect:amd64 (5.45.4-3) ...\nSelecting previously unselected package expect.\nPreparing to unpack .../expect_5.45.4-3_amd64.deb ...\nUnpacking expect (5.45.4-3) ...\nSetting up libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 35.97s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "l8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 27b2989] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev f75184c] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 259 bytes | 259.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 52.14s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "11": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "3.20).\nopenssh-client set to manually installed.\nSuggested packages:\n  tk8.6 tcl-tclreadline\nThe following NEW packages will be installed:\n  expect libtcl8.6 tcl-expect tcl8.6\n0 upgraded, 4 newly installed, 0 to remove and 25 not upgraded.\nNeed to get 1249 kB of archives.\nAfter this operation, 4764 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libtcl8.6 amd64 8.6.14+dfsg-1build1 [988 kB]\nGet:2 http://archive.ubuntu.com/ubuntu noble/main amd64 tcl8.6 amd64 8.6.14+dfsg-1build1 [14.7 kB]\nGet:3 http://archive.ubuntu.com/ubuntu noble/universe amd64 tcl-expect amd64 5.45.4-3 [110 kB]\nGet:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 expect amd64 5.45.4-3 [137 kB]\nFetched 1249 kB in 4s (309 kB/s)\nSelecting previously unselected package libtcl8.6:amd64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 23622 files and directories currently installed.)\nPreparing to unpack .../libtcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl8.6.\nPreparing to unpack .../tcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking tcl8.6 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl-expect:amd64.\nPreparing to unpack .../tcl-expect_5.45.4-3_amd64.deb ...\nUnpacking tcl-expect:amd64 (5.45.4-3) ...\nSelecting previously unselected package expect.\nPreparing to unpack .../expect_5.45.4-3_amd64.deb ...\nUnpacking expect (5.45.4-3) ...\nSetting up libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 27.63s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "l8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 4a51d57] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 2f7c063] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 22.25s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "12": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": ".20).\nopenssh-client set to manually installed.\nSuggested packages:\n  tk8.6 tcl-tclreadline\nThe following NEW packages will be installed:\n  expect libtcl8.6 tcl-expect tcl8.6\n0 upgraded, 4 newly installed, 0 to remove and 25 not upgraded.\nNeed to get 1249 kB of archives.\nAfter this operation, 4764 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libtcl8.6 amd64 8.6.14+dfsg-1build1 [988 kB]\nGet:2 http://archive.ubuntu.com/ubuntu noble/main amd64 tcl8.6 amd64 8.6.14+dfsg-1build1 [14.7 kB]\nGet:3 http://archive.ubuntu.com/ubuntu noble/universe amd64 tcl-expect amd64 5.45.4-3 [110 kB]\nGet:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 expect amd64 5.45.4-3 [137 kB]\nFetched 1249 kB in 1s (1829 kB/s)\nSelecting previously unselected package libtcl8.6:amd64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 23622 files and directories currently installed.)\nPreparing to unpack .../libtcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl8.6.\nPreparing to unpack .../tcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking tcl8.6 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl-expect:amd64.\nPreparing to unpack .../tcl-expect_5.45.4-3_amd64.deb ...\nUnpacking tcl-expect:amd64 (5.45.4-3) ...\nSelecting previously unselected package expect.\nPreparing to unpack .../expect_5.45.4-3_amd64.deb ...\nUnpacking expect (5.45.4-3) ...\nSetting up libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 16.05s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "l8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) ab6e9e3] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 80e00cd] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n======================== 1 passed in 119.01s (0:01:59) =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "13": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "3.20).\nopenssh-client set to manually installed.\nSuggested packages:\n  tk8.6 tcl-tclreadline\nThe following NEW packages will be installed:\n  expect libtcl8.6 tcl-expect tcl8.6\n0 upgraded, 4 newly installed, 0 to remove and 25 not upgraded.\nNeed to get 1249 kB of archives.\nAfter this operation, 4764 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libtcl8.6 amd64 8.6.14+dfsg-1build1 [988 kB]\nGet:2 http://archive.ubuntu.com/ubuntu noble/main amd64 tcl8.6 amd64 8.6.14+dfsg-1build1 [14.7 kB]\nGet:3 http://archive.ubuntu.com/ubuntu noble/universe amd64 tcl-expect amd64 5.45.4-3 [110 kB]\nGet:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 expect amd64 5.45.4-3 [137 kB]\nFetched 1249 kB in 3s (475 kB/s)\nSelecting previously unselected package libtcl8.6:amd64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 23622 files and directories currently installed.)\nPreparing to unpack .../libtcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl8.6.\nPreparing to unpack .../tcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking tcl8.6 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl-expect:amd64.\nPreparing to unpack .../tcl-expect_5.45.4-3_amd64.deb ...\nUnpacking tcl-expect:amd64 (5.45.4-3) ...\nSelecting previously unselected package expect.\nPreparing to unpack .../expect_5.45.4-3_amd64.deb ...\nUnpacking expect (5.45.4-3) ...\nSetting up libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n======================== 1 failed in 111.72s (0:01:51) =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "l8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 4985da2] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 132f9da] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 28.41s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "14": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "3.20).\nopenssh-client set to manually installed.\nSuggested packages:\n  tk8.6 tcl-tclreadline\nThe following NEW packages will be installed:\n  expect libtcl8.6 tcl-expect tcl8.6\n0 upgraded, 4 newly installed, 0 to remove and 25 not upgraded.\nNeed to get 1249 kB of archives.\nAfter this operation, 4764 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libtcl8.6 amd64 8.6.14+dfsg-1build1 [988 kB]\nGet:2 http://archive.ubuntu.com/ubuntu noble/main amd64 tcl8.6 amd64 8.6.14+dfsg-1build1 [14.7 kB]\nGet:3 http://archive.ubuntu.com/ubuntu noble/universe amd64 tcl-expect amd64 5.45.4-3 [110 kB]\nGet:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 expect amd64 5.45.4-3 [137 kB]\nFetched 1249 kB in 2s (527 kB/s)\nSelecting previously unselected package libtcl8.6:amd64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 23622 files and directories currently installed.)\nPreparing to unpack .../libtcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl8.6.\nPreparing to unpack .../tcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking tcl8.6 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl-expect:amd64.\nPreparing to unpack .../tcl-expect_5.45.4-3_amd64.deb ...\nUnpacking tcl-expect:amd64 (5.45.4-3) ...\nSelecting previously unselected package expect.\nPreparing to unpack .../expect_5.45.4-3_amd64.deb ...\nUnpacking expect (5.45.4-3) ...\nSetting up libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n========================= 1 failed in 68.53s (0:01:08) =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "l8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 3ac7b5e] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev c4258cb] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 24.50s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "15": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "3.20).\nopenssh-client set to manually installed.\nSuggested packages:\n  tk8.6 tcl-tclreadline\nThe following NEW packages will be installed:\n  expect libtcl8.6 tcl-expect tcl8.6\n0 upgraded, 4 newly installed, 0 to remove and 25 not upgraded.\nNeed to get 1249 kB of archives.\nAfter this operation, 4764 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libtcl8.6 amd64 8.6.14+dfsg-1build1 [988 kB]\nGet:2 http://archive.ubuntu.com/ubuntu noble/main amd64 tcl8.6 amd64 8.6.14+dfsg-1build1 [14.7 kB]\nGet:3 http://archive.ubuntu.com/ubuntu noble/universe amd64 tcl-expect amd64 5.45.4-3 [110 kB]\nGet:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 expect amd64 5.45.4-3 [137 kB]\nFetched 1249 kB in 2s (590 kB/s)\nSelecting previously unselected package libtcl8.6:amd64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 23622 files and directories currently installed.)\nPreparing to unpack .../libtcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl8.6.\nPreparing to unpack .../tcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking tcl8.6 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl-expect:amd64.\nPreparing to unpack .../tcl-expect_5.45.4-3_amd64.deb ...\nUnpacking tcl-expect:amd64 (5.45.4-3) ...\nSelecting previously unselected package expect.\nPreparing to unpack .../expect_5.45.4-3_amd64.deb ...\nUnpacking expect (5.45.4-3) ...\nSetting up libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n========================= 1 failed in 81.36s (0:01:21) =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "l8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) f600bea] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev dae05b5] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 37.16s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793194583.4534986
+}

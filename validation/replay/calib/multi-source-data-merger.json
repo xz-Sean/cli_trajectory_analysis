@@ -1,0 +1,72 @@
+{
+ "task": "multi-source-data-merger",
+ "pristine": {
+  "passed": 0,
+  "failed": 3,
+  "total": 3,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_output_files_exist",
+   "../tests/test_outputs.py::test_merged_data_exact_values",
+   "../tests/test_outputs.py::test_conflict_report_values"
+  ],
+  "raw_tail": "yarrow/dataset.py:472: in _filesystem_dataset\n    fs, paths_or_selector = _ensure_single_source(source, filesystem)\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\npath = '/app/merged_users.parquet'\nfilesystem = <pyarrow._fs.LocalFileSystem object at 0x7e0f36f43f70>\n\n    def _ensure_single_source(path, filesystem=None):\n        \"\"\"\n        Treat path as either a recursively traversable directory or a single file.\n    \n        Parameters\n        ----------\n        path : path-like\n        filesystem : FileSystem or str, optional\n            If an URI is passed, then its path component will act as a prefix for\n            the file paths.\n    \n        Returns\n        -------\n        (FileSystem, list of str or fs.Selector)\n            File system object and either a single item list pointing to a file or\n            an fs.Selector object pointing to a directory.\n    \n        Raises\n        ------\n        TypeError\n            If the passed filesystem has wrong type.\n        FileNotFoundError\n            If the referenced file or directory doesn't exist.\n        \"\"\"\n        from pyarrow.fs import FileType, FileSelector, _resolve_filesystem_and_path\n    \n        # at this point we already checked that `path` is a path-like\n        filesystem, path = _resolve_filesystem_and_path(path, filesystem)\n    \n        # ensure that the path is normalized before passing to dataset discovery\n        path = filesystem.normalize_path(path)\n    \n        # retrieve the file descriptor\n        file_info = filesystem.get_file_info(path)\n    \n        # depending on the path type either return with a recursive\n        # directory selector or as a list containing a single file\n        if file_info.type == FileType.Directory:\n            paths_or_selector = FileSelector(path, recursive=True)\n        elif file_info.type == FileType.File:\n            paths_or_selector = [path]\n        else:\n>           raise FileNotFoundError(path)\nE           FileNotFoundError: /app/merged_users.parquet\n\n.tbench-testing/lib/python3.11/site-packages/pyarrow/dataset.py:437: FileNotFoundError\n_________________________ test_conflict_report_values __________________________\n\n    def test_conflict_report_values():\n        \"\"\"Test conflict report has correct conflicts.\"\"\"\n>       with open(\"/app/conflicts.json\", \"r\") as f:\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/conflicts.json'\n\n/tests/test_outputs.py:40: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_output_files_exist - AssertionError: me...\nFAILED ../tests/test_outputs.py::test_merged_data_exact_values - FileNotFound...\nFAILED ../tests/test_outputs.py::test_conflict_report_values - FileNotFoundEr...\n============================== 3 failed in 3.04s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 3,
+  "failed": 0,
+  "total": 3,
+  "passed_names": [
+   "../tests/test_outputs.py::test_output_files_exist",
+   "../tests/test_outputs.py::test_merged_data_exact_values",
+   "../tests/test_outputs.py::test_conflict_report_values"
+  ],
+  "failed_names": [],
+  "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.18 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.11.18 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 755ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nUsing Python 3.11.18 environment at: .tbench-testing\nResolved 6 packages in 240ms\nDownloading numpy (16.1MiB)\nDownloading pyarrow (51.4MiB)\nDownloading pandas (11.8MiB)\n Downloading numpy\n Downloading pandas\n Downloading pyarrow\nPrepared 6 packages in 1.15s\nInstalled 6 packages in 75ms\n + numpy==2.4.6\n + pandas==3.1.0\n + pyarrow==26.0.0\n + python-dateutil==3.0.0\n + six==1.17.0\n + tzdata==2026.5\n============================= test session starts ==============================\nplatform linux -- Python 3.11.18, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_merged_data_exact_values\nPASSED ../tests/test_outputs.py::test_conflict_report_values\n============================== 3 passed in 6.48s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n",
+  "oracle_rc": 0
+ },
+ "secs": 540
+}

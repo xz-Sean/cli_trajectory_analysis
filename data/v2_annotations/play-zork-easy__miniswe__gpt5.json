@@ -1,0 +1,52 @@
+{
+  "case_id": "play-zork-easy__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_understanding",
+  "primary_failure_subtype": "misinterpreted_end_condition",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "task_strategy",
+  "contributing_failure_1_subtype": "premature_quit_strategy",
+  "root_cause_label": "Incorrect Task Interpretation / Early Quit vs. True Ending",
+  "one_sentence_failure_summary": "The agent misinterpreted the task's ending message requirement and wrote the quit/score summary to answer.txt instead of actually completing the Zork game and capturing the true game-completion text.",
+  "m": 15,
+  "t_err": 10,
+  "t_err_evidence": "At step 10, the agent explicitly commits to targeting a 'grue death' message as the ending, piping frotz output and grepping for 'grue' to write to /app/answer.txt — operationalizing the false belief that a game-death line constitutes the required ending message.",
+  "t_commit": 13,
+  "t_commit_evidence": "At step 13, the agent settles on writing the quit-screen score summary ('Your score is 0 (total of 350 points), in 0 moves. This gives you the rank of Beginner.') to /app/answer.txt and treats this as the final answer, locking in the incorrect output.",
+  "t_surface": 13,
+  "t_surface_evidence": "Step 13 output shows 'Your score is 0 (total of 350 points), in 0 moves. This gives you the rank of Beginner.' being written as the answer — an observable wrong value that will fail the test requiring the actual game-completion phrase.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent held the false premise that any terminal game output (death message or quit summary) qualifies as the 'ending message', never verifying what the actual test checks for. This led it to target grue-death lines and then quit-summary lines rather than the true game-completion text.",
+  "forewarning_present": true,
+  "forewarning_first_step": 9,
+  "forewarning_types": [
+    "empty_or_unexpected_output",
+    "command_error"
+  ],
+  "forewarning_evidence": "At step 9, the scripted command sequence fails to navigate the game correctly ('You can't see any window here!', 'You can't see any rug here!', 'You can't see any trap door here!') and the game never reaches any ending. This showed the move sequence was wrong and no ending was produced, but the agent pressed on toward the wrong target.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 4,
+  "tail_dominant_behavior": "thrash_repeat",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 3, "E"],
+    [4, 5, "E"],
+    [6, 8, "E"],
+    [9, 9, "X"],
+    [10, 14, "R"],
+    [15, 15, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

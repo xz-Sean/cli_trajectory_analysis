@@ -1,0 +1,72 @@
+{
+ "task": "configure-git-webserver",
+ "pristine": {
+  "passed": 0,
+  "failed": 1,
+  "total": 1,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_hello_html_exists"
+  ],
+  "raw_tail": "downloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 110ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 99ms\nInstalled 5 packages in 30ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nHit:2 http://ports.ubuntu.com/ubuntu-ports noble-updates ...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nHit:2 http://ports.ubuntu.com/ubuntu-ports noble-updates ...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...y\\n    while executing\\n\"spawn git clone git@localhost:/git/server server-test\"\\n    (file \"./git_test.exp\" line 5)\\n').stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 5.53s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_git_repo_at_git_server",
+     "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+    ]
+   },
+   "mustnot": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+    ]
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "sh 2>/dev/null | head -5\", returncode=0, stdout='', stderr='').stdout\n\n/subtests/test_sub.py:72: AssertionError\n_______________________ test_mustnot_ssh_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xf7c53b975440>('sshd')\nE        +    where <function which at 0xf7c53b975440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n=========================== short test summary info ============================\nSKIPPED [1] ../subtests/test_sub.py:55: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:60: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:81: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:92: no git / no repo\nFAILED ../subtests/test_sub.py::test_must_git_repo_at_git_server - AssertionE...\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n========================= 3 failed, 4 skipped in 0.04s =========================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 1,
+  "failed": 0,
+  "total": 1,
+  "passed_names": [
+   "../tests/test_outputs.py::test_hello_html_exists"
+  ],
+  "failed_names": [],
+  "raw_tail": "ORACLE_RC=0\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 161ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 145ms\nInstalled 5 packages in 8ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_hello_html_exists\n============================== 1 passed in 7.09s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 7 items\n\n../subtests/test_sub.py .......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nPASSED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nPASSED ../subtests/test_sub.py::test_must_webserver_on_port_8080\nPASSED ../subtests/test_sub.py::test_mustnot_ssh_server_missing\nPASSED ../subtests/test_sub.py::test_mustnot_deployed_hello_html_outside_served_root\nPASSED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\n============================== 7 passed in 0.31s ===============================\n",
+  "oracle_rc": 0
+ }
+}

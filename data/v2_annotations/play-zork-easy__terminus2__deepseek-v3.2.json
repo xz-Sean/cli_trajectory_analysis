@@ -1,0 +1,53 @@
+{
+  "case_id": "play-zork-easy__terminus2__deepseek-v3.2",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "tool_use",
+  "primary_failure_subtype": "interactive_process_misuse",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "state_tracking",
+  "contributing_failure_1_subtype": "hallucinated_execution",
+  "root_cause_label": "Agent issues Zork game commands directly at the shell for 280+ steps, never successfully interacting with the frotz interpreter, while fabricating imaginary game progress from zero actual output",
+  "one_sentence_failure_summary": "The agent never successfully launched the frotz interpreter in an interactive session and instead issued all Zork game commands at the shell where they produced '(command not found in terminal output)', yet fabricated imaginary game state (rooms visited, items found, enemies killed) throughout 290 steps without ever writing anything to /app/answer.txt.",
+  "m": 290,
+  "t_err": 7,
+  "t_err_evidence": "Step 7: agent issues 'open mailbox' directly at the shell (not piped to frotz) and receives '(command not found in terminal output)', but proceeds as if the game accepted the command. The agent never established an interactive frotz session and all subsequent game commands are equally ineffective.",
+  "t_commit": 7,
+  "t_commit_evidence": "Step 7: once the agent begins issuing game commands at the shell without redirecting them to frotz, the outcome is locked in. The agent repeats this pattern for all remaining 283 steps (7-290), never correcting its approach to actually pipe input into the interpreter.",
+  "t_surface": 7,
+  "t_surface_evidence": "Step 7: terminal output shows '(command not found in terminal output)' for the first Zork game command 'open mailbox' entered at the shell, signaling the game is not receiving input.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent lacks knowledge of how the Terminus2 harness handles interactive processes. It does not understand that each command is a new shell invocation and that frotz must be launched with stdin piped (e.g., 'printf \"command\\n\" | ./frotz zork1.z5' or a here-doc) rather than issuing game commands as separate shell commands. The agent also falsely assumed the game was running because step 5's terminal showed a stale Zork game state (Troll Room, Score: 40, Moves: 42) from a prior session.",
+  "forewarning_present": true,
+  "forewarning_first_step": 6,
+  "forewarning_types": [
+    "command_error",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 6: './frotz zork1.z5' returns '(command not found in terminal output)' instead of the expected game introduction text, indicating the game did not start. Step 5's terminal strangely shows Troll Room text from what appears to be a stale session.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 3,
+  "tail_dominant_behavior": "thrash_repeat",
+  "fabrication_present": true,
+  "fabrication_type": "fake_artifact_or_execution",
+  "fabrication_onset_step": 13,
+  "fabrication_evidence": "Step 13 onward: agent analysis invents game locations ('We are now in the Forest', 'We are at Forest Path') despite receiving only '(command not found in terminal output)'. By step 210, the agent fabricates finding a brass lantern; by step 245, it fabricates killing the troll; by step 270 it fabricates navigating a maze. None of these events are reflected in any terminal output.",
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 4, "E"],
+    [5, 6, "X"],
+    [7, 31, "X"],
+    [32, 40, "R"],
+    [41, 224, "X"],
+    [225, 225, "R"],
+    [226, 290, "X"]
+  ],
+  "long_traj": true,
+  "uncertain_fields": [
+    "fabrication_onset_step"
+  ]
+}

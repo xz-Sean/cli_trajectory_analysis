@@ -1,0 +1,34 @@
+{
+  "case_id": "vul-flink__openhands__gemini",
+  "schema_version": "v2",
+  "m": 21,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 5, "E"],
+    [6, 7, "W"],
+    [8, 8, "X"],
+    [9, 19, "X"],
+    [20, 21, "W"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 8,
+  "first_error_evidence": "Agent ran 'mvn clean install -DskipTests -Dfast' from /app instead of /opt/flink, resulting in 'no POM in this directory' BUILD FAILURE.",
+  "num_recoveries": 1,
+  "max_detour_length": 1,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 12,
+  "verification_evidence": "At step 12, agent re-read FileUploadHandler.java to confirm the fix (new File(fileUpload.getFilename()).getName()) was correctly applied. The full Maven build (steps 9-19) also compiled and packaged the fix into the runtime JARs.",
+  "suspicious_pass": true,
+  "suspicious_pass_type": "lucky_environment",
+  "suspicious_pass_evidence": "After completing a successful Maven build that compiled the patched code into JARs (steps 9-19), the agent reverted both source-level edits at steps 20-21 (two undo_edit calls), leaving the source file with the original vulnerable line 'currentUploadDir.resolve(fileUpload.getFilename())'. The task PASSED because evaluation ran against the already-compiled binary artifacts in /opt/flink, which still contained the sanitized filename fix, not the reverted source. The agent explicitly stated 'I will now revert the changes' immediately after claiming success.",
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent correctly identified and patched the directory traversal vulnerability in FileUploadHandler.java by stripping path components from uploaded filenames, compiled the fix into JARs via Maven, but then inexplicably reverted both source edits, leaving source code vulnerable while compiled binaries retained the fix.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": [
+    "action_segments"
+  ]
+}

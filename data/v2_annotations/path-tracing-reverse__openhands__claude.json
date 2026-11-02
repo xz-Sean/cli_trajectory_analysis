@@ -1,0 +1,47 @@
+{
+  "case_id": "path-tracing-reverse__openhands__claude",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "failed_to_transition_to_implementation",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "recovery_or_search",
+  "contributing_failure_1_subtype": "overextended_exploration",
+  "root_cause_label": "Spec Neglect - Never Attempted to Write mystery.c",
+  "one_sentence_failure_summary": "The agent spent all 10 steps exclusively exploring the binary's behavior via shell commands but never wrote any C code, exhausting the step budget without producing the required mystery.c implementation.",
+  "m": 10,
+  "t_err": 1,
+  "t_err_evidence": "Step 1 is purely environment discovery (ls -la /app/); the agent never forms a plan to write mystery.c and treats the task as a black-box exploration exercise from the outset, ignoring the core deliverable.",
+  "t_commit": 6,
+  "t_commit_evidence": "By step 6 the agent has burned 6 steps in pure exploration (running the binary twice for --help and 'test' args with identical output, inspecting the PPM artifact) and still has no plan or attempt to write C code; with only 4 steps left and no implementation started, failure is locked in.",
+  "t_surface": null,
+  "t_surface_evidence": null,
+  "timepoint_confidence": "medium",
+  "trigger_mechanism": "spec_neglect",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The task explicitly requires producing /app/mystery.c implementing a path-traced image renderer. The agent never read or acknowledged this requirement in any step; it treated the task as pure reverse-engineering reconnaissance rather than implementation, spending all steps on exploration without ever drafting or writing any C source file.",
+  "forewarning_present": true,
+  "forewarning_first_step": 5,
+  "forewarning_types": [
+    "repeated_command"
+  ],
+  "forewarning_evidence": "Steps 5 and 6 both invoke the mystery binary with different arguments (--help and 'test') and receive identical output, signaling that CLI probing yields no new information; the agent continues the same exploration strategy rather than pivoting to writing code.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "cosmetic_progress",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 10, "E"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err",
+    "tail_dominant_behavior"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "case_id": "distribution-search__terminus2__gpt5",
+  "schema_version": "v2",
+  "m": 10,
+  "action_segments": [
+    [1, 1, "W"],
+    [2, 2, "X"],
+    [3, 3, "E"],
+    [4, 4, "V"],
+    [5, 5, "W"],
+    [6, 6, "X"],
+    [7, 7, "E"],
+    [8, 8, "V"],
+    [9, 9, "E"],
+    [10, 10, "V"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 2,
+  "first_error_evidence": "RuntimeError: Failed to find a distribution meeting tolerance - the initial solver script with two-level/three-variable approach could not bracket the root for K candidates within range.",
+  "num_recoveries": 1,
+  "max_detour_length": 4,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 6,
+  "verification_evidence": "Step 6 output: KL(P||U)=10.000022, KL(U||P)=10.000012, both within 0.001 tolerance. Steps 8 and 10 re-run independent KL verification scripts.",
+  "suspicious_pass": true,
+  "suspicious_pass_type": "other",
+  "suspicious_pass_evidence": "Steps 8 and 10 run print-based KL verification scripts but show 'command executed successfully with no output', suggesting terminal output capture may have failed. However, step 6 already printed valid KL values within tolerance from the solver itself, and step 7 confirms dist.npy exists (1200128 bytes), so the solution appears genuine.",
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent wrote a parametric solver for the dual-KL constraint problem, encountered a RuntimeError on the first attempt, rewrote the solver with a more robust grid search over (k, m) pairs and better initial guesses, then successfully found a valid 3-level distribution (k=2, m=5) satisfying both KL divergences within tolerance.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": [
+    "suspicious_pass_evidence"
+  ]
+}

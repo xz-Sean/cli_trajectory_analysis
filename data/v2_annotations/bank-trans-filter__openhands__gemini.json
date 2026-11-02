@@ -1,0 +1,53 @@
+{
+  "case_id": "bank-trans-filter__openhands__gemini",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "spec_violation",
+  "primary_failure_subtype": "unauthorized_data_modification",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "implementation_generation",
+  "contributing_failure_1_subtype": "logic_error_data_processing",
+  "root_cause_label": "Spec Neglect: Company Name Overwrite and Incomplete Typo Handling",
+  "one_sentence_failure_summary": "While attempting to fix an overly broad fuzzy match, the agent introduced a spec violation by overwriting original company name values with a standardized string, and also failed to handle account number typos needed to link all related transactions.",
+  "m": 16,
+  "t_err": 3,
+  "t_err_evidence": "I will start by creating a Python script to perform the following steps",
+  "t_commit": 13,
+  "t_commit_evidence": "At step 13, the agent successfully replaces the entire file with a clean version that retains the name-overwriting line (line 26: 'row[\"Company Name\"] = \"North West Capital\"'). After this point the script logic is fixed and no further substantive edits occur before the final output is generated.",
+  "t_surface": 7,
+  "t_surface_evidence": "the first few entries are for \"Phoenix Retail Group\" and \"Momentum Capital\", not \"North West Capital\"",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "spec_neglect",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent never read or internalized the requirement to preserve original CSV field values verbatim in the output. When redesigning the filter logic, it added a line that standardizes all company names to 'North West Capital', treating normalization as a helpful feature rather than a spec violation. The incomplete typo handling for account numbers is a secondary logic gap.",
+  "forewarning_present": true,
+  "forewarning_first_step": 7,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "the first few entries are for \"Phoenix Retail Group\" and \"Momentum Capital\", not \"North West Capital\"",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 8,
+  "num_recovery_attempts": 2,
+  "tail_dominant_behavior": "verification_theater",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 7,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 3, "W"],
+    [4, 5, "X"],
+    [6, 7, "V"],
+    [8, 8, "E"],
+    [9, 13, "R"],
+    [14, 14, "X"],
+    [15, 16, "V"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

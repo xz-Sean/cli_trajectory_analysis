@@ -1,0 +1,32 @@
+{
+  "case_id": "git-leak-recovery__miniswe__gemini",
+  "schema_version": "v2",
+  "m": 14,
+  "action_segments": [
+    [1, 3, "E"],
+    [4, 4, "W"],
+    [5, 5, "X"],
+    [6, 11, "R"],
+    [12, 13, "V"],
+    [14, 14, "C"]
+  ],
+  "num_error_events": 5,
+  "first_error_step": 6,
+  "first_error_evidence": "git-filter-repo: error: ambiguous option: --replace could match --replace-text, --replace-message, --replace-refs",
+  "num_recoveries": 1,
+  "max_detour_length": 6,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 12,
+  "verification_evidence": "Step 12 used git log --all --grep to verify no commits with secret remain; step 13 used git grep to verify no file contents contain the secret.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent correctly identified the secret in the git reflog (step 2-3), wrote it to the output file (step 4), then struggled through 5 failed git-filter-repo invocations (steps 6-10) before succeeding by cd-ing into the repository directory (step 11), and verified removal before claiming completion.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

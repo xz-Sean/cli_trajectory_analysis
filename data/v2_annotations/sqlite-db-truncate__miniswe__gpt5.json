@@ -1,0 +1,50 @@
+{
+  "case_id": "sqlite-db-truncate__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "wrong_binary_format_assumption",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "implementation_generation",
+  "contributing_failure_1_subtype": "incorrect_parsing_logic",
+  "root_cause_label": "Heuristic Binary Parsing Failure (Incorrect SQLite Record Format Assumption)",
+  "one_sentence_failure_summary": "The agent incorrectly assumed SQLite integer values are stored as a single raw byte immediately following the string in the binary file, ignoring the actual SQLite record header-and-payload format, leading to extraction of wrong values for entries stored as multi-byte types.",
+  "m": 5,
+  "t_err": 4,
+  "t_err_evidence": "In step 4, the Python script uses `data[next_pos]` (a single byte immediately after each 'testwordNN' match) as the integer value, falsely assuming SQLite stores values as contiguous single bytes after string data; this ignores SQLite's actual record format with header serial types and potentially multi-byte value encodings.",
+  "t_commit": 4,
+  "t_commit_evidence": "Step 4 writes /app/recover.json with incorrect values derived from the single-byte assumption; step 5 only submits without any correction, so the erroneous JSON is the final output.",
+  "t_surface": null,
+  "t_surface_evidence": null,
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent lacked knowledge of SQLite's internal binary record format (header byte with serial type codes, variable-length integer encoding, 8-byte IEEE-754 doubles for real values). It improvised a naive heuristic (next byte = value) without verifying it against the actual format specification, leading to incorrect extraction.",
+  "forewarning_present": true,
+  "forewarning_first_step": 3,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "In step 3, the strings output showed trailing characters after the testword entries (e.g., 'testword09?', 'testword08@X', 'testword07c') suggesting those bytes were part of structured data, not simple single-byte integers; the agent did not investigate this signal before committing to the single-byte assumption in step 4.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 2, "X"],
+    [3, 3, "E"],
+    [4, 4, "W"],
+    [5, 5, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_surface"
+  ]
+}

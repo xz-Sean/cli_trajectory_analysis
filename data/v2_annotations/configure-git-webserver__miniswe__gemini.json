@@ -1,0 +1,53 @@
+{
+  "case_id": "configure-git-webserver__miniswe__gemini",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "ignored_available_package_manager",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "recovery_or_search",
+  "contributing_failure_1_subtype": "cpan_dependency_hell",
+  "root_cause_label": "Ignored Available apt-get in Favor of CPAN Rabbit Hole",
+  "one_sentence_failure_summary": "After seeing apt-get in the PATH listing at step 12, the agent ignored it and instead spent the next 60+ steps attempting to build a custom web server via shell scripts and then installing HTTP::Daemon via CPAN, exhausting its budget on dependency chains, so that when it finally tried nginx via apt at step 74, an orphaned background Perl server already held port 8080.",
+  "m": 77,
+  "t_err": 13,
+  "t_err_evidence": "At step 12, the agent listed /bin and /usr/bin and explicitly saw 'apt', 'apt-get', 'apt-cache', etc. in the output. Instead of using apt-get to install a web server (nginx, lighttpd, etc.), at step 13 the agent chose to build a custom server using mkfifo and shell scripts — ignoring the available package manager and locking into an increasingly complex DIY path.",
+  "t_commit": 44,
+  "t_commit_evidence": "At step 44, the agent issued 'cpan HTTP::Daemon', beginning the CPAN rabbit hole. This consumed steps 44-73 resolving transitive dependencies (Module::Build::Tiny, ExtUtils::Config, ExtUtils::Helpers, ExtUtils::InstallPaths, HTTP::Date, Time::Zone, HTTP::Message, Clone, B::COW, Encode::Locale, IO::HTML, URI, Test::Needs, FFI::CheckLib, Test2::* modules, PkgConfig, etc.). Once this path was chosen, the agent had no budget left for a correct apt-based approach, making the failure locked in.",
+  "t_surface": 30,
+  "t_surface_evidence": "Step 30 shows the first explicit error from the Perl server: 'Not enough arguments for accept at /tmp/server.pl line 9' — the first observable error signal from the Perl web server approach.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "ignored_signal",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "At step 12 the agent ran 'ls /bin /usr/bin' and received a full listing that prominently included apt, apt-get, apt-cache, apt-mark — all standard Debian/Ubuntu package manager tools. The correct action was to run 'apt-get install -y nginx' (or lighttpd, apache2, etc.) immediately. Instead, the agent proceeded to step 13 and began a hand-built server via named pipes and shell scripts, then shifted to a Perl-based server, ignoring the clear package manager signal until it was too late (step 74, when port 8080 was already in use).",
+  "forewarning_present": true,
+  "forewarning_first_step": 5,
+  "forewarning_types": [
+    "command_error",
+    "repeated_command"
+  ],
+  "forewarning_evidence": "Steps 5-11 showed a cascade of missing tools (python3 not found, python not found, busybox not found, ncat not found), each signaling the environment lacks the expected quick-start servers. This should have prompted using apt-get before step 13. Steps 57-58 show repeated cpan Capture::Tiny commands (retry) — additional forewarning that CPAN path was failing.",
+  "awareness": "aware_too_late",
+  "first_awareness_step": 74,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "thrash_repeat",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 4, "W"],
+    [5, 12, "E"],
+    [13, 29, "W"],
+    [30, 43, "X"],
+    [44, 73, "R"],
+    [74, 75, "W"],
+    [76, 77, "X"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

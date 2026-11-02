@@ -1,0 +1,29 @@
+{
+  "case_id": "git-leak-recovery__miniswe__gpt5",
+  "schema_version": "v2",
+  "m": 3,
+  "action_segments": [
+    [1, 1, "X"],
+    [2, 2, "V"],
+    [3, 3, "C"]
+  ],
+  "num_error_events": 0,
+  "first_error_step": null,
+  "first_error_evidence": null,
+  "num_recoveries": 0,
+  "max_detour_length": 0,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 2,
+  "verification_evidence": "Step 2 uses test -f /app/secret.txt && grep -q 'secret\\[[^]]*\\]' /app/secret.txt to confirm the secret was recovered, and grep -R -a -q 'secret\\[[^]]*\\]' . to check for remaining traces in the repository before claiming completion.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "direct",
+  "one_sentence_strategy_summary": "The agent immediately searched the Git object store for the leaked secret pattern using binary grep and git grep over all reflog/commit objects, wrote the secret to /app/secret.txt, then ran reflog expiration and aggressive GC to sanitize the repository, followed by verification of both the recovered secret and absence of traces.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

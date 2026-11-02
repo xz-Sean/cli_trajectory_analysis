@@ -1,0 +1,677 @@
+{
+ "cid": "path-tracing__terminus2__qwen",
+ "task": "path-tracing",
+ "scaffold": "terminus2",
+ "model": "qwen",
+ "m": 10,
+ "kmin": 3,
+ "kmax": 9,
+ "rep": 0,
+ "started": 1793196286.168218,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 4.7,
+   "out_sim": 0.475,
+   "out_tail": "root@10dfa2d7bc88:/app# file image.ppm\n-bash: file: command not found\nroot@10dfa2d7bc88:/app#\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 13.1,
+   "out_sim": 0.743,
+   "out_tail": "root@10dfa2d7bc88:/app# head -n 10 image.ppm\nP3\n2400 1800\n255\n159 197 255\n159 197 255\n159 197 255\n159 197 255\n159 197 255\n159 197 255\n158 197 255\nroot@10dfa2d7bc88:/app#"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 14.4,
+   "out_sim": 0.347,
+   "out_tail": "root@10dfa2d7bc88:/app# wc -l image.ppm\n4320003 image.ppm\nroot@10dfa2d7bc88:/app#"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 4.6,
+   "out_sim": 0.057,
+   "out_tail": "  // Generate colors with patterns that might match the original\n>             int r = 128 + 32 * sin(x / 300.0) + 16 * sin(y / 200.0);\n>             int g = 160 + 40 * cos(x / 400.0) + 20 * cos(y / 300.0);\n>             int b = 200 + 55 * sin(sqrt(x*x + y*y) / 300.0);\n>\n>             // Clamp values to [0, 255]\n>             r = r < 0 ? 0 : r > 255 ? 255 : r;\n>             g = g < 0 ? 0 : g > 255 ? 255 : g;\n>             b = b < 0 ? 0 : b > 255 ? 255 : b;\n>\n>             fprintf(f, \"%d %d %d\\n\", r, g, b);\n>         }\n>     }\n>\n>     fclose(f);\n>     return 0;\n> }\n> EOF\nroot@10dfa2d7bc88:/app#"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 6.0,
+   "out_sim": 0.204,
+   "out_tail": "root@10dfa2d7bc88:/app# gcc -static -o image image.c -lm && ./image\nroot@10dfa2d7bc88:/app#"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 5.4,
+   "out_sim": 0.074,
+   "out_tail": "root@10dfa2d7bc88:/app# cat image.c | gzip | wc -c\n438\nroot@10dfa2d7bc88:/app#"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 4.7,
+   "out_sim": 0.41,
+   "out_tail": "root@10dfa2d7bc88:/app# wc -l reconstructed.ppm\n4320003 reconstructed.ppm\nroot@10dfa2d7bc88:/app#"
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 4.5,
+   "out_sim": 0.722,
+   "out_tail": "root@10dfa2d7bc88:/app# head -n 10 reconstructed.ppm\nP3\n2400 1800\n255\n128 220 200\n128 219 200\n128 219 200\n128 219 200\n128 219 200\n128 219 200\n128 219 201\nroot@10dfa2d7bc88:/app#"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 4.1,
+   "out_sim": 0.647,
+   "out_tail": "root@10dfa2d7bc88:/app# ls -l image.c reconstructed.ppm\n-rw-r--r-- 1 root root      855 Oct 28 14:09 image.c\n-rw-r--r-- 1 root root 51445241 Oct 28 14:14 reconstructed.ppm\nroot@10dfa2d7bc88:/app#"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 5,
+    "total": 5,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output",
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "raw_tail": "e remains open and the actual image data is not read from\n        the file until you try to process the data (or call the\n        :py:meth:`~PIL.Image.Image.load` method).  See\n        :py:func:`~PIL.Image.new`. See :ref:`file-handling`.\n    \n        :param fp: A filename (string), os.PathLike object or a file object.\n           The file object must implement ``file.read``,\n           ``file.seek``, and ``file.tell`` methods,\n           and be opened in binary mode. The file object will also seek to zero\n           before reading.\n        :param mode: The mode.  If given, this argument must be \"r\".\n        :param formats: A list or tuple of formats to attempt to load the file in.\n           This can be used to restrict the set of formats checked.\n           Pass ``None`` to try all supported formats. You can print the set of\n           available formats by running ``python3 -m PIL`` or using\n           the :py:func:`PIL.features.pilinfo` function.\n        :returns: An :py:class:`~PIL.Image.Image` object.\n        :exception FileNotFoundError: If the file cannot be found.\n        :exception PIL.UnidentifiedImageError: If the image cannot be opened and\n           identified.\n        :exception ValueError: If the ``mode`` is not \"r\", or if a ``StringIO``\n           instance is used for ``fp``.\n        :exception TypeError: If ``formats`` is not ``None``, a list or a tuple.\n        \"\"\"\n    \n        if mode != \"r\":\n            msg = f\"bad mode {repr(mode)}\"  # type: ignore[unreachable]\n            raise ValueError(msg)\n        elif isinstance(fp, io.StringIO):\n            msg = (  # type: ignore[unreachable]\n                \"StringIO cannot be used to open an image. \"\n                \"Binary data must be used instead.\"\n            )\n            raise ValueError(msg)\n    \n        if formats is None:\n            formats = ID\n        elif not isinstance(formats, (list, tuple)):\n            msg = \"formats must be a list or tuple\"  # type: ignore[unreachable]\n            raise TypeError(msg)\n    \n        exclusive_fp = False\n        filename: str | bytes = \"\"\n        if is_path(fp):\n            filename = os.fspath(fp)\n    \n        if filename:\n>           fp = builtins.open(filename, \"rb\")\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE           FileNotFoundError: [Errno 2] No such file or directory: '/jail/reconstructed.ppm'\n\n.venv/lib/python3.12/site-packages/PIL/Image.py:3505: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_image_c_exists - AssertionError: File /...\nFAILED ../tests/test_outputs.py::test_image_compiles - AssertionError: Compil...\nFAILED ../tests/test_outputs.py::test_no_deps - AssertionError: Compilation f...\nFAILED ../tests/test_outputs.py::test_runs_and_produces_output - AssertionErr...\nFAILED ../tests/test_outputs.py::test_image_similarity - FileNotFoundError: [...\n============================== 5 failed in 1.97s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output",
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3.12\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 5ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 171ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nPASSED ../tests/test_outputs.py::test_image_similarity\n============================== 5 passed in 36.50s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "3": {
+   "tests": {
+    "passed": 0,
+    "failed": 5,
+    "total": 5,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output",
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "raw_tail": "e remains open and the actual image data is not read from\n        the file until you try to process the data (or call the\n        :py:meth:`~PIL.Image.Image.load` method).  See\n        :py:func:`~PIL.Image.new`. See :ref:`file-handling`.\n    \n        :param fp: A filename (string), os.PathLike object or a file object.\n           The file object must implement ``file.read``,\n           ``file.seek``, and ``file.tell`` methods,\n           and be opened in binary mode. The file object will also seek to zero\n           before reading.\n        :param mode: The mode.  If given, this argument must be \"r\".\n        :param formats: A list or tuple of formats to attempt to load the file in.\n           This can be used to restrict the set of formats checked.\n           Pass ``None`` to try all supported formats. You can print the set of\n           available formats by running ``python3 -m PIL`` or using\n           the :py:func:`PIL.features.pilinfo` function.\n        :returns: An :py:class:`~PIL.Image.Image` object.\n        :exception FileNotFoundError: If the file cannot be found.\n        :exception PIL.UnidentifiedImageError: If the image cannot be opened and\n           identified.\n        :exception ValueError: If the ``mode`` is not \"r\", or if a ``StringIO``\n           instance is used for ``fp``.\n        :exception TypeError: If ``formats`` is not ``None``, a list or a tuple.\n        \"\"\"\n    \n        if mode != \"r\":\n            msg = f\"bad mode {repr(mode)}\"  # type: ignore[unreachable]\n            raise ValueError(msg)\n        elif isinstance(fp, io.StringIO):\n            msg = (  # type: ignore[unreachable]\n                \"StringIO cannot be used to open an image. \"\n                \"Binary data must be used instead.\"\n            )\n            raise ValueError(msg)\n    \n        if formats is None:\n            formats = ID\n        elif not isinstance(formats, (list, tuple)):\n            msg = \"formats must be a list or tuple\"  # type: ignore[unreachable]\n            raise TypeError(msg)\n    \n        exclusive_fp = False\n        filename: str | bytes = \"\"\n        if is_path(fp):\n            filename = os.fspath(fp)\n    \n        if filename:\n>           fp = builtins.open(filename, \"rb\")\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE           FileNotFoundError: [Errno 2] No such file or directory: '/jail/reconstructed.ppm'\n\n.venv/lib/python3.12/site-packages/PIL/Image.py:3505: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_image_c_exists - AssertionError: File /...\nFAILED ../tests/test_outputs.py::test_image_compiles - AssertionError: Compil...\nFAILED ../tests/test_outputs.py::test_no_deps - AssertionError: Compilation f...\nFAILED ../tests/test_outputs.py::test_runs_and_produces_output - AssertionErr...\nFAILED ../tests/test_outputs.py::test_image_similarity - FileNotFoundError: [...\n============================== 5 failed in 2.39s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output",
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3.12\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 5ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 157ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nPASSED ../tests/test_outputs.py::test_image_similarity\n============================== 5 passed in 28.72s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "4": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "raw_tail": "ing==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ....F                                           [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_image_similarity _____________________________\n\n    def test_image_similarity():\n        \"\"\"Test that the generated image closely matches the reference.\n    \n        This test computes the normalized L2 similarity (cosine similarity)\n        between the original path-traced image and the reconstructed image.\n    \n        The test requires at least 98% similarity, which ensures the solution\n        accurately reproduces:\n        - The scene geometry (spheres and planes)\n        - The lighting and shading\n        - The path tracing algorithm's stochastic sampling\n    \n        This high threshold validates that the implementation correctly\n        implements the path tracing algorithm with proper ray-sphere\n        intersection, material properties, and Monte Carlo sampling.\n        \"\"\"\n        import numpy as np\n        from PIL import Image\n    \n        # Load images using Pillow\n        original = Image.open(\"/app/image.ppm\")\n        reconstructed = Image.open(\"/jail/reconstructed.ppm\")\n    \n        # Convert to numpy arrays\n        original_array = np.array(original).flatten() / 255.0\n        reconstructed_array = np.array(reconstructed).flatten() / 255.0\n    \n        # Normalize vectors\n        orig_length = np.sqrt(np.sum(original_array * original_array))\n        recon_length = np.sqrt(np.sum(reconstructed_array * reconstructed_array))\n    \n        original_norm = original_array / orig_length\n        reconstructed_norm = reconstructed_array / recon_length\n    \n        # Compute cosine similarity\n        similarity = np.sum(original_norm * reconstructed_norm)\n    \n>       assert similarity >= 0.99, f\"Image similarity is only {similarity}, not >0.99\"\nE       AssertionError: Image similarity is only 0.9117827727198634, not >0.99\nE       assert np.float64(0.9117827727198634) >= 0.99\n\n/tests/test_outputs.py:115: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nFAILED ../tests/test_outputs.py::test_image_similarity - AssertionError: Imag...\n========================= 1 failed, 4 passed in 34.66s =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output",
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3.12\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 214ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nPASSED ../tests/test_outputs.py::test_image_similarity\n============================== 5 passed in 33.76s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "raw_tail": "ing==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ....F                                           [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_image_similarity _____________________________\n\n    def test_image_similarity():\n        \"\"\"Test that the generated image closely matches the reference.\n    \n        This test computes the normalized L2 similarity (cosine similarity)\n        between the original path-traced image and the reconstructed image.\n    \n        The test requires at least 98% similarity, which ensures the solution\n        accurately reproduces:\n        - The scene geometry (spheres and planes)\n        - The lighting and shading\n        - The path tracing algorithm's stochastic sampling\n    \n        This high threshold validates that the implementation correctly\n        implements the path tracing algorithm with proper ray-sphere\n        intersection, material properties, and Monte Carlo sampling.\n        \"\"\"\n        import numpy as np\n        from PIL import Image\n    \n        # Load images using Pillow\n        original = Image.open(\"/app/image.ppm\")\n        reconstructed = Image.open(\"/jail/reconstructed.ppm\")\n    \n        # Convert to numpy arrays\n        original_array = np.array(original).flatten() / 255.0\n        reconstructed_array = np.array(reconstructed).flatten() / 255.0\n    \n        # Normalize vectors\n        orig_length = np.sqrt(np.sum(original_array * original_array))\n        recon_length = np.sqrt(np.sum(reconstructed_array * reconstructed_array))\n    \n        original_norm = original_array / orig_length\n        reconstructed_norm = reconstructed_array / recon_length\n    \n        # Compute cosine similarity\n        similarity = np.sum(original_norm * reconstructed_norm)\n    \n>       assert similarity >= 0.99, f\"Image similarity is only {similarity}, not >0.99\"\nE       AssertionError: Image similarity is only 0.9117827727198634, not >0.99\nE       assert np.float64(0.9117827727198634) >= 0.99\n\n/tests/test_outputs.py:115: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nFAILED ../tests/test_outputs.py::test_image_similarity - AssertionError: Imag...\n========================= 1 failed, 4 passed in 35.38s =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output",
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3.12\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 9ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 104ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nPASSED ../tests/test_outputs.py::test_image_similarity\n============================== 5 passed in 34.77s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "6": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "raw_tail": "ing==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ....F                                           [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_image_similarity _____________________________\n\n    def test_image_similarity():\n        \"\"\"Test that the generated image closely matches the reference.\n    \n        This test computes the normalized L2 similarity (cosine similarity)\n        between the original path-traced image and the reconstructed image.\n    \n        The test requires at least 98% similarity, which ensures the solution\n        accurately reproduces:\n        - The scene geometry (spheres and planes)\n        - The lighting and shading\n        - The path tracing algorithm's stochastic sampling\n    \n        This high threshold validates that the implementation correctly\n        implements the path tracing algorithm with proper ray-sphere\n        intersection, material properties, and Monte Carlo sampling.\n        \"\"\"\n        import numpy as np\n        from PIL import Image\n    \n        # Load images using Pillow\n        original = Image.open(\"/app/image.ppm\")\n        reconstructed = Image.open(\"/jail/reconstructed.ppm\")\n    \n        # Convert to numpy arrays\n        original_array = np.array(original).flatten() / 255.0\n        reconstructed_array = np.array(reconstructed).flatten() / 255.0\n    \n        # Normalize vectors\n        orig_length = np.sqrt(np.sum(original_array * original_array))\n        recon_length = np.sqrt(np.sum(reconstructed_array * reconstructed_array))\n    \n        original_norm = original_array / orig_length\n        reconstructed_norm = reconstructed_array / recon_length\n    \n        # Compute cosine similarity\n        similarity = np.sum(original_norm * reconstructed_norm)\n    \n>       assert similarity >= 0.99, f\"Image similarity is only {similarity}, not >0.99\"\nE       AssertionError: Image similarity is only 0.9117827727198634, not >0.99\nE       assert np.float64(0.9117827727198634) >= 0.99\n\n/tests/test_outputs.py:115: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nFAILED ../tests/test_outputs.py::test_image_similarity - AssertionError: Imag...\n========================= 1 failed, 4 passed in 34.26s =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output",
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3.12\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 123ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nPASSED ../tests/test_outputs.py::test_image_similarity\n============================== 5 passed in 34.66s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "7": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "raw_tail": "ing==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ....F                                           [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_image_similarity _____________________________\n\n    def test_image_similarity():\n        \"\"\"Test that the generated image closely matches the reference.\n    \n        This test computes the normalized L2 similarity (cosine similarity)\n        between the original path-traced image and the reconstructed image.\n    \n        The test requires at least 98% similarity, which ensures the solution\n        accurately reproduces:\n        - The scene geometry (spheres and planes)\n        - The lighting and shading\n        - The path tracing algorithm's stochastic sampling\n    \n        This high threshold validates that the implementation correctly\n        implements the path tracing algorithm with proper ray-sphere\n        intersection, material properties, and Monte Carlo sampling.\n        \"\"\"\n        import numpy as np\n        from PIL import Image\n    \n        # Load images using Pillow\n        original = Image.open(\"/app/image.ppm\")\n        reconstructed = Image.open(\"/jail/reconstructed.ppm\")\n    \n        # Convert to numpy arrays\n        original_array = np.array(original).flatten() / 255.0\n        reconstructed_array = np.array(reconstructed).flatten() / 255.0\n    \n        # Normalize vectors\n        orig_length = np.sqrt(np.sum(original_array * original_array))\n        recon_length = np.sqrt(np.sum(reconstructed_array * reconstructed_array))\n    \n        original_norm = original_array / orig_length\n        reconstructed_norm = reconstructed_array / recon_length\n    \n        # Compute cosine similarity\n        similarity = np.sum(original_norm * reconstructed_norm)\n    \n>       assert similarity >= 0.99, f\"Image similarity is only {similarity}, not >0.99\"\nE       AssertionError: Image similarity is only 0.9117827727198634, not >0.99\nE       assert np.float64(0.9117827727198634) >= 0.99\n\n/tests/test_outputs.py:115: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nFAILED ../tests/test_outputs.py::test_image_similarity - AssertionError: Imag...\n========================= 1 failed, 4 passed in 35.93s =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output",
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3.12\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 9ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 89ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nPASSED ../tests/test_outputs.py::test_image_similarity\n============================== 5 passed in 35.05s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "8": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "raw_tail": "ing==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ....F                                           [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_image_similarity _____________________________\n\n    def test_image_similarity():\n        \"\"\"Test that the generated image closely matches the reference.\n    \n        This test computes the normalized L2 similarity (cosine similarity)\n        between the original path-traced image and the reconstructed image.\n    \n        The test requires at least 98% similarity, which ensures the solution\n        accurately reproduces:\n        - The scene geometry (spheres and planes)\n        - The lighting and shading\n        - The path tracing algorithm's stochastic sampling\n    \n        This high threshold validates that the implementation correctly\n        implements the path tracing algorithm with proper ray-sphere\n        intersection, material properties, and Monte Carlo sampling.\n        \"\"\"\n        import numpy as np\n        from PIL import Image\n    \n        # Load images using Pillow\n        original = Image.open(\"/app/image.ppm\")\n        reconstructed = Image.open(\"/jail/reconstructed.ppm\")\n    \n        # Convert to numpy arrays\n        original_array = np.array(original).flatten() / 255.0\n        reconstructed_array = np.array(reconstructed).flatten() / 255.0\n    \n        # Normalize vectors\n        orig_length = np.sqrt(np.sum(original_array * original_array))\n        recon_length = np.sqrt(np.sum(reconstructed_array * reconstructed_array))\n    \n        original_norm = original_array / orig_length\n        reconstructed_norm = reconstructed_array / recon_length\n    \n        # Compute cosine similarity\n        similarity = np.sum(original_norm * reconstructed_norm)\n    \n>       assert similarity >= 0.99, f\"Image similarity is only {similarity}, not >0.99\"\nE       AssertionError: Image similarity is only 0.9117827727198634, not >0.99\nE       assert np.float64(0.9117827727198634) >= 0.99\n\n/tests/test_outputs.py:115: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nFAILED ../tests/test_outputs.py::test_image_similarity - AssertionError: Imag...\n========================= 1 failed, 4 passed in 32.21s =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output",
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3.12\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 183ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nPASSED ../tests/test_outputs.py::test_image_similarity\n============================== 5 passed in 28.16s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "9": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "raw_tail": "ing==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py ....F                                           [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_image_similarity _____________________________\n\n    def test_image_similarity():\n        \"\"\"Test that the generated image closely matches the reference.\n    \n        This test computes the normalized L2 similarity (cosine similarity)\n        between the original path-traced image and the reconstructed image.\n    \n        The test requires at least 98% similarity, which ensures the solution\n        accurately reproduces:\n        - The scene geometry (spheres and planes)\n        - The lighting and shading\n        - The path tracing algorithm's stochastic sampling\n    \n        This high threshold validates that the implementation correctly\n        implements the path tracing algorithm with proper ray-sphere\n        intersection, material properties, and Monte Carlo sampling.\n        \"\"\"\n        import numpy as np\n        from PIL import Image\n    \n        # Load images using Pillow\n        original = Image.open(\"/app/image.ppm\")\n        reconstructed = Image.open(\"/jail/reconstructed.ppm\")\n    \n        # Convert to numpy arrays\n        original_array = np.array(original).flatten() / 255.0\n        reconstructed_array = np.array(reconstructed).flatten() / 255.0\n    \n        # Normalize vectors\n        orig_length = np.sqrt(np.sum(original_array * original_array))\n        recon_length = np.sqrt(np.sum(reconstructed_array * reconstructed_array))\n    \n        original_norm = original_array / orig_length\n        reconstructed_norm = reconstructed_array / recon_length\n    \n        # Compute cosine similarity\n        similarity = np.sum(original_norm * reconstructed_norm)\n    \n>       assert similarity >= 0.99, f\"Image similarity is only {similarity}, not >0.99\"\nE       AssertionError: Image similarity is only 0.9117827727198634, not >0.99\nE       assert np.float64(0.9117827727198634) >= 0.99\n\n/tests/test_outputs.py:115: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nFAILED ../tests/test_outputs.py::test_image_similarity - AssertionError: Imag...\n========================= 1 failed, 4 passed in 20.41s =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_image_c_exists",
+     "../tests/test_outputs.py::test_image_compiles",
+     "../tests/test_outputs.py::test_no_deps",
+     "../tests/test_outputs.py::test_runs_and_produces_output",
+     "../tests/test_outputs.py::test_image_similarity"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3.12\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 2ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 61ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nwarning: `VIRTUAL_ENV=.tbench-testing` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_image_c_exists\nPASSED ../tests/test_outputs.py::test_image_compiles\nPASSED ../tests/test_outputs.py::test_no_deps\nPASSED ../tests/test_outputs.py::test_runs_and_produces_output\nPASSED ../tests/test_outputs.py::test_image_similarity\n============================== 5 passed in 23.55s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793197676.2044835
+}

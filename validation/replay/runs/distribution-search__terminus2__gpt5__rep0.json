@@ -1,0 +1,238 @@
+{
+ "cid": "distribution-search__terminus2__gpt5",
+ "task": "distribution-search",
+ "scaffold": "terminus2",
+ "model": "gpt5",
+ "m": 10,
+ "kmin": 10,
+ "kmax": 10,
+ "rep": 0,
+ "started": 1793044273.6692212,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.026,
+   "out_tail": " + abs(best[2]-TARGET)):\n>             best = (dist, KL_fwd, KL_back, K1, a, b, c)\n>     if best is None:\n>         raise RuntimeError(\"Failed to find a distribution meeting tolerance\")\n>\n>     dist, KL_fwd, KL_back, K1, a, b, c = best\n>     np.save('/app/dist.npy', dist)\n>     print(f\"Saved /app/dist.npy with N={N}, K1={K1}, a={a:.6e}, c={c:.6e}, b={b:.6e}\")\n>     print(f\"KL(P||U) = {KL_fwd:.6f}\")\n>     print(f\"KL(U||P) = {KL_back:.6f}\")\n>     print(f\"Sum = {dist.sum():.12f}, min={dist.min():.6e}, max={dist.max():.6e}\")\n>\n> if __name__ == '__main__':\n>     main()\n> PY\nroot@326ebd68ae88:/app#\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.88,
+   "out_tail": "root@326ebd68ae88:/app# python3 /app/solve_dist.py\nTraceback (most recent call last):\n  File \"/app/solve_dist.py\", line 221, in <module>\n    main()\n    ~~~~^^\n  File \"/app/solve_dist.py\", line 211, in main\n    raise RuntimeError(\"Failed to find a distribution meeting tolerance\")\nRuntimeError: Failed to find a distribution meeting tolerance\nroot@326ebd68ae88:/app#"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.601,
+   "out_tail": "root@326ebd68ae88:/app# ls -l /app\ntotal 8\n-rw-r--r-- 1 root root 6683 Oct 26 19:51 solve_dist.py\nroot@326ebd68ae88:/app#"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.064,
+   "out_tail": "ogN=math.log(N)\n> dist=np.load('/app/dist.npy')\n> S1=float(np.sum(dist*np.log(dist)))\n> S2=float(np.sum(np.log(dist)))\n> KL_fwd=S1+logN\n> KL_back=-logN-(1.0/N)*S2\n> print('Check:', KL_fwd, KL_back, 'sum', dist.sum())\n> PY\nTraceback (most recent call last):\n  File \"<stdin>\", line 4, in <module>\n  File \"/usr/local/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py\", line 459, in load\n    fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                              ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/app/dist.npy'\nroot@326ebd68ae88:/app#"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.025,
+   "out_tail": "             if res:\n>                 dist, a, b, c, KL_fwd, KL_back = res\n>                 np.save('/app/dist.npy', dist)\n>                 print(f\"Found solution: k={k}, m={m}\")\n>                 print(f\"a={a:.6e}, b={b:.6e}, c={c:.6e}\")\n>                 print(f\"KL(P||U)={KL_fwd:.6f}, KL(U||P)={KL_back:.6f}\")\n>                 print(f\"Sum={dist.sum():.12f}, min={dist.min():.6e}, max={dist.max():.6e}\")\n>                 return\n>     raise RuntimeError(\"Failed to find a distribution meeting tolerance in search range\")\n>\n> if __name__ == '__main__':\n>     main()\n> PY\nroot@326ebd68ae88:/app#\n"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.042,
+   "out_tail": ", b={b:.6e}, c={c:.6e}\")\n>                 print(f\"KL(P||U)={KL_fwd:.6f}, KL(U||P)={KL_back:.6f}\")\n>                 print(f\"Sum={dist.sum():.12f}, min={dist.min():.6e}, max={dist.max():.6e}\")\n>                 return\n>     raise RuntimeError(\"Failed to find a distribution meeting tolerance in search range\")\n>\n> if __name__ == '__main__':\n>     main()\n> PY\nroot@326ebd68ae88:/app# python3 /app/solve_dist.py\nFound solution: k=2, m=5\na=1.985245e-01, b=3.023846e-10, c=1.205835e-01\nKL(P||U)=10.000022, KL(U||P)=10.000012\nSum=1.000000000000, min=3.023811e-10, max=1.985222e-01\nroot@326ebd68ae88:/app#\n"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.053,
+   "out_tail": ".min():.6e}, max={dist.max():.6e}\")\n>                 return\n>     raise RuntimeError(\"Failed to find a distribution meeting tolerance in search range\")\n>\n> if __name__ == '__main__':\n>     main()\n> PY\nroot@326ebd68ae88:/app# python3 /app/solve_dist.py\nFound solution: k=2, m=5\na=1.985245e-01, b=3.023846e-10, c=1.205835e-01\nKL(P||U)=10.000022, KL(U||P)=10.000012\nSum=1.000000000000, min=3.023811e-10, max=1.985222e-01\nroot@326ebd68ae88:/app# ls -l /app\ntotal 1184\n-rw-r--r-- 1 root root 1200128 Oct 26 19:52 dist.npy\n-rw-r--r-- 1 root root    4977 Oct 26 19:52 solve_dist.py\nroot@326ebd68ae88:/app#\n"
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 10.6,
+   "out_sim": 0.02,
+   "out_tail": "> import numpy as np, math\n> N=150000\n> logN=math.log(N)\n> dist=np.load('/app/dist.npy')\n> S1=float(np.sum(dist*np.log(dist)))\n> S2=float(np.sum(np.log(dist)))\n> KL_fwd=S1+logN\n> KL_back=-logN-(1.0/N)*S2\n> print('Check KL_fwd=', KL_fwd, 'KL_back=', KL_back, 'sum=', dist.sum(), 'min=', dist.min(), 'max=', dist.max())\n> print('Within tol fwd?', abs(KL_fwd-10.0)<=1e-3, 'back?', abs(KL_back-10.0)<=1e-3)\n> PY\nCheck KL_fwd= 10.000022111549104 KL_back= 10.00001163860299 sum= 0.9999999999999993 min= 3.023810794093117e-10 max= 0.19852217102057615\nWithin tol fwd? True back? True\nroot@326ebd68ae88:/app#\n"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.042,
+   "out_tail": "))\n> KL_fwd=S1+logN\n> KL_back=-logN-(1.0/N)*S2\n> print('Check KL_fwd=', KL_fwd, 'KL_back=', KL_back, 'sum=', dist.sum(), 'min=', dist.min(), 'max=', dist.max())\n> print('Within tol fwd?', abs(KL_fwd-10.0)<=1e-3, 'back?', abs(KL_back-10.0)<=1e-3)\n> PY\nCheck KL_fwd= 10.000022111549104 KL_back= 10.00001163860299 sum= 0.9999999999999993 min= 3.023810794093117e-10 max= 0.19852217102057615\nWithin tol fwd? True back? True\nroot@326ebd68ae88:/app# ls -l /app\ntotal 1184\n-rw-r--r-- 1 root root 1200128 Oct 26 19:52 dist.npy\n-rw-r--r-- 1 root root    4977 Oct 26 19:52 solve_dist.py\nroot@326ebd68ae88:/app#\n"
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.031,
+   "out_tail": "> import numpy as np, math\n> N=150000\n> logN=math.log(N)\n> dist=np.load('/app/dist.npy')\n> S1=float(np.sum(dist*np.log(dist)))\n> S2=float(np.sum(np.log(dist)))\n> KL_fwd=S1+logN\n> KL_back=-logN-(1.0/N)*S2\n> print('Check KL_fwd=', KL_fwd, 'KL_back=', KL_back, 'sum=', dist.sum(), 'min=', dist.min(), 'max=', dist.max())\n> print('Within tol fwd?', abs(KL_fwd-10.0)<=1e-3, 'back?', abs(KL_back-10.0)<=1e-3)\n> PY\nCheck KL_fwd= 10.000022111549104 KL_back= 10.00001163860299 sum= 0.9999999999999993 min= 3.023810794093117e-10 max= 0.19852217102057615\nWithin tol fwd? True back? True\nroot@326ebd68ae88:/app#\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "raw_tail": "hion to the open function::\n    \n            with load('foo.npz') as data:\n                a = data['a']\n    \n          The underlying file descriptor is closed when exiting the 'with'\n          block.\n    \n        Examples\n        --------\n        >>> import numpy as np\n    \n        Store data to disk, and load it again:\n    \n        >>> np.save('/tmp/123', np.array([[1, 2, 3], [4, 5, 6]]))\n        >>> np.load('/tmp/123.npy')\n        array([[1, 2, 3],\n               [4, 5, 6]])\n    \n        Store compressed data to disk, and load it again:\n    \n        >>> a=np.array([[1, 2, 3], [4, 5, 6]])\n        >>> b=np.array([1, 2])\n        >>> np.savez('/tmp/123.npz', a=a, b=b)\n        >>> data = np.load('/tmp/123.npz')\n        >>> data['a']\n        array([[1, 2, 3],\n               [4, 5, 6]])\n        >>> data['b']\n        array([1, 2])\n        >>> data.close()\n    \n        Mem-map the stored array, and then access the second row\n        directly from disk:\n    \n        >>> X = np.load('/tmp/123.npy', mmap_mode='r')\n        >>> X[1, :]\n        memmap([4, 5, 6])\n    \n        \"\"\"\n        if encoding not in ('ASCII', 'latin1', 'bytes'):\n            # The 'encoding' value for pickle also affects what encoding\n            # the serialized binary data of NumPy arrays is loaded\n            # in. Pickle does not pass on the encoding information to\n            # NumPy. The unpickling code in numpy._core.multiarray is\n            # written to assume that unicode data appearing where binary\n            # should be is in 'latin1'. 'bytes' is also safe, as is 'ASCII'.\n            #\n            # Other encoding values can corrupt binary data, and we\n            # purposefully disallow them. For the same reason, the errors=\n            # argument is not exposed, as values other than 'strict'\n            # result can similarly silently corrupt numerical data.\n            raise ValueError(\"encoding must be 'ASCII', 'latin1', or 'bytes'\")\n    \n        pickle_kwargs = {'encoding': encoding, 'fix_imports': fix_imports}\n    \n        with contextlib.ExitStack() as stack:\n            if hasattr(file, 'read'):\n                fid = file\n                own_fid = False\n            else:\n>               fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE               FileNotFoundError: [Errno 2] No such file or directory: '/app/dist.npy'\n\n.tbench-testing/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:454: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_distribution_file_exists - Failed: Dist...\nFAILED ../tests/test_outputs.py::test_distribution_shape - FileNotFoundError:...\nFAILED ../tests/test_outputs.py::test_distribution_validity - FileNotFoundErr...\nFAILED ../tests/test_outputs.py::test_kl_divergences - FileNotFoundError: [Er...\n============================== 4 failed in 0.88s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_dist_file_exists_and_loads",
+       "../subtests/test_sub.py::test_must_vocab_size_150000",
+       "../subtests/test_sub.py::test_must_valid_probability_distribution",
+       "../subtests/test_sub.py::test_must_forward_kl_is_10",
+       "../subtests/test_sub.py::test_must_backward_kl_is_10"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists"
+      ]
+     }
+    },
+    "sub_raw_tail": "exists():\n        # instruction: \"Create a Python script that implements the following\" -- official tests only inspect dist.npy\n        scripts = [p for p in Path(\"/app\").rglob(\"*.py\") if \".tbench-testing\" not in p.parts and \"tests\" not in p.parts]\n>       assert any(\"dist.npy\" in p.read_text(errors=\"ignore\") for p in scripts), \"no /app/*.py script refers to dist.npy\"\nE       AssertionError: no /app/*.py script refers to dist.npy\nE       assert False\nE        +  where False = any(<generator object test_untested_python_script_that_produces_dist_exists.<locals>.<genexpr> at 0x7c2338fe75a0>)\n\n/subtests/test_sub.py:51: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nSKIPPED [1] ../subtests/test_sub.py:39: no output yet\nFAILED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads - Assert...\nFAILED ../subtests/test_sub.py::test_must_vocab_size_150000 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_must_valid_probability_distribution - Fa...\nFAILED ../subtests/test_sub.py::test_must_forward_kl_is_10 - Failed: /app/dis...\nFAILED ../subtests/test_sub.py::test_must_backward_kl_is_10 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n==================== 6 failed, 1 passed, 1 skipped in 0.61s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 135ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 715ms\nInstalled 6 packages in 1.06s\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.68s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.42s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "10": {
+   "tests": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 264ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 709ms\nInstalled 6 packages in 9.87s\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.48s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.45s ===============================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 158ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 586ms\nInstalled 6 packages in 13.37s\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.61s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.46s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793044439.0866044
+}

@@ -1,0 +1,49 @@
+{
+  "case_id": "chess-best-move__miniswe__gemini",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "dependency_installation_omission",
+  "contributing_failure_1_layer": null,
+  "contributing_failure_1_category": null,
+  "contributing_failure_1_subtype": null,
+  "root_cause_label": "False premise that required tools cannot be installed; agent only checked for pre-installed binaries",
+  "one_sentence_failure_summary": "The agent exhaustively checked for pre-installed image-analysis and chess-engine binaries but never attempted to install missing tools via apt-get or pip, ultimately writing a failure message instead of solving the task.",
+  "m": 13,
+  "t_err": 2,
+  "t_err_evidence": "Step 2: Agent runs `apropos` to search for tools as its first strategy — establishing a pattern of only probing for pre-installed utilities, never considering `apt-get install` or `pip install`. The false premise that unavailable tools cannot be obtained is baked in from this point.",
+  "t_commit": 9,
+  "t_commit_evidence": "Step 9: After checking convert, gocr, tesseract, stockfish, and gnuchess — all not found — the agent has exhausted every tool it will search for without a single installation attempt. No path to success remains given the agent's actual subsequent behavior (strings probe, then surrender).",
+  "t_surface": 4,
+  "t_surface_evidence": "Step 4: `convert: not found` is the first explicit observable failure signal that required tools are absent from the environment.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent adopted the unverified assumption that if a binary is not already installed it cannot be used, leading it to treat every 'not found' as a permanent blocker. The reference solution uses `apt-get` or `pip` to install Stockfish and image-processing libraries — a straightforward approach the agent never considered.",
+  "forewarning_present": true,
+  "forewarning_first_step": 4,
+  "forewarning_types": [
+    "command_error"
+  ],
+  "forewarning_evidence": "Steps 4-9 all return 'not found' errors for convert, gocr, tesseract, stockfish, and gnuchess — a clear accumulating signal that the tool-discovery-only strategy is failing, yet the agent never pivots to installation.",
+  "awareness": "aware_abandoned",
+  "first_awareness_step": 12,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 9, "E"],
+    [10, 11, "R"],
+    [12, 13, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

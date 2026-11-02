@@ -1,0 +1,34 @@
+{
+  "case_id": "ilp-solver__miniswe__kimi",
+  "schema_version": "v2",
+  "m": 6,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 2, "W"],
+    [3, 3, "X"],
+    [4, 4, "V"],
+    [5, 5, "V"],
+    [6, 6, "C"]
+  ],
+  "num_error_events": 0,
+  "first_error_step": null,
+  "first_error_evidence": null,
+  "num_recoveries": 0,
+  "max_detour_length": 0,
+  "near_miss": true,
+  "near_miss_description": "The Year 1 budget constraint was incorrectly formulated in step 2: non-deferred B's year-1 cash flow (which is income, not cost) was treated as a cost (+100) rather than income (-100), meaning the feasible set was slightly different from the correct ILP. The mismatch did not alter the optimal solution because the globally best combination (A+C, NPV=299) is not affected by this constraint difference.",
+  "near_miss_evidence": "Step 2 LLM analysis flags: 'the Year 1 budget constraint is incorrectly formulated. For non-deferred B, the Year 1 cash flow is income (+100), which should reduce budget usage, not increase it as modeled with +100*(invest_B - defer_B).' The final answer A=y, B=n, C=y with NPV=299 is still correct because B is excluded by the Year 0 constraint (A+B costs 400 > 300 budget), making the Year 1 constraint error inconsequential.",
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 4,
+  "verification_evidence": "Step 4 reads /app/ilp_output.txt and confirms 'Invest A: y, Invest B: n, Defer B: n, Invest C: y, Maximized NPV: 299.00'. Step 5 writes and runs a manual enumeration script that cross-checks budget feasibility and NPV for all main candidate combinations.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "direct",
+  "one_sentence_strategy_summary": "The agent immediately modeled the investment problem as a binary ILP using PuLP, executed it to obtain the optimal solution (invest A and C, NPV=299), then verified the result both by reading the output file and by a manual enumeration script before claiming completion.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": [
+    "near_miss"
+  ]
+}

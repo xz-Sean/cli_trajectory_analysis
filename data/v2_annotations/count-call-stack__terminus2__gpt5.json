@@ -1,0 +1,53 @@
+{
+  "case_id": "count-call-stack__terminus2__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_understanding",
+  "primary_failure_subtype": "count_semantics_misinterpretation",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "verification",
+  "contributing_failure_1_subtype": "missing_log_format_inspection",
+  "root_cause_label": "Incorrect Metric Calculation",
+  "one_sentence_failure_summary": "The agent wrote parsing scripts without ever previewing the log file format, and then persistently misinterpreted the numeric block headers as occurrence counts to sum rather than as block delimiters to count, causing the ANALYZED_COUNT to be 646 (block count) instead of 3158871 (sum of occurrence counts).",
+  "m": 14,
+  "t_err": 8,
+  "t_err_evidence": "At step 8 the agent writes and runs a Python parser using blank-line block splitting heuristics without having ever previewed /app/log.stack (steps 5-7 grepped for 'Stack'/'Frame' keywords with no output returned), producing only 3 trace blocks instead of 646.",
+  "t_commit": 13,
+  "t_commit_evidence": "At step 13 the agent runs its final corrected script that correctly identifies digit-only lines as block delimiters but still sums the numeric header values for TOTAL_TRACES while placing block count (646) in ANALYZED_COUNT; after this step only a read verification (step 14) follows with no further fix.",
+  "t_surface": 10,
+  "t_surface_evidence": "Step 10 displays output.txt showing 'Found 3 stack traces / Number of unique call sites: 3 / Total stack traces analyzed: 3', which is obviously wrong given the file has 26,715 lines.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "premature_action",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent spent steps 1-7 on redundant directory listings and keyword greps that returned no useful format information (steps 5-7 showed '(command not found in terminal output)'), then at step 8 committed to writing a full parsing solution based solely on assumed log format (blank-line separated blocks) without ever reading even the first few lines of /app/log.stack.",
+  "forewarning_present": true,
+  "forewarning_first_step": 5,
+  "forewarning_types": [
+    "empty_or_unexpected_output",
+    "repeated_command"
+  ],
+  "forewarning_evidence": "Steps 5, 6, and 7 all returned '(command not found in terminal output)' for grep/head commands intended to inspect log format, giving zero information about the actual file structure; steps 1 and 2 were identical redundant directory listings.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 11,
+  "num_recovery_attempts": 2,
+  "tail_dominant_behavior": "new_wrong_direction",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 10,
+  "action_segments": [
+    [1, 7, "E"],
+    [8, 8, "W"],
+    [9, 10, "V"],
+    [11, 11, "W"],
+    [12, 12, "V"],
+    [13, 13, "W"],
+    [14, 14, "V"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_commit"
+  ]
+}

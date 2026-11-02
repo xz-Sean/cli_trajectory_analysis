@@ -1,0 +1,41 @@
+{
+ "task": "incompatible-python-fasttext",
+ "pristine": {
+  "passed": 2,
+  "failed": 1,
+  "total": 3,
+  "passed_names": [
+   "../tests/test_outputs.py::test_correct_output",
+   "../tests/test_outputs.py::test_site_packages_not_overly_changed"
+  ],
+  "failed_names": [
+   "../tests/test_outputs.py::test_predict_raises_no_error"
+  ],
+  "raw_tail": "termine the returned labels.\n    \n        This function assumes to be given\n        a single line of text. We split words on whitespace (space,\n        newline, tab, vertical tab) and the control characters carriage\n        return, formfeed and the null character.\n    \n        If the model is not supervised, this function will throw a ValueError.\n    \n        If given a list of strings, it will return a list of results as usually\n        received for a single line of text.\n        \"\"\"\n    \n        def check(entry):\n            if entry.find(\"\\n\") != -1:\n                raise ValueError(\"predict processes one line at a time (remove '\\\\n')\")\n            entry += \"\\n\"\n            return entry\n    \n        if type(text) == list:\n            text = [check(entry) for entry in text]\n            all_labels, all_probs = self.f.multilinePredict(\n                text, k, threshold, on_unicode_error\n            )\n    \n            return all_labels, all_probs\n        else:\n            text = check(text)\n            predictions = self.f.predict(text, k, threshold, on_unicode_error)\n            if predictions:\n                probs, labels = zip(*predictions)\n            else:\n                probs, labels = ([], ())\n    \n>           return labels, np.array(probs, copy=False)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE           ValueError: Unable to avoid copy while creating an array as requested.\nE           If using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nE           For more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword.\n\n/usr/local/lib/python3.13/site-packages/fasttext/FastText.py:239: ValueError\n\nDuring handling of the above exception, another exception occurred:\n\n    def test_predict_raises_no_error():\n        \"\"\"Test the inference of the fasttext model on the test set.\"\"\"\n        try:\n            model.predict(\"This is a test sequence\")\n        except Exception as e:\n>           raise AssertionError(f\"Model inference failed: {e}\")\nE           AssertionError: Model inference failed: Unable to avoid copy while creating an array as requested.\nE           If using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nE           For more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword.\n\n/tests/test_outputs.py:18: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_correct_output\nPASSED ../tests/test_outputs.py::test_site_packages_not_overly_changed\nFAILED ../tests/test_outputs.py::test_predict_raises_no_error - AssertionErro...\n========================= 1 failed, 2 passed in 1.26s ==========================\n",
+  "sub": {
+   "must": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_model_predict_single_works"
+    ]
+   },
+   "mustnot": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "^^^^^^^^^^^^^^^\nE         ValueError: Unable to avoid copy while creating an array as requested.\nE         If using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nE         For more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword.\nE         \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['/usr/local/bin/python3', '-c', \"import fasttext; fasttext.load_model('/app/model.bin').predict...more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword.\\n').returncode\n\n/subtests/test_sub.py:22: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_fasttext_imports_in_system_python\nPASSED ../subtests/test_sub.py::test_must_model_predict_batch_correct\nPASSED ../subtests/test_sub.py::test_mustnot_model_bin_modified\nPASSED ../subtests/test_sub.py::test_mustnot_site_packages_cache_removed\nPASSED ../subtests/test_sub.py::test_mustnot_site_packages_bloated\nPASSED ../subtests/test_sub.py::test_untested_default_python3_on_path_is_system_interpreter_with_fasttext\nFAILED ../subtests/test_sub.py::test_must_model_predict_single_works - Assert...\n========================= 1 failed, 6 passed in 3.07s ==========================\n",
+  "oracle_rc": null
+ },
+ "oracle": null
+}

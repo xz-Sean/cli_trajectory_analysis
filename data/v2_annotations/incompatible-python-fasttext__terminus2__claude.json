@@ -1,0 +1,36 @@
+{
+  "case_id": "incompatible-python-fasttext__terminus2__claude",
+  "schema_version": "v2",
+  "m": 26,
+  "action_segments": [
+    [1, 7, "E"],
+    [8, 12, "X"],
+    [13, 15, "E"],
+    [16, 17, "W"],
+    [18, 18, "V"],
+    [19, 26, "V"]
+  ],
+  "num_error_events": 3,
+  "first_error_step": 1,
+  "first_error_evidence": "Step 1: AttributeError when accessing fasttext.__version__; step 3: pager exit attempt failed; step 9: bash history expansion error on exclamation mark",
+  "num_recoveries": 3,
+  "max_detour_length": 8,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 18,
+  "verification_evidence": "Step 18: agent ran sed to inspect the patched FastText.py and confirmed the line now reads np.asarray(probs), verifying the patch was applied correctly",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent explored the fasttext installation, incorrectly diagnosed NumPy incompatibility without observing any actual error, but happened to identify and patch the real deprecated-API line (np.array(probs, copy=False) -> np.asarray(probs)) in FastText.py that was indeed incompatible with NumPy 2.x, ultimately producing a valid fix.",
+  "confidence": "medium",
+  "long_traj": false,
+  "uncertain_fields": [
+    "num_error_events",
+    "max_detour_length",
+    "first_relevant_verification_step"
+  ]
+}

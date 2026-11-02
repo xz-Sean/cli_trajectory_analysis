@@ -1,0 +1,1177 @@
+{
+ "cid": "heterogeneous-dates__terminus2__deepseek-v3.2",
+ "task": "heterogeneous-dates",
+ "scaffold": "terminus2",
+ "model": "deepseek-v3.2",
+ "m": 16,
+ "kmin": 4,
+ "kmax": 16,
+ "rep": 2,
+ "started": 1793050305.6347551,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.33,
+   "out_tail": "root@87b37790b97d:/app# ls -la\ntotal 16\ndrwxr-xr-x 1 root root 4096 Oct 26 17:24 .\ndrwxr-xr-x 1 root root 4096 Oct 26 21:31 ..\n-rw-r--r-- 1 root root  121 Oct 26 17:24 daily_temp_sf_high.csv\n-rw-r--r-- 1 root root  184 Oct 26 17:24 daily_temp_sf_low.csv\nroot@87b37790b97d:/app#\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.632,
+   "out_tail": "root@87b37790b97d:/app# head -5 /app/daily_temp_sf_high.csv\ndate,temperature\n2025-04-19,64\n2025-04-20,63\n2025-04-21,70\n2025-04-22,66\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.722,
+   "out_tail": "root@87b37790b97d:/app# head -5 /app/daily_temp_sf_low.csv\ndate,temperature\n04/19/2025 06:00:00,48\n04/20/2025 06:00:00,52\n04-23-2025 06:00:00,52\n04-22-2025 06:00:00,48\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.551,
+   "out_tail": "root@87b37790b97d:/app# wc -l /app/daily_temp_sf_high.csv /app/daily_temp_sf_low.csv\n  7 /app/daily_temp_sf_high.csv\n  7 /app/daily_temp_sf_low.csv\n 14 total\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 3.3,
+   "out_sim": 0.107,
+   "out_tail": "root@87b37790b97d:/app# cat /app/daily_temp_sf_high.csv\ndate,temperature\n2025-04-19,64\n2025-04-20,63\n2025-04-21,70\n2025-04-22,66\n2025-04-23,57\n2025-04-24,55\n2025-04-25,57root@87b37790b97d:/app#"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 3.3,
+   "out_sim": 0.34,
+   "out_tail": "2025-04-25,57root@87b37790b97d:/app# cat /app/daily_temp_sf_low.csv\ndate,temperature\n04/19/2025 06:00:00,48\n04/20/2025 06:00:00,52\n04-23-2025 06:00:00,52\n04-22-2025 06:00:00,48\n04-24-2025 06:00:00,52\n04-21-2025 06:00:00,48\n04-25-2025 06:00:00,52root@87b37790b97d:/app#"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 3.3,
+   "out_sim": 0.066,
+   "out_tail": "04-25-2025 06:00:00,52root@87b37790b97d:/app# paste -d, <(tail -n +2 /app/daily_temp_sf_high.csv) <(tail -n +2 /app/daily_temp_sf_low.csv) | head -10\n,04/19/2025 06:00:00,48\n,04/20/2025 06:00:00,52\n,04-23-2025 06:00:00,52\n,04-22-2025 06:00:00,48\n,04-24-2025 06:00:00,52\n,04-21-2025 06:00:00,48\n2025-04-25,57,04-25-2025 06:00:00,52\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 3.3,
+   "out_sim": 0.284,
+   "out_tail": "root@87b37790b97d:/app# tail -n +2 /app/daily_temp_sf_high.csv | cut -d, -f2\n64\n63\n70\n66\n57\n55\n57\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 3.3,
+   "out_sim": 0.286,
+   "out_tail": "root@87b37790b97d:/app# tail -n +2 /app/daily_temp_sf_low.csv | cut -d, -f2\n48\n52\n52\n48\n52\n48\n52\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 3.3,
+   "out_sim": 0.125,
+   "out_tail": "root@87b37790b97d:/app# paste <(tail -n +2 /app/daily_temp_sf_high.csv | cut -d, -f2) <(tail -n +2 /app/daily_temp_sf_low.csv | cut -d, -f2) | head -10\n64      48\n63      52\n70      52\n66      48\n57      52\n55      48\n57      52\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 11,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.109,
+   "out_tail": "root@87b37790b97d:/app# paste <(tail -n +2 /app/daily_temp_sf_high.csv | cut -d, -f2) <(tail -n +2 /app/daily_temp_sf_low.csv | cut -d, -f2) | awk '{ diff = $1 - $2; sum += diff; n++ } END { if (n>0) printf \"%.2f\\n\", sum\n/n }'\n11.43\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 12,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.104,
+   "out_tail": "root@87b37790b97d:/app# paste <(tail -n +2 /app/daily_temp_sf_high.csv | cut -d, -f2) <(tail -n +2 /app/daily_temp_sf_low.csv | cut -d, -f2) | awk '{ diff = $1 - $2; sum += diff; n++ } END { if (n>0) printf \"%.2f\\n\", sum\n/n }' > /app/avg_temp.txt\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 13,
+   "type": "bash",
+   "secs": 3.3,
+   "out_sim": 0.125,
+   "out_tail": "root@87b37790b97d:/app# cat /app/avg_temp.txt\n11.43\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 14,
+   "type": "bash",
+   "secs": 3.3,
+   "out_sim": 0.345,
+   "out_tail": "root@87b37790b97d:/app# wc -l /app/avg_temp.txt\n1 /app/avg_temp.txt\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 15,
+   "type": "bash",
+   "secs": 3.3,
+   "out_sim": 0.438,
+   "out_tail": "root@87b37790b97d:/app# od -c /app/avg_temp.txt\n0000000   1   1   .   4   3  \\n\n0000006\nroot@87b37790b97d:/app#"
+  },
+  {
+   "k": 16,
+   "type": "bash",
+   "secs": 3.3,
+   "out_sim": 0.22,
+   "out_tail": "root@87b37790b97d:/app# echo -n \"Result: \" && cat /app/avg_temp.txt\nResult: 11.43\nroot@87b37790b97d:/app#"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n>       agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:25: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.13/pathlib/_local.py:546: in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/usr/local/lib/python3.13/pathlib/_abc.py:632: in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_avg_temp_file_exists - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_avg_temp_file_format - FileNotFoundErro...\nFAILED ../tests/test_outputs.py::test_avg_temp_value - FileNotFoundError: [Er...\n============================== 3 failed in 0.04s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_avg_temp_file_exists",
+       "../subtests/test_sub.py::test_must_contains_a_number",
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_file_contains_only_the_number"
+      ]
+     }
+    },
+    "sub_raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nFAILED ../subtests/test_sub.py::test_must_avg_temp_file_exists - AssertionErr...\nFAILED ../subtests/test_sub.py::test_must_contains_a_number - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nFAILED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n========================= 4 failed, 1 passed in 0.05s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 374ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.02s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "4": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n>       agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:25: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.13/pathlib/_local.py:546: in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/usr/local/lib/python3.13/pathlib/_abc.py:632: in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_avg_temp_file_exists - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_avg_temp_file_format - FileNotFoundErro...\nFAILED ../tests/test_outputs.py::test_avg_temp_value - FileNotFoundError: [Er...\n============================== 3 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_avg_temp_file_exists",
+       "../subtests/test_sub.py::test_must_contains_a_number",
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_file_contains_only_the_number"
+      ]
+     }
+    },
+    "sub_raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nFAILED ../subtests/test_sub.py::test_must_avg_temp_file_exists - AssertionErr...\nFAILED ../subtests/test_sub.py::test_must_contains_a_number - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nFAILED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n========================= 4 failed, 1 passed in 0.04s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 222ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n>       agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:25: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.13/pathlib/_local.py:546: in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/usr/local/lib/python3.13/pathlib/_abc.py:632: in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_avg_temp_file_exists - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_avg_temp_file_format - FileNotFoundErro...\nFAILED ../tests/test_outputs.py::test_avg_temp_value - FileNotFoundError: [Er...\n============================== 3 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_avg_temp_file_exists",
+       "../subtests/test_sub.py::test_must_contains_a_number",
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_file_contains_only_the_number"
+      ]
+     }
+    },
+    "sub_raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nFAILED ../subtests/test_sub.py::test_must_avg_temp_file_exists - AssertionErr...\nFAILED ../subtests/test_sub.py::test_must_contains_a_number - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nFAILED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n========================= 4 failed, 1 passed in 0.05s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 249ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "6": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n>       agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:25: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.13/pathlib/_local.py:546: in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/usr/local/lib/python3.13/pathlib/_abc.py:632: in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_avg_temp_file_exists - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_avg_temp_file_format - FileNotFoundErro...\nFAILED ../tests/test_outputs.py::test_avg_temp_value - FileNotFoundError: [Er...\n============================== 3 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_avg_temp_file_exists",
+       "../subtests/test_sub.py::test_must_contains_a_number",
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_file_contains_only_the_number"
+      ]
+     }
+    },
+    "sub_raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nFAILED ../subtests/test_sub.py::test_must_avg_temp_file_exists - AssertionErr...\nFAILED ../subtests/test_sub.py::test_must_contains_a_number - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nFAILED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n========================= 4 failed, 1 passed in 0.05s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 239ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "7": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n>       agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:25: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.13/pathlib/_local.py:546: in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/usr/local/lib/python3.13/pathlib/_abc.py:632: in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_avg_temp_file_exists - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_avg_temp_file_format - FileNotFoundErro...\nFAILED ../tests/test_outputs.py::test_avg_temp_value - FileNotFoundError: [Er...\n============================== 3 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_avg_temp_file_exists",
+       "../subtests/test_sub.py::test_must_contains_a_number",
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_file_contains_only_the_number"
+      ]
+     }
+    },
+    "sub_raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nFAILED ../subtests/test_sub.py::test_must_avg_temp_file_exists - AssertionErr...\nFAILED ../subtests/test_sub.py::test_must_contains_a_number - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nFAILED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n========================= 4 failed, 1 passed in 0.04s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 232ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "8": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n>       agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:25: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.13/pathlib/_local.py:546: in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/usr/local/lib/python3.13/pathlib/_abc.py:632: in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_avg_temp_file_exists - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_avg_temp_file_format - FileNotFoundErro...\nFAILED ../tests/test_outputs.py::test_avg_temp_value - FileNotFoundError: [Er...\n============================== 3 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_avg_temp_file_exists",
+       "../subtests/test_sub.py::test_must_contains_a_number",
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_file_contains_only_the_number"
+      ]
+     }
+    },
+    "sub_raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nFAILED ../subtests/test_sub.py::test_must_avg_temp_file_exists - AssertionErr...\nFAILED ../subtests/test_sub.py::test_must_contains_a_number - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nFAILED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n========================= 4 failed, 1 passed in 0.05s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 257ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "9": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n>       agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:25: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.13/pathlib/_local.py:546: in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/usr/local/lib/python3.13/pathlib/_abc.py:632: in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_avg_temp_file_exists - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_avg_temp_file_format - FileNotFoundErro...\nFAILED ../tests/test_outputs.py::test_avg_temp_value - FileNotFoundError: [Er...\n============================== 3 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_avg_temp_file_exists",
+       "../subtests/test_sub.py::test_must_contains_a_number",
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_file_contains_only_the_number"
+      ]
+     }
+    },
+    "sub_raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nFAILED ../subtests/test_sub.py::test_must_avg_temp_file_exists - AssertionErr...\nFAILED ../subtests/test_sub.py::test_must_contains_a_number - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nFAILED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n========================= 4 failed, 1 passed in 0.04s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 231ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "10": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n>       agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:25: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.13/pathlib/_local.py:546: in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/usr/local/lib/python3.13/pathlib/_abc.py:632: in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_avg_temp_file_exists - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_avg_temp_file_format - FileNotFoundErro...\nFAILED ../tests/test_outputs.py::test_avg_temp_value - FileNotFoundError: [Er...\n============================== 3 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_avg_temp_file_exists",
+       "../subtests/test_sub.py::test_must_contains_a_number",
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_file_contains_only_the_number"
+      ]
+     }
+    },
+    "sub_raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nFAILED ../subtests/test_sub.py::test_must_avg_temp_file_exists - AssertionErr...\nFAILED ../subtests/test_sub.py::test_must_contains_a_number - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nFAILED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n========================= 4 failed, 1 passed in 0.04s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 289ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "11": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n>       agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:25: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.13/pathlib/_local.py:546: in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/usr/local/lib/python3.13/pathlib/_abc.py:632: in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_avg_temp_file_exists - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_avg_temp_file_format - FileNotFoundErro...\nFAILED ../tests/test_outputs.py::test_avg_temp_value - FileNotFoundError: [Er...\n============================== 3 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_avg_temp_file_exists",
+       "../subtests/test_sub.py::test_must_contains_a_number",
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_file_contains_only_the_number"
+      ]
+     }
+    },
+    "sub_raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/avg_temp.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/avg_temp.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nFAILED ../subtests/test_sub.py::test_must_avg_temp_file_exists - AssertionErr...\nFAILED ../subtests/test_sub.py::test_must_contains_a_number - FileNotFoundErr...\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nFAILED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n========================= 4 failed, 1 passed in 0.05s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 256ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "12": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 243ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ..F                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n        agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n>       assert round(GROUND_TRUTH, 3) == round(agent_answer, 3), (\n            f\"Expected {round(GROUND_TRUTH, 3)} but got {round(agent_answer, 3)}\"\n        )\nE       AssertionError: Expected 11.429 but got 11.43\nE       assert 11.429 == 11.43\nE        +  where 11.429 = round(11.428571428571429, 3)\nE        +  and   11.43 = round(11.43, 3)\n\n/tests/test_outputs.py:26: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nFAILED ../tests/test_outputs.py::test_avg_temp_value - AssertionError: Expect...\n========================= 1 failed, 2 passed in 0.01s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ms\n\n../subtests/test_sub.py ..F..                                            [100%]\n\n=================================== FAILURES ===================================\n________________ test_must_value_is_average_high_low_difference ________________\n\n    def test_must_value_is_average_high_low_difference():\n>       assert abs(float(OUT.read_text().strip()) - TRUTH) < 5e-4\nE       AssertionError: assert 0.0014285714285708906 < 0.0005\nE        +  where 0.0014285714285708906 = abs((11.43 - 11.428571428571429))\nE        +    where 11.43 = float('11.43')\nE        +      where '11.43' = <built-in method strip of str object at 0xe40052a37420>()\nE        +        where <built-in method strip of str object at 0xe40052a37420> = '11.43\\n'.strip\nE        +          where '11.43\\n' = read_text()\nE        +            where read_text = PosixPath('/app/avg_temp.txt').read_text\n\n/subtests/test_sub.py:17: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\n========================= 1 failed, 4 passed in 0.02s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 246ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "13": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 247ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ..F                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n        agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n>       assert round(GROUND_TRUTH, 3) == round(agent_answer, 3), (\n            f\"Expected {round(GROUND_TRUTH, 3)} but got {round(agent_answer, 3)}\"\n        )\nE       AssertionError: Expected 11.429 but got 11.43\nE       assert 11.429 == 11.43\nE        +  where 11.429 = round(11.428571428571429, 3)\nE        +  and   11.43 = round(11.43, 3)\n\n/tests/test_outputs.py:26: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nFAILED ../tests/test_outputs.py::test_avg_temp_value - AssertionError: Expect...\n========================= 1 failed, 2 passed in 0.01s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ms\n\n../subtests/test_sub.py ..F..                                            [100%]\n\n=================================== FAILURES ===================================\n________________ test_must_value_is_average_high_low_difference ________________\n\n    def test_must_value_is_average_high_low_difference():\n>       assert abs(float(OUT.read_text().strip()) - TRUTH) < 5e-4\nE       AssertionError: assert 0.0014285714285708906 < 0.0005\nE        +  where 0.0014285714285708906 = abs((11.43 - 11.428571428571429))\nE        +    where 11.43 = float('11.43')\nE        +      where '11.43' = <built-in method strip of str object at 0xe87d50128f90>()\nE        +        where <built-in method strip of str object at 0xe87d50128f90> = '11.43\\n'.strip\nE        +          where '11.43\\n' = read_text()\nE        +            where read_text = PosixPath('/app/avg_temp.txt').read_text\n\n/subtests/test_sub.py:17: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\n========================= 1 failed, 4 passed in 0.01s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 226ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "14": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 240ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ..F                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n        agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n>       assert round(GROUND_TRUTH, 3) == round(agent_answer, 3), (\n            f\"Expected {round(GROUND_TRUTH, 3)} but got {round(agent_answer, 3)}\"\n        )\nE       AssertionError: Expected 11.429 but got 11.43\nE       assert 11.429 == 11.43\nE        +  where 11.429 = round(11.428571428571429, 3)\nE        +  and   11.43 = round(11.43, 3)\n\n/tests/test_outputs.py:26: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nFAILED ../tests/test_outputs.py::test_avg_temp_value - AssertionError: Expect...\n========================= 1 failed, 2 passed in 0.01s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ms\n\n../subtests/test_sub.py ..F..                                            [100%]\n\n=================================== FAILURES ===================================\n________________ test_must_value_is_average_high_low_difference ________________\n\n    def test_must_value_is_average_high_low_difference():\n>       assert abs(float(OUT.read_text().strip()) - TRUTH) < 5e-4\nE       AssertionError: assert 0.0014285714285708906 < 0.0005\nE        +  where 0.0014285714285708906 = abs((11.43 - 11.428571428571429))\nE        +    where 11.43 = float('11.43')\nE        +      where '11.43' = <built-in method strip of str object at 0xfa26c43471b0>()\nE        +        where <built-in method strip of str object at 0xfa26c43471b0> = '11.43\\n'.strip\nE        +          where '11.43\\n' = read_text()\nE        +            where read_text = PosixPath('/app/avg_temp.txt').read_text\n\n/subtests/test_sub.py:17: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\n========================= 1 failed, 4 passed in 0.01s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 257ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "15": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 210ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ..F                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n        agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n>       assert round(GROUND_TRUTH, 3) == round(agent_answer, 3), (\n            f\"Expected {round(GROUND_TRUTH, 3)} but got {round(agent_answer, 3)}\"\n        )\nE       AssertionError: Expected 11.429 but got 11.43\nE       assert 11.429 == 11.43\nE        +  where 11.429 = round(11.428571428571429, 3)\nE        +  and   11.43 = round(11.43, 3)\n\n/tests/test_outputs.py:26: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nFAILED ../tests/test_outputs.py::test_avg_temp_value - AssertionError: Expect...\n========================= 1 failed, 2 passed in 0.01s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ms\n\n../subtests/test_sub.py ..F..                                            [100%]\n\n=================================== FAILURES ===================================\n________________ test_must_value_is_average_high_low_difference ________________\n\n    def test_must_value_is_average_high_low_difference():\n>       assert abs(float(OUT.read_text().strip()) - TRUTH) < 5e-4\nE       AssertionError: assert 0.0014285714285708906 < 0.0005\nE        +  where 0.0014285714285708906 = abs((11.43 - 11.428571428571429))\nE        +    where 11.43 = float('11.43')\nE        +      where '11.43' = <built-in method strip of str object at 0xef61c5a24930>()\nE        +        where <built-in method strip of str object at 0xef61c5a24930> = '11.43\\n'.strip\nE        +          where '11.43\\n' = read_text()\nE        +            where read_text = PosixPath('/app/avg_temp.txt').read_text\n\n/subtests/test_sub.py:17: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\n========================= 1 failed, 4 passed in 0.01s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 224ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "16": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 248ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ..F                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________________ test_avg_temp_value ______________________________\n\n    def test_avg_temp_value():\n        # Compare ground truth answer to agent answer up to 3 decimals\n        GROUND_TRUTH = 11.428571428571429\n        agent_answer = float(Path(\"/app/avg_temp.txt\").read_text().strip())\n>       assert round(GROUND_TRUTH, 3) == round(agent_answer, 3), (\n            f\"Expected {round(GROUND_TRUTH, 3)} but got {round(agent_answer, 3)}\"\n        )\nE       AssertionError: Expected 11.429 but got 11.43\nE       assert 11.429 == 11.43\nE        +  where 11.429 = round(11.428571428571429, 3)\nE        +  and   11.43 = round(11.43, 3)\n\n/tests/test_outputs.py:26: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nFAILED ../tests/test_outputs.py::test_avg_temp_value - AssertionError: Expect...\n========================= 1 failed, 2 passed in 0.01s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_value_is_average_high_low_difference"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ms\n\n../subtests/test_sub.py ..F..                                            [100%]\n\n=================================== FAILURES ===================================\n________________ test_must_value_is_average_high_low_difference ________________\n\n    def test_must_value_is_average_high_low_difference():\n>       assert abs(float(OUT.read_text().strip()) - TRUTH) < 5e-4\nE       AssertionError: assert 0.0014285714285708906 < 0.0005\nE        +  where 0.0014285714285708906 = abs((11.43 - 11.428571428571429))\nE        +    where 11.43 = float('11.43')\nE        +      where '11.43' = <built-in method strip of str object at 0xfc7b388f0f60>()\nE        +        where <built-in method strip of str object at 0xfc7b388f0f60> = '11.43\\n'.strip\nE        +          where '11.43\\n' = read_text()\nE        +            where read_text = PosixPath('/app/avg_temp.txt').read_text\n\n/subtests/test_sub.py:17: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\nFAILED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\n========================= 1 failed, 4 passed in 0.01s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_avg_temp_file_exists",
+     "../tests/test_outputs.py::test_avg_temp_file_format",
+     "../tests/test_outputs.py::test_avg_temp_value"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 238ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_avg_temp_file_exists\nPASSED ../tests/test_outputs.py::test_avg_temp_file_format\nPASSED ../tests/test_outputs.py::test_avg_temp_value\n============================== 3 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_avg_temp_file_exists\nPASSED ../subtests/test_sub.py::test_must_contains_a_number\nPASSED ../subtests/test_sub.py::test_must_value_is_average_high_low_difference\nPASSED ../subtests/test_sub.py::test_mustnot_input_csvs_modified\nPASSED ../subtests/test_sub.py::test_untested_file_contains_only_the_number\n============================== 5 passed in 0.01s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793050409.979157
+}

@@ -1,0 +1,32 @@
+{
+  "case_id": "git-leak-recovery__miniswe__qwen",
+  "schema_version": "v2",
+  "m": 14,
+  "action_segments": [
+    [1, 6, "E"],
+    [7, 7, "X"],
+    [8, 9, "R"],
+    [10, 10, "X"],
+    [11, 13, "V"],
+    [14, 14, "C"]
+  ],
+  "num_error_events": 2,
+  "first_error_step": 8,
+  "first_error_evidence": "git filter-repo not found: 'git: filter-repo is not a git command'",
+  "num_recoveries": 1,
+  "max_detour_length": 2,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 11,
+  "verification_evidence": "Step 11: git log --all -S 'secret[lost_and_found_in_git]' returned empty output confirming secret no longer in reachable history; step 12-13 confirmed working tree clean and /app/secret.txt correct",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "Agent explored git history and reflog to find the leaked secret in a dangling commit, recovered it to /app/secret.txt, then took a 2-step detour through unavailable git filter-repo and unnecessary git filter-branch before correctly expiring reflogs and running gc to purge the dangling object.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

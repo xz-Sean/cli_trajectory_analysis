@@ -1,0 +1,583 @@
+{
+ "cid": "video-processing__miniswe__deepseek-v3.2",
+ "task": "video-processing",
+ "scaffold": "miniswe",
+ "model": "deepseek-v3.2",
+ "m": 10,
+ "kmin": 1,
+ "kmax": 6,
+ "rep": 0,
+ "started": 1793181729.9718604,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 2.5,
+   "out_sim": 0.942,
+   "out_tail": "Traceback (most recent call last):\n  File \"/app/jump_analyzer.py\", line 3, in <module>\n    import toml\nModuleNotFoundError: No module named 'toml'\n"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.952,
+   "out_tail": "dict_keys(['sys', 'builtins', '_frozen_importlib', '_imp', '_thread', '_warnings', '_weakref', '_io', 'marshal', 'posix', '_frozen_importlib_external', 'time', 'zipimport', '_codecs', 'codecs', 'encodings.aliases', 'encodings', 'encodings.utf_8', '_signal', '_abc', 'abc', 'io', '__main__', '_stat', 'stat', '_collections_abc', 'errno', 'genericpath', 'posixpath', 'os.path', 'os', '_sitebuiltins', 'site', 'linecache'])\n"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "_posixshmem', '_posixsubprocess', '_queue', '_random', '_sha1', '_sha2', '_sha3', '_socket', '_sqlite3', '_ssl', '_statistics', '_struct', '_testbuffer', '_testcapi', '_testclinic', '_testclinic_limited', '_testexternalinspection', '_testimportmultiple', '_testinternalcapi', '_testlimitedcapi', '_testmultiphase', '_testsinglephase', '_tkinter', '_uuid', '_xxtestfuzz', '_zoneinfo', 'array', 'binascii', 'cmath', 'fcntl', 'grp', 'math', 'mmap', 'pyexpat', 'readline', 'resource', 'select', 'syslog', 'termios', 'unicodedata', 'xxlimited', 'xxlimited_35', 'xxsubtype', 'zlib', 'cv2', 'numpy', 'pip']\n"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import tomlib; print('tomllib available')\n    ^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'tomlib'\n"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "[]\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 2,
+    "failed": 3,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "raw_tail": "19, 223),\n            landing_range=(231, 234),\n        )\n\n/tests/test_outputs.py:104: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nvideo_path = '/tests/test_video.mp4', takeoff_range = (219, 223)\nlanding_range = (231, 234)\n\n    def _test_jump_analyzer_video(\n        video_path,\n        takeoff_range=None,\n        landing_range=None,\n    ):\n        \"\"\"Helper for running jump_analyzer.py and validating outputs.\n    \n        Frame validation uses inclusive ranges only: provide (min_frame, max_frame)\n        for both takeoff_range and landing_range.\n        \"\"\"\n    \n        # Check that the video file exists before running the test\n        video_file = Path(video_path)\n        assert video_file.exists(), f\"Video file {video_path} does not exist\"\n    \n        # Run jump_analyzer.py on the specified video\n        result = subprocess.run(\n            [sys.executable, \"/app/jump_analyzer.py\", video_path],\n            capture_output=True,\n            text=True,\n            cwd=\"/app\",\n        )\n    \n>       assert result.returncode == 0, (\n            f\"jump_analyzer.py failed with error: {result.stderr}\"\n        )\nE       AssertionError: jump_analyzer.py failed with error: /app/.tbench-testing/bin/python3: can't open file '/app/jump_analyzer.py': [Errno 2] No such file or directory\nE         \nE       assert 2 == 0\nE        +  where 2 = CompletedProcess(args=['/app/.tbench-testing/bin/python3', '/app/jump_analyzer.py', '/tests/test_video.mp4'], returnco...err=\"/app/.tbench-testing/bin/python3: can't open file '/app/jump_analyzer.py': [Errno 2] No such file or directory\\n\").returncode\n\n/tests/test_outputs.py:35: AssertionError\n__________________________ test_jump_analyzer_imports __________________________\n\n    def test_jump_analyzer_imports():\n        \"\"\"Ensure only allowed third-party imports are used (cv2, numpy, toml).\n    \n        Standard library imports are allowed implicitly and ignored. We parse the\n        file's AST to robustly collect imported module names.\n        \"\"\"\n        analyzer_path = Path(\"/app/jump_analyzer.py\")\n>       assert analyzer_path.exists(), \"jump_analyzer.py does not exist\"\nE       AssertionError: jump_analyzer.py does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/jump_analyzer.py').exists\n\n/tests/test_outputs.py:118: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nFAILED ../tests/test_outputs.py::test_jump_analyzer_example_video - Assertion...\nFAILED ../tests/test_outputs.py::test_jump_analyzer_test_video - AssertionErr...\nFAILED ../tests/test_outputs.py::test_jump_analyzer_imports - AssertionError:...\n========================= 3 failed, 2 passed in 0.19s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 44ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 1 package in 2ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 1 package in 9ms\n + toml==0.10.2\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 2 packages in 11ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 2 packages in 263ms\n + numpy==2.5.4\n + opencv-contrib-python==5.0.0.93\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_example_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_test_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\n============================== 5 passed in 12.69s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "1": {
+   "tests": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video"
+    ],
+    "raw_tail": "eo_path = '/tests/test_video.mp4', takeoff_range = (219, 223)\nlanding_range = (231, 234)\n\n    def _test_jump_analyzer_video(\n        video_path,\n        takeoff_range=None,\n        landing_range=None,\n    ):\n        \"\"\"Helper for running jump_analyzer.py and validating outputs.\n    \n        Frame validation uses inclusive ranges only: provide (min_frame, max_frame)\n        for both takeoff_range and landing_range.\n        \"\"\"\n    \n        # Check that the video file exists before running the test\n        video_file = Path(video_path)\n        assert video_file.exists(), f\"Video file {video_path} does not exist\"\n    \n        # Run jump_analyzer.py on the specified video\n        result = subprocess.run(\n            [sys.executable, \"/app/jump_analyzer.py\", video_path],\n            capture_output=True,\n            text=True,\n            cwd=\"/app\",\n        )\n    \n        assert result.returncode == 0, (\n            f\"jump_analyzer.py failed with error: {result.stderr}\"\n        )\n    \n        # Check that output.toml was created\n        output_path = Path(\"/app/output.toml\")\n        assert output_path.exists(), \"output.toml was not created\"\n    \n        # Parse the TOML output\n        try:\n            data = toml.load(output_path)\n        except Exception as e:\n            assert False, f\"Failed to parse output.toml: {e}\"\n    \n        # Validate required fields exist\n        required_fields = [\n            \"jump_takeoff_frame_number\",\n            \"jump_land_frame_number\",\n        ]\n        for field in required_fields:\n            assert field in data, f\"Missing required field: {field}\"\n    \n        # Validate frame numbers using explicit inclusive ranges\n        actual_takeoff = data[\"jump_takeoff_frame_number\"]\n        actual_landing = data[\"jump_land_frame_number\"]\n    \n        assert takeoff_range is not None and landing_range is not None, (\n            \"Both takeoff_range and landing_range provided as inclusive (min, max) tuples\"\n        )\n    \n        takeoff_min, takeoff_max = takeoff_range\n        landing_min, landing_max = landing_range\n    \n>       assert takeoff_min <= actual_takeoff <= takeoff_max, (\n            f\"Takeoff frame {actual_takeoff} not within inclusive range \"\n            f\"[{takeoff_min}, {takeoff_max}]\"\n        )\nE       AssertionError: Takeoff frame 1 not within inclusive range [219, 223]\nE       assert 219 <= 1\n\n/tests/test_outputs.py:68: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\nFAILED ../tests/test_outputs.py::test_jump_analyzer_example_video - Assertion...\nFAILED ../tests/test_outputs.py::test_jump_analyzer_test_video - AssertionErr...\n========================= 2 failed, 3 passed in 2.26s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 34ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 1 package in 1ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 1 package in 160ms\n + toml==0.10.2\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 2 packages in 8ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 2 packages in 545ms\n + numpy==2.5.4\n + opencv-contrib-python==5.0.0.93\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_example_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_test_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\n============================== 5 passed in 10.53s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "2": {
+   "tests": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video"
+    ],
+    "raw_tail": "eo_path = '/tests/test_video.mp4', takeoff_range = (219, 223)\nlanding_range = (231, 234)\n\n    def _test_jump_analyzer_video(\n        video_path,\n        takeoff_range=None,\n        landing_range=None,\n    ):\n        \"\"\"Helper for running jump_analyzer.py and validating outputs.\n    \n        Frame validation uses inclusive ranges only: provide (min_frame, max_frame)\n        for both takeoff_range and landing_range.\n        \"\"\"\n    \n        # Check that the video file exists before running the test\n        video_file = Path(video_path)\n        assert video_file.exists(), f\"Video file {video_path} does not exist\"\n    \n        # Run jump_analyzer.py on the specified video\n        result = subprocess.run(\n            [sys.executable, \"/app/jump_analyzer.py\", video_path],\n            capture_output=True,\n            text=True,\n            cwd=\"/app\",\n        )\n    \n        assert result.returncode == 0, (\n            f\"jump_analyzer.py failed with error: {result.stderr}\"\n        )\n    \n        # Check that output.toml was created\n        output_path = Path(\"/app/output.toml\")\n        assert output_path.exists(), \"output.toml was not created\"\n    \n        # Parse the TOML output\n        try:\n            data = toml.load(output_path)\n        except Exception as e:\n            assert False, f\"Failed to parse output.toml: {e}\"\n    \n        # Validate required fields exist\n        required_fields = [\n            \"jump_takeoff_frame_number\",\n            \"jump_land_frame_number\",\n        ]\n        for field in required_fields:\n            assert field in data, f\"Missing required field: {field}\"\n    \n        # Validate frame numbers using explicit inclusive ranges\n        actual_takeoff = data[\"jump_takeoff_frame_number\"]\n        actual_landing = data[\"jump_land_frame_number\"]\n    \n        assert takeoff_range is not None and landing_range is not None, (\n            \"Both takeoff_range and landing_range provided as inclusive (min, max) tuples\"\n        )\n    \n        takeoff_min, takeoff_max = takeoff_range\n        landing_min, landing_max = landing_range\n    \n>       assert takeoff_min <= actual_takeoff <= takeoff_max, (\n            f\"Takeoff frame {actual_takeoff} not within inclusive range \"\n            f\"[{takeoff_min}, {takeoff_max}]\"\n        )\nE       AssertionError: Takeoff frame 1 not within inclusive range [219, 223]\nE       assert 219 <= 1\n\n/tests/test_outputs.py:68: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\nFAILED ../tests/test_outputs.py::test_jump_analyzer_example_video - Assertion...\nFAILED ../tests/test_outputs.py::test_jump_analyzer_test_video - AssertionErr...\n========================= 2 failed, 3 passed in 2.68s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 208ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 1 package in 2ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 1 package in 4ms\n + toml==0.10.2\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 2 packages in 8ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 2 packages in 328ms\n + numpy==2.5.4\n + opencv-contrib-python==5.0.0.93\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_example_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_test_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\n============================== 5 passed in 9.46s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "3": {
+   "tests": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video"
+    ],
+    "raw_tail": "eo_path = '/tests/test_video.mp4', takeoff_range = (219, 223)\nlanding_range = (231, 234)\n\n    def _test_jump_analyzer_video(\n        video_path,\n        takeoff_range=None,\n        landing_range=None,\n    ):\n        \"\"\"Helper for running jump_analyzer.py and validating outputs.\n    \n        Frame validation uses inclusive ranges only: provide (min_frame, max_frame)\n        for both takeoff_range and landing_range.\n        \"\"\"\n    \n        # Check that the video file exists before running the test\n        video_file = Path(video_path)\n        assert video_file.exists(), f\"Video file {video_path} does not exist\"\n    \n        # Run jump_analyzer.py on the specified video\n        result = subprocess.run(\n            [sys.executable, \"/app/jump_analyzer.py\", video_path],\n            capture_output=True,\n            text=True,\n            cwd=\"/app\",\n        )\n    \n        assert result.returncode == 0, (\n            f\"jump_analyzer.py failed with error: {result.stderr}\"\n        )\n    \n        # Check that output.toml was created\n        output_path = Path(\"/app/output.toml\")\n        assert output_path.exists(), \"output.toml was not created\"\n    \n        # Parse the TOML output\n        try:\n            data = toml.load(output_path)\n        except Exception as e:\n            assert False, f\"Failed to parse output.toml: {e}\"\n    \n        # Validate required fields exist\n        required_fields = [\n            \"jump_takeoff_frame_number\",\n            \"jump_land_frame_number\",\n        ]\n        for field in required_fields:\n            assert field in data, f\"Missing required field: {field}\"\n    \n        # Validate frame numbers using explicit inclusive ranges\n        actual_takeoff = data[\"jump_takeoff_frame_number\"]\n        actual_landing = data[\"jump_land_frame_number\"]\n    \n        assert takeoff_range is not None and landing_range is not None, (\n            \"Both takeoff_range and landing_range provided as inclusive (min, max) tuples\"\n        )\n    \n        takeoff_min, takeoff_max = takeoff_range\n        landing_min, landing_max = landing_range\n    \n>       assert takeoff_min <= actual_takeoff <= takeoff_max, (\n            f\"Takeoff frame {actual_takeoff} not within inclusive range \"\n            f\"[{takeoff_min}, {takeoff_max}]\"\n        )\nE       AssertionError: Takeoff frame 1 not within inclusive range [219, 223]\nE       assert 219 <= 1\n\n/tests/test_outputs.py:68: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\nFAILED ../tests/test_outputs.py::test_jump_analyzer_example_video - Assertion...\nFAILED ../tests/test_outputs.py::test_jump_analyzer_test_video - AssertionErr...\n========================= 2 failed, 3 passed in 1.92s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 25ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 132ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 1 package in 1ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 1 package in 4ms\n + toml==0.10.2\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 2 packages in 8ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 2 packages in 461ms\n + numpy==2.5.4\n + opencv-contrib-python==5.0.0.93\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_example_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_test_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\n============================== 5 passed in 9.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "4": {
+   "tests": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video"
+    ],
+    "raw_tail": "eo_path = '/tests/test_video.mp4', takeoff_range = (219, 223)\nlanding_range = (231, 234)\n\n    def _test_jump_analyzer_video(\n        video_path,\n        takeoff_range=None,\n        landing_range=None,\n    ):\n        \"\"\"Helper for running jump_analyzer.py and validating outputs.\n    \n        Frame validation uses inclusive ranges only: provide (min_frame, max_frame)\n        for both takeoff_range and landing_range.\n        \"\"\"\n    \n        # Check that the video file exists before running the test\n        video_file = Path(video_path)\n        assert video_file.exists(), f\"Video file {video_path} does not exist\"\n    \n        # Run jump_analyzer.py on the specified video\n        result = subprocess.run(\n            [sys.executable, \"/app/jump_analyzer.py\", video_path],\n            capture_output=True,\n            text=True,\n            cwd=\"/app\",\n        )\n    \n        assert result.returncode == 0, (\n            f\"jump_analyzer.py failed with error: {result.stderr}\"\n        )\n    \n        # Check that output.toml was created\n        output_path = Path(\"/app/output.toml\")\n        assert output_path.exists(), \"output.toml was not created\"\n    \n        # Parse the TOML output\n        try:\n            data = toml.load(output_path)\n        except Exception as e:\n            assert False, f\"Failed to parse output.toml: {e}\"\n    \n        # Validate required fields exist\n        required_fields = [\n            \"jump_takeoff_frame_number\",\n            \"jump_land_frame_number\",\n        ]\n        for field in required_fields:\n            assert field in data, f\"Missing required field: {field}\"\n    \n        # Validate frame numbers using explicit inclusive ranges\n        actual_takeoff = data[\"jump_takeoff_frame_number\"]\n        actual_landing = data[\"jump_land_frame_number\"]\n    \n        assert takeoff_range is not None and landing_range is not None, (\n            \"Both takeoff_range and landing_range provided as inclusive (min, max) tuples\"\n        )\n    \n        takeoff_min, takeoff_max = takeoff_range\n        landing_min, landing_max = landing_range\n    \n>       assert takeoff_min <= actual_takeoff <= takeoff_max, (\n            f\"Takeoff frame {actual_takeoff} not within inclusive range \"\n            f\"[{takeoff_min}, {takeoff_max}]\"\n        )\nE       AssertionError: Takeoff frame 1 not within inclusive range [219, 223]\nE       assert 219 <= 1\n\n/tests/test_outputs.py:68: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\nFAILED ../tests/test_outputs.py::test_jump_analyzer_example_video - Assertion...\nFAILED ../tests/test_outputs.py::test_jump_analyzer_test_video - AssertionErr...\n========================= 2 failed, 3 passed in 4.97s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 29ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 1 package in 1ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 1 package in 4ms\n + toml==0.10.2\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 2 packages in 7ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 2 packages in 318ms\n + numpy==2.5.4\n + opencv-contrib-python==5.0.0.93\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_example_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_test_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\n============================== 5 passed in 9.38s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video"
+    ],
+    "raw_tail": "eo_path = '/tests/test_video.mp4', takeoff_range = (219, 223)\nlanding_range = (231, 234)\n\n    def _test_jump_analyzer_video(\n        video_path,\n        takeoff_range=None,\n        landing_range=None,\n    ):\n        \"\"\"Helper for running jump_analyzer.py and validating outputs.\n    \n        Frame validation uses inclusive ranges only: provide (min_frame, max_frame)\n        for both takeoff_range and landing_range.\n        \"\"\"\n    \n        # Check that the video file exists before running the test\n        video_file = Path(video_path)\n        assert video_file.exists(), f\"Video file {video_path} does not exist\"\n    \n        # Run jump_analyzer.py on the specified video\n        result = subprocess.run(\n            [sys.executable, \"/app/jump_analyzer.py\", video_path],\n            capture_output=True,\n            text=True,\n            cwd=\"/app\",\n        )\n    \n        assert result.returncode == 0, (\n            f\"jump_analyzer.py failed with error: {result.stderr}\"\n        )\n    \n        # Check that output.toml was created\n        output_path = Path(\"/app/output.toml\")\n        assert output_path.exists(), \"output.toml was not created\"\n    \n        # Parse the TOML output\n        try:\n            data = toml.load(output_path)\n        except Exception as e:\n            assert False, f\"Failed to parse output.toml: {e}\"\n    \n        # Validate required fields exist\n        required_fields = [\n            \"jump_takeoff_frame_number\",\n            \"jump_land_frame_number\",\n        ]\n        for field in required_fields:\n            assert field in data, f\"Missing required field: {field}\"\n    \n        # Validate frame numbers using explicit inclusive ranges\n        actual_takeoff = data[\"jump_takeoff_frame_number\"]\n        actual_landing = data[\"jump_land_frame_number\"]\n    \n        assert takeoff_range is not None and landing_range is not None, (\n            \"Both takeoff_range and landing_range provided as inclusive (min, max) tuples\"\n        )\n    \n        takeoff_min, takeoff_max = takeoff_range\n        landing_min, landing_max = landing_range\n    \n>       assert takeoff_min <= actual_takeoff <= takeoff_max, (\n            f\"Takeoff frame {actual_takeoff} not within inclusive range \"\n            f\"[{takeoff_min}, {takeoff_max}]\"\n        )\nE       AssertionError: Takeoff frame 1 not within inclusive range [219, 223]\nE       assert 219 <= 1\n\n/tests/test_outputs.py:68: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\nFAILED ../tests/test_outputs.py::test_jump_analyzer_example_video - Assertion...\nFAILED ../tests/test_outputs.py::test_jump_analyzer_test_video - AssertionErr...\n========================= 2 failed, 3 passed in 1.43s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 34ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 1 package in 1ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 1 package in 4ms\n + toml==0.10.2\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 2 packages in 8ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 2 packages in 447ms\n + numpy==2.5.4\n + opencv-contrib-python==5.0.0.93\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_example_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_test_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\n============================== 5 passed in 9.61s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "6": {
+   "tests": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video"
+    ],
+    "raw_tail": "eo_path = '/tests/test_video.mp4', takeoff_range = (219, 223)\nlanding_range = (231, 234)\n\n    def _test_jump_analyzer_video(\n        video_path,\n        takeoff_range=None,\n        landing_range=None,\n    ):\n        \"\"\"Helper for running jump_analyzer.py and validating outputs.\n    \n        Frame validation uses inclusive ranges only: provide (min_frame, max_frame)\n        for both takeoff_range and landing_range.\n        \"\"\"\n    \n        # Check that the video file exists before running the test\n        video_file = Path(video_path)\n        assert video_file.exists(), f\"Video file {video_path} does not exist\"\n    \n        # Run jump_analyzer.py on the specified video\n        result = subprocess.run(\n            [sys.executable, \"/app/jump_analyzer.py\", video_path],\n            capture_output=True,\n            text=True,\n            cwd=\"/app\",\n        )\n    \n        assert result.returncode == 0, (\n            f\"jump_analyzer.py failed with error: {result.stderr}\"\n        )\n    \n        # Check that output.toml was created\n        output_path = Path(\"/app/output.toml\")\n        assert output_path.exists(), \"output.toml was not created\"\n    \n        # Parse the TOML output\n        try:\n            data = toml.load(output_path)\n        except Exception as e:\n            assert False, f\"Failed to parse output.toml: {e}\"\n    \n        # Validate required fields exist\n        required_fields = [\n            \"jump_takeoff_frame_number\",\n            \"jump_land_frame_number\",\n        ]\n        for field in required_fields:\n            assert field in data, f\"Missing required field: {field}\"\n    \n        # Validate frame numbers using explicit inclusive ranges\n        actual_takeoff = data[\"jump_takeoff_frame_number\"]\n        actual_landing = data[\"jump_land_frame_number\"]\n    \n        assert takeoff_range is not None and landing_range is not None, (\n            \"Both takeoff_range and landing_range provided as inclusive (min, max) tuples\"\n        )\n    \n        takeoff_min, takeoff_max = takeoff_range\n        landing_min, landing_max = landing_range\n    \n>       assert takeoff_min <= actual_takeoff <= takeoff_max, (\n            f\"Takeoff frame {actual_takeoff} not within inclusive range \"\n            f\"[{takeoff_min}, {takeoff_max}]\"\n        )\nE       AssertionError: Takeoff frame 1 not within inclusive range [219, 223]\nE       assert 219 <= 1\n\n/tests/test_outputs.py:68: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\nFAILED ../tests/test_outputs.py::test_jump_analyzer_example_video - Assertion...\nFAILED ../tests/test_outputs.py::test_jump_analyzer_test_video - AssertionErr...\n========================= 2 failed, 3 passed in 1.95s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_example_video_exists",
+     "../tests/test_outputs.py::test_test_video_exists",
+     "../tests/test_outputs.py::test_jump_analyzer_example_video",
+     "../tests/test_outputs.py::test_jump_analyzer_test_video",
+     "../tests/test_outputs.py::test_jump_analyzer_imports"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 136ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 1 package in 1ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 1 package in 5ms\n + toml==0.10.2\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 2 packages in 12ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 2 packages in 213ms\n + numpy==2.5.4\n + opencv-contrib-python==5.0.0.93\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_example_video_exists\nPASSED ../tests/test_outputs.py::test_test_video_exists\nPASSED ../tests/test_outputs.py::test_jump_analyzer_example_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_test_video\nPASSED ../tests/test_outputs.py::test_jump_analyzer_imports\n============================== 5 passed in 9.00s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793182562.4098475
+}

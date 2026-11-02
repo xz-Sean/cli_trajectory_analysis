@@ -1,0 +1,104 @@
+{
+ "task": "puzzle-solver",
+ "pristine": {
+  "passed": 2,
+  "failed": 13,
+  "total": 15,
+  "passed_names": [
+   "../tests/test_outputs.py::test_parity_check",
+   "../tests/test_outputs.py::test_input_files_integrity"
+  ],
+  "failed_names": [
+   "../tests/test_outputs.py::test_path_tsv_exists",
+   "../tests/test_outputs.py::test_path_tsv_format",
+   "../tests/test_outputs.py::test_move_legality",
+   "../tests/test_outputs.py::test_path_reaches_goal",
+   "../tests/test_outputs.py::test_path_starts_from_start",
+   "../tests/test_outputs.py::test_path_sequence_connected",
+   "../tests/test_outputs.py::test_layers_csv_exists",
+   "../tests/test_outputs.py::test_layer_files_exist",
+   "../tests/test_outputs.py::test_optimal_path_length",
+   "../tests/test_outputs.py::test_layer_counts_sum_correctly",
+   "../tests/test_outputs.py::test_deterministic_canonical_representation",
+   "../tests/test_outputs.py::test_states_unique_across_layers",
+   "../tests/test_outputs.py::test_layers_are_exact_bfs_frontiers"
+  ],
+  "raw_tail": "not found\nE       assert False\nE        +  where False = <function exists at 0xe0611f27b600>('/app/layers.csv')\nE        +    where <function exists at 0xe0611f27b600> = <module 'posixpath' (frozen)>.exists\nE        +      where <module 'posixpath' (frozen)> = os.path\n\n/tests/test_outputs.py:454: AssertionError\n_____________________ test_layers_are_exact_bfs_frontiers ______________________\n\n    def test_layers_are_exact_bfs_frontiers():\n        \"\"\"Compute BFS up to max depth in layers.csv\n        and require each L{d}.txt equals the exact frontier at depth d.\"\"\"\n        def read_grid(filename):\n            assert os.path.exists(filename), f\"{filename} not found\"\n            tiles = []\n            with open(filename, 'r') as f:\n                for line in f:\n                    tiles.extend([int(x) for x in line.split()])\n            return tiles\n        def key(tiles):\n            return ''.join(f'{t:02d}' for t in tiles)\n        MOVES = [(-1,0),(1,0),(0,-1),(0,1)]\n        def neighbors(tiles):\n            b = tiles.index(0)\n            r, c = divmod(b, 3)\n            for dr, dc in MOVES:\n                nr, nc = r+dr, c+dc\n                if 0 <= nr < 3 and 0 <= nc < 3:\n                    np = nr*3 + nc\n                    nt = tiles[:]\n                    nt[b], nt[np] = nt[np], nt[b]\n                    yield nt\n    \n        # collect depths from CSV\n>       with open('/app/layers.csv', 'r') as f:\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/layers.csv'\n\n/tests/test_outputs.py:542: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_parity_check\nPASSED ../tests/test_outputs.py::test_input_files_integrity\nFAILED ../tests/test_outputs.py::test_path_tsv_exists - AssertionError: path....\nFAILED ../tests/test_outputs.py::test_path_tsv_format - AssertionError: path....\nFAILED ../tests/test_outputs.py::test_move_legality - AssertionError: path.ts...\nFAILED ../tests/test_outputs.py::test_path_reaches_goal - AssertionError: pat...\nFAILED ../tests/test_outputs.py::test_path_starts_from_start - AssertionError...\nFAILED ../tests/test_outputs.py::test_path_sequence_connected - AssertionErro...\nFAILED ../tests/test_outputs.py::test_layers_csv_exists - AssertionError: lay...\nFAILED ../tests/test_outputs.py::test_layer_files_exist - AssertionError: lay...\nFAILED ../tests/test_outputs.py::test_optimal_path_length - AssertionError: p...\nFAILED ../tests/test_outputs.py::test_layer_counts_sum_correctly - AssertionE...\nFAILED ../tests/test_outputs.py::test_deterministic_canonical_representation\nFAILED ../tests/test_outputs.py::test_states_unique_across_layers - Assertion...\nFAILED ../tests/test_outputs.py::test_layers_are_exact_bfs_frontiers - FileNo...\n========================= 13 failed, 2 passed in 0.11s =========================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 5,
+    "total": 5,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_path_tsv_format",
+     "../subtests/test_sub.py::test_must_path_moves_legal_and_reach_goal",
+     "../subtests/test_sub.py::test_must_path_is_optimal",
+     "../subtests/test_sub.py::test_must_layers_csv_matches_bfs_frontier_sizes",
+     "../subtests/test_sub.py::test_must_layer_files_with_matching_sha"
+    ]
+   },
+   "mustnot": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_untested_header_column_order"
+    ]
+   }
+  },
+  "sub_raw_tail": "-1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/path.tsv'\n\n/usr/lib/python3.12/pathlib.py:1015: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_files_modified\nSKIPPED [1] ../subtests/test_sub.py:66: no output yet\nFAILED ../subtests/test_sub.py::test_must_path_tsv_format - Failed: path.tsv ...\nFAILED ../subtests/test_sub.py::test_must_path_moves_legal_and_reach_goal - F...\nFAILED ../subtests/test_sub.py::test_must_path_is_optimal - Failed: path.tsv ...\nFAILED ../subtests/test_sub.py::test_must_layers_csv_matches_bfs_frontier_sizes\nFAILED ../subtests/test_sub.py::test_must_layer_files_with_matching_sha - Fai...\nFAILED ../subtests/test_sub.py::test_untested_header_column_order - FileNotFo...\n==================== 6 failed, 1 passed, 1 skipped in 0.05s ====================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 15,
+  "failed": 0,
+  "total": 15,
+  "passed_names": [
+   "../tests/test_outputs.py::test_path_tsv_exists",
+   "../tests/test_outputs.py::test_path_tsv_format",
+   "../tests/test_outputs.py::test_move_legality",
+   "../tests/test_outputs.py::test_path_reaches_goal",
+   "../tests/test_outputs.py::test_path_starts_from_start",
+   "../tests/test_outputs.py::test_path_sequence_connected",
+   "../tests/test_outputs.py::test_layers_csv_exists",
+   "../tests/test_outputs.py::test_layer_files_exist",
+   "../tests/test_outputs.py::test_optimal_path_length",
+   "../tests/test_outputs.py::test_parity_check",
+   "../tests/test_outputs.py::test_layer_counts_sum_correctly",
+   "../tests/test_outputs.py::test_deterministic_canonical_representation",
+   "../tests/test_outputs.py::test_states_unique_across_layers",
+   "../tests/test_outputs.py::test_input_files_integrity",
+   "../tests/test_outputs.py::test_layers_are_exact_bfs_frontiers"
+  ],
+  "failed_names": [],
+  "raw_tail": "\nPreparing to unpack .../12-curl_8.5.0-2ubuntu10.16_arm64.deb ...\nUnpacking curl (8.5.0-2ubuntu10.16) ...\nSetting up libkeyutils1:arm64 (1.6.3-3build1) ...\nSetting up libpsl5t64:arm64 (0.21.2-1.1build1) ...\nSetting up libnghttp2-14:arm64 (1.59.0-1ubuntu0.4) ...\nSetting up krb5-locales (1.20.1-6ubuntu2.10) ...\nSetting up libkrb5support0:arm64 (1.20.1-6ubuntu2.10) ...\nSetting up librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2build7) ...\nSetting up libk5crypto3:arm64 (1.20.1-6ubuntu2.10) ...\nSetting up libkrb5-3:arm64 (1.20.1-6ubuntu2.10) ...\nSetting up publicsuffix (20231001.0357-0.1) ...\nSetting up libgssapi-krb5-2:arm64 (1.20.1-6ubuntu2.10) ...\nSetting up libssh-4:arm64 (0.10.6-2ubuntu0.5) ...\nSetting up libcurl4t64:arm64 (8.5.0-2ubuntu10.16) ...\nSetting up curl (8.5.0-2ubuntu10.16) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 6 packages in 175ms\nDownloading pygments (1.2MiB)\nDownloading numpy (13.6MiB)\n Downloading pygments\n Downloading numpy\nPrepared 6 packages in 1.18s\nInstalled 6 packages in 55ms\n + iniconfig==2.3.1\n + numpy==2.3.3\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 15 items\n\n../tests/test_outputs.py ...............                                 [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_path_tsv_exists\nPASSED ../tests/test_outputs.py::test_path_tsv_format\nPASSED ../tests/test_outputs.py::test_move_legality\nPASSED ../tests/test_outputs.py::test_path_reaches_goal\nPASSED ../tests/test_outputs.py::test_path_starts_from_start\nPASSED ../tests/test_outputs.py::test_path_sequence_connected\nPASSED ../tests/test_outputs.py::test_layers_csv_exists\nPASSED ../tests/test_outputs.py::test_layer_files_exist\nPASSED ../tests/test_outputs.py::test_optimal_path_length\nPASSED ../tests/test_outputs.py::test_parity_check\nPASSED ../tests/test_outputs.py::test_layer_counts_sum_correctly\nPASSED ../tests/test_outputs.py::test_deterministic_canonical_representation\nPASSED ../tests/test_outputs.py::test_states_unique_across_layers\nPASSED ../tests/test_outputs.py::test_input_files_integrity\nPASSED ../tests/test_outputs.py::test_layers_are_exact_bfs_frontiers\n============================== 15 passed in 1.21s ==============================\n",
+  "sub": {
+   "must": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_path_tsv_format\nPASSED ../subtests/test_sub.py::test_must_path_moves_legal_and_reach_goal\nPASSED ../subtests/test_sub.py::test_must_path_is_optimal\nPASSED ../subtests/test_sub.py::test_must_layers_csv_matches_bfs_frontier_sizes\nPASSED ../subtests/test_sub.py::test_must_layer_files_with_matching_sha\nPASSED ../subtests/test_sub.py::test_mustnot_input_files_modified\nPASSED ../subtests/test_sub.py::test_mustnot_total_states_exceed_9_factorial\nPASSED ../subtests/test_sub.py::test_untested_header_column_order\n============================== 8 passed in 0.06s ===============================\n",
+  "oracle_rc": 0
+ }
+}

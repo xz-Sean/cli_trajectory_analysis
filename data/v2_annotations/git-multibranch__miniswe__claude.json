@@ -1,0 +1,33 @@
+{
+  "case_id": "git-multibranch__miniswe__claude",
+  "schema_version": "v2",
+  "m": 17,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 3, "X"],
+    [4, 6, "W"],
+    [7, 8, "R"],
+    [9, 11, "X"],
+    [12, 16, "V"],
+    [17, 17, "C"]
+  ],
+  "num_error_events": 2,
+  "first_error_step": 4,
+  "first_error_evidence": "Step 4: 'sudo' command not found; the git repository initialization and web directories creation failed because sudo is unavailable in this container environment.",
+  "num_recoveries": 2,
+  "max_detour_length": 1,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 16,
+  "verification_evidence": "Step 16 ran a complete end-to-end test script: cloned the repo, pushed main and dev branches, triggered the post-receive hook deployments, then verified both HTTPS endpoints returned 'main branch content' and 'dev branch content' respectively.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent installed required packages, set up a git user and bare repository, wrote a post-receive deployment hook, generated a self-signed TLS certificate, configured Nginx for HTTPS on port 8443, then overcame two environment obstacles (sudo unavailable, no systemd) before verifying the full workflow with sshpass-based git operations.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

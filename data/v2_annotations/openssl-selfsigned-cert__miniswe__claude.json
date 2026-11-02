@@ -1,0 +1,33 @@
+{
+  "case_id": "openssl-selfsigned-cert__miniswe__claude",
+  "schema_version": "v2",
+  "m": 12,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 6, "X"],
+    [7, 7, "W"],
+    [8, 8, "V"],
+    [9, 9, "R"],
+    [10, 11, "V"],
+    [12, 12, "C"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 8,
+  "first_error_evidence": "Running check_cert.py fails with ModuleNotFoundError: No module named 'cryptography', indicating the agent wrote a script using a library not present in the environment.",
+  "num_recoveries": 1,
+  "max_detour_length": 3,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 10,
+  "verification_evidence": "Step 10 runs the updated check_cert.py and gets correct output: 'Certificate Common Name: dev-internal.company.local', 'Certificate Expiration Date: 2026-12-28', 'Certificate verification successful'. Step 11 further verifies all SSL files exist with correct permissions and that verification.txt has correct content.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent directly created the SSL directory, RSA key, self-signed certificate, and combined PEM file using openssl commands, then encountered a one-step detour when its Python verification script required the unavailable 'cryptography' library, which it recovered from by rewriting the script to use subprocess calls to openssl instead.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

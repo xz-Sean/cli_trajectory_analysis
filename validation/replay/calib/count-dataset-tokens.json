@@ -1,0 +1,69 @@
+{
+ "task": "count-dataset-tokens",
+ "pristine": {
+  "passed": 0,
+  "failed": 1,
+  "total": 1,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_command_output_content_example"
+  ],
+  "raw_tail": "libc-bin (2.36-9+deb12u9) ...\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 104ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 316ms\nInstalled 5 packages in 22ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n_____________________ test_command_output_content_example ______________________\n\n    def test_command_output_content_example():\n        # Directly check the integer token count in the expected output file\n        expected_output = \"79586\"\n>       actual_output = Path(\"/app/answer.txt\").read_text()\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:9: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/usr/local/lib/python3.13/pathlib/_local.py:546: in read_text\n    return PathBase.read_text(self, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/usr/local/lib/python3.13/pathlib/_abc.py:632: in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = PosixPath('/app/answer.txt'), mode = 'r', buffering = -1\nencoding = 'utf-8', errors = None, newline = None\n\n    def open(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed to by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/answer.txt'\n\n/usr/local/lib/python3.13/pathlib/_local.py:537: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_command_output_content_example - FileNo...\n============================== 1 failed in 0.12s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_answer_file_exists"
+    ]
+   },
+   "mustnot": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 4 items\n\n../subtests/test_sub.py Fsss                                             [100%]\n\n=================================== FAILURES ===================================\n_________________________ test_must_answer_file_exists _________________________\n\n    def test_must_answer_file_exists():\n>       assert ANS.is_file() and ANS.stat().st_size > 0\nE       AssertionError: assert (False)\nE        +  where False = is_file()\nE        +    where is_file = PosixPath('/app/answer.txt').is_file\n\n/subtests/test_sub.py:14: AssertionError\n=========================== short test summary info ============================\nSKIPPED [3] ../subtests/test_sub.py:9: no answer.txt yet\nFAILED ../subtests/test_sub.py::test_must_answer_file_exists - AssertionError...\n========================= 1 failed, 3 skipped in 0.03s =========================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 1,
+  "failed": 0,
+  "total": 1,
+  "passed_names": [
+   "../tests/test_outputs.py::test_command_output_content_example"
+  ],
+  "failed_names": [],
+  "raw_tail": "..\nSelecting previously unselected package libssh2-1:arm64.\nPreparing to unpack .../07-libssh2-1_1.10.0-3+deb12u1_arm64.deb ...\nUnpacking libssh2-1:arm64 (1.10.0-3+deb12u1) ...\nSelecting previously unselected package libcurl4:arm64.\nPreparing to unpack .../08-libcurl4_7.88.1-10+deb12u15_arm64.deb ...\nUnpacking libcurl4:arm64 (7.88.1-10+deb12u15) ...\nSelecting previously unselected package curl.\nPreparing to unpack .../09-curl_7.88.1-10+deb12u15_arm64.deb ...\nUnpacking curl (7.88.1-10+deb12u15) ...\nSelecting previously unselected package libldap-common.\nPreparing to unpack .../10-libldap-common_2.5.13+dfsg-5_all.deb ...\nUnpacking libldap-common (2.5.13+dfsg-5) ...\nSelecting previously unselected package libsasl2-modules:arm64.\nPreparing to unpack .../11-libsasl2-modules_2.1.28+dfsg-10_arm64.deb ...\nUnpacking libsasl2-modules:arm64 (2.1.28+dfsg-10) ...\nSelecting previously unselected package publicsuffix.\nPreparing to unpack .../12-publicsuffix_20230209.2326-1_all.deb ...\nUnpacking publicsuffix (20230209.2326-1) ...\nSetting up libpsl5:arm64 (0.21.2-1) ...\nSetting up libbrotli1:arm64 (1.0.9-2+deb12u1) ...\nSetting up libsasl2-modules:arm64 (2.1.28+dfsg-10) ...\nSetting up libnghttp2-14:arm64 (1.52.0-1+deb12u3) ...\nSetting up libldap-common (2.5.13+dfsg-5) ...\nSetting up libsasl2-modules-db:arm64 (2.1.28+dfsg-10) ...\nSetting up librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b2) ...\nSetting up libsasl2-2:arm64 (2.1.28+dfsg-10) ...\nSetting up libssh2-1:arm64 (1.10.0-3+deb12u1) ...\nSetting up publicsuffix (20230209.2326-1) ...\nSetting up libldap-2.5-0:arm64 (2.5.13+dfsg-5) ...\nSetting up libcurl4:arm64 (7.88.1-10+deb12u15) ...\nSetting up curl (7.88.1-10+deb12u15) ...\nProcessing triggers for libc-bin (2.36-9+deb12u9) ...\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 82ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 104ms\nInstalled 5 packages in 11ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_command_output_content_example\n============================== 1 passed in 0.02s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 4 items\n\n../subtests/test_sub.py ....                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_answer_file_exists\nPASSED ../subtests/test_sub.py::test_must_answer_contains_correct_count\nPASSED ../subtests/test_sub.py::test_mustnot_answer_without_tokenizer_on_disk\nPASSED ../subtests/test_sub.py::test_untested_answer_is_bare_integer\n============================== 4 passed in 0.12s ===============================\n",
+  "oracle_rc": 0
+ }
+}

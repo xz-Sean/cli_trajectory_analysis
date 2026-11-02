@@ -1,0 +1,790 @@
+{
+ "cid": "sqlite-db-truncate__terminus2__gpt5",
+ "task": "sqlite-db-truncate",
+ "scaffold": "terminus2",
+ "model": "gpt5",
+ "m": 33,
+ "kmin": 25,
+ "kmax": 31,
+ "rep": 1,
+ "started": 1793050031.93317,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 4.1,
+   "out_sim": 0.59,
+   "out_tail": "root@af0253fd7a03:/app# ls -l /app\ntotal 4\n-rw-r--r-- 1 root root 4096 Jul 22 14:11 trunc.db\nroot@af0253fd7a03:/app#\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.46,
+   "out_tail": "root@af0253fd7a03:/app# file /app/trunc.db\n-bash: file: command not found\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.346,
+   "out_tail": "root@af0253fd7a03:/app# du -h /app/trunc.db\n4.0K    /app/trunc.db\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.383,
+   "out_tail": "root@af0253fd7a03:/app# sqlite3 /app/trunc.db \".recover\" > /app/recovered.sql\n-bash: sqlite3: command not found\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.244,
+   "out_tail": "root@af0253fd7a03:/app# head -n 50 /app/recovered.sql\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 4.8,
+   "out_sim": 0.386,
+   "out_tail": "root@af0253fd7a03:/app# sqlite3 /app/recovered.db \".read /app/recovered.sql\"\n-bash: sqlite3: command not found\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.43,
+   "out_tail": "root@af0253fd7a03:/app# sqlite3 /app/recovered.db \".tables\"\n-bash: sqlite3: command not found\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.43,
+   "out_tail": "root@af0253fd7a03:/app# sqlite3 /app/recovered.db \".schema\"\n-bash: sqlite3: command not found\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.187,
+   "out_tail": "root@af0253fd7a03:/app# for t in $(sqlite3 /app/recovered.db \".tables\"); do echo \"-- $t\"; sqlite3 /app/recovered.db \"PRAGMA table_info('\"$t\"');\"; done\n-bash: sqlite3: command not found\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.161,
+   "out_tail": "root@af0253fd7a03:/app# sqlite3 -header -csv /app/recovered.db \"SELECT word as word, value as value FROM main WHERE 1=1 LIMIT 1;\" 2>/dev/null || true\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 11,
+   "type": "bash",
+   "secs": 7.7,
+   "out_sim": 0.102,
+   "out_tail": "root@af0253fd7a03:/app# candidate_table=$(sqlite3 /app/recovered.db \".tables\" | tr ' ' '\\n' | while read t; do cols=$(sqlite3 /app/recovered.db \"PRAGMA table_info('\"$t\"');\" | awk -F'|' '{print $2}' | tr '\\n' ' '); echo \"\n$t|$cols\"; done | awk -F'|' '{t=$1; cols=$2; if (cols ~ /\\bword\\b/ && cols ~ /\\bvalue\\b/) print t}' | head -n1); echo \"$candidate_table\"\n-bash: sqlite3: command not found\n\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 12,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.162,
+   "out_tail": "root@af0253fd7a03:/app# if [ -z \"$candidate_table\" ]; then echo \"No obvious table with word and value columns found. Attempting heuristic search...\"; fi\nNo obvious table with word and value columns found. Attempting heuristic search...\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 13,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.095,
+   "out_tail": "root@af0253fd7a03:/app# if [ -z \"$candidate_table\" ]; then sqlite3 /app/recovered.db \".tables\" | tr ' ' '\\n' | while read t; do sqlite3 -header -csv /app/recovered.db \"SELECT * FROM '\"$t\"' LIMIT 5;\" | head -n 1 | awk -v\nT=\"$t\" -F',' '{for (i=1;i<=NF;i++){if (tolower($i)==\"word\") wi=i; if (tolower($i)==\"value\") vi=i} if (wi && vi) print T\",\"wi\",\"vi\"}'; done > /app/wordvalue_table.txt; fi\n-bash: sqlite3: command not found\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 14,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.085,
+   "out_tail": "root@af0253fd7a03:/app# if [ -z \"$candidate_table\" ] && [ -s /app/wordvalue_table.txt ]; then candidate_table=$(cut -d',' -f1 /app/wordvalue_table.txt | head -n1); word_idx=$(cut -d',' -f2 /app/wordvalue_table.txt | head\n -n1); value_idx=$(cut -d',' -f3 /app/wordvalue_table.txt | head -n1); fi; echo \"Candidate:$candidate_table\"\nCandidate:\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 15,
+   "type": "bash",
+   "secs": 5.0,
+   "out_sim": 0.097,
+   "out_tail": "root@af0253fd7a03:/app# if [ -n \"$candidate_table\" ]; then sqlite3 -header -csv /app/recovered.db \"SELECT word as word, value as value FROM '\"$candidate_table\"';\" > /app/recovered.csv 2>/dev/null || true; fi\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 16,
+   "type": "bash",
+   "secs": 20.4,
+   "out_sim": 0.048,
+   "out_tail": "/app/recovered.csv ] && [ -s /app/wordvalue_table.txt ]; then t=$(cut -d',' -f1 /app/wordvalue_table.txt | head -n1); sqlite3 -header -csv /app/recovered.db \"SELECT * FROM '\"$t\"';\" > /ap\np/tmp_all.csv; header=$(head -n1 /app/tmp_all.csv); word_col=$(echo \"$header\" | awk -F',' '{for(i=1;i<=NF;i++) if (tolower($i)==\"word\") print i}'); value_col=$(echo \"$header\" | awk -F',' '{for(i=1;i<=NF;i++) if (tolower(\n$i)==\"value\") print i}'); awk -F',' -v wi=\"$word_col\" -v vi=\"$value_col\" 'NR==1{print \"word,value\"; next} {print $wi \",\" $vi}' /app/tmp_all.csv > /app/recovered.csv; fi\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 17,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.111,
+   "out_tail": "root@af0253fd7a03:/app# if [ ! -s /app/recovered.csv ]; then echo \"Could not automatically find word/value columns. Listing schemas for manual inspection:\"; sqlite3 /app/recovered.db \".schema\" | sed -n '1,200p'; fi\nCould not automatically find word/value columns. Listing schemas for manual inspection:\n-bash: sqlite3: command not found\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 18,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.063,
+   "out_tail": "        # try int, fall back to float\n>             if v.strip()=='' or v.strip().lower()=='null':\n>                 continue\n>             if '.' in v or 'e' in v.lower():\n>                 num = float(v)\n>                 if num.is_integer():\n>                     num = int(num)\n>             else:\n>                 num = int(v)\n>         except Exception:\n>             try:\n>                 num = float(v)\n>             except Exception:\n>                 continue\n>         rows.append({\"word\": w, \"value\": num})\n> print(json.dumps(rows))\n> PY\n> fi > /app/recover.json\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 19,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.07,
+   "out_tail": "root@af0253fd7a03:/app# if [ -s /app/recover.json ]; then echo \"Recovery complete. Preview:\"; head -n 1 /app/recover.json | cut -c1-500; else echo \"Failed to create /app/recover.json\"; fi\nFailed to create /app/recover.json\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 20,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.283,
+   "out_tail": "root@af0253fd7a03:/app# python3 --version\nPython 3.12.3\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 21,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.026,
+   "out_tail": "{\"word\": str(w), \"value\": num})\n>                     except Exception:\n>                         pass\n>                     if rows:\n>                         break\n>         except Exception:\n>             pass\n>     conn.close()\n>     mem.close()\n> except Exception:\n>     # Could not open DB; leave rows empty\n>     pass\n> # Ensure output file is created\n> try:\n>     out_path.write_text(json.dumps(rows))\n>     print(f\"Recovered {len(rows)} rows to {out_path}\")\n> except Exception as e:\n>     print(\"Failed to write output:\", e)\n> PY\nRecovered 0 rows to /app/recover.json\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 22,
+   "type": "bash",
+   "secs": 13.7,
+   "out_sim": 0.516,
+   "out_tail": "root@af0253fd7a03:/app# ls -l /app/recover.json\n-rw-r--r-- 1 root root 2 Oct 26 21:32 /app/recover.json\nroot@af0253fd7a03:/app#"
+  },
+  {
+   "k": 23,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.317,
+   "out_tail": "root@af0253fd7a03:/app# head -c 500 /app/recover.json\n[]root@af0253fd7a03:/app#"
+  },
+  {
+   "k": 24,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.028,
+   "out_tail": "rrence\n>     out_map = {}\n>     for r in recovered:\n>         out_map[r['word']] = r['value']\n>     rows = [{\"word\": k, \"value\": v} for k, v in out_map.items()]\n>     # Sort by word for determinism\n>     rows.sort(key=lambda x: x['word'])\n>     print(f\"Recovered pairs: {len(rows)}\")\n>     # Write output\n>     out.write_text(json.dumps(rows))\n>     print('Wrote', out)\n> except Exception as e:\n>     print('Fatal error:', e)\n>     Path('/app/recover.json').write_text('[]')\n> PY\nFailed to read sqlite_master: file is not a database\nRecovered pairs: 0\nWrote /app/recover.json\nroot@af0253fd7a03:/app#\n"
+  },
+  {
+   "k": 25,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.013,
+   "out_tail": "  out_map[r['word']] = r['value']\n>     rows = [{\"word\": k, \"value\": v} for k, v in out_map.items()]\n>     # Sort by word for determinism\n>     rows.sort(key=lambda x: x['word'])\n>     print(f\"Recovered pairs: {len(rows)}\")\n>     # Write output\n>     out.write_text(json.dumps(rows))\n>     print('Wrote', out)\n> except Exception as e:\n>     print('Fatal error:', e)\n>     Path('/app/recover.json').write_text('[]')\n> PY\nFailed to read sqlite_master: file is not a database\nRecovered pairs: 0\nWrote /app/recover.json\nroot@af0253fd7a03:/app# sed -n '1,200p' /app/recover.json\n[]root@af0253fd7a03:/app#\n"
+  },
+  {
+   "k": 26,
+   "type": "bash",
+   "secs": 4.1,
+   "out_sim": 0.034,
+   "out_tail": "ECASE):\n>     w = m.group(1)\n>     window = text[m.end(): m.end()+80]\n>     num_m = re.search(r'(-?\\d+(?:\\.\\d+)?)', window)\n>     if num_m:\n>         s = num_m.group(1)\n>         try:\n>             f = float(s)\n>             v = int(f) if f.is_integer() else f\n>             results[w] = v\n>         except Exception:\n>             continue\n> out = [{\"word\": k, \"value\": v} for k, v in results.items()]\n> out.sort(key=lambda x: x['word'])\n> Path('/app/recover.json').write_text(json.dumps(out))\n> print('Raw scan recovered', len(out), 'pairs')\n> PY\nRaw scan recovered 9 pairs\nroot@af0253fd7a03:/app#\n"
+  },
+  {
+   "k": 27,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.021,
+   "out_tail": "results.items()]\n> out.sort(key=lambda x: x['word'])\n> Path('/app/recover.json').write_text(json.dumps(out))\n> print('Raw scan recovered', len(out), 'pairs')\n> PY\nRaw scan recovered 9 pairs\nroot@af0253fd7a03:/app# sed -n '1,200p' /app/recover.json\n[{\"word\": \"testword01\", \"value\": 0}, {\"word\": \"testword02\", \"value\": 1}, {\"word\": \"testword03\", \"value\": 2}, {\"word\": \"testword04\", \"value\": 3}, {\"word\": \"testword052\", \"value\": 4}, {\"word\": \"testword06K\", \"value\": 52},\n{\"word\": \"testword07c\", \"value\": 6}, {\"word\": \"testword08\", \"value\": 7}, {\"word\": \"testword09\", \"value\": 8}]root@af0253fd7a03:/app#\n"
+  },
+  {
+   "k": 28,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.029,
+   "out_tail": "               best_dist = tag\n>         if chosen is None:\n>             continue\n>         try:\n>             valf = float(chosen)\n>             val = int(valf) if valf.is_integer() else valf\n>         except Exception:\n>             continue\n>         # Normalize word casing to original lower as found\n>         results[w] = val\n> # Convert to list, sort by word\n> out = [{\"word\": k, \"value\": v} for k, v in sorted(results.items(), key=lambda x: x[0])]\n> Path('/app/recover.json').write_text(json.dumps(out))\n> print(f'Recovered {len(out)} pairs')\n> PY\nRecovered 10 pairs\nroot@af0253fd7a03:/app#\n"
+  },
+  {
+   "k": 29,
+   "type": "bash",
+   "secs": 5.0,
+   "out_sim": 0.01,
+   "out_tail": "esults.items(), key=lambda x: x[0])]\n> Path('/app/recover.json').write_text(json.dumps(out))\n> print(f'Recovered {len(out)} pairs')\n> PY\nRecovered 10 pairs\nroot@af0253fd7a03:/app# sed -n '1,200p' /app/recover.json\n[{\"word\": \"testword00\", \"value\": 0}, {\"word\": \"testword01\", \"value\": 0}, {\"word\": \"testword02\", \"value\": 2}, {\"word\": \"testword03\", \"value\": 2}, {\"word\": \"testword04\", \"value\": 3}, {\"word\": \"testword05\", \"value\": 4}, {\"w\nord\": \"testword06\", \"value\": 52}, {\"word\": \"testword07\", \"value\": 6}, {\"word\": \"testword08\", \"value\": 7}, {\"word\": \"testword09\", \"value\": 8}]root@af0253fd7a03:/app#\n"
+  },
+  {
+   "k": 30,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.028,
+   "out_tail": "fore[-1][0]\n>         if chosen is None:\n>             continue\n>         # Normalize to int\n>         try:\n>             val = int(chosen)\n>         except Exception:\n>             try:\n>                 f = float(chosen)\n>                 val = int(f) if f.is_integer() else f\n>             except Exception:\n>                 continue\n>         results[w] = val\n> out = [{\"word\": k, \"value\": v} for k, v in sorted(results.items(), key=lambda kv: kv[0])]\n> Path('/app/recover.json').write_text(json.dumps(out))\n> print(f'Recovered {len(out)} pairs')\n> PY\nRecovered 10 pairs\nroot@af0253fd7a03:/app#\n"
+  },
+  {
+   "k": 31,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.018,
+   "out_tail": "sults.items(), key=lambda kv: kv[0])]\n> Path('/app/recover.json').write_text(json.dumps(out))\n> print(f'Recovered {len(out)} pairs')\n> PY\nRecovered 10 pairs\nroot@af0253fd7a03:/app# sed -n '1,200p' /app/recover.json\n[{\"word\": \"testword00\", \"value\": 1}, {\"word\": \"testword01\", \"value\": 0}, {\"word\": \"testword02\", \"value\": 3}, {\"word\": \"testword03\", \"value\": 2}, {\"word\": \"testword04\", \"value\": 2}, {\"word\": \"testword05\", \"value\": 2}, {\"w\nord\": \"testword06\", \"value\": 3}, {\"word\": \"testword07\", \"value\": 4}, {\"word\": \"testword08\", \"value\": 6}, {\"word\": \"testword09\", \"value\": 7}]root@af0253fd7a03:/app#\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 10.10s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_json_data ________________________________\n\n    def test_json_data():\n        # Reference the directory the agent operated in (the WORKDIR in the Docker env)\n>       data = json.load(open(\"/app/recover.json\"))\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/recover.json'\n\n/tests/test_outputs.py:22: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_json_data - FileNotFoundError: [Errno 2...\n============================== 1 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_recover_json_exists"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py Fss.ss                                           [100%]\n\n=================================== FAILURES ===================================\n________________________ test_must_recover_json_exists _________________________\n\n    def test_must_recover_json_exists():\n>       assert OUT.is_file() and OUT.stat().st_size > 0\nE       AssertionError: assert (False)\nE        +  where False = is_file()\nE        +    where is_file = PosixPath('/app/recover.json').is_file\n\n/subtests/test_sub.py:20: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nSKIPPED [4] ../subtests/test_sub.py:15: no recover.json yet\nFAILED ../subtests/test_sub.py::test_must_recover_json_exists - AssertionErro...\n==================== 1 failed, 1 passed, 4 skipped in 0.04s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 31.79s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_json_data\n============================== 1 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_must_recovers_most_rows\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_fabricated_rows\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\n============================== 6 passed in 0.03s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "25": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 56.64s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_json_data ________________________________\n\n    def test_json_data():\n        # Reference the directory the agent operated in (the WORKDIR in the Docker env)\n        data = json.load(open(\"/app/recover.json\"))\n    \n        soln_tuples = {(item[\"word\"], item[\"value\"]) for item in soln}\n        data_tuples = {(item[\"word\"], item[\"value\"]) for item in data}\n    \n        # Find intersection - each item matched at most once\n        matches = soln_tuples & data_tuples\n        score = len(matches)\n    \n>       assert score > 6, \"Did not load data correctly\"\nE       AssertionError: Did not load data correctly\nE       assert 0 > 6\n\n/tests/test_outputs.py:31: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_json_data - AssertionError: Did not loa...\n============================== 1 failed in 0.02s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects",
+       "../subtests/test_sub.py::test_must_recovers_most_rows"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "tance([], list)\n\n/subtests/test_sub.py:24: AssertionError\n_________________________ test_must_recovers_most_rows _________________________\n\n    def test_must_recovers_most_rows():\n        # mirrors the official bar: more than 6 of the 8 recoverable rows, matched on (word, value)\n        d = _load()\n        got = {(it.get(\"word\"), it.get(\"value\")) for it in d if isinstance(it, dict)}\n>       assert len(SOLN & got) > 6, sorted(SOLN - got)\nE       AssertionError: [('testword02', 10.0), ('testword03', 25.0), ('testword04', 42.0), ('testword05', 50.0), ('testword06', 75.0), ('testword07', 99.0), ...]\nE       assert 0 > 6\nE        +  where 0 = len(({('testword02', 10.0), ('testword03', 25.0), ('testword04', 42.0), ('testword05', 50.0), ('testword06', 75.0), ('testword07', 99.0), ...} & set()))\n\n/subtests/test_sub.py:33: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_fabricated_rows\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\nFAILED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nFAILED ../subtests/test_sub.py::test_must_recovers_most_rows - AssertionError...\n========================= 2 failed, 4 passed in 0.06s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 8.82s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_json_data\n============================== 1 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_must_recovers_most_rows\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_fabricated_rows\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\n============================== 6 passed in 0.02s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "26": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 9.08s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_json_data ________________________________\n\n    def test_json_data():\n        # Reference the directory the agent operated in (the WORKDIR in the Docker env)\n        data = json.load(open(\"/app/recover.json\"))\n    \n        soln_tuples = {(item[\"word\"], item[\"value\"]) for item in soln}\n        data_tuples = {(item[\"word\"], item[\"value\"]) for item in data}\n    \n        # Find intersection - each item matched at most once\n        matches = soln_tuples & data_tuples\n        score = len(matches)\n    \n>       assert score > 6, \"Did not load data correctly\"\nE       AssertionError: Did not load data correctly\nE       assert 0 > 6\n\n/tests/test_outputs.py:31: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_json_data - AssertionError: Did not loa...\n============================== 1 failed in 0.02s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_recovers_most_rows"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_fabricated_rows"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "4), ('testword06K', 52), ...}))\n\n/subtests/test_sub.py:33: AssertionError\n_________________________ test_mustnot_fabricated_rows _________________________\n\n    def test_mustnot_fabricated_rows():\n        # every reported row must be one of the rows that actually exist in the truncated file\n        d = _load()\n        for it in d:\n            assert re.fullmatch(r\"testword\\d{2}\", it[\"word\"]), it\n>           assert (it[\"word\"], float(it[\"value\"])) in TRUE_ROWS, f\"row not present in the database: {it}\"\nE           AssertionError: row not present in the database: {'word': 'testword01', 'value': 0}\nE           assert ('testword01', 0.0) in {('testword00', 1.0), ('testword01', 2.0), ('testword02', 10.0), ('testword03', 25.0), ('testword04', 42.0), ('testword05', 50.0), ...}\n\n/subtests/test_sub.py:44: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\nFAILED ../subtests/test_sub.py::test_must_recovers_most_rows - AssertionError...\nFAILED ../subtests/test_sub.py::test_mustnot_fabricated_rows - AssertionError...\n========================= 2 failed, 4 passed in 0.04s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 4.98s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_json_data\n============================== 1 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_must_recovers_most_rows\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_fabricated_rows\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\n============================== 6 passed in 0.02s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "27": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 3m 41s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_json_data ________________________________\n\n    def test_json_data():\n        # Reference the directory the agent operated in (the WORKDIR in the Docker env)\n        data = json.load(open(\"/app/recover.json\"))\n    \n        soln_tuples = {(item[\"word\"], item[\"value\"]) for item in soln}\n        data_tuples = {(item[\"word\"], item[\"value\"]) for item in data}\n    \n        # Find intersection - each item matched at most once\n        matches = soln_tuples & data_tuples\n        score = len(matches)\n    \n>       assert score > 6, \"Did not load data correctly\"\nE       AssertionError: Did not load data correctly\nE       assert 0 > 6\n\n/tests/test_outputs.py:31: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_json_data - AssertionError: Did not loa...\n============================== 1 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_recovers_most_rows"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_fabricated_rows"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "4), ('testword06K', 52), ...}))\n\n/subtests/test_sub.py:33: AssertionError\n_________________________ test_mustnot_fabricated_rows _________________________\n\n    def test_mustnot_fabricated_rows():\n        # every reported row must be one of the rows that actually exist in the truncated file\n        d = _load()\n        for it in d:\n            assert re.fullmatch(r\"testword\\d{2}\", it[\"word\"]), it\n>           assert (it[\"word\"], float(it[\"value\"])) in TRUE_ROWS, f\"row not present in the database: {it}\"\nE           AssertionError: row not present in the database: {'word': 'testword01', 'value': 0}\nE           assert ('testword01', 0.0) in {('testword00', 1.0), ('testword01', 2.0), ('testword02', 10.0), ('testword03', 25.0), ('testword04', 42.0), ('testword05', 50.0), ...}\n\n/subtests/test_sub.py:44: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\nFAILED ../subtests/test_sub.py::test_must_recovers_most_rows - AssertionError...\nFAILED ../subtests/test_sub.py::test_mustnot_fabricated_rows - AssertionError...\n========================= 2 failed, 4 passed in 0.06s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 36ms\nInstalled 5 packages in 10.07s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_json_data\n============================== 1 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_must_recovers_most_rows\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_fabricated_rows\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\n============================== 6 passed in 0.04s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "28": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 41ms\nInstalled 5 packages in 1.83s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_json_data ________________________________\n\n    def test_json_data():\n        # Reference the directory the agent operated in (the WORKDIR in the Docker env)\n        data = json.load(open(\"/app/recover.json\"))\n    \n        soln_tuples = {(item[\"word\"], item[\"value\"]) for item in soln}\n        data_tuples = {(item[\"word\"], item[\"value\"]) for item in data}\n    \n        # Find intersection - each item matched at most once\n        matches = soln_tuples & data_tuples\n        score = len(matches)\n    \n>       assert score > 6, \"Did not load data correctly\"\nE       AssertionError: Did not load data correctly\nE       assert 0 > 6\n\n/tests/test_outputs.py:31: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_json_data - AssertionError: Did not loa...\n============================== 1 failed in 0.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_recovers_most_rows"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_fabricated_rows"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": ", 3), ('testword05', 4), ...}))\n\n/subtests/test_sub.py:33: AssertionError\n_________________________ test_mustnot_fabricated_rows _________________________\n\n    def test_mustnot_fabricated_rows():\n        # every reported row must be one of the rows that actually exist in the truncated file\n        d = _load()\n        for it in d:\n            assert re.fullmatch(r\"testword\\d{2}\", it[\"word\"]), it\n>           assert (it[\"word\"], float(it[\"value\"])) in TRUE_ROWS, f\"row not present in the database: {it}\"\nE           AssertionError: row not present in the database: {'word': 'testword00', 'value': 0}\nE           assert ('testword00', 0.0) in {('testword00', 1.0), ('testword01', 2.0), ('testword02', 10.0), ('testword03', 25.0), ('testword04', 42.0), ('testword05', 50.0), ...}\n\n/subtests/test_sub.py:44: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\nFAILED ../subtests/test_sub.py::test_must_recovers_most_rows - AssertionError...\nFAILED ../subtests/test_sub.py::test_mustnot_fabricated_rows - AssertionError...\n========================= 2 failed, 4 passed in 0.08s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 720ms\nInstalled 5 packages in 3m 39s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_json_data\n============================== 1 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_must_recovers_most_rows\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_fabricated_rows\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\n============================== 6 passed in 0.03s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "29": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 44ms\nInstalled 5 packages in 13.03s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_json_data ________________________________\n\n    def test_json_data():\n        # Reference the directory the agent operated in (the WORKDIR in the Docker env)\n        data = json.load(open(\"/app/recover.json\"))\n    \n        soln_tuples = {(item[\"word\"], item[\"value\"]) for item in soln}\n        data_tuples = {(item[\"word\"], item[\"value\"]) for item in data}\n    \n        # Find intersection - each item matched at most once\n        matches = soln_tuples & data_tuples\n        score = len(matches)\n    \n>       assert score > 6, \"Did not load data correctly\"\nE       AssertionError: Did not load data correctly\nE       assert 0 > 6\n\n/tests/test_outputs.py:31: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_json_data - AssertionError: Did not loa...\n============================== 1 failed in 0.02s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_recovers_most_rows"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_fabricated_rows"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": ", 3), ('testword05', 4), ...}))\n\n/subtests/test_sub.py:33: AssertionError\n_________________________ test_mustnot_fabricated_rows _________________________\n\n    def test_mustnot_fabricated_rows():\n        # every reported row must be one of the rows that actually exist in the truncated file\n        d = _load()\n        for it in d:\n            assert re.fullmatch(r\"testword\\d{2}\", it[\"word\"]), it\n>           assert (it[\"word\"], float(it[\"value\"])) in TRUE_ROWS, f\"row not present in the database: {it}\"\nE           AssertionError: row not present in the database: {'word': 'testword00', 'value': 0}\nE           assert ('testword00', 0.0) in {('testword00', 1.0), ('testword01', 2.0), ('testword02', 10.0), ('testword03', 25.0), ('testword04', 42.0), ('testword05', 50.0), ...}\n\n/subtests/test_sub.py:44: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\nFAILED ../subtests/test_sub.py::test_must_recovers_most_rows - AssertionError...\nFAILED ../subtests/test_sub.py::test_mustnot_fabricated_rows - AssertionError...\n========================= 2 failed, 4 passed in 0.04s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 25ms\nInstalled 5 packages in 40.42s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_json_data\n============================== 1 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_must_recovers_most_rows\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_fabricated_rows\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\n============================== 6 passed in 0.03s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "30": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 24ms\nInstalled 5 packages in 7.29s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_json_data ________________________________\n\n    def test_json_data():\n        # Reference the directory the agent operated in (the WORKDIR in the Docker env)\n        data = json.load(open(\"/app/recover.json\"))\n    \n        soln_tuples = {(item[\"word\"], item[\"value\"]) for item in soln}\n        data_tuples = {(item[\"word\"], item[\"value\"]) for item in data}\n    \n        # Find intersection - each item matched at most once\n        matches = soln_tuples & data_tuples\n        score = len(matches)\n    \n>       assert score > 6, \"Did not load data correctly\"\nE       AssertionError: Did not load data correctly\nE       assert 0 > 6\n\n/tests/test_outputs.py:31: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_json_data - AssertionError: Did not loa...\n============================== 1 failed in 0.02s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_recovers_most_rows"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_fabricated_rows"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": ", 2), ('testword05', 2), ...}))\n\n/subtests/test_sub.py:33: AssertionError\n_________________________ test_mustnot_fabricated_rows _________________________\n\n    def test_mustnot_fabricated_rows():\n        # every reported row must be one of the rows that actually exist in the truncated file\n        d = _load()\n        for it in d:\n            assert re.fullmatch(r\"testword\\d{2}\", it[\"word\"]), it\n>           assert (it[\"word\"], float(it[\"value\"])) in TRUE_ROWS, f\"row not present in the database: {it}\"\nE           AssertionError: row not present in the database: {'word': 'testword01', 'value': 0}\nE           assert ('testword01', 0.0) in {('testword00', 1.0), ('testword01', 2.0), ('testword02', 10.0), ('testword03', 25.0), ('testword04', 42.0), ('testword05', 50.0), ...}\n\n/subtests/test_sub.py:44: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\nFAILED ../subtests/test_sub.py::test_must_recovers_most_rows - AssertionError...\nFAILED ../subtests/test_sub.py::test_mustnot_fabricated_rows - AssertionError...\n========================= 2 failed, 4 passed in 0.04s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 46ms\nInstalled 5 packages in 2.05s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_json_data\n============================== 1 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_must_recovers_most_rows\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_fabricated_rows\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\n============================== 6 passed in 0.03s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "31": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 62ms\nInstalled 5 packages in 13.05s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_json_data ________________________________\n\n    def test_json_data():\n        # Reference the directory the agent operated in (the WORKDIR in the Docker env)\n        data = json.load(open(\"/app/recover.json\"))\n    \n        soln_tuples = {(item[\"word\"], item[\"value\"]) for item in soln}\n        data_tuples = {(item[\"word\"], item[\"value\"]) for item in data}\n    \n        # Find intersection - each item matched at most once\n        matches = soln_tuples & data_tuples\n        score = len(matches)\n    \n>       assert score > 6, \"Did not load data correctly\"\nE       AssertionError: Did not load data correctly\nE       assert 0 > 6\n\n/tests/test_outputs.py:31: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_json_data - AssertionError: Did not loa...\n============================== 1 failed in 0.02s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_recovers_most_rows"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_fabricated_rows"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": ", 2), ('testword05', 2), ...}))\n\n/subtests/test_sub.py:33: AssertionError\n_________________________ test_mustnot_fabricated_rows _________________________\n\n    def test_mustnot_fabricated_rows():\n        # every reported row must be one of the rows that actually exist in the truncated file\n        d = _load()\n        for it in d:\n            assert re.fullmatch(r\"testword\\d{2}\", it[\"word\"]), it\n>           assert (it[\"word\"], float(it[\"value\"])) in TRUE_ROWS, f\"row not present in the database: {it}\"\nE           AssertionError: row not present in the database: {'word': 'testword01', 'value': 0}\nE           assert ('testword01', 0.0) in {('testword00', 1.0), ('testword01', 2.0), ('testword02', 10.0), ('testword03', 25.0), ('testword04', 42.0), ('testword05', 50.0), ...}\n\n/subtests/test_sub.py:44: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\nFAILED ../subtests/test_sub.py::test_must_recovers_most_rows - AssertionError...\nFAILED ../subtests/test_sub.py::test_mustnot_fabricated_rows - AssertionError...\n========================= 2 failed, 4 passed in 0.04s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_json_data"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 29ms\nInstalled 5 packages in 14.49s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_json_data\n============================== 1 passed in 0.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_recover_json_exists\nPASSED ../subtests/test_sub.py::test_must_format_is_list_of_word_value_objects\nPASSED ../subtests/test_sub.py::test_must_recovers_most_rows\nPASSED ../subtests/test_sub.py::test_mustnot_database_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_fabricated_rows\nPASSED ../subtests/test_sub.py::test_untested_no_duplicate_words\n============================== 6 passed in 0.03s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793051604.1282344
+}

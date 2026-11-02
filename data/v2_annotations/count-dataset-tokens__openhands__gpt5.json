@@ -1,0 +1,49 @@
+{
+  "case_id": "count-dataset-tokens__openhands__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "no_streaming_strategy",
+  "contributing_failure_1_layer": "environment",
+  "contributing_failure_1_category": "environment_setup",
+  "contributing_failure_1_subtype": "resource_constraints_crash",
+  "root_cause_label": "Agent loaded full dataset without streaming in a resource-constrained sandbox, causing a fatal runtime crash with no steps remaining to recover",
+  "one_sentence_failure_summary": "The agent repeatedly attempted to load the full HuggingFace dataset into memory without streaming, which crashed the IPython runtime due to resource constraints on the final available step.",
+  "m": 5,
+  "t_err": 1,
+  "t_err_evidence": "Step 1 executes `load_dataset('ryanmarten/OpenThoughts-1k-sample')` inside an IPython cell with no streaming=True flag, establishing a strategy of full in-memory dataset loading that ignores sandbox resource limits.",
+  "t_commit": 5,
+  "t_commit_evidence": "Step 5 retries the identical non-streaming load_dataset call in IPython; the runtime crashes with 'resource constraints' and no further steps remain, locking in failure.",
+  "t_surface": 5,
+  "t_surface_evidence": "Step 5 terminal output: 'The action has not been executed due to a runtime error. The runtime system may have crashed and restarted due to resource constraints.'",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent lacked knowledge that loading a large HuggingFace dataset without streaming=True would exhaust memory in this resource-constrained sandbox environment, and never considered using streaming or shell-based Python scripts instead of the volatile IPython kernel.",
+  "forewarning_present": true,
+  "forewarning_first_step": 1,
+  "forewarning_types": [
+    "command_error"
+  ],
+  "forewarning_evidence": "Step 1 fails with pip unavailable in the IPython interpreter, signaling environment instability. Steps 2-4 show the environment required manual remediation before any dataset work could begin, indicating a fragile setup.",
+  "awareness": "aware_too_late",
+  "first_awareness_step": 5,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "thrash_repeat",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "X"],
+    [2, 2, "E"],
+    [3, 4, "X"],
+    [5, 5, "X"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "forewarning_types"
+  ]
+}

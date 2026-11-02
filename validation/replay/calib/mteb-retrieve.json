@@ -1,0 +1,83 @@
+{
+ "task": "mteb-retrieve",
+ "pristine": {
+  "passed": 0,
+  "failed": 2,
+  "total": 2,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_result_exists",
+   "../tests/test_outputs.py::test_data_matches"
+  ],
+  "raw_tail": " markupsafe==3.0.4\n + mdurl==0.1.2\n + mpmath==1.3.0\n + mteb==1.36.8\n + multidict==7.1.0\n + multiprocess==0.70.16\n + networkx==3.4.2\n + numpy==2.2.6\n + nvidia-cublas==13.1.1.3\n + nvidia-cuda-cupti==13.0.85\n + nvidia-cuda-nvrtc==13.0.88\n + nvidia-cuda-runtime==13.0.96\n + nvidia-cudnn-cu13==9.24.0.43\n + nvidia-cufft==12.0.0.61\n + nvidia-cufile==1.15.1.6\n + nvidia-curand==10.4.0.35\n + nvidia-cusolver==12.0.4.66\n + nvidia-cusparse==12.6.3.3\n + nvidia-cusparselt-cu13==0.8.1\n + nvidia-nccl-cu13==2.30.7\n + nvidia-nvjitlink==13.4.92\n + nvidia-nvshmem-cu13==3.4.5\n + nvidia-nvtx==13.0.85\n + pandas==2.3.3\n + pillow==12.3.0\n + polars==2.0.0\n + polars-runtime-32==2.0.0\n + propcache==0.5.4\n + pyarrow==25.0.1\n + pydantic==2.14.1\n + pydantic-core==2.50.1\n + python-dateutil==3.0.0\n + pytrec-eval-terrier==0.5.11\n + pytz==2026.5\n + pyyaml==6.0.3\n + regex==2026.9.29\n + requests==2.34.2\n + rich==15.0.0\n + safetensors==0.8.0\n + scikit-learn==1.7.2\n + scipy==1.15.3\n + sentence-transformers==6.2.0\n + setuptools==84.2.1\n + shellingham==1.5.4\n + six==1.17.0\n + sympy==1.14.0\n + threadpoolctl==3.7.0\n + tokenizers==0.23.3\n + torch==2.14.1\n + torchvision==0.29.1\n + tqdm==4.70.1\n + transformers==5.20.2\n + triton==3.8.0\n + truststore==0.10.5\n + typer==0.27.3\n + typing-inspection==0.4.4\n + tzdata==2026.5\n + urllib3==2.8.0\n + xxhash==4.0.2\n + yarl==1.25.1\n============================= test session starts ==============================\nplatform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.7.0\nrootdir: /tests\nplugins: anyio-4.15.1\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n______________________________ test_result_exists ______________________________\n\n    def test_result_exists():\n>       assert os.path.exists(\"/app/result.txt\"), \"result.txt file does not exist\"\nE       AssertionError: result.txt file does not exist\nE       assert False\nE        +  where False = <function exists at 0xe85547481fc0>('/app/result.txt')\nE        +    where <function exists at 0xe85547481fc0> = <module 'posixpath' from '/usr/local/lib/python3.10/posixpath.py'>.exists\nE        +      where <module 'posixpath' from '/usr/local/lib/python3.10/posixpath.py'> = os.path\n\n/tests/test_outputs.py:7: AssertionError\n______________________________ test_data_matches _______________________________\n\n    def test_data_matches():\n        expected = \"MTEB: Massive Text Embedding Benchmark\"\n>       with open(\"/app/result.txt\", \"r\") as f:\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/result.txt'\n\n/tests/test_outputs.py:12: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_result_exists - AssertionError: result....\nFAILED ../tests/test_outputs.py::test_data_matches - FileNotFoundError: [Errn...\n============================== 2 failed in 0.02s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_result_exists",
+     "../subtests/test_sub.py::test_must_result_single_line",
+     "../subtests/test_sub.py::test_must_result_is_5th_most_similar_doc",
+     "../subtests/test_sub.py::test_must_result_is_a_verbatim_line_of_data"
+    ]
+   },
+   "mustnot": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_untested_specified_model_revision_was_used"
+    ]
+   }
+  },
+  "sub_raw_tail": " test_untested_specified_model_revision_was_used():\n        # instruction pins bge-small-zh-v1.5 @ 7999e1d...; the only end-state evidence is the HF snapshot cache\n        roots = {os.environ.get(\"HF_HOME\", \"\"), os.environ.get(\"HF_HUB_CACHE\", \"\"), \"/root/.cache/huggingface\", \"/app\", \"/root\"}\n        hits = []\n        for r in filter(None, roots):\n            hits += glob.glob(os.path.join(r, \"**\", \"models--BAAI--bge-small-zh-v1.5\", \"snapshots\", \"7999e1d3359715c523056ef9478215996d62a620\"), recursive=True)\n>       assert hits, \"no cached snapshot of BAAI/bge-small-zh-v1.5 @ 7999e1d\u2026 found\"\nE       AssertionError: no cached snapshot of BAAI/bge-small-zh-v1.5 @ 7999e1d\u2026 found\nE       assert []\n\n/subtests/test_sub.py:38: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_data_txt_modified\nSKIPPED [1] ../subtests/test_sub.py:28: no output yet\nFAILED ../subtests/test_sub.py::test_must_result_exists - AssertionError: ass...\nFAILED ../subtests/test_sub.py::test_must_result_single_line - FileNotFoundEr...\nFAILED ../subtests/test_sub.py::test_must_result_is_5th_most_similar_doc - Fi...\nFAILED ../subtests/test_sub.py::test_must_result_is_a_verbatim_line_of_data\nFAILED ../subtests/test_sub.py::test_untested_specified_model_revision_was_used\n==================== 5 failed, 1 passed, 1 skipped in 0.10s ====================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 0,
+  "failed": 2,
+  "total": 2,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_result_exists",
+   "../tests/test_outputs.py::test_data_matches"
+  ],
+  "raw_tail": " markupsafe==3.0.4\n + mdurl==0.1.2\n + mpmath==1.3.0\n + mteb==1.36.8\n + multidict==7.1.0\n + multiprocess==0.70.16\n + networkx==3.4.2\n + numpy==2.2.6\n + nvidia-cublas==13.1.1.3\n + nvidia-cuda-cupti==13.0.85\n + nvidia-cuda-nvrtc==13.0.88\n + nvidia-cuda-runtime==13.0.96\n + nvidia-cudnn-cu13==9.24.0.43\n + nvidia-cufft==12.0.0.61\n + nvidia-cufile==1.15.1.6\n + nvidia-curand==10.4.0.35\n + nvidia-cusolver==12.0.4.66\n + nvidia-cusparse==12.6.3.3\n + nvidia-cusparselt-cu13==0.8.1\n + nvidia-nccl-cu13==2.30.7\n + nvidia-nvjitlink==13.4.92\n + nvidia-nvshmem-cu13==3.4.5\n + nvidia-nvtx==13.0.85\n + pandas==2.3.3\n + pillow==12.3.0\n + polars==2.0.0\n + polars-runtime-32==2.0.0\n + propcache==0.5.4\n + pyarrow==25.0.1\n + pydantic==2.14.1\n + pydantic-core==2.50.1\n + python-dateutil==3.0.0\n + pytrec-eval-terrier==0.5.11\n + pytz==2026.5\n + pyyaml==6.0.3\n + regex==2026.9.29\n + requests==2.34.2\n + rich==15.0.0\n + safetensors==0.8.0\n + scikit-learn==1.7.2\n + scipy==1.15.3\n + sentence-transformers==6.2.0\n + setuptools==84.2.1\n + shellingham==1.5.4\n + six==1.17.0\n + sympy==1.14.0\n + threadpoolctl==3.7.0\n + tokenizers==0.23.3\n + torch==2.14.1\n + torchvision==0.29.1\n + tqdm==4.70.1\n + transformers==5.20.2\n + triton==3.8.0\n + truststore==0.10.5\n + typer==0.27.3\n + typing-inspection==0.4.4\n + tzdata==2026.5\n + urllib3==2.8.0\n + xxhash==4.0.2\n + yarl==1.25.1\n============================= test session starts ==============================\nplatform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.7.0\nrootdir: /tests\nplugins: anyio-4.15.1\ncollected 2 items\n\n../tests/test_outputs.py FF                                              [100%]\n\n=================================== FAILURES ===================================\n______________________________ test_result_exists ______________________________\n\n    def test_result_exists():\n>       assert os.path.exists(\"/app/result.txt\"), \"result.txt file does not exist\"\nE       AssertionError: result.txt file does not exist\nE       assert False\nE        +  where False = <function exists at 0xf0f69ca81fc0>('/app/result.txt')\nE        +    where <function exists at 0xf0f69ca81fc0> = <module 'posixpath' from '/usr/local/lib/python3.10/posixpath.py'>.exists\nE        +      where <module 'posixpath' from '/usr/local/lib/python3.10/posixpath.py'> = os.path\n\n/tests/test_outputs.py:7: AssertionError\n______________________________ test_data_matches _______________________________\n\n    def test_data_matches():\n        expected = \"MTEB: Massive Text Embedding Benchmark\"\n>       with open(\"/app/result.txt\", \"r\") as f:\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/result.txt'\n\n/tests/test_outputs.py:12: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_result_exists - AssertionError: result....\nFAILED ../tests/test_outputs.py::test_data_matches - FileNotFoundError: [Errn...\n============================== 2 failed in 0.04s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_result_exists",
+     "../subtests/test_sub.py::test_must_result_single_line",
+     "../subtests/test_sub.py::test_must_result_is_5th_most_similar_doc",
+     "../subtests/test_sub.py::test_must_result_is_a_verbatim_line_of_data"
+    ]
+   },
+   "mustnot": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_untested_specified_model_revision_was_used"
+    ]
+   }
+  },
+  "sub_raw_tail": " test_untested_specified_model_revision_was_used():\n        # instruction pins bge-small-zh-v1.5 @ 7999e1d...; the only end-state evidence is the HF snapshot cache\n        roots = {os.environ.get(\"HF_HOME\", \"\"), os.environ.get(\"HF_HUB_CACHE\", \"\"), \"/root/.cache/huggingface\", \"/app\", \"/root\"}\n        hits = []\n        for r in filter(None, roots):\n            hits += glob.glob(os.path.join(r, \"**\", \"models--BAAI--bge-small-zh-v1.5\", \"snapshots\", \"7999e1d3359715c523056ef9478215996d62a620\"), recursive=True)\n>       assert hits, \"no cached snapshot of BAAI/bge-small-zh-v1.5 @ 7999e1d\u2026 found\"\nE       AssertionError: no cached snapshot of BAAI/bge-small-zh-v1.5 @ 7999e1d\u2026 found\nE       assert []\n\n/subtests/test_sub.py:38: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_data_txt_modified\nSKIPPED [1] ../subtests/test_sub.py:28: no output yet\nFAILED ../subtests/test_sub.py::test_must_result_exists - AssertionError: ass...\nFAILED ../subtests/test_sub.py::test_must_result_single_line - FileNotFoundEr...\nFAILED ../subtests/test_sub.py::test_must_result_is_5th_most_similar_doc - Fi...\nFAILED ../subtests/test_sub.py::test_must_result_is_a_verbatim_line_of_data\nFAILED ../subtests/test_sub.py::test_untested_specified_model_revision_was_used\n==================== 5 failed, 1 passed, 1 skipped in 0.10s ====================\n",
+  "oracle_rc": 1
+ }
+}

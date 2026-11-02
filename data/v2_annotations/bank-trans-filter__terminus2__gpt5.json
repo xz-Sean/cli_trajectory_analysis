@@ -1,0 +1,52 @@
+{
+  "case_id": "bank-trans-filter__terminus2__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "implementation_generation",
+  "primary_failure_subtype": "missing_account_typo_normalization",
+  "contributing_failure_1_layer": "agent",
+  "contributing_failure_1_category": "verification",
+  "contributing_failure_1_subtype": "narrow_recovery_validation",
+  "root_cause_label": "Account number typo normalization absent; verification only checks known exact accounts, missing BUS-30g01 variant",
+  "one_sentence_failure_summary": "After recovering from an initial empty-output failure caused by an overly strict name-matching threshold, the agent wrote a revised filter that still treated account numbers as exact strings and never normalized character-substitution typos (e.g., g→0), missing the BUS-30g01 entry; subsequent verification only searched for already-identified exact accounts, creating false confidence that all 8 records were captured.",
+  "m": 14,
+  "t_err": 3,
+  "t_err_evidence": "Step 3 script uses difflib similarity >= 0.85 on company name tokens and collects account numbers as exact strings with no normalization; the false premise that names in the CSV would score ≥0.85 against 'North West Capital' (they don't, because actual names are longer variants like 'North West Capital Group Incorporated') produces 0 seed accounts and an empty output.json.",
+  "t_commit": 8,
+  "t_commit_evidence": "Step 8 rewrites output.json with broader token-based heuristics that successfully find BUS-30001, BUS-30999, and BUS-35001, but still uses exact string matching for account numbers with no typo normalization, locking in the omission of BUS-30g01; all subsequent steps only verify the already-identified accounts.",
+  "t_surface": 4,
+  "t_surface_evidence": "Step 4: wc -l /app/data/output.json returns 0, showing the initial script produced an empty JSON array.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "At step 3 the agent assumes that real company names in the CSV will score >=0.85 similarity against 'North West Capital'; actual names like 'North West Capital Group Incorporated' are longer and score below the threshold, so no seeds are found. At step 8 the agent corrects the company-name matching but retains the false premise that once seed account numbers are identified, all relevant rows share those exact account strings, overlooking that one entry has a character-substitution typo in the account number itself (BUS-30g01 instead of BUS-30001).",
+  "forewarning_present": true,
+  "forewarning_first_step": 4,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 4: wc -l returns 0 and step 5 confirms [] empty array, clearly signalling the initial filtering logic is broken.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 6,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "verification_theater",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 9,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 3, "W"],
+    [4, 5, "V"],
+    [6, 7, "E"],
+    [8, 8, "W"],
+    [9, 10, "V"],
+    [11, 14, "V"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

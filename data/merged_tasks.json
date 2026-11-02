@@ -1,0 +1,1502 @@
+[
+  {
+    "task_id": "acl-permissions-inheritance",
+    "category": "system-administration",
+    "difficulty": "medium",
+    "task_type": "acl_configuration",
+    "core_requirements_summary": [
+      "create /srv/shared with setgid",
+      "configure POSIX ACLs with default inheritance",
+      "ensure alice and bob mutual access",
+      "block others"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/acl-permissions-inheritance/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/acl-permissions-inheritance/solution.sh"
+  },
+  {
+    "task_id": "add-benchmark-lm-eval-harness",
+    "category": "software-engineering",
+    "difficulty": "medium",
+    "task_type": "lm_eval_benchmark_creation",
+    "core_requirements_summary": [
+      "clone amazon-science/esci-data and build Task 2 (multi-class product classification) test set restricted to ES locale",
+      "create /app/esci.jsonl from the test split with exactly 93347 examples where product_locale == 'es'",
+      "include columns: query, esci_label, product_locale, product_title in esci.jsonl (jsonl format)",
+      "clone Anurag461/lm-evaluation-harness at tag v1.0.0 under /app, build from source, and install system-wide",
+      "add a new multi-choice task in lm-eval-harness under folder escitask, benchmark name 'esci'",
+      "configure the task to read inputs from query + product_title and label from esci_label, with choices ['E','S','C','I'] via doc_to_choice",
+      "use the exact specified prompt (no fewshot or alternative prompts) and score by highest-logprob choice matching the label",
+      "ensure evaluation matches baseline model scores within ±0.01 tolerance"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/add-benchmark-lm-eval-harness/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/add-benchmark-lm-eval-harness/solution.sh"
+  },
+  {
+    "task_id": "aimo-airline-departures",
+    "category": "mathematics",
+    "difficulty": "easy",
+    "task_type": "periodic-scheduling-gap-analysis",
+    "core_requirements_summary": [
+      "analyze three periodic departure schedules with periods 100, 120, and 150 days",
+      "determine the maximum possible number of consecutive days with no departures regardless of phase offsets",
+      "implement a Python script /app/airline_analysis.py to compute the result",
+      "write the final integer answer (maximum gap) to /app/results.txt"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/aimo-airline-departures/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/aimo-airline-departures/solution.sh"
+  },
+  {
+    "task_id": "bank-trans-filter",
+    "category": "data-science",
+    "difficulty": "easy",
+    "task_type": "csv-entity-filtering-with-typos-to-json",
+    "core_requirements_summary": [
+      "read /app/data/bank_transactions.csv containing bank transactions with possible typos in company names",
+      "identify all transactions belonging to the target company 'North West Capital' using either matching (possibly typoed) company name OR matching account number",
+      "output all matching rows to /app/data/output.json as a JSON array (top-level []) with one object per row",
+      "each output object must contain exactly these keys matching the CSV columns: 'Company Name', 'Account Number', 'Date', 'Amount', 'Transaction Type', 'Description'",
+      "preserve the exact string formatting and values from the CSV for every field (all values must be strings)",
+      "sort the output rows by 'Date' in ascending order"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/bank-trans-filter/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/bank-trans-filter/solution.sh"
+  },
+  {
+    "task_id": "audio-synth-stft-peaks",
+    "category": "scientific-computing",
+    "difficulty": "medium",
+    "task_type": "audio-pipeline-synthesis-stft-peak-extraction",
+    "core_requirements_summary": [
+      "implement /app/audioproc.py to synthesize a mono WAV at 16 kHz with exact duration 3.0 seconds",
+      "signal must be the sum of five sine waves at 220, 330, 440, 550, and 660 Hz, plus uniform dither in (-1e-4, 1e-4)",
+      "RMS-normalize the dithered signal to 0.2 ± 0.002, then save /app/data/clip.wav as 16-bit PCM int16 (normalize before quantization)",
+      "compute STFT using scipy.signal.stft with fs=16000, nperseg=1024, noverlap=768, nfft=1024, window='hann', boundary=None, padded=False, return_onesided=True",
+      "export linear magnitude (not dB) to /app/data/mag.csv with schema frame,bin,val (one row per bin per frame)",
+      "create /app/solution.sh to orchestrate the pipeline and generate /app/data/peaks.csv using awk (invoked as 'awk' on PATH)",
+      "peaks.csv must have columns frame,f1_bin,f2_bin,f3_bin (0-indexed) with the true top-3 magnitude bins per frame in descending order",
+      "support PEAKS_ONLY=1 mode: when set, read /app/data/mag.csv and generate /app/data/peaks.csv via awk only, then exit",
+      "do not write peaks.csv from Python; audioproc.py may only produce clip.wav and mag.csv"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/audio-synth-stft-peaks/solution.sh",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/audio-synth-stft-peaks/task.yaml"
+  },
+  {
+    "task_id": "write-compressor",
+    "category": "software-engineering",
+    "difficulty": "hard",
+    "task_type": "reverse-engineer-decompressor-and-generate-valid-compressed-input",
+    "core_requirements_summary": [
+      "analyze /app/decomp.c to understand the decompression format and constraints",
+      "create a compressed file /app/data.comp such that piping it into /app/decomp reproduces exactly the contents of /app/data.txt",
+      "the decompressed output must match data.txt byte-for-byte (exact stdout match)",
+      "data.comp may be generated using any method as long as it is valid for /app/decomp.c",
+      "compressed file size constraint: /app/data.comp must be at most 2500 bytes"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/write-compressor/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/write-compressor/solution.sh"
+  },
+  {
+    "task_id": "word2vec-from-scratch",
+    "category": "model-training",
+    "difficulty": "hard",
+    "task_type": "word2vec-embedding-training-and-analogy-evaluation",
+    "core_requirements_summary": [
+      "implement a Word2Vec-style embedding model in PyTorch with embedding dimension exactly 300",
+      "train using the local WikiText-2 dataset in /app/wikitext-data/ (train.txt for training, validation.txt for validation)",
+      "build a vocabulary with frequency filtering and ensure vocab size is at least 3000 words",
+      "ensure the vocabulary includes required analogy words (e.g., man/woman/king/queen, countries and capitals, and common adjectives)",
+      "train the model to produce meaningful embeddings capable of vector arithmetic analogies (e.g., Beijing - China + Japan ≈ Tokyo)",
+      "save the trained model as a PyTorch state dict to /app/model.pt with an embedding layer attribute named 'embeddings' (key 'embeddings.weight') and shape (vocab_size, 300)",
+      "save the vocabulary to /app/vocab.pkl as a pickled dataclass named exactly Vocab with attributes word_to_idx (dict) and idx_to_word (list), consistent with the model’s embedding matrix size",
+      "keep the final model file size under 25MB and avoid suspiciously small outputs (<5MB)"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/word2vec-from-scratch/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/word2vec-from-scratch/solution.sh"
+  },
+  {
+    "task_id": "winning-avg-corewars",
+    "category": "software-engineering",
+    "difficulty": "medium",
+    "task_type": "corewars-warrior-design-and-batch-evaluation",
+    "core_requirements_summary": [
+      "write a CoreWars (Redcode-94) warrior program to a file named exactly my_warrior.red",
+      "target execution environment is pMARS with core size 8000 and maximum cycles 80000",
+      "do not modify any opponent files under warriors/",
+      "ensure compatibility with batch testing using: pmars -b -r 100 -f my_warrior.red warriors/<opponent>.red",
+      "achieve at least 75 wins out of 100 battles against stone.red",
+      "achieve at least 75 wins out of 100 battles against vampire.red",
+      "achieve at least 75 wins out of 100 battles against paper.red",
+      "achieve at least 33 wins out of 100 battles against snake.red",
+      "achieve at least 33 wins out of 100 battles against g2-clear.red",
+      "design a strategy robust to multiple archetypes including stone bombers, fast replicators (paper), vampire pit trappers, moving snake replicators, and memory clearers",
+      "ensure the warrior compiles and runs correctly in Redcode-94 syntax under pMARS"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/winning-avg-corewars/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/winning-avg-corewars/solution.sh"
+  },
+  {
+    "task_id": "vul-flink",
+    "category": "security",
+    "difficulty": "hard",
+    "task_type": "real-world-vulnerability-patch-and-rebuild",
+    "core_requirements_summary": [
+      "fix a directory traversal vulnerability in Apache Flink REST file upload handling",
+      "source code is located under /opt/flink and must be modified directly",
+      "vulnerability is caused by unsafe use of Content-Disposition filename when resolving upload destination path",
+      "ensure uploaded files cannot escape the configured upload directory via path traversal (e.g., ../../../../tmp/success)",
+      "malicious filename must NOT result in writing files outside the intended upload directory",
+      "normal uploads without path components must continue to work exactly as before",
+      "do not change REST API behavior beyond fixing the traversal issue",
+      "do not rely on external configuration or runtime flags; fix must be in source code",
+      "preserve existing logic, responses, and control flow except for sanitizing filename handling",
+      "ensure the project builds successfully after modification",
+      "rebuild the Flink distribution so runtime jars include the fix"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/vul-flink/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/vul-flink/solution.sh"
+  },
+  {
+    "task_id": "vul-flask",
+    "category": "security",
+    "difficulty": "medium",
+    "task_type": "real-world-vulnerability-patch",
+    "core_requirements_summary": [
+      "fix a Server-Side Template Injection (SSTI) vulnerability in Flask 1.1.1",
+      "source code is vendored under /app/flask_1.1.1 and must be modified directly",
+      "vulnerability is caused by rendering untrusted user input via render_template_string, which executes Jinja2 expressions",
+      "ensure user-provided template strings are treated strictly as plain text and not evaluated as Jinja2 templates",
+      "prevent execution of expressions such as {{233*233}} or other malicious payloads",
+      "apply the mitigation inside the Flask framework itself (not only in an example application)",
+      "preserve normal template rendering behavior when using standard template files",
+      "do not introduce breaking changes beyond preventing execution of untrusted template strings",
+      "maintain existing rendering flow, context handling, and API surface as much as possible",
+      "ensure the modified Flask code continues to pass tests and function correctly after patching"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/vul-flask/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/vul-flask/solution.sh"
+  },
+  {
+    "task_id": "build-cython-ext",
+    "category": "debugging",
+    "difficulty": "medium",
+    "task_type": "numpy-compatibility-source-build-fix",
+    "core_requirements_summary": [
+      "Clone pyknotid v0.5.3 source to /app/pyknotid and build/install to system global Python environment",
+      "Fix Numpy >=2.0 compatibility issues in Cython extensions (chelpers, ccomplexity, cinvariants)",
+      "Compile and install Cython extensions so they are importable from Python",
+      "Ensure the README.md code snippet runs without errors using Numpy 2.3.0",
+      "Preserve original package structure without reorganizing files",
+      "Ensure existing tests pass except test_random_curves.py and test_catalogue.py",
+      "Verify compiled extensions work in their original import context from Python side"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/build-cython-ext/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/build-cython-ext/solution.sh"
+  },
+  {
+    "task_id": "cancel-async-tasks",
+    "category": "software-engineering",
+    "difficulty": "hard",
+    "task_type": "async-concurrent-task-runner",
+    "core_requirements_summary": [
+      "Create a Python file at /app/run.py containing an async function called run_tasks",
+      "Function signature must be: async def run_tasks(tasks: list[Callable[[], Awaitable[None]]], max_concurrent: int) -> None",
+      "Limit concurrency so no more than max_concurrent tasks run simultaneously",
+      "Ensure cleanup code in tasks still runs when a KeyboardInterrupt is received",
+      "Make the function importable via 'from run import run_tasks'",
+      "Use the system Python interpreter without requiring special dependencies"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/cancel-async-tasks/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/cancel-async-tasks/solution.sh"
+  },
+  {
+    "task_id": "chess-best-move",
+    "category": "games",
+    "difficulty": "medium",
+    "task_type": "chess-position-analysis-image",
+    "core_requirements_summary": [
+      "Analyze the chess board image from chess_board.png to determine the current position",
+      "Identify it is white's turn to move",
+      "Determine the best move(s) for white in the given position",
+      "Write the best move(s) to /app/move.txt in [src][dst] format (e.g., e2e4 or h1h8)",
+      "If multiple winning moves exist, print each on a separate line"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/chess-best-move/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/chess-best-move/solution.sh"
+  },
+  {
+    "task_id": "configure-git-webserver",
+    "category": "system-administration",
+    "difficulty": "hard",
+    "task_type": "git-server-web-deployment-pipeline",
+    "core_requirements_summary": [
+      "Initialize a bare git repository at /git/server accessible via SSH as user@server",
+      "Create a git user account that can be used for SSH-based git operations",
+      "Configure a git post-receive hook that deploys pushed files to the web server's document root",
+      "Set up a web server listening on port 8080 serving the deployed files",
+      "Ensure that pushing hello.html with content 'hello world' results in that file being served at http://server:8080/hello.html",
+      "Make the repository cloneable via 'git clone user@server:/git/server'"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/configure-git-webserver/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/configure-git-webserver/solution.sh"
+  },
+  {
+    "task_id": "constraints-scheduling",
+    "category": "personal-assistant",
+    "difficulty": "medium",
+    "task_type": "multi-constraint-meeting-scheduling",
+    "core_requirements_summary": [
+      "Parse three ICS calendar files at /app/alice_calendar.ics, /app/bob_calendar.ics, /app/carol_calendar.ics to extract existing meeting conflicts",
+      "Find the earliest 1-hour slot during January 15-19, 2024 (9 AM - 6 PM UTC) that avoids all existing calendar conflicts",
+      "Enforce hard constraints: Alice unavailable before 9 AM or after 2 PM, Bob unavailable before 10 AM or after 4:30 PM on Tue/Thu, Carol unavailable 12:00-12:30 PM and after 5 PM",
+      "Apply Carol's Monday avoidance preference as a tie-breaker when multiple valid slots exist",
+      "Apply Alice's morning preference (9 AM - 12 PM) as a secondary tie-breaker over early afternoon slots",
+      "Create /app/meeting_scheduled.ics as a valid ICS file with BEGIN:VCALENDAR, END:VCALENDAR, VERSION:2.0, and PRODID headers",
+      "Include a VEVENT block for 'Team Planning Meeting' with all three attendees (alice@example.com, bob@example.com, carol@example.com) and times in UTC format (YYYYMMDDTHHMMSSZ)",
+      "Do not modify any of the three input calendar files"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/constraints-scheduling/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/constraints-scheduling/solution.sh"
+  },
+  {
+    "task_id": "count-call-stack",
+    "category": "system-administration",
+    "difficulty": "easy",
+    "task_type": "stack-trace-log-analysis",
+    "core_requirements_summary": [
+      "Parse a log file containing stack traces from a profiling tool",
+      "Identify unique call sites based on their top 3 stack frames",
+      "Count occurrences of each unique call site across all traces",
+      "Select only the top 10 most frequent unique call sites for output",
+      "Sort results in descending order by occurrence count",
+      "Write output to /app/output.txt with the specified format including TOTAL_TRACES, UNIQUE_COUNT, and ANALYZED_COUNT",
+      "Format each call site entry with Count and Frame 1/2/3 labels without extra words like 'in'"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/count-call-stack/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/count-call-stack/solution.sh"
+  },
+  {
+    "task_id": "cpp-compatibility",
+    "category": "debugging",
+    "difficulty": "easy",
+    "task_type": "cpp-template-compatibility-downgrade",
+    "core_requirements_summary": [
+      "Edit the file /app/sum_array.h to make the template function compatible with C++11",
+      "Preserve the existing function interface (signature and behavior) unchanged",
+      "Remove or replace any C++ features newer than C++11 (e.g., C++14/17/20 features)",
+      "Ensure the updated implementation compiles successfully under C++11 standard"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/cpp-compatibility/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/cpp-compatibility/solution.sh"
+  },
+  {
+    "task_id": "create-bucket",
+    "category": "file-operations",
+    "difficulty": "easy",
+    "task_type": "aws-s3-bucket-public-setup",
+    "core_requirements_summary": [
+      "Create an S3 bucket named 'sample-bucket' using the AWS CLI",
+      "Configure the bucket to allow public read access",
+      "Disable Block Public Access settings that would prevent public policies",
+      "Apply a bucket policy or ACL granting public read permissions to bucket objects"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/create-bucket/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/create-bucket/solution.sh"
+  },
+  {
+    "task_id": "neuron-to-jaxley-conversion",
+    "category": "scientific-computing",
+    "difficulty": "hard",
+    "task_type": "neuron-to-jaxley-biophysics-conversion",
+    "core_requirements_summary": [
+      "Implement the add_channels() function in the RGC class in /app/jaxley_conversion.py",
+      "Replicate the biophysical channel properties from the NEURON implementation in /app/build_in_neuron.py",
+      "Add all appropriate ion channel mechanisms to the Jaxley cell model loaded from RGC.swc morphology",
+      "Create any additional channel classes required to represent the RGC biophysics in Jaxley",
+      "Assign channel parameters to the correct sections/compartments matching the NEURON model's section-specific distributions",
+      "Ensure the Jaxley implementation produces behavior consistent with the original NEURON model"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/neuron-to-jaxley-conversion/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/neuron-to-jaxley-conversion/solution.sh"
+  },
+  {
+    "task_id": "openssl-selfsigned-cert",
+    "category": "security",
+    "difficulty": "medium",
+    "task_type": "self-signed-tls-certificate-setup",
+    "core_requirements_summary": [
+      "Create directory /app/ssl/ and generate a 2048-bit RSA private key saved as /app/ssl/server.key with 600 permissions",
+      "Generate a self-signed certificate valid for 365 days with Organization Name 'DevOps Team' and Common Name 'dev-internal.company.local', saved as /app/ssl/server.crt",
+      "Create a combined PEM file /app/ssl/server.pem containing both the private key and certificate",
+      "Create /app/ssl/verification.txt containing the certificate subject, validity dates, and SHA-256 fingerprint",
+      "Write a Python script at /app/check_cert.py that loads the certificate, prints Common Name and expiration date in YYYY-MM-DD format, and prints 'Certificate verification successful'"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/openssl-selfsigned-cert/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/openssl-selfsigned-cert/solution.sh"
+  },
+  {
+    "task_id": "organization-json-generator",
+    "category": "file-operations",
+    "difficulty": "hard",
+    "task_type": "csv-to-json-schema-transformation",
+    "core_requirements_summary": [
+      "Read input data from /app/data/departments.csv, /app/data/employees.csv, and /app/data/projects.csv",
+      "Validate output against the schema defined in /app/schema.json",
+      "Generate a structured JSON file at /app/organization.json",
+      "Include organization metadata in the output JSON",
+      "Nest employees and projects within their respective department objects",
+      "Compute statistical calculations and include them in the output"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/organization-json-generator/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/organization-json-generator/solution.sh"
+  },
+  {
+    "task_id": "parallelize-graph",
+    "category": "scientific-computing",
+    "difficulty": "hard",
+    "task_type": "parallel-genome-assembly-upc",
+    "core_requirements_summary": [
+      "Implement a serial de Bruijn graph construction and traversal algorithm that outputs contigs to '/app/serial.out'",
+      "Implement a parallel UPC version of the same algorithm with output files matching pattern 'pgen*.out' (e.g., /app/pgen_0.out)",
+      "Create a Makefile that builds both 'serial' and 'pgen' executables",
+      "Install and configure Berkeley UPC compiler in SMP mode using the specified configure flags",
+      "Process input file 'test' containing 10,000 lines of k-mers with tab-separated left/right extensions",
+      "Ensure parallel version generates identical contigs to serial version (order may differ)",
+      "Run parallel version using 'upcrun -n <num_threads> -shared-heap 256MB /app/pgen <input_file>'"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/parallelize-graph/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/parallelize-graph/solution.sh"
+  },
+  {
+    "task_id": "path-tracing",
+    "category": "software-engineering",
+    "difficulty": "hard",
+    "task_type": "image-reconstruction-in-c",
+    "core_requirements_summary": [
+      "Analyze the image at /app/image.ppm to understand its visual content and structure",
+      "Write a C program image.c that procedurally generates a reconstructed.ppm output file without reading image.ppm",
+      "Achieve at least 0.99 normalized L2 similarity between the generated image and the original",
+      "Compile and run successfully with: gcc -static -o image image.c -lm && ./image",
+      "Keep image.c under 2KB when gzip-compressed (cat image.c | gzip | wc) to ensure algorithmic generation",
+      "Output the reconstructed image to reconstructed.ppm in the current working directory",
+      "Not include extra code via #include of custom .c or .h files, only standard system headers"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/path-tracing/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/path-tracing/solution.sh"
+  },
+  {
+    "task_id": "path-tracing-reverse",
+    "category": "software-engineering",
+    "difficulty": "hard",
+    "task_type": "reverse-engineer-binary-to-c",
+    "core_requirements_summary": [
+      "Analyze the compiled binary at /app/mystery to understand its behavior through observation or decompilation",
+      "Write a C program at /app/mystery.c that produces identical input/output behavior to the binary",
+      "Compile the C program with 'gcc -static -o reversed mystery.c -lm' and ensure it runs identically to ./mystery",
+      "Ensure the C source file compresses to less than 2KB when piped through gzip",
+      "Do not invoke ./mystery from within mystery.c",
+      "Make mystery.c fully self-contained and independent of any external files or binaries"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/path-tracing-reverse/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/path-tracing-reverse/solution.sh"
+  },
+  {
+    "task_id": "play-zork-easy",
+    "category": "games",
+    "difficulty": "hard",
+    "task_type": "text-adventure-game-speedrun",
+    "core_requirements_summary": [
+      "Run the Zork game using the command `cd frotz && ./frotz zork1.z5`",
+      "Complete the game Zork 1 as quickly as possible rather than maximizing score",
+      "Navigate through all required game steps to reach the game's ending",
+      "Write the exact ending message displayed on screen to `/app/answer.txt`"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/play-zork-easy/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/play-zork-easy/solution.sh"
+  },
+  {
+    "task_id": "portfolio-optimization",
+    "category": "optimization",
+    "difficulty": "medium",
+    "task_type": "c-extension-portfolio-optimization",
+    "core_requirements_summary": [
+      "Complete TODO markers in portfolio_optimized.c and portfolio_optimized.py skeleton files",
+      "Implement portfolio risk calculation as sqrt(x^T * S * x) where x=weights and S=covariance matrix",
+      "Implement portfolio return calculation as x^T * r where r=expected returns",
+      "Build C extension using 'python3 setup.py build_ext --inplace'",
+      "Results must match Python baseline within 1e-10 numerical tolerance",
+      "C implementation must be at least 1.2x faster than baseline for portfolios with 5000+ assets",
+      "Implementation must handle portfolios with up to 8000 assets",
+      "Validate correctness and performance using 'python3 benchmark.py'"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/portfolio-optimization/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/portfolio-optimization/solution.sh"
+  },
+  {
+    "task_id": "protein-assembly",
+    "category": "scientific-computing",
+    "difficulty": "hard",
+    "task_type": "fusion-protein-gblock-design",
+    "core_requirements_summary": [
+      "Design a fusion protein gBlock saved to /app/gblock.txt containing only the DNA sequence with no empty lines",
+      "Order subproteins N to C terminus as: antibody binder - donor - DHFR - acceptor - molecule binder, connected by GS linkers (5-20 aa each)",
+      "Identify donor and acceptor fluorescent proteins from /app/pdb_ids.txt whose peak excitation/emission match 505nm and 610nm respectively via fpbase API",
+      "Identify molecule binding protein from /app/pdb_ids.txt that binds the SMILES Nc3nc(OCc1ccccc1)c2nc[nH]c2n3 (a benzimidazole/pterin-like molecule)",
+      "Use the antibody binder protein sequence for which the antibody in antibody.fasta was designed, encoding only the most common variant",
+      "Reuse DHFR sequence from plasmid.gb and remove N-terminal methionine from all subprotein sequences",
+      "Ensure GC content stays between 30-70% in any 50-nucleotide window and total gBlock length is at most 3000 nucleotides",
+      "Exclude start/stop codons and GS linkers from the N and C termini of the fusion protein"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/protein-assembly/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/protein-assembly/solution.sh"
+  },
+  {
+    "task_id": "chem-rf",
+    "category": "model-training",
+    "difficulty": "hard",
+    "task_type": "molecular-binding-affinity-model-training",
+    "core_requirements_summary": [
+      "Write /app/fit_model.py that accepts --train_path and --split_path arguments",
+      "Implement a featurize_smiles function that converts a list of SMILES strings to numpy arrays",
+      "Train a scikit-learn model on the MAPK14 dataset using 'smiles' as input and 'target_enrichment' as the target variable",
+      "Achieve a Spearman correlation score less than -0.57 on the test set",
+      "Save the trained sklearn model to /app/trained_model.pkl using pickle",
+      "Use only allowed packages: pandas, rdkit, scikit-learn, pyarrow",
+      "Load training data from mapk14_1M.parquet and use mapk14_disynthon.parquet for train/test splits"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/chem-rf/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/chem-rf/solution.sh"
+  },
+  {
+    "task_id": "count-dataset-tokens",
+    "category": "model-training",
+    "difficulty": "medium",
+    "task_type": "huggingface-dataset-token-counting",
+    "core_requirements_summary": [
+      "Load the ryanmarten/OpenThoughts-1k-sample dataset from HuggingFace using instructions from the dataset README",
+      "Filter the dataset to only include entries in the 'science' domain",
+      "Extract the deepseek-specific text/token field from the filtered entries",
+      "Use the Qwen2.5-1.5B-Instruct tokenizer to count the total number of tokens",
+      "Write the final integer token count to /app/answer.txt without spaces or commas"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/count-dataset-tokens/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/count-dataset-tokens/solution.sh"
+  },
+  {
+    "task_id": "pandas-etl",
+    "category": "data-science",
+    "difficulty": "easy",
+    "task_type": "csv-data-transformation-extraction",
+    "core_requirements_summary": [
+      "Read the input CSV file from /app/data.csv and write transformed output to /app/result.csv",
+      "Extract postal code from the end of the address string into a new 'postal_code' column",
+      "Extract city name (appearing after street number and newline) into a new 'city' column",
+      "Create 'team_name' column in format FL-Country-I using capitalized initials of first/last name and first letters of each institute word",
+      "Format birth_date column as YYYY-MM-DD",
+      "Output exactly these columns in order: participant_id, first_name, last_name, birth_date, address, phone_number, country, institute, occupation, register_time, postal_code, city, team_name",
+      "Exclude any additional columns not listed in the required final column set"
+    ],
+    "raw_task_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/pandas-etl/task.yaml",
+    "solution_ref": "https://github.com/harbor-framework/terminal-bench/blob/main/original-tasks/pandas-etl/solution.sh"
+  },
+  {
+    "task_id": "find-official-code",
+    "category": "data-science",
+    "difficulty": "hard",
+    "task_type": "research-paper-official-codebase-lookup",
+    "core_requirements_summary": [
+      "Read /app/paper.pdf which contains 10 papers, each with a paper id and title",
+      "Find the official codebase URL for each of the 10 papers (must be created/maintained by the paper's authors or their organization)",
+      "Output results to /app/result.jsonl with exactly 10 entries",
+      "Each entry must contain 'paper_id' (string) and 'official_code_url' (string) fields",
+      "The official_code_url must point to the actual official repository, not third-party reimplementations",
+      "Output file must be valid JSONL format (one JSON object per line)"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/find-official-code/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/find-official-code/solution.sh"
+  },
+  {
+    "task_id": "fix-git",
+    "category": "software-engineering",
+    "difficulty": "easy",
+    "task_type": "git-stash-or-branch-recovery-and-merge",
+    "core_requirements_summary": [
+      "locate uncommitted or stashed changes made to a personal site that are no longer visible on the current branch",
+      "identify the correct git reference (stash, detached HEAD, orphan branch, or other branch) containing the lost changes",
+      "merge or apply those changes into the master branch",
+      "resulting master branch must contain all previously lost modifications",
+      "no changes should be lost or overwritten during the recovery process"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/fix-git/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/fix-git/solution.sh"
+  },
+  {
+    "task_id": "fix-ocaml-gc",
+    "category": "software-engineering",
+    "difficulty": "hard",
+    "task_type": "compiler-bug-fix-and-bootstrap-validation",
+    "core_requirements_summary": [
+      "diagnose and fix a bug introduced in the OCaml garbage collector's major heap sweeping code related to run-length compression of free space",
+      "the bug causes the OCaml compiler to crash during bootstrapping (self-compilation)",
+      "consult HACKING.adoc to understand the correct build and bootstrap procedure for the OCaml compiler",
+      "apply a source-level fix to the GC sweeping implementation (likely in the C runtime or OCaml runtime files)",
+      "ensure the compiler can successfully bootstrap itself after the fix",
+      "verify correctness by running 'make -C testsuite one DIR=tests/basic' with a clean (zero failures) result",
+      "do not introduce regressions in the basic testsuite"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/fix-ocaml-gc/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/fix-ocaml-gc/solution.sh"
+  },
+  {
+    "task_id": "flood-monitoring-basic",
+    "category": "data-science",
+    "difficulty": "easy",
+    "task_type": "csv-timeseries-interpolation-and-flood-event-analysis",
+    "core_requirements_summary": [
+      "read station_A.csv, station_B.csv, station_C.csv from /data/ directory, each with 48 hourly timestamp,water_level_m rows and some missing values",
+      "fill missing values at the start using the first available value (forward-fill from first known)",
+      "fill missing values at the end using the last available value (backward-fill from last known)",
+      "fill missing values in between using linear interpolation between nearest available values",
+      "overwrite each original CSV file in /data/ with the completed (no missing values) data",
+      "detect flood events defined as a continuous period of 3 or more consecutive hours where water_level_m >= 3.5",
+      "count the number of separate flood events per station",
+      "write /app/flood_summary.json as a JSON object with keys 'station_A', 'station_B', 'station_C' mapping to their respective flood event counts"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/flood-monitoring-basic/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/flood-monitoring-basic/solution.sh"
+  },
+  {
+    "task_id": "git-leak-recovery",
+    "category": "software-engineering",
+    "difficulty": "medium",
+    "task_type": "git-secret-recovery-and-purge",
+    "core_requirements_summary": [
+      "recover a secret (format: secret[...]) that was committed and then removed via git history rewriting in /app/repo",
+      "write the recovered secret string to /app/secret.txt",
+      "completely purge the secret from all git history in /app/repo so it cannot be found anywhere in the repository",
+      "ensure irrelevant files and commit messages in /app/repo remain untouched after cleanup",
+      "there is exactly one string matching the secret[...] format in the repository history"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/git-leak-recovery/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/git-leak-recovery/solution.sh"
+  },
+  {
+    "task_id": "git-multibranch",
+    "category": "system-administration",
+    "difficulty": "medium",
+    "task_type": "git-ssh-server-with-nginx-https-auto-deploy",
+    "core_requirements_summary": [
+      "Set up a bare Git repository accessible via SSH at git@localhost:/git/project",
+      "SSH server must accept password authentication with password 'password'",
+      "Configure a post-receive hook that deploys main branch to /var/www/html/ and dev branch to /var/www/html/dev/",
+      "Deployment must complete within 3 seconds of a git push",
+      "Nginx must serve HTTPS on port 8443 using a self-signed certificate",
+      "https://localhost:8443/index.html must serve index.html content from the main branch",
+      "https://localhost:8443/dev/index.html must serve index.html content from the dev branch",
+      "Both main and dev branches must be independently deployable via a single post-receive hook"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/git-multibranch/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/git-multibranch/solution.sh"
+  },
+  {
+    "task_id": "git-workflow-hack",
+    "category": "security",
+    "difficulty": "easy",
+    "task_type": "secure-github-workflow-and-personal-website-setup",
+    "core_requirements_summary": [
+      "Read CV content from info.md and use it to build a personal research profile website",
+      "Create an About Me page as part of the website",
+      "Create a Blog page as part of the website",
+      "Create a Publications page as part of the website",
+      "Implement a clean, professional 'research profile' design",
+      "Inspect existing GitHub Actions workflow files for suspicious or malicious activity and modify/remove them if necessary",
+      "Follow security best practices when constructing git push commands (e.g., avoid embedding credentials in URLs)",
+      "Provide git commands using a dummy repository URL to push all changes back to GitHub",
+      "Ensure all existing (safe) GitHub workflows are triggered/run as part of the push"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/git-workflow-hack/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/git-workflow-hack/solution.sh"
+  },
+  {
+    "task_id": "gomoku-planner",
+    "category": "game-ai",
+    "difficulty": "easy",
+    "task_type": "gomoku-board-analysis-and-blocking-move",
+    "core_requirements_summary": [
+      "analyze the Gomoku board image at /app/gomoku_board.png (15x15 grid with black and white stones)",
+      "identify white's threatening position with 3 or 4 stones in a row that could lead to a win",
+      "determine the best move for black: highest priority is blocking white from achieving 5 in a row",
+      "alternatively identify if black can create a winning sequence (5 in a row) instead",
+      "write the best move coordinates to /app/move.txt in the format [row],[col] (e.g., 7,7)",
+      "rows and columns are numbered 0-14 from the top-left corner of the board"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/gomoku-planner/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/gomoku-planner/solution.sh"
+  },
+  {
+    "task_id": "gpt2-codegolf",
+    "category": "software-engineering",
+    "difficulty": "hard",
+    "task_type": "gpt2-inference-engine-in-c",
+    "core_requirements_summary": [
+      "Write a C source file at /app/gpt2.c that implements GPT-2 inference",
+      "File must be strictly less than 5000 bytes in size",
+      "No external dependencies allowed; must compile with 'gcc -O3 -lm' only",
+      "Program reads GPT-2 weights from a TensorFlow .ckpt file (e.g., gpt2-124M.ckpt)",
+      "Program reads BPE vocabulary from a .bpe file (e.g., vocab.bpe)",
+      "Invocation: /app/a.out gpt2-124M.ckpt vocab.bpe \"[input string]\"",
+      "Uses argmax (greedy) sampling to generate the next 20 tokens",
+      "Output must match what GPT-2 would produce for the given input string continued by 20 tokens"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/gpt2-codegolf/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/gpt2-codegolf/solution.sh"
+  },
+  {
+    "task_id": "hello-world",
+    "category": "system-administration",
+    "difficulty": "easy",
+    "task_type": "create-file-with-content",
+    "core_requirements_summary": [
+      "create a file at /app/hello.txt",
+      "write exactly 'Hello, world!' to /app/hello.txt"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/hello-world/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/hello-world/solution.sh"
+  },
+  {
+    "task_id": "solve-maze-challenge",
+    "category": "game-ai",
+    "difficulty": "medium",
+    "task_type": "maze-stacker-game-ai-solver",
+    "core_requirements_summary": [
+      "Create solution file at /app/solution.js",
+      "Implement a Stacker function (not a class) with a this.turn(cell) method",
+      "turn(cell) must return one of: 'left', 'up', 'right', 'down', 'pickup', 'drop'",
+      "cell object contains left/up/right/down neighbors each with type and level, plus current type and level",
+      "Navigate a randomly generated map with cell types: 0 (empty), 1 (wall), 2 (block), 3 (gold)",
+      "Collect blocks (pickup) and build staircases (drop) to reach gold at elevation level 8",
+      "Character can only move between cells differing by at most 1 elevation level",
+      "All 3 test trials must succeed with average turns ≤ 2000 and max turns ≤ 3000",
+      "Use pure JavaScript only — no external libraries or frameworks",
+      "Verify solution by running node test_runner.js which outputs /app/test_results.json"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/solve-maze-challenge/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/solve-maze-challenge/solution.sh"
+  },
+  {
+    "task_id": "speech-to-text",
+    "category": "data-science",
+    "difficulty": "medium",
+    "task_type": "speech-to-text-transcription",
+    "core_requirements_summary": [
+      "read audio file from /app/audio.mp3",
+      "perform speech-to-text recognition on the audio content",
+      "install and configure an open-source speech recognition tool or model (e.g., Whisper, Vosk, DeepSpeech) without GPU support",
+      "transcribe the recognized speech content to plain text",
+      "save the transcribed text to /app/output.txt",
+      "output format must be plain text matching the spoken content (e.g., 'cool, this is a good task.')"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/speech-to-text/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/speech-to-text/solution.sh"
+  },
+  {
+    "task_id": "spinning-up-rl",
+    "category": "model-training",
+    "difficulty": "easy",
+    "task_type": "rl-library-install-and-training-run",
+    "core_requirements_summary": [
+      "Clone https://github.com/openai/spinningup (version 0.2.0) to /app/spinningup",
+      "Create a Python virtual environment at /app/spinningup/.venv and install the spinningup package into it",
+      "The spinningup package must be importable as a Python module",
+      "Run the spinningup PPO training script using the virtual environment",
+      "Set hidden layer sizes to [32, 32] (2-layer neural network with 32 neurons each)",
+      "Train on the LunarLander-v2 environment",
+      "Set the discount factor (gamma) to 0.999",
+      "Run for exactly 2 training epochs",
+      "Name the experiment 'installtest'",
+      "Output data must be available at /app/spinningup/data/installtest/installtest_s0"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/spinning-up-rl/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/spinning-up-rl/solution.sh"
+  },
+  {
+    "task_id": "sqlite-db-truncate",
+    "category": "data-science",
+    "difficulty": "medium",
+    "task_type": "corrupted-sqlite-binary-recovery-to-json",
+    "core_requirements_summary": [
+      "source database is /app/trunc.db, a SQLite file corrupted via binary truncation",
+      "recover as many rows as possible from the truncated/corrupted database",
+      "output recovered data to /app/recover.json",
+      "output must be a JSON array of objects with exactly two keys per object: 'word' and 'value'",
+      "each 'word' value follows the pattern 'testwordXY' (string) and each 'value' is a numeric value",
+      "maximize the number of rows recovered despite binary corruption"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/sqlite-db-truncate/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/sqlite-db-truncate/solution.sh"
+  },
+  {
+    "task_id": "stable-parallel-kmeans",
+    "category": "data-science",
+    "difficulty": "hard",
+    "task_type": "parallel-stable-kmeans-clustering-implementation",
+    "core_requirements_summary": [
+      "Create /app/stable_kmeans.py with a StableKMeans class implementing the Ben-Hur et al. (2002) stability-based k-means algorithm",
+      "StableKMeans.__init__ must accept data, k_max (exclusive, tests k from 2 to k_max-1), percent_subsampling=0.7, and number_of_subsamples=20",
+      "Implement fit_serial(self, verbose=True) for serial execution of the stability assessment via subsampling",
+      "Implement fit_parallel(self, n_jobs=None, verbose=True) using multiprocessing for parallel execution compatible with Docker containers",
+      "Implement get_optimal_k(self) returning the optimal number of clusters as an integer based on the stability metric",
+      "Implement get_stability_summary(self) returning a dict mapping int k values to dicts with float keys 'mean', 'std', 'min', 'max'",
+      "Create /app/test_implementation.py that tests both serial and parallel versions on simulated data (e.g., sklearn make_blobs) and compares performance",
+      "Parallel implementation must reliably work inside Docker containers (avoid fork-related issues, use spawn or forkserver if needed)",
+      "The stability metric must be computed via subsampling: repeatedly subsample the data, cluster each subsample, and measure agreement between clusterings"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/stable-parallel-kmeans/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/stable-parallel-kmeans/solution.sh"
+  },
+  {
+    "task_id": "tmux-advanced-workflow",
+    "category": "software-engineering",
+    "difficulty": "medium",
+    "task_type": "tmux-workflow-debugging-and-monitoring",
+    "core_requirements_summary": [
+      "Create a tmux session named 'workflow' with a horizontal split and the bottom pane split vertically into two equal panes",
+      "Run python /app/project/src/monitor.py in the top pane",
+      "Run python /app/project/src/process_data.py /app/project/data/input.csv /app/project/data/output.csv in the bottom-left pane",
+      "Open /app/project/src/process_data.py in vim in the bottom-right pane",
+      "Fix the bug in process_data.py by adding the missing strip() call when splitting lines to prevent newline character accumulation",
+      "Re-run the processing script in the bottom-left pane after the fix to verify correctness",
+      "Use 'less' in the bottom-left pane to examine /app/project/data/output.csv and confirm correct processing"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/tmux-advanced-workflow/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/tmux-advanced-workflow/solution.sh"
+  },
+  {
+    "task_id": "train-fasttext",
+    "category": "model-training",
+    "difficulty": "hard",
+    "task_type": "fasttext-text-classification-training",
+    "core_requirements_summary": [
+      "train a fastText model on Yelp review data located in the data/ folder",
+      "model must be saved as /app/model.bin",
+      "final model file size must be less than 150MB",
+      "model must achieve at least 0.62 accuracy on a private held-out Yelp review test set",
+      "test set comes from the same Yelp review distribution as the training data",
+      "use the fasttext library for training",
+      "may require data preprocessing to convert Yelp data into fasttext-compatible format"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/train-fasttext/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/train-fasttext/solution.sh"
+  },
+  {
+    "task_id": "triton-interpret",
+    "category": "model-training",
+    "difficulty": "medium",
+    "task_type": "triton-kernel-gated-rmsnorm-implementation",
+    "core_requirements_summary": [
+      "Install Triton 3.4.0 and required dependencies (torch, etc.)",
+      "Implement gate_triton() function in /app/triton_agent_sol.py that is functionally equivalent to the Gated PyTorch module in /app/torch_implementation.py",
+      "Function signature must accept x (B,S,D), weight (D,width), alpha (width-1,) or None, rms_weight (D,), eps float and return (B,S,D) tensor same dtype as x",
+      "All computation must be performed in float32",
+      "Implementation must use Triton kernels decorated with @triton.jit — no PyTorch/NumPy fallbacks inside kernels",
+      "Only triton.language (tl) operations are allowed inside @triton.jit decorated functions",
+      "tl.sum / triton.language.sum must NOT be used anywhere in the code or comments",
+      "Set environment variable TRITON_INTERPRET=1 in triton_agent_sol.py so kernels run on CPU during testing",
+      "Triton kernels must actually execute without errors"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/triton-interpret/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/triton-interpret/solution.sh"
+  },
+  {
+    "task_id": "vertex-solver",
+    "category": "mathematics",
+    "difficulty": "medium",
+    "task_type": "lp-basic-feasible-solutions-enumeration",
+    "core_requirements_summary": [
+      "Read LP instances from /app/A_i.csv (6x40 matrix) and /app/b_i.csv (6-vector) for each iteration i",
+      "Enumerate all basic feasible solutions (corner points) by selecting all C(40,6) subsets of 6 variables from the 40-dimensional decision vector",
+      "For each subset S of size 6, solve the 6x6 linear system A_S x_S = b and check if x_S >= 0 (nonnegativity constraint)",
+      "Count only distinct valid corner points (x_S >= 0 and A_S is invertible) for each instance",
+      "Save one integer count per line to /app/corner_counts.txt, one line per LP instance",
+      "Output file /app/corner_counts.txt must be loadable via numpy np.loadtxt('/app/corner_counts.txt')"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/vertex-solver/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/vertex-solver/solution.sh"
+  },
+  {
+    "task_id": "video-processing",
+    "category": "software-engineering",
+    "difficulty": "hard",
+    "task_type": "mp4-hurdle-jump-frame-detection",
+    "core_requirements_summary": [
+      "Write a Python script at /app/jump_analyzer.py that accepts an MP4 video file as input",
+      "Use only the libraries: toml, cv2 (OpenCV), and numpy",
+      "Detect the single jump event in the video by analyzing frame differences (background is static, first frame has no runner)",
+      "Identify jump_takeoff_frame_number: the frame where the athlete's takeoff/jump begins",
+      "Identify jump_land_frame_number: the frame where the athlete lands after the jump",
+      "Output results to /app/output.toml with exactly two fields: jump_takeoff_frame_number (integer) and jump_land_frame_number (integer)",
+      "Script must work on all test videos with the same dimensions and scale as /app/example_video.mp4",
+      "TOML output must use exact field names as specified: jump_takeoff_frame_number and jump_land_frame_number"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/video-processing/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/video-processing/solution.sh"
+  },
+  {
+    "task_id": "build-linux-kernel-qemu",
+    "category": "system-administration",
+    "difficulty": "medium",
+    "task_type": "kernel_compilation_and_boot",
+    "core_requirements_summary": [
+      "download and extract Linux 6.9 source code",
+      "modify init/main.c to inject custom printk message into start_kernel()",
+      "configure and compile the kernel (bzImage) with necessary modules (TTY, INITRD)",
+      "generate initramfs.cpio.gz using gen_init_cpio from the provided list",
+      "ensure the compiled kernel can boot in QEMU and output the custom message"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/build-linux-kernel-qemu/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/build-linux-kernel-qemu/solution.sh"
+  },
+  {
+    "task_id": "build-pmars",
+    "category": "software-engineering",
+    "difficulty": "medium",
+    "task_type": "compilation_and_configuration",
+    "core_requirements_summary": [
+      "enable 'deb-src' repository in apt sources to allow fetching source packages",
+      "download pMARS source code using 'apt-get source pmars' (avoiding unreliable upstream URL)",
+      "install build dependencies (build-essential, libncurses-dev) without pulling X11 graphical dependencies",
+      "modify the Makefile to strip X11 compiler flags (-DXWINGRAPHX) and restrict linker flags to ncurses (-lncurses)",
+      "compile the modified source and install the resulting headless binary to /usr/local/bin/pmars",
+      "ensure the binary successfully runs corewar simulations without X11 server requirements"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/build-pmars-headless/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/build-pmars-headless/solution.sh"
+  },
+  {
+    "task_id": "build-pov-ray",
+    "category": "software-engineering",
+    "difficulty": "medium",
+    "task_type": "legacy_compilation_and_patching",
+    "core_requirements_summary": [
+      "discover and download legacy POV-Ray 2.2 source archives (POVDOC, POVSCN, POVSRC in .TAR.Z format)",
+      "install legacy decompression tools (ncompress) to extract .Z archives",
+      "prepare the Unix build environment by copying machine/unix files and renaming unixconf.h to config.h",
+      "patch legacy C source code for modern compiler compatibility (e.g., changing MAIN_RETURN_TYPE to int, adding <stdlib.h>, fixing conflicting malloc prototypes)",
+      "inject a custom deterministic RNG implementation into unix.c to ensure reproducible renders",
+      "modify the Makefile (unix.mak) to use modern gcc, enforce C89 standard (-std=c89), and increase MAX_CONSTANTS",
+      "compile the binary, install to /usr/local/bin/povray, and organize the remaining source files into /app/povray-2.2"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/build-povray-2.2/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/build-povray-2.2/solution.sh"
+  },
+  {
+    "task_id": "cross-entropy-method",
+    "category": "software-engineering",
+    "difficulty": "easy",
+    "task_type": "algorithm_implementation",
+    "core_requirements_summary": [
+      "implement PointEnv.step() to update 2D position based on a discrete action map, apply boundary clipping, and return +1 reward if Euclidean distance is <= goal_radius",
+      "implement PointEnv.evaluate_plans_memoized() to evaluate action sequences while using a prefix-caching strategy to avoid redundant environment steps",
+      "convert unhashable numpy arrays to tuples to enable dictionary-based caching of subplans",
+      "implement CrossEntropyMethod.optimize() to iteratively sample Monte Carlo trajectories, evaluate them, extract the top 'num_elites', and update action probabilities",
+      "ensure the overall implementation passes all pytest evaluation cases with the required >2x memoization speedup"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/rl-cross-entropy-optimization/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/rl-cross-entropy-optimization/solution.sh"
+  },
+  {
+    "task_id": "csv-to-parquet",
+    "category": "data-science",
+    "difficulty": "easy",
+    "task_type": "data_conversion",
+    "core_requirements_summary": [
+      "set up a Python environment with necessary data manipulation libraries (pandas) and Parquet engines (pyarrow or fastparquet)",
+      "read the source tabular data with headers from '/app/data.csv'",
+      "convert the row-based CSV data into a column-oriented Parquet format",
+      "save the resulting file exactly at '/app/data.parquet'"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/csv-to-parquet-conversion/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/csv-to-parquet-conversion/solution.sh"
+  },
+  {
+    "task_id": "db-wal-recovery",
+    "category": "file-operations",
+    "difficulty": "medium",
+    "task_type": "database_forensics_and_decryption",
+    "core_requirements_summary": [
+      "analyze the corrupted SQLite WAL file header to identify the applied obfuscation (single-byte XOR encryption with key 0x42)",
+      "write a script to decrypt the entire WAL file by applying the XOR key and restore the valid magic number (0x377f0682 or 0x377f0683)",
+      "ensure the restored WAL file replaces the corrupted one without destroying the base database",
+      "query the SQLite database to auto-trigger the WAL playback, successfully merging the 6 missing records with the 5 base records",
+      "export all 11 records into a strictly formatted JSON array at '/app/recovered.json', sorted by the 'id' field"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/sqlite-wal-decryption-recovery/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/sqlite-wal-decryption-recovery/solution.sh"
+  },
+  {
+    "task_id": "distribution-search",
+    "category": "machine-learning",
+    "difficulty": "medium",
+    "task_type": "numerical_optimization",
+    "core_requirements_summary": [
+      "design an optimization algorithm to find a valid probability distribution array of exactly 150,000 elements",
+      "ensure the distribution's Forward KL Divergence (KL(P||U)) equals 10.0 within a 0.001 tolerance",
+      "ensure the distribution's Backward KL Divergence (KL(U||P)) equals 10.0 within a 0.001 tolerance",
+      "guarantee the array sums exactly to 1.0 (valid probability distribution)",
+      "save the resulting distribution as a NumPy array to the exact path '/app/dist.npy'"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/kl-divergence-distribution-matching/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/kl-divergence-distribution-matching/solution.sh"
+  },
+  {
+    "task_id": "extract-elf",
+    "category": "file-operations",
+    "difficulty": "medium",
+    "task_type": "binary_parsing_and_extraction",
+    "core_requirements_summary": [
+      "write a Node.js script ('extract.js') capable of reading a raw compiled C binary ('a.out') using the 'fs' module",
+      "parse the ELF header and section headers to dynamically locate the '.text', '.data', and '.rodata' sections",
+      "map the file offsets of these sections to their correct Virtual Memory Addresses (vaddr)",
+      "read the binary data in 32-bit Little-Endian chunks and map them to their corresponding memory addresses",
+      "output the result to stdout as a strictly formatted JSON object where keys are address strings and values are integers"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/elf-memory-extraction-js/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/elf-memory-extraction-js/solution.sh"
+  },
+  {
+    "task_id": "extract-moves-from-video",
+    "category": "file-operations",
+    "difficulty": "hard",
+    "task_type": "video_ocr_and_data_extraction",
+    "core_requirements_summary": [
+      "download a specific YouTube video using a CLI tool like yt-dlp or youtube-dl",
+      "process the video file to extract the visual text content from the terminal screen (OCR) or utilize a multimodal LLM to read the video frames",
+      "filter the transcribed text to isolate only the exact player input commands (e.g., 'n', 'get bag', 'slay troll')",
+      "format the extracted commands sequentially, exactly one per line, discarding all game output and prompt characters",
+      "save the final sequence to '/app/solution.txt'"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/transcribe-zork-playthrough-video/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/transcribe-zork-playthrough-video/solution.sh"
+  },
+  {
+    "task_id": "filter-js-from-html",
+    "category": "security",
+    "difficulty": "medium",
+    "task_type": "security_engineering_and_sanitization",
+    "core_requirements_summary": [
+      "create a Python script at '/app/filter.py' that takes a target HTML file path as a command-line argument",
+      "parse the HTML content using a robust DOM parser (like BeautifulSoup) to preserve legitimate formatting and structure",
+      "strip all explicit JavaScript execution nodes, including '<script>', '<frame>', '<iframe>', '<object>', and '<embed>' tags",
+      "neutralize inline execution by deleting all HTML attributes that start with 'on' (e.g., 'onerror', 'onload', 'onclick')",
+      "sanitize remaining string-based vectors by removing 'javascript:' protocol URIs and escaping rogue '<script' substrings",
+      "overwrite the original HTML file in-place with the fully sanitized content"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/xss-html-filter/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/xss-html-filter/solution.sh"
+  },
+  {
+    "task_id": "puzzle-solver",
+    "category": "algorithms",
+    "difficulty": "medium",
+    "task_type": "graph_search_and_state_exploration",
+    "core_requirements_summary": [
+      "verify the solvability of the 8-puzzle instances by calculating and comparing inversion parities",
+      "implement a level-by-level Breadth-First Search (BFS) to find the optimal sequence of moves from start to goal",
+      "format all puzzle states into a strict 18-character canonical string (9 zero-padded two-digit numbers)",
+      "export the exact BFS frontier at each depth into 'L{depth}.txt' files and compute their SHA256 hashes into 'L{depth}.sha' files",
+      "generate a 'layers.csv' file documenting the count of explored states per depth level",
+      "output the final optimal move sequence to a tab-separated 'path.tsv' file containing step, moved tile, and state key"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/8-puzzle-optimal-bfs/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/8-puzzle-optimal-bfs/solution.sh"
+  },
+  {
+    "task_id": "pytorch-model-cli",
+    "category": "model-training",
+    "difficulty": "medium",
+    "task_type": "model_deployment_and_c_implementation",
+    "core_requirements_summary": [
+      "extract PyTorch model weights from a '.pth' file and serialize them into a C-readable format like 'weights.json'",
+      "implement a Multi-Layer Perceptron (MLP) forward pass from scratch in C, including matrix multiplication and ReLU activations",
+      "parse the JSON weight data using the provided cJSON library and map it to 1D float arrays",
+      "decode a 28x28 PNG image, flatten it to a 784-dimensional array, and normalize the pixel values to 0.0-1.0 floats",
+      "compile the standalone binary 'cli_tool' using gcc, run the inference, and save the integer prediction to 'prediction.txt'"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mnist-c-inference-cli/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mnist-c-inference-cli/solution.sh"
+  },
+  {
+    "task_id": "query-optimize",
+    "category": "data-science",
+    "difficulty": "medium",
+    "task_type": "sql_query_optimization",
+    "core_requirements_summary": [
+      "analyze the unoptimized SQL query and the Open English Wordnet (OEWN) SQLite schema to understand the intended data aggregations",
+      "rewrite the query for optimal performance using SQLite-supported Common Table Expressions (CTEs) to eliminate redundant table scans",
+      "leverage window functions (e.g., ROW_NUMBER() OVER PARTITION) to efficiently identify the top synset per word without relying on costly correlated subqueries",
+      "ensure the final result set exactly matches the original query's output logic, including specific GROUP BY, HAVING, ORDER BY, and LIMIT clauses",
+      "save the optimized query to '/app/sol.sql' strictly as a single, semicolon-terminated SQL statement with absolutely zero comments"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/sqlite-query-optimization-oewn/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/sqlite-query-optimization-oewn/solution.sh"
+  },
+  {
+    "task_id": "rare-mineral-allocation",
+    "category": "mathematics",
+    "difficulty": "hard",
+    "task_type": "numerical_optimization",
+    "core_requirements_summary": [
+      "load fixed multi-dimensional vectors 'p' and 'q' from NumPy files without altering them",
+      "formulate a custom cost function combining a local quartic penalty, a quadratic scaling term, and a squared global coupling term",
+      "enforce strict optimization constraints: all 1,000 variables must lie within the [0, 10] box bounds and sum exactly to 500",
+      "implement a high-precision optimization strategy (e.g., using CVXPY for initialization followed by a custom Adam gradient descent loop) to minimize the cost function",
+      "save the optimized 1,000-dimensional vector to 'solution.txt'"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/rare-earth-resource-allocation/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/rare-earth-resource-allocation/solution.sh"
+  },
+  {
+    "task_id": "recover-obfuscated-files",
+    "category": "security",
+    "difficulty": "easy",
+    "task_type": "forensics_and_data_recovery",
+    "core_requirements_summary": [
+      "identify all target files in '/app/sensitive_data/' matching the '*.b64_content' pattern",
+      "strip the '.b64_content' suffix to isolate the base64-encoded original filename",
+      "decode the isolated string to recover the original plaintext filename",
+      "decode the base64-encoded content within each obfuscated file",
+      "write the decoded content to the '/app/recovered/' directory using the decoded original filename"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/base64-obfuscation-recovery/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/base64-obfuscation-recovery/solution.sh"
+  },
+  {
+    "task_id": "regex-chess",
+    "category": "software-engineering",
+    "difficulty": "hard",
+    "task_type": "state_machine_compilation",
+    "core_requirements_summary": [
+      "write a program (likely a Python script) that generates a massive list of [regex, replacement] pairs",
+      "use sequential regex substitutions to expand a 1D FEN string into a 64-square 2D representation to allow spatial matching",
+      "encode all pseudo-legal chess move rules (pawn pushes, knight jumps, sliding pieces) into regular expressions",
+      "implement absolute pin and 'king in check' validation exclusively via regex lookarounds or sequential masking",
+      "handle state-string updates for castling rights (KQkq) and en-passant targets",
+      "compress the board state back into standard FEN format and ensure the JSON payload is under 10MB"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/chess-move-generator-regex/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/chess-move-generator-regex/solution.sh"
+  },
+  {
+    "task_id": "reshard-c4-data",
+    "category": "data-science",
+    "difficulty": "medium",
+    "task_type": "data_processing_and_scripting",
+    "core_requirements_summary": [
+      "initialize a Python environment in '/app' using 'uv', complete with a 'pyproject.toml' for dependency management",
+      "write 'compress.py' to read '.jsonl' files and aggregate them into compressed '.jsonl.gz' shards",
+      "enforce output constraints during compression: maximum 15MB per file and maximum 30 items per directory (requiring nested directories for large datasets)",
+      "generate a precise metadata mapping file to track which line in the compressed shards belongs to which original input file",
+      "write 'decompress.py' to parse the metadata and compressed shards, reconstructing the exact original files in-place",
+      "ensure 'decompress.py' deletes all generated '.gz' shards and metadata files after reconstruction to leave only the original structure"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/dataset-resharding-uv-scripts/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/dataset-resharding-uv-scripts/solution.sh"
+  },
+  {
+    "task_id": "sam-cell-seg",
+    "category": "data-science",
+    "difficulty": "hard",
+    "task_type": "image_segmentation_and_processing",
+    "core_requirements_summary": [
+      "create a CLI Python script 'convert_masks.py' using argparse to accept paths for model weights, images, and CSVs",
+      "install and load the specified 'MobileSAM' model architecture ('vit_t') and ensure it is explicitly mapped to the CPU",
+      "parse initial bounding box coordinates from the input metadata CSV to use as prompts for the SAM predictor",
+      "generate refined segmentation masks for each cell, translating crude bounding boxes or polygons into precise semantic boundaries",
+      "implement custom post-processing (e.g., pixel-wise max suppression and OpenCV contour filtering) to guarantee no overlapping masks and exactly one contiguous polyline per cell",
+      "extract the final polyline coordinates (coords_x, coords_y) and bounding boxes, exporting them to the requested output CSV format"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mobile-sam-mask-refinement/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mobile-sam-mask-refinement/solution.sh"
+  },
+  {
+    "task_id": "schedule-vacation",
+    "category": "algorithms",
+    "difficulty": "easy",
+    "task_type": "data_parsing_and_scheduling",
+    "core_requirements_summary": [
+      "invoke the provided '/app/get_schedule.py' tool to retrieve raw schedule data for Alice, Bob, Charlie, and Dana",
+      "parse heterogeneous text formats (e.g., 'UNAVAILABLE:', 'SHIFT: off', 'BUSY:') to extract relevant date intervals",
+      "invert unavailable date intervals to calculate available 'free' date ranges for the specified vacation period",
+      "normalize and save the availability data into a strict JSON schema at '/app/all_availability.json'",
+      "execute the '/app/find_overlap.py' tool with the required 7-day parameter to compute intersecting free periods",
+      "isolate the specific 7-day window where all 4 friends are mutually available and output it to '/app/vacation_dates.txt' in the exact requested format"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/vacation-schedule-overlap/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/vacation-schedule-overlap/solution.sh"
+  },
+  {
+    "task_id": "setup-custom-dev-env",
+    "category": "software-engineering",
+    "difficulty": "easy",
+    "task_type": "environment_configuration",
+    "core_requirements_summary": [
+      "install system dependencies (zsh, git, curl, wget) and change the default shell to zsh",
+      "install Oh My Zsh and modify '/root/.zshrc' to use the 'apple' theme",
+      "manually clone third-party Zsh plugins (zsh-autosuggestions, zsh-syntax-highlighting) into the custom plugins directory and enable them alongside the built-in 'z' and 'git' plugins",
+      "download and install the specific 'Miniconda3-py39_4.12.0' release in batch mode",
+      "create a new Conda environment named 'terminal-bench' specifically configured with Python 3.10",
+      "initialize Conda for both 'zsh' and 'bash' shells to ensure cross-shell compatibility",
+      "append 'conda activate terminal-bench' to both '/root/.zshrc' and '/root/.bashrc' for automatic login activation"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/zsh-conda-environment-setup/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/zsh-conda-environment-setup/solution.sh"
+  },
+  {
+    "task_id": "heterogeneous-dates",
+    "category": "file-operations",
+    "difficulty": "easy",
+    "task_type": "data-processing",
+    "core_requirements_summary": [
+      "read daily high temperatures from /app/daily_temp_sf_high.csv",
+      "read daily low temperatures from /app/daily_temp_sf_low.csv",
+      "compute the per-day temperature difference (high - low) for matching dates/rows",
+      "calculate the average of these daily differences across all valid matched days",
+      "write the single computed average value to /app/avg_temp.txt",
+      "ensure /app/avg_temp.txt contains only the number (no extra text, labels, or whitespace beyond what is required)"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/heterogeneous-dates/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/heterogeneous-dates/solution.sh"
+  },
+  {
+    "task_id": "hf-lora-adapter",
+    "category": "model-training",
+    "difficulty": "medium",
+    "task_type": "model-configuration-and-inference",
+    "core_requirements_summary": [
+      "download the base model 'FacebookAI/xlm-roberta-base' from Hugging Face",
+      "download the LoRA adapter 'dominguesm/xlm-roberta-base-lora-language-detection'",
+      "reconfigure the base model for 20 language classification labels (num_labels=20 instead of default 2)",
+      "save the configured base model and tokenizer to '/app/model_cache/xlm-roberta-base'",
+      "apply the LoRA adapter to the base model using a PEFT-compatible workflow",
+      "merge the LoRA adapter weights into the base model",
+      "save the merged model to '/app/merged_model/'",
+      "run inference on 10 provided multilingual test samples",
+      "for each sample, compute predicted_class_id using argmax over logits (no hardcoding class IDs)",
+      "compute confidence scores (e.g., softmax probability of predicted class)",
+      "save inference results to '/app/detection_results.json' in the specified JSON format",
+      "ensure the merged model achieves at least 95% overall accuracy and at least 75% per-language accuracy on hidden evaluation tests"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/hf-lora-adapter/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/hf-lora-adapter/solution.sh"
+  },
+  {
+    "task_id": "hf-train-lora-adapter",
+    "category": "model-training",
+    "difficulty": "hard",
+    "task_type": "lora-fine-tuning-and-artifact-packaging",
+    "core_requirements_summary": [
+      "load the base model 'openai-community/gpt2' from Hugging Face as the foundation model",
+      "prepare the provided biomedical multiple-choice QA dataset (train.json with 300 samples, val.json with 100 samples) from /app/data",
+      "format each QA sample into a prompt suitable for causal language modeling (question + 4 options, predicting the correct letter A/B/C/D)",
+      "implement LoRA fine-tuning using peft==0.15.0 with configuration: r=8, alpha=16, target_modules=['c_attn']",
+      "train the LoRA adapter using the training set and validate on the validation set (test set is hidden and unavailable during training)",
+      "save the full training script to '/app/train_lora.py' for verification",
+      "save the trained LoRA adapter to '/app/experiments/lora_adapter/' including: adapter_config.json, adapter_model.safetensors, and tokenizer_config.json",
+      "ensure adapter_config.json includes default arguments such as 'base_model_name_or_path' and 'task_type'",
+      "generate '/app/lora_results.json' with exact schema including model name, LoRA config (r=8, alpha=16, epochs), and counts of training/validation samples",
+      "ensure the fine-tuned LoRA adapter achieves >35% accuracy on the hidden biomedical QA test set during evaluation"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/hf-train-lora-adapter/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/hf-train-lora-adapter/solution.sh"
+  },
+  {
+    "task_id": "ilp-solver",
+    "category": "mathematics",
+    "difficulty": "easy",
+    "task_type": "binary-ilp-capital-budgeting-with-deferral-option",
+    "core_requirements_summary": [
+      "model a 4-year capital budgeting problem with 3 projects (A, B, C) using given cash-flows and NPVs at 10% discount rate",
+      "include a deferral option for Project B by 1 year (mutually exclusive with investing in B immediately) with deferred NPV = 59 m.u. (immediate B NPV = 65 m.u.)",
+      "respect budget constraints for the first two years: year 0 total investment outlay ≤ 300 m.u., year 1 total investment outlay ≤ 200 m.u. (interpreting negative cash-flows as budget consumption in that year)",
+      "choose an investment strategy (Invest A, Invest B, Defer B, Invest C) to maximize total NPV under constraints",
+      "output decisions in the exact required text format with y/n flags for each decision line",
+      "compute and print the maximized total NPV as a number with exactly 2 decimal places",
+      "write the final output to /app/ilp_output.txt for pytest-based checking"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/ilp-solver/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/ilp-solver/solution.sh"
+  },
+  {
+    "task_id": "incompatible-python-fasttext",
+    "category": "debugging",
+    "difficulty": "medium",
+    "task_type": "python-package-import-failure-fasttext-system-python",
+    "core_requirements_summary": [
+      "diagnose why the `fasttext` Python package is not working in the current environment",
+      "implement a fix so that `fasttext` works with the default system-wide Python interpreter (not a separate venv/conda python)",
+      "ensure the fix is robust and reproducible (i.e., a clean environment can run `python -c \"import fasttext\"` successfully using the system Python)",
+      "pass the provided pytest-based benchmark checks for this task"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/incompatible-python-fasttext/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/incompatible-python-fasttext/solution.sh"
+  },
+  {
+    "task_id": "install-windows-3.11",
+    "category": "system-administration",
+    "difficulty": "hard",
+    "task_type": "qemu-vm-setup-windows311-vnc-nginx",
+    "core_requirements_summary": [
+      "launch Windows 3.11 for Workgroups in QEMU using the provided disk image at `/app/isos/win311.img` (compatible with QEMU 5.2.0)",
+      "start QEMU in snapshot mode to ensure the base disk image remains immutable",
+      "configure QEMU to use VNC display :1 and ensure the VNC server is listening on port 5901",
+      "leave the VM running in the background and ensure it boots to the Windows 3.11 desktop",
+      "configure QEMU to accept programmatic keyboard input (not limited to manual VNC interaction), enabling automated testing",
+      "set up appropriate QEMU interfaces or monitor channels to allow external keyboard control",
+      "configure and run an nginx web interface on port 80 for remote access to the VNC session",
+      "ensure all services (QEMU, VNC, nginx) are correctly exposed and verifiable via the benchmark’s pytest checks"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/install-windows-3.11/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/install-windows-3.11/solution.sh"
+  },
+  {
+    "task_id": "install-windows-xp",
+    "category": "system-administration",
+    "difficulty": "hard",
+    "task_type": "qemu-vm-setup-windowsxp-vnc-nginx-installation",
+    "core_requirements_summary": [
+      "create a virtual NTFS hard disk at `/app/isos/xp.img` and use it to install Windows XP SP3 (32-bit) from `/app/isos/xp.iso`",
+      "retrieve the official Windows XP product key programmatically via `/app/read_xp_key_from_cdrom_box` and use it during installation",
+      "set the Windows administrator account name to `tb-admin` during setup",
+      "configure QEMU to use VNC display :1 and ensure the VNC server is listening on port 5901",
+      "leave the Windows XP virtual machine running in the background once it reaches the login screen",
+      "set up and configure an nginx web interface on port 80 to enable remote access to the VNC session",
+      "ensure QEMU, VNC (5901), and nginx (80) are correctly exposed and verifiable via pytest-based benchmark checks",
+      "success condition: VM boots to the Windows XP login screen with VNC accessible for monitoring and web interface reachable"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/install-windows-xp/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/install-windows-xp/solution.sh"
+  },
+  {
+    "task_id": "intrusion-detection",
+    "category": "system-administration",
+    "difficulty": "medium",
+    "task_type": "log-parsing-intrusion-detection-and-incident-response",
+    "core_requirements_summary": [
+      "create /app/intrusion_detector.sh to parse /app/logs/auth.log and /app/logs/http.log using detection rules from /app/rules/detection_rules.json",
+      "apply rule-based matching to identify suspicious activities and aggregate matches per rule with unique IP extraction",
+      "generate /app/alert.json containing ISO-8601 timestamp and alert summaries (rule id, severity, match count, unique IP list)",
+      "generate /app/report.json containing ISO-8601 timestamp, detailed event summaries, and per-rule match statistics",
+      "create /app/response.sh that accepts a single IP argument and validates IPv4 format",
+      "if invalid IP is provided, exit with non-zero status and echo \"invalid\"",
+      "for valid IP, generate a block rule and extract all related activity from both log files",
+      "produce a timestamped incident report file (incident_<IP>_<timestamp>.txt) summarizing suspicious activity such as failed logins or admin access attempts",
+      "ensure overall runtime efficiency within 200% of the reference implementation"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/intrusion-detection/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/intrusion-detection/solution.sh"
+  },
+  {
+    "task_id": "leelachess0-pytorch-conversion",
+    "category": "machine-learning",
+    "difficulty": "hard",
+    "task_type": "tensorflow-to-pytorch-model-conversion-and-numerical-alignment",
+    "core_requirements_summary": [
+      "load the LeelaChess0 pb.gz TensorFlow model from /app/",
+      "reconstruct the CNN architecture (10 blocks x 128 filters) in PyTorch as class LC0Net",
+      "correctly map and transpose TensorFlow weights into PyTorch format",
+      "implement residual blocks and both policy and value (wdl) heads",
+      "ensure the forward method returns a dictionary containing policy_logits_gathered (1858 logits) and wdl (3-class probability distribution)",
+      "apply softmax to wdl outputs but not to policy logits",
+      "save the model state_dict to /app/leela-network-pytorch.pth",
+      "create /app/lc0utils.py containing the LC0Net class definition",
+      "ensure LC0Net().load_state_dict can properly restore the model",
+      "match ONNX model inference outputs on CPU with error tolerance <= 0.03"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/leelachess0-pytorch-conversion/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/leelachess0-pytorch-conversion/solution.sh"
+  },
+  {
+    "task_id": "llm-inference-batching-scheduler",
+    "category": "machine-learning",
+    "difficulty": "hard",
+    "task_type": "shape-aware-llm-inference-batching-optimization",
+    "core_requirements_summary": [
+      "read inference requests from two input JSONL files (requests_bucket_1.jsonl and requests_bucket_2.jsonl)",
+      "assign every request_id exactly once to a batch_id",
+      "compute seq_align as a multiple of 64 satisfying seq_align >= ceil(prompt_len / 64) * 64",
+      "use fixed heads_align = 32 and hidden_align = 4096 for all shapes",
+      "ensure identical tensor shapes for all requests within the same batch",
+      "limit the total number of unique shapes (seq_align, heads_align, hidden_align) across both buckets to at most 8",
+      "optimize batching to reduce padding ratio (pad_ratio) by grouping requests with similar prompt lengths",
+      "minimize total cost and P95 latency under the analytical cost model provided in cost_model.py",
+      "reduce per-batch overhead and per-shape compilation cost by intelligent shape reuse",
+      "generate two output plan files (plan_b1.jsonl and plan_b2.jsonl) in the required JSON format"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/llm-inference-batching-scheduler/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/llm-inference-batching-scheduler/solution.sh"
+  },
+  {
+    "task_id": "mahjong-winninghand",
+    "category": "games",
+    "difficulty": "easy",
+    "task_type": "mahjong-winning-hand-pattern-detection",
+    "core_requirements_summary": [
+      "read all JSON files in the /app directory containing 13 Mahjong tiles",
+      "for each hand, enumerate all 34 possible tile types as potential draw tiles",
+      "determine whether adding any single tile can form a valid 14-tile winning hand",
+      "implement algorithmic logic for Standard pattern (4 sets + 1 pair with Chow/Pung validation)",
+      "implement logic for Seven Pairs pattern (7 identical pairs)",
+      "implement logic for Thirteen Orphans pattern (all terminals and honors plus one duplicate)",
+      "handle suit-based sequential validation for Chow (same suit, consecutive numbers)",
+      "ensure tile counting respects Mahjong constraints (max 4 of each tile)",
+      "output results for each input file in required formatted string representation",
+      "write final aggregated results to result.txt in the /app directory"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mahjong-winninghand/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mahjong-winninghand/solution.sh"
+  },
+  {
+    "task_id": "mcmc-sampling-stan",
+    "category": "data-science",
+    "difficulty": "hard",
+    "task_type": "hierarchical-bayesian-mcmc-estimation",
+    "core_requirements_summary": [
+      "install RStan package version 2.32.7 and required Stan dependencies",
+      "load dataset from /app/data.csv containing columns y (successes) and n (trials)",
+      "implement hierarchical Bayesian model: y_i ~ Binomial(n_i, theta_i)",
+      "model group-level parameters: theta_i ~ Beta(alpha, beta)",
+      "define hyper-prior: p(alpha, beta) proportional to (alpha + beta)^(-5/2)",
+      "write a Stan model file hierarchical_model.stan implementing the full model",
+      "write an R script /app/analysis.R that uses rstan::sampling",
+      "configure MCMC with 4 chains and 100,000 iterations per chain",
+      "set random seed to 1 for reproducibility",
+      "extract posterior samples for alpha and beta",
+      "compute posterior mean of alpha",
+      "compute posterior mean of beta",
+      "save posterior_alpha_mean.txt with single numeric value",
+      "save posterior_beta_mean.txt with single numeric value",
+      "ensure hierarchical_model.stan and analysis.R are present in /app directory"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mcmc-sampling-stan/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mcmc-sampling-stan/solution.sh"
+  },
+  {
+    "task_id": "mlflow-register",
+    "category": "data-science",
+    "difficulty": "easy",
+    "task_type": "mlflow-tracking-server-and-model-registry",
+    "core_requirements_summary": [
+      "start a local MLflow tracking server in the background",
+      "bind MLflow server to localhost:8080",
+      "create a random dataset with 3 features for training",
+      "randomly initialize an sklearn linear regression model",
+      "train the linear regression model on the random dataset",
+      "log the trained model to MLflow in an experiment/run",
+      "register the logged model into MLflow Model Registry with name 'gpt-5'"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mlflow-register/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mlflow-register/solution.sh"
+  },
+  {
+    "task_id": "modernize-fortran-build",
+    "category": "software-engineering",
+    "difficulty": "easy",
+    "task_type": "fortran-build-system-modernization",
+    "core_requirements_summary": [
+      "copy and modify the original Makefile from /app/src to /app",
+      "update the build configuration to compile with gfortran",
+      "ensure the build process correctly compiles my_lib.f90",
+      "ensure the main program test_main.f90 links with the library",
+      "successfully build the executable test_program using the modified Makefile",
+      "run the compiled test_program",
+      "allow the program to generate /app/output.txt without modifying or deleting it"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/modernize-fortran-build/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/modernize-fortran-build/solution.sh"
+  },
+  {
+    "task_id": "movie-helper",
+    "category": "mathematics",
+    "difficulty": "hard",
+    "task_type": "matrix-completion-synthetic-data-generation",
+    "core_requirements_summary": [
+      "read three input files representing sparse matrix observations: row indices, column indices, and observed values",
+      "reconstruct or infer the underlying matrix structure from the sparse observations",
+      "generate a new synthetic matrix that closely resembles the original data distribution",
+      "ensure the generated data statistically approximates the original matrix rather than copying the subset",
+      "repeat the synthetic data generation experiment 20 independent times",
+      "for each iteration i, output the generated matrix as a CSV file",
+      "save outputs to /app/solution_i.txt where i ranges from 1 to 20"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/movie-helper/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/movie-helper/solution.sh"
+  },
+  {
+    "task_id": "mteb-eval",
+    "category": "data-science",
+    "difficulty": "medium",
+    "task_type": "embedding-model-evaluation-mteb",
+    "core_requirements_summary": [
+      "download and run an embedding model from HuggingFace",
+      "evaluate the embedding model on the STS12 task using the MTEB evaluation framework",
+      "use cosine similarity for sentence embedding comparison",
+      "achieve a cosine_spearman correlation score greater than 0.7",
+      "store the downloaded model using the default HuggingFace cache directory (~/.cache/huggingface)",
+      "generate the evaluation result file in the default MTEB output format",
+      "ensure the result path follows results/{hf_model_org}__{hf_model_name}/{model_commit_id}/{task_name}.json"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mteb-eval/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mteb-eval/solution.sh"
+  },
+  {
+    "task_id": "mteb-leaderboard",
+    "category": "data-science",
+    "difficulty": "medium",
+    "task_type": "embedding-model-selection-from-leaderboard",
+    "core_requirements_summary": [
+      "identify the best embedding model for Scandinavian texts from the Scandinavian MTEB leaderboard",
+      "use the leaderboard ranking by highest Mean (Task)",
+      "determine the correct top-ranked model as of August 2025",
+      "return the model name in organization/model_name format",
+      "write only the selected model name to /app/result.txt"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mteb-leaderboard/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mteb-leaderboard/solution.sh"
+  },
+  {
+    "task_id": "mteb-retrieve",
+    "category": "data-science",
+    "difficulty": "medium",
+    "task_type": "embedding-based-document-retrieval-by-ranked-similarity",
+    "core_requirements_summary": [
+      "embed the query \"terminal-bench\" using the bge-small-zh-v1.5 model",
+      "load the embedding model at revision 7999e1d3359715c523056ef9478215996d62a620",
+      "treat each line in /app/data.txt as a separate document",
+      "compute cosine similarity between the query embedding and all document embeddings",
+      "identify the document with the 5th highest cosine similarity score",
+      "write exactly that retrieved line to /app/result.txt"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mteb-retrieve/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/mteb-retrieve/solution.sh"
+  },
+  {
+    "task_id": "multi-source-data-merger",
+    "category": "data-processing",
+    "difficulty": "medium",
+    "task_type": "multi-source-etl-with-schema-mapping-and-priority-based-conflict-resolution",
+    "core_requirements_summary": [
+      "read and parse user records from three heterogeneous sources: JSON (/data/source_a/users.json), CSV (/data/source_b/users.csv), and Parquet (/data/source_c/users.parquet)",
+      "normalize schema by mapping equivalent fields across sources: user_id/id/userId -> user_id, email/email_address -> email, full_name/name/userName -> name, registration_date/created_at/joined -> created_date",
+      "merge records from all sources using user_id as the unique key",
+      "resolve conflicting field values using source priority ordering (source_a > source_b > source_c)",
+      "ensure the merged dataset contains one row per unique user with columns: user_id, name, email, created_date, and optional status",
+      "convert created_date values to the YYYY-MM-DD string format",
+      "enforce correct data types (user_id must be integer)",
+      "write the merged dataset to /app/merged_users.parquet",
+      "detect and record conflicts when the same user has different field values across sources",
+      "generate a conflict report /app/conflicts.json listing each conflict with user_id, field name, values from each source, and the selected value",
+      "ensure total_conflicts matches the number of recorded conflict entries"
+    ],
+    "raw_task_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/multi-source-data-merger/task.yaml",
+    "solution_ref": "https://github.com/laude-institute/terminal-bench/blob/main/original-tasks/multi-source-data-merger/solution.sh"
+  }
+]

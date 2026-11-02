@@ -1,0 +1,52 @@
+{
+  "case_id": "install-windows-xp__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "execution",
+  "primary_failure_category": "disk_image_format",
+  "primary_failure_subtype": "qcow2_instead_of_raw",
+  "contributing_failure_1_layer": "planning",
+  "contributing_failure_1_category": "premature_completion",
+  "contributing_failure_1_subtype": "claimed_success_without_verifying_installation_completed",
+  "root_cause_label": "Agent creates Windows XP disk image in qcow2 format throughout all attempts, while tests expect a raw disk image to read MBR/NTFS signatures at fixed byte offsets; agent then claims completion before installation even finishes.",
+  "one_sentence_failure_summary": "The agent persistently used qcow2 disk format (instead of raw) across all QEMU launch attempts and submitted completion prematurely when QEMU had barely started with an essentially empty 393KB qcow2 container, ensuring tests requiring raw MBR/NTFS signatures would fail.",
+  "m": 8,
+  "t_err": 2,
+  "t_err_evidence": "Step 2: Agent runs 'qemu-img create -f qcow2 /app/isos/xp.img 20G' and uses 'format=qcow2' in the QEMU drive specification. This false premise (that qcow2 is acceptable) is introduced at the first disk-creation attempt and never corrected in any subsequent step.",
+  "t_commit": 6,
+  "t_commit_evidence": "Step 6: QEMU is successfully launched with 'file=/app/isos/xp.img,if=ide,media=disk,format=qcow2'. The VM is now running with the wrong-format disk and no subsequent step attempts to recreate the disk as raw or restart with the correct format.",
+  "t_surface": 7,
+  "t_surface_evidence": "Step 7: 'ls -l /app/isos/xp.img' shows only 393,216 bytes, revealing xp.img is a nearly empty qcow2 container with no actual Windows XP installation data written. VNC is up on port 5901 but the disk is too small to have completed installation.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent assumed from the start that creating the disk image in qcow2 format was acceptable. It never verified that the test harness expects a raw disk image readable at fixed byte offsets (MBR at offset 510, NTFS signatures, etc.). This unverified assumption about disk format compatibility was carried through all 8 steps without correction.",
+  "forewarning_present": true,
+  "forewarning_first_step": 5,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 5: The pgrep check at the end of the command produces no output, suggesting QEMU may not have launched (or the check is inconclusive). Step 7: xp.img shows only 393,216 bytes despite being created as a 20GB qcow2, indicating no meaningful installation has occurred.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 3,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 7,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 2, "X"],
+    [3, 4, "R"],
+    [5, 5, "R"],
+    [6, 6, "X"],
+    [7, 7, "V"],
+    [8, 8, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}
