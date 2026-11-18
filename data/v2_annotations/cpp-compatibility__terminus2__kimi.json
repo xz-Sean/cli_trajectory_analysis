@@ -1,0 +1,53 @@
+{
+  "case_id": "cpp-compatibility__terminus2__kimi",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "verification",
+  "primary_failure_subtype": "insufficient_validation",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "knowledge",
+  "contributing_failure_1_subtype": "c++11_constexpr_rules",
+  "root_cause_label": "False premise that runtime compilation under -std=c++11 is sufficient to verify C++11 constexpr compatibility",
+  "one_sentence_failure_summary": "The agent incorrectly assumed that successful runtime compilation under -std=c++11 validated C++11 constexpr compatibility, and when it finally recognized the constexpr issue, applied an incorrect fix (removing constexpr entirely) instead of rewriting with a C++11-compliant recursive constexpr implementation.",
+  "m": 10,
+  "t_err": 2,
+  "t_err_evidence": "Step 2: Agent states 'The current implementation should actually work in C++11' while designing a test that only validates runtime behavior, not constexpr usability in constant expression contexts. The false premise that runtime compilation sufficiency is established here.",
+  "t_commit": 7,
+  "t_commit_evidence": "Step 7: Agent overwrites /app/sum_array.h removing the constexpr qualifier entirely. This locks in failure because the benchmark requires a constexpr-compatible interface; after this edit, steps 8-10 only do runtime verification of the incorrect fix.",
+  "t_surface": null,
+  "t_surface_evidence": null,
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "At step 2, the agent designs a verification strategy (runtime compile + run) based on the unverified assumption that C++11 compilation success implies C++11 constexpr compatibility. The agent never considers that C++11 constexpr functions require a single return statement (no loops, no local mutable variables), which means the function may compile for runtime use but fail in constant expression contexts like static_assert.",
+  "forewarning_present": true,
+  "forewarning_first_step": 5,
+  "forewarning_types": [
+    "self_doubt_language"
+  ],
+  "forewarning_evidence": "Step 5: Agent declares 'No changes needed' (premature completion), but then at step 6 immediately reverses course saying 'I need to double-check my analysis... there might be subtle C++11 compatibility issues', showing self-doubt before committing the wrong fix at step 7.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 6,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "verification_theater",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 3,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 2, "P"],
+    [3, 4, "V"],
+    [5, 5, "C"],
+    [6, 6, "E"],
+    [7, 7, "W"],
+    [8, 9, "V"],
+    [10, 10, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "forewarning_first_step"
+  ]
+}

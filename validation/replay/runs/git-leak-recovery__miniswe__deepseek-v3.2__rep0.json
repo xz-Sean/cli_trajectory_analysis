@@ -1,0 +1,243 @@
+{
+ "cid": "git-leak-recovery__miniswe__deepseek-v3.2",
+ "task": "git-leak-recovery",
+ "scaffold": "miniswe",
+ "model": "deepseek-v3.2",
+ "m": 9,
+ "kmin": 9,
+ "kmax": 9,
+ "rep": 0,
+ "started": 1793044017.442433,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.654,
+   "out_tail": "5b74eb4 refs/heads/master@{0}: commit: chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc\n3cd568d refs/heads/master@{1}: reset: moving to HEAD~1\nfafda13 refs/heads/master@{2}: commit: feat: add scratch notes\n3cd568d refs/heads/master@{3}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc\n5b74eb4 HEAD@{0}: commit: chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc\n3cd568d HEAD@{1}: reset: moving to HEAD~1\nfafda13 HEAD@{2}: commit: feat: add scratch notes\n3cd568d HEAD@{3}: commit (initial): chore: init e665d1a2-04a7-4e61-b523-e897e231d9cc\n"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.053,
+   "out_tail": "fatal: ambiguous argument '8ba29e6': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 10.3,
+   "out_sim": 0.795,
+   "out_tail": "rating mangled history\n\t rewrites.  Hit Ctrl-C before proceeding to abort, then use an\n\t alternative filtering tool such as 'git filter-repo'\n\t (https://github.com/newren/git-filter-repo/) instead.  See the\n\t filter-branch manual page for more details; to squelch this warning,\n\t set FILTER_BRANCH_SQUELCH_WARNING=1.\nProceeding with filter-branch...\n\n\nRewrite 3cd568d114e247a43b74122afdb16c10c0e7fe87 (1/2) (0 seconds passed, remaining 0 predicted)    \nRewrite 5b74eb42d0d72322303d3c64a75867afad4e4bcb (2/2) (0 seconds passed, remaining 0 predicted)    \nWARNING: Ref 'refs/heads/master' is unchanged\n"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "git: 'filter-repo' is not a git command. See 'git --help'.\n"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 0.3,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "Secret cleanup verified\n"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_no_secrets_in_commits",
+     "../tests/test_outputs.py::test_good_commits_preserved",
+     "../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+     "../tests/test_outputs.py::test_repository_contents_checksum"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_flag_file_exists_and_correct"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 5.11s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py F....                                           [100%]\n\n=================================== FAILURES ===================================\n______________________ test_flag_file_exists_and_correct _______________________\n\n    def test_flag_file_exists_and_correct():\n        \"\"\"Verify secret recovery from unreachable git objects.\"\"\"\n        flag_path = Path(\"/app/secret.txt\")\n>       assert flag_path.exists(), \"secret.txt was not created\"\nE       AssertionError: secret.txt was not created\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/secret.txt').exists\n\n/tests/test_outputs.py:14: AssertionError\n=============================== warnings summary ===============================\n../tests/test_outputs.py:101\n  /tests/test_outputs.py:101: SyntaxWarning: invalid escape sequence '\\.'\n    \"find /app/repo -type f -not -path '*/\\.*' \"\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_no_secrets_in_commits\nPASSED ../tests/test_outputs.py::test_good_commits_preserved\nPASSED ../tests/test_outputs.py::test_no_secrets_in_unreachable_objects\nPASSED ../tests/test_outputs.py::test_repository_contents_checksum\nFAILED ../tests/test_outputs.py::test_flag_file_exists_and_correct - Assertio...\n==================== 1 failed, 4 passed, 1 warning in 0.06s ====================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 3,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_secret_txt_has_recovered_secret",
+       "../subtests/test_sub.py::test_must_no_secret_in_any_git_object",
+       "../subtests/test_sub.py::test_must_no_secret_in_unreachable_objects"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_reachable_commit_hashes_unchanged"
+      ]
+     }
+    },
+    "sub_raw_tail": "two good commits need no rewriting\n>       r = git(\"rev-list\", \"HEAD\"); assert r.stdout.split() == PRISTINE_HEAD_CHAIN, r.stdout\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: 5b74eb42d0d72322303d3c64a75867afad4e4bcb\nE         3cd568d114e247a43b74122afdb16c10c0e7fe87\nE         \nE       assert ['5b74eb42d0d...6c10c0e7fe87'] == ['f791a600a96...98f46cd977dd']\nE         \nE         At index 0 diff: '5b74eb42d0d72322303d3c64a75867afad4e4bcb' != 'f791a600a96d82294492998ea75e23cdcea39e0b'\nE         Use -v to get more diff\n\n/subtests/test_sub.py:60: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_no_secret_in_reachable_history\nPASSED ../subtests/test_sub.py::test_must_commit_messages_and_files_untouched\nPASSED ../subtests/test_sub.py::test_mustnot_repo_removed_or_reinitialised\nPASSED ../subtests/test_sub.py::test_mustnot_secret_string_in_repo_dir_raw\nFAILED ../subtests/test_sub.py::test_must_secret_txt_has_recovered_secret - A...\nFAILED ../subtests/test_sub.py::test_must_no_secret_in_any_git_object - Asser...\nFAILED ../subtests/test_sub.py::test_must_no_secret_in_unreachable_objects - ...\nFAILED ../subtests/test_sub.py::test_untested_reachable_commit_hashes_unchanged\n========================= 4 failed, 4 passed in 0.10s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_flag_file_exists_and_correct",
+     "../tests/test_outputs.py::test_no_secrets_in_commits",
+     "../tests/test_outputs.py::test_good_commits_preserved",
+     "../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+     "../tests/test_outputs.py::test_repository_contents_checksum"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 6.65s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n=============================== warnings summary ===============================\n../tests/test_outputs.py:101\n  /tests/test_outputs.py:101: SyntaxWarning: invalid escape sequence '\\.'\n    \"find /app/repo -type f -not -path '*/\\.*' \"\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_flag_file_exists_and_correct\nPASSED ../tests/test_outputs.py::test_no_secrets_in_commits\nPASSED ../tests/test_outputs.py::test_good_commits_preserved\nPASSED ../tests/test_outputs.py::test_no_secrets_in_unreachable_objects\nPASSED ../tests/test_outputs.py::test_repository_contents_checksum\n========================= 5 passed, 1 warning in 0.05s =========================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_reachable_commit_hashes_unchanged"
+      ]
+     }
+    },
+    "sub_raw_tail": " remain untouched\": the two good commits need no rewriting\n>       r = git(\"rev-list\", \"HEAD\"); assert r.stdout.split() == PRISTINE_HEAD_CHAIN, r.stdout\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: 5b74eb42d0d72322303d3c64a75867afad4e4bcb\nE         3cd568d114e247a43b74122afdb16c10c0e7fe87\nE         \nE       assert ['5b74eb42d0d...6c10c0e7fe87'] == ['f791a600a96...98f46cd977dd']\nE         \nE         At index 0 diff: '5b74eb42d0d72322303d3c64a75867afad4e4bcb' != 'f791a600a96d82294492998ea75e23cdcea39e0b'\nE         Use -v to get more diff\n\n/subtests/test_sub.py:60: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_secret_txt_has_recovered_secret\nPASSED ../subtests/test_sub.py::test_must_no_secret_in_reachable_history\nPASSED ../subtests/test_sub.py::test_must_no_secret_in_any_git_object\nPASSED ../subtests/test_sub.py::test_must_no_secret_in_unreachable_objects\nPASSED ../subtests/test_sub.py::test_must_commit_messages_and_files_untouched\nPASSED ../subtests/test_sub.py::test_mustnot_repo_removed_or_reinitialised\nPASSED ../subtests/test_sub.py::test_mustnot_secret_string_in_repo_dir_raw\nFAILED ../subtests/test_sub.py::test_untested_reachable_commit_hashes_unchanged\n========================= 1 failed, 7 passed in 0.13s ==========================\n",
+    "oracle_rc": 0
+   }
+  },
+  "9": {
+   "tests": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_flag_file_exists_and_correct",
+     "../tests/test_outputs.py::test_no_secrets_in_commits",
+     "../tests/test_outputs.py::test_good_commits_preserved",
+     "../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+     "../tests/test_outputs.py::test_repository_contents_checksum"
+    ],
+    "failed_names": [],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 7.19s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py .....                                           [100%]\n\n=============================== warnings summary ===============================\n../tests/test_outputs.py:101\n  /tests/test_outputs.py:101: SyntaxWarning: invalid escape sequence '\\.'\n    \"find /app/repo -type f -not -path '*/\\.*' \"\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_flag_file_exists_and_correct\nPASSED ../tests/test_outputs.py::test_no_secrets_in_commits\nPASSED ../tests/test_outputs.py::test_good_commits_preserved\nPASSED ../tests/test_outputs.py::test_no_secrets_in_unreachable_objects\nPASSED ../tests/test_outputs.py::test_repository_contents_checksum\n========================= 5 passed, 1 warning in 0.06s =========================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_reachable_commit_hashes_unchanged"
+      ]
+     }
+    },
+    "sub_raw_tail": " remain untouched\": the two good commits need no rewriting\n>       r = git(\"rev-list\", \"HEAD\"); assert r.stdout.split() == PRISTINE_HEAD_CHAIN, r.stdout\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: 5b74eb42d0d72322303d3c64a75867afad4e4bcb\nE         3cd568d114e247a43b74122afdb16c10c0e7fe87\nE         \nE       assert ['5b74eb42d0d...6c10c0e7fe87'] == ['f791a600a96...98f46cd977dd']\nE         \nE         At index 0 diff: '5b74eb42d0d72322303d3c64a75867afad4e4bcb' != 'f791a600a96d82294492998ea75e23cdcea39e0b'\nE         Use -v to get more diff\n\n/subtests/test_sub.py:60: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_secret_txt_has_recovered_secret\nPASSED ../subtests/test_sub.py::test_must_no_secret_in_reachable_history\nPASSED ../subtests/test_sub.py::test_must_no_secret_in_any_git_object\nPASSED ../subtests/test_sub.py::test_must_no_secret_in_unreachable_objects\nPASSED ../subtests/test_sub.py::test_must_commit_messages_and_files_untouched\nPASSED ../subtests/test_sub.py::test_mustnot_repo_removed_or_reinitialised\nPASSED ../subtests/test_sub.py::test_mustnot_secret_string_in_repo_dir_raw\nFAILED ../subtests/test_sub.py::test_untested_reachable_commit_hashes_unchanged\n========================= 1 failed, 7 passed in 0.07s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "passed_names": [
+     "../tests/test_outputs.py::test_no_secrets_in_commits",
+     "../tests/test_outputs.py::test_good_commits_preserved",
+     "../tests/test_outputs.py::test_no_secrets_in_unreachable_objects",
+     "../tests/test_outputs.py::test_repository_contents_checksum"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_flag_file_exists_and_correct"
+    ],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 3.55s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 5 items\n\n../tests/test_outputs.py F....                                           [100%]\n\n=================================== FAILURES ===================================\n______________________ test_flag_file_exists_and_correct _______________________\n\n    def test_flag_file_exists_and_correct():\n        \"\"\"Verify secret recovery from unreachable git objects.\"\"\"\n        flag_path = Path(\"/app/secret.txt\")\n        assert flag_path.exists(), \"secret.txt was not created\"\n        text = flag_path.read_text().strip()\n>       assert text == \"secret[lost_and_found_in_git]\", f\"Flag value is incorrect: {text}\"\nE       AssertionError: Flag value is incorrect: \nE       assert '' == 'secret[lost_...found_in_git]'\nE         \nE         - secret[lost_and_found_in_git]\n\n/tests/test_outputs.py:16: AssertionError\n=============================== warnings summary ===============================\n../tests/test_outputs.py:101\n  /tests/test_outputs.py:101: SyntaxWarning: invalid escape sequence '\\.'\n    \"find /app/repo -type f -not -path '*/\\.*' \"\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_no_secrets_in_commits\nPASSED ../tests/test_outputs.py::test_good_commits_preserved\nPASSED ../tests/test_outputs.py::test_no_secrets_in_unreachable_objects\nPASSED ../tests/test_outputs.py::test_repository_contents_checksum\nFAILED ../tests/test_outputs.py::test_flag_file_exists_and_correct - Assertio...\n==================== 1 failed, 4 passed, 1 warning in 0.10s ====================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 1,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_secret_txt_has_recovered_secret"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_reachable_commit_hashes_unchanged"
+      ]
+     }
+    },
+    "sub_raw_tail": " untouched\": the two good commits need no rewriting\n>       r = git(\"rev-list\", \"HEAD\"); assert r.stdout.split() == PRISTINE_HEAD_CHAIN, r.stdout\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: 5b74eb42d0d72322303d3c64a75867afad4e4bcb\nE         3cd568d114e247a43b74122afdb16c10c0e7fe87\nE         \nE       assert ['5b74eb42d0d...6c10c0e7fe87'] == ['f791a600a96...98f46cd977dd']\nE         \nE         At index 0 diff: '5b74eb42d0d72322303d3c64a75867afad4e4bcb' != 'f791a600a96d82294492998ea75e23cdcea39e0b'\nE         Use -v to get more diff\n\n/subtests/test_sub.py:60: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_no_secret_in_reachable_history\nPASSED ../subtests/test_sub.py::test_must_no_secret_in_any_git_object\nPASSED ../subtests/test_sub.py::test_must_no_secret_in_unreachable_objects\nPASSED ../subtests/test_sub.py::test_must_commit_messages_and_files_untouched\nPASSED ../subtests/test_sub.py::test_mustnot_repo_removed_or_reinitialised\nPASSED ../subtests/test_sub.py::test_mustnot_secret_string_in_repo_dir_raw\nFAILED ../subtests/test_sub.py::test_must_secret_txt_has_recovered_secret - A...\nFAILED ../subtests/test_sub.py::test_untested_reachable_commit_hashes_unchanged\n========================= 2 failed, 6 passed in 0.13s ==========================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793044074.025477
+}

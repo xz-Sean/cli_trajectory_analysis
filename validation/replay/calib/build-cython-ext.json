@@ -1,0 +1,96 @@
+{
+ "task": "build-cython-ext",
+ "pristine": {
+  "passed": 1,
+  "failed": 10,
+  "total": 11,
+  "passed_names": [
+   "../tests/test_outputs.py::test_numpy_version"
+  ],
+  "failed_names": [
+   "../tests/test_outputs.py::test_repo_cloned",
+   "../tests/test_outputs.py::test_pyknotid_core_import",
+   "../tests/test_outputs.py::test_chelpers_cython_extension",
+   "../tests/test_outputs.py::test_ccomplexity_cython_extension",
+   "../tests/test_outputs.py::test_cinvariants_cython_extension",
+   "../tests/test_outputs.py::test_chelpers",
+   "../tests/test_outputs.py::test_ccomplexity",
+   "../tests/test_outputs.py::test_cinvariants_python_vs_cython",
+   "../tests/test_outputs.py::test_example_usage",
+   "../tests/test_outputs.py::test_pyknotid_repository_tests"
+  ],
+  "raw_tail": "ariants_python_vs_cython():\n        \"\"\"Test that Cython cinvariants matches Python fallback implementation.\"\"\"\n>       import pyknotid.invariants as inv\nE       ModuleNotFoundError: No module named 'pyknotid'\n\n/tests/test_outputs.py:115: ModuleNotFoundError\n______________________________ test_example_usage ______________________________\n\n    def test_example_usage():\n        \"\"\"Test example usage of pyknotid from readme as well as a variation\"\"\"\n>       import pyknotid.make as mk\nE       ModuleNotFoundError: No module named 'pyknotid'\n\n/tests/test_outputs.py:128: ModuleNotFoundError\n________________________ test_pyknotid_repository_tests ________________________\n\n    def test_pyknotid_repository_tests():\n        \"\"\"Download and run the original pyknotid test suite.\"\"\"\n        with tempfile.TemporaryDirectory() as temp_dir:\n            git_cmd = [\n                \"git\",\n                \"clone\",\n                \"--depth\",\n                \"1\",\n                \"--branch\",\n                \"0.5.3\",\n                \"https://github.com/SPOCKnots/pyknotid.git\",\n                temp_dir,\n            ]\n            result = subprocess.run(git_cmd, capture_output=True, text=True)\n            tests_dir = os.path.join(temp_dir, \"tests\")\n    \n            # Run pytest excluding the problematic test files\n            pytest_cmd = [\n                \"python\",\n                \"-m\",\n                \"pytest\",\n                tests_dir,\n                \"--ignore\",\n                os.path.join(tests_dir, \"test_random_curves.py\"),\n                \"--ignore\",\n                os.path.join(tests_dir, \"test_catalogue.py\"),\n                \"-v\",\n            ]\n    \n            original_cwd = os.getcwd()\n            try:\n>               os.chdir(\"/app/pyknotid\")\nE               FileNotFoundError: [Errno 2] No such file or directory: '/app/pyknotid'\n\n/tests/test_outputs.py:171: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_numpy_version\nFAILED ../tests/test_outputs.py::test_repo_cloned - AssertionError: /app/pykn...\nFAILED ../tests/test_outputs.py::test_pyknotid_core_import - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_chelpers_cython_extension - ModuleNotFo...\nFAILED ../tests/test_outputs.py::test_ccomplexity_cython_extension - ModuleNo...\nFAILED ../tests/test_outputs.py::test_cinvariants_cython_extension - ModuleNo...\nFAILED ../tests/test_outputs.py::test_chelpers - ModuleNotFoundError: No modu...\nFAILED ../tests/test_outputs.py::test_ccomplexity - ModuleNotFoundError: No m...\nFAILED ../tests/test_outputs.py::test_cinvariants_python_vs_cython - ModuleNo...\nFAILED ../tests/test_outputs.py::test_example_usage - ModuleNotFoundError: No...\nFAILED ../tests/test_outputs.py::test_pyknotid_repository_tests - FileNotFoun...\n========================= 10 failed, 1 passed in 1.39s =========================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_repo_cloned_to_app_pyknotid",
+     "../subtests/test_sub.py::test_must_readme_snippet_runs_with_numpy_230",
+     "../subtests/test_sub.py::test_must_three_cython_extensions_are_compiled_modules",
+     "../subtests/test_sub.py::test_must_repo_tests_pass_except_excluded"
+    ]
+   },
+   "mustnot": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_untested_installed_in_global_env_not_just_importable_from_cwd"
+    ]
+   }
+  },
+  "sub_raw_tail": "_from_cwd():\n        # \"install pyknotid from source to system's global python environment\": pip knows the package\n        r = subprocess.run([PY, \"-m\", \"pip\", \"show\", \"pyknotid\"], capture_output=True, text=True, cwd=\"/tmp\")\n>       assert r.returncode == 0 and \"Name: pyknotid\" in r.stdout, r.stdout + r.stderr\nE       AssertionError: WARNING: Package(s) not found: pyknotid\nE         \nE       assert (1 == 0)\nE        +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '-m', 'pip', 'show', 'pyknotid'], returncode=1, stdout='', stderr='WARNING: Package(s) not found: pyknotid\\n').returncode\n\n/subtests/test_sub.py:69: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_numpy_version_changed\nSKIPPED [1] ../subtests/test_sub.py:55: repo not cloned yet\nSKIPPED [1] ../subtests/test_sub.py:61: repo not cloned yet\nFAILED ../subtests/test_sub.py::test_must_repo_cloned_to_app_pyknotid - Asser...\nFAILED ../subtests/test_sub.py::test_must_readme_snippet_runs_with_numpy_230\nFAILED ../subtests/test_sub.py::test_must_three_cython_extensions_are_compiled_modules\nFAILED ../subtests/test_sub.py::test_must_repo_tests_pass_except_excluded - F...\nFAILED ../subtests/test_sub.py::test_untested_installed_in_global_env_not_just_importable_from_cwd\n==================== 5 failed, 1 passed, 2 skipped in 0.58s ====================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 10,
+  "failed": 1,
+  "total": 11,
+  "passed_names": [
+   "../tests/test_outputs.py::test_numpy_version",
+   "../tests/test_outputs.py::test_repo_cloned",
+   "../tests/test_outputs.py::test_pyknotid_core_import",
+   "../tests/test_outputs.py::test_chelpers_cython_extension",
+   "../tests/test_outputs.py::test_ccomplexity_cython_extension",
+   "../tests/test_outputs.py::test_cinvariants_cython_extension",
+   "../tests/test_outputs.py::test_chelpers",
+   "../tests/test_outputs.py::test_ccomplexity",
+   "../tests/test_outputs.py::test_cinvariants_python_vs_cython",
+   "../tests/test_outputs.py::test_example_usage"
+  ],
+  "failed_names": [
+   "../tests/test_outputs.py::test_pyknotid_repository_tests"
+  ],
+  "raw_tail": "t=True, text=True)\n            tests_dir = os.path.join(temp_dir, \"tests\")\n    \n            # Run pytest excluding the problematic test files\n            pytest_cmd = [\n                \"python\",\n                \"-m\",\n                \"pytest\",\n                tests_dir,\n                \"--ignore\",\n                os.path.join(tests_dir, \"test_random_curves.py\"),\n                \"--ignore\",\n                os.path.join(tests_dir, \"test_catalogue.py\"),\n                \"-v\",\n            ]\n    \n            original_cwd = os.getcwd()\n            try:\n                os.chdir(\"/app/pyknotid\")\n                result = subprocess.run(pytest_cmd, capture_output=True, text=True)\n>               assert result.returncode == 0, (\n                    f\"Repository tests failed with return code {result.returncode}\"\n                )\nE               AssertionError: Repository tests failed with return code 1\nE               assert 1 == 0\nE                +  where 1 = CompletedProcess(args=['python', '-m', 'pytest', '/tmp/tmpja1duxsq/tests', '--ignore', '/tmp/tmpja1duxsq/tests/test_ra...onstructed_space_curve\\n========================= 1 failed, 17 passed in 0.80s =========================\\n\", stderr='').returncode\n\n/tests/test_outputs.py:173: AssertionError\n==================================== PASSES ====================================\n_______________________________ test_ccomplexity _______________________________\n----------------------------- Captured stdout call -----------------------------\n\ncython i1 0 0\n______________________ test_cinvariants_python_vs_cython _______________________\n----------------------------- Captured stdout call -----------------------------\nFinding crossings\n\ni = 0 / 47\n3.0 crossings found\n\n\nCurrently comparing index 0\n______________________________ test_example_usage ______________________________\n----------------------------- Captured stdout call -----------------------------\nFinding crossings\n\ni = 0 / 97\n7.0 crossings found\n\nSimplifying: initially 14 crossings\n\n-> 10 crossings after 1 runs\n-> 10 crossings after 2 runs\nFinding crossings\n\ni = 0 / 97\n4.0 crossings found\n\nSimplifying: initially 8 crossings\n\n-> 8 crossings after 1 runs\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_numpy_version\nPASSED ../tests/test_outputs.py::test_repo_cloned\nPASSED ../tests/test_outputs.py::test_pyknotid_core_import\nPASSED ../tests/test_outputs.py::test_chelpers_cython_extension\nPASSED ../tests/test_outputs.py::test_ccomplexity_cython_extension\nPASSED ../tests/test_outputs.py::test_cinvariants_cython_extension\nPASSED ../tests/test_outputs.py::test_chelpers\nPASSED ../tests/test_outputs.py::test_ccomplexity\nPASSED ../tests/test_outputs.py::test_cinvariants_python_vs_cython\nPASSED ../tests/test_outputs.py::test_example_usage\nFAILED ../tests/test_outputs.py::test_pyknotid_repository_tests - AssertionEr...\n========================= 1 failed, 10 passed in 2.34s =========================\n",
+  "sub": {
+   "must": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_repo_cloned_to_app_pyknotid\nPASSED ../subtests/test_sub.py::test_must_readme_snippet_runs_with_numpy_230\nPASSED ../subtests/test_sub.py::test_must_three_cython_extensions_are_compiled_modules\nPASSED ../subtests/test_sub.py::test_must_repo_tests_pass_except_excluded\nPASSED ../subtests/test_sub.py::test_mustnot_numpy_version_changed\nPASSED ../subtests/test_sub.py::test_mustnot_repo_tests_modified\nPASSED ../subtests/test_sub.py::test_mustnot_package_structure_changed\nPASSED ../subtests/test_sub.py::test_untested_installed_in_global_env_not_just_importable_from_cwd\n============================== 8 passed in 2.61s ===============================\n",
+  "oracle_rc": 0
+ }
+}

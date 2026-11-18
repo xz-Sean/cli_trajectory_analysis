@@ -1,0 +1,32 @@
+{
+  "case_id": "distribution-search__terminus2__devstral",
+  "schema_version": "v2",
+  "m": 6,
+  "action_segments": [
+    [1, 1, "P"],
+    [2, 2, "X"],
+    [3, 3, "W"],
+    [4, 4, "W"],
+    [5, 5, "V"],
+    [6, 6, "C"]
+  ],
+  "num_error_events": 2,
+  "first_error_step": 2,
+  "first_error_evidence": "Step 2 terminal shows crash: 'ValueError: cannot convert float NaN to integer' and RuntimeWarning for divide by zero/invalid in log — the two-level distribution script failed because rest probabilities could become negative, leading to NaN propagation that crashed the optimizer.",
+  "num_recoveries": 2,
+  "max_detour_length": 3,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 5,
+  "verification_evidence": "Step 5: agent loads /app/dist.npy and recomputes both KL divergences (forward=10.000000, backward=10.000000), confirms shape (150000,), sum=1.0, all probabilities positive before claiming task complete in step 6.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent iteratively refined a parametric distribution to satisfy simultaneous KL divergence constraints: a two-level approach crashed (step 2), a power-law model missed the tolerance (step 3), and a three-parameter mixture model with differential evolution global optimization succeeded (step 4), producing a valid distribution saved to /app/dist.npy.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

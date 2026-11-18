@@ -1,0 +1,30 @@
+{
+  "case_id": "recover-obfuscated-files__openhands__deepseek-v3.2",
+  "schema_version": "v2",
+  "m": 28,
+  "action_segments": [
+    [1, 11, "E"],
+    [12, 13, "W"],
+    [14, 27, "V"],
+    [28, 28, "C"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 18,
+  "first_error_evidence": "Steps 18-20: three repeated 'find -exec' commands with invalid escaping, producing 'find: missing argument to `-exec'' error; agent did not recognize the failure and repeated the same broken command twice more before adapting in step 21.",
+  "num_recoveries": 1,
+  "max_detour_length": 3,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 14,
+  "verification_evidence": "Step 14: ls -la /app/recovered/ confirmed both recovered files exist. Steps 15-16: cat confirmed correct plaintext content. Steps 24-27: md5sum checksums matched between decoded source and recovered files for both credentials.txt and project_alpha.log.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent explored the environment and the attacker note to confirm base64 double-obfuscation, decoded both filenames and contents manually for validation, wrote the two recovered files to /app/recovered/, and verified correctness via content inspection and md5sum integrity checks, with a minor 3-step detour from a repeated find -exec syntax error.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

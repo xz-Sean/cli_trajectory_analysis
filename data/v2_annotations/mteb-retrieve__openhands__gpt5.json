@@ -1,0 +1,53 @@
+{
+  "case_id": "mteb-retrieve__openhands__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_understanding",
+  "primary_failure_subtype": "spec_neglect_wrong_tool",
+  "contributing_failure_1_layer": "agent",
+  "contributing_failure_1_category": "recovery_or_search",
+  "contributing_failure_1_subtype": "ignored_environment_constraint",
+  "root_cause_label": "Agent ignored task requirement to use mteb.get_model API, instead using sentence_transformers with a Chinese embedding model, producing an incorrect 5th-ranked result",
+  "one_sentence_failure_summary": "The agent never consulted the task specification requiring use of the mteb package; it instead attempted to install and use sentence_transformers with BAAI/bge-small-zh-v1.5 (a Chinese model with Chinese-optimized encoding), ultimately writing a wrong result that did not match the expected 5th-highest retrieval for the query 'terminal-bench'.",
+  "m": 10,
+  "t_err": 2,
+  "t_err_evidence": "Step 2 immediately attempts to use SentenceTransformer with BAAI/bge-small-zh-v1.5 and 'query:'/'passage:' prefixes, bypassing the mteb.get_model API required by the task and applying BGE-zh-specific prompt prefixes that are inappropriate for a Chinese model handling English text; this wrong tool/model choice is the decisive mistake.",
+  "t_commit": 8,
+  "t_commit_evidence": "In step 8, sentence_transformers successfully runs and writes 'BRIGHT: A Realistic and Challenging Benchmark for Reasoning-Intensive Retrieval' to /app/result.txt (index 3, one-based line 4), locking in the wrong answer; even though exit code was 1 due to torch version mismatch, the file was written before the error.",
+  "t_surface": 9,
+  "t_surface_evidence": "Step 9 reads /app/result.txt and shows 'BRIGHT: A Realistic and Challenging Benchmark for Reasoning-Intensive Retrieval'; an observer can see this is not a terminal-bench related result and that the task likely required a different document (e.g., line 11 or 29 referencing 'Terminal-Bench').",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "spec_neglect",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent never read or followed the task requirement to use the mteb package (mteb.get_model with the specified model revision). Instead it assumed sentence_transformers was the correct library and selected a Chinese embedding model with inappropriate prompt prefixes, leading to a wrong similarity ranking.",
+  "forewarning_present": true,
+  "forewarning_first_step": 2,
+  "forewarning_types": [
+    "command_error",
+    "repeated_command"
+  ],
+  "forewarning_evidence": "Steps 2-5 all fail with ModuleNotFoundError or timeout due to pip being unavailable, signaling that the approach is wrong; step 4 explicitly confirms 'No module named pip' (exit code 1), yet the agent repeats the same sentence_transformers installation strategy through step 8 without switching to mteb.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 3,
+  "tail_dominant_behavior": "thrash_repeat",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 9,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 5, "X"],
+    [6, 6, "O"],
+    [7, 7, "E"],
+    [8, 8, "X"],
+    [9, 9, "V"],
+    [10, 10, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_commit"
+  ]
+}

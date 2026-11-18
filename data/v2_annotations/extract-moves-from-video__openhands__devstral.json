@@ -1,0 +1,51 @@
+{
+  "case_id": "extract-moves-from-video__openhands__devstral",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "environment_setup",
+  "primary_failure_subtype": "interactive_prompt_hang",
+  "contributing_failure_1_layer": "agent",
+  "contributing_failure_1_category": "recovery",
+  "contributing_failure_1_subtype": "unresponsive_terminal_state",
+  "root_cause_label": "apt install without DEBIAN_FRONTEND=noninteractive triggers interactive tzdata prompt blocking terminal",
+  "one_sentence_failure_summary": "At step 5 the agent ran apt install without DEBIAN_FRONTEND=noninteractive, causing tzdata to block on an interactive timezone prompt at 65% progress, after which repeated Ctrl-C signals produced no output and the terminal remained stuck for the rest of the trajectory.",
+  "m": 11,
+  "t_err": 5,
+  "t_err_evidence": "apt update && apt install -y yt-dlp",
+  "t_commit": 5,
+  "t_commit_evidence": "Once the interactive tzdata prompt blocked the terminal at step 5, all subsequent Ctrl-C signals (steps 6, 8-11) produced empty output, indicating the terminal never recovered; the failure was locked in at step 5.",
+  "t_surface": 5,
+  "t_surface_evidence": "Progress: [ 65%] ... Geographic area:",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent lacked knowledge that running apt in a non-interactive container environment requires DEBIAN_FRONTEND=noninteractive to suppress interactive package configuration prompts. It ran 'apt install -y yt-dlp' without this flag, which triggered tzdata's interactive timezone selection prompt that blocked the terminal.",
+  "forewarning_present": true,
+  "forewarning_first_step": 3,
+  "forewarning_types": [
+    "command_error"
+  ],
+  "forewarning_evidence": "bash: pip: command not found",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 6,
+  "num_recovery_attempts": 5,
+  "tail_dominant_behavior": "thrash_repeat",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 4, "X"],
+    [5, 5, "X"],
+    [6, 6, "R"],
+    [7, 7, "R"],
+    [8, 11, "R"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "forewarning_first_step"
+  ]
+}

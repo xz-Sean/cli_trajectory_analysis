@@ -1,0 +1,53 @@
+{
+  "case_id": "vul-flink__openhands__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "agent",
+  "primary_failure_category": "recovery_or_search",
+  "primary_failure_subtype": "budget_exhaustion_from_overhead_and_retries",
+  "contributing_failure_1_layer": "agent",
+  "contributing_failure_1_category": "implementation_application",
+  "contributing_failure_1_subtype": "patch_whitespace_mismatch_retries",
+  "root_cause_label": "Ran out of steps before build and validation",
+  "one_sentence_failure_summary": "The agent wasted 2 of 10 steps on task-tracker planning overhead and then lost 3 more steps on repeated identical failing str_replace calls due to whitespace mismatch, exhausting its budget before it could build the project and validate the security fix.",
+  "m": 10,
+  "t_err": 1,
+  "t_err_evidence": "Step 1 uses a task_tracker plan call (pure overhead) and step 2 immediately views the same task list just created — two consecutive non-productive steps that consume 20% of the entire 10-step budget before any exploration or code change has begun.",
+  "t_commit": 8,
+  "t_commit_evidence": "Step 8 repeats the exact same failing EDITOR_STR_REPLACE call as step 6 (same old_str with same whitespace mismatch), gets the same error, leaving only 2 steps for build and validate which each require at least one step — making it mathematically impossible to complete both remaining tasks.",
+  "t_surface": 6,
+  "t_surface_evidence": "Step 6 returns 'ERROR: No replacement was performed, old_str did not appear verbatim' — the first observable signal that the implementation phase has failed.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "premature_action",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent committed 20% of its fixed 10-step budget to planning overhead (task_tracker create + view) before touching any code, and then failed twice with the same broken str_replace call without diagnosing the whitespace mismatch, collectively consuming the budget needed for build and validate.",
+  "forewarning_present": true,
+  "forewarning_first_step": 6,
+  "forewarning_types": [
+    "command_error",
+    "repeated_command"
+  ],
+  "forewarning_evidence": "Step 6 produces a verbatim-match error on EDITOR_STR_REPLACE; step 8 issues the identical call and receives the identical error — two clear signals that the editing approach is broken and the budget is draining.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 7,
+  "num_recovery_attempts": 2,
+  "tail_dominant_behavior": "verification_theater",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 2, "P"],
+    [3, 5, "E"],
+    [6, 6, "W"],
+    [7, 7, "E"],
+    [8, 8, "W"],
+    [9, 9, "W"],
+    [10, 10, "O"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

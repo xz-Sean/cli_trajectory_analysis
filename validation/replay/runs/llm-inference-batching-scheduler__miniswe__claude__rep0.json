@@ -1,0 +1,807 @@
+{
+ "cid": "llm-inference-batching-scheduler__miniswe__claude",
+ "task": "llm-inference-batching-scheduler",
+ "scaffold": "miniswe",
+ "model": "claude",
+ "m": 31,
+ "kmin": 14,
+ "kmax": 20,
+ "rep": 0,
+ "started": 1793144607.2670875,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.866,
+   "out_tail": "total 12\ndrwxr-xr-x 1 root root 4096 Oct  7 11:15 .\ndrwxr-xr-x 1 root root 4096 Oct 27 23:43 ..\ndrwxr-xr-x 4 root root 4096 Jul 22 14:11 task_file\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.473,
+   "out_tail": "task_file/input_data/requests_bucket_1.jsonl\ntask_file/input_data/requests_bucket_2.jsonl\ntask_file/scripts/cost_model.py\ntask_file/scripts/baseline_packer.py\ntask_file/scripts/__init__.py\n"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.898,
+   "out_tail": "sh: 1: tree: not found\n"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.473,
+   "out_tail": "task_file\ntask_file/input_data\ntask_file/scripts\n---\ntask_file/input_data/requests_bucket_1.jsonl\ntask_file/input_data/requests_bucket_2.jsonl\ntask_file/scripts/cost_model.py\ntask_file/scripts/baseline_packer.py\ntask_file/scripts/__init__.py\n"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "{\"request_id\": \"r-000000\", \"prompt_len\": 51, \"gen_len\": 19}\n{\"request_id\": \"r-000001\", \"prompt_len\": 100, \"gen_len\": 53}\n{\"request_id\": \"r-000002\", \"prompt_len\": 96, \"gen_len\": 21}\n{\"request_id\": \"r-000003\", \"prompt_len\": 40, \"gen_len\": 51}\n{\"request_id\": \"r-000004\", \"prompt_len\": 104, \"gen_len\": 30}\n"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "  800 task_file/input_data/requests_bucket_1.jsonl\n  800 task_file/input_data/requests_bucket_2.jsonl\n 1600 total\n---\n{\"request_id\": \"alt-000000\", \"prompt_len\": 72, \"gen_len\": 114}\n{\"request_id\": \"alt-000001\", \"prompt_len\": 604, \"gen_len\": 34}\n{\"request_id\": \"alt-000002\", \"prompt_len\": 274, \"gen_len\": 39}\n"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.953,
+   "out_tail": "               # Batch execution time = max latency within the batch\n                # (all requests in a batch run in parallel, batch completes when\n                # slowest request finishes)\n                batch_execution_time = max(batch_lats)\n                total_sequential_time += batch_execution_time\n        \n        return total_sequential_time\n\n    @staticmethod\n    def pxx_latency(lats: List[float], p: float) -> float:\n        if not lats:\n            return 0.0\n        arr = sorted(lats)\n        k = max(0, min(len(arr) - 1, int(math.ceil(p * len(arr)) - 1)))\n        return arr[k]\n"
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "Path(__file__).resolve().parents[1]\n    in_b1 = root / 'input_data' / 'requests_bucket_1.jsonl'\n    in_b2 = root / 'input_data' / 'requests_bucket_2.jsonl'\n    out_b1 = root / 'output_data' / 'plan_b1.jsonl'\n    out_b2 = root / 'output_data' / 'plan_b2.jsonl'\n\n    reqs1 = load_requests(str(in_b1))\n    reqs2 = load_requests(str(in_b2))\n    recs1 = _plan_for_requests(reqs1, GRAN, MAX_SHAPES)\n    recs2 = _plan_for_requests(reqs2, GRAN, MAX_SHAPES)\n    _write_plan(str(out_b1), recs1)\n    _write_plan(str(out_b2), recs2)\n\n\ndef main() -> None:\n    build_plan()\n\n\nif __name__ == '__main__':\n    main()\n"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 0.3,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "only\"}}\n{\"request_id\": \"r-000004\", \"batch_id\": \"b-0001\", \"shape\": {\"seq_align\": 128, \"heads_align\": 32, \"hidden_align\": 4096}, \"notes\": {\"bucket\": \"baseline_seq_only\"}}\n---\n   800 task_file/output_data/plan_b1.jsonl\n   800 task_file/output_data/plan_b2.jsonl\n  1600 total\n---\n{\"request_id\": \"r-000792\", \"batch_id\": \"b-0008\", \"shape\": {\"seq_align\": 1792, \"heads_align\": 32, \"hidden_align\": 4096}, \"notes\": {\"bucket\": \"baseline_seq_only\"}}\n{\"request_id\": \"r-000799\", \"batch_id\": \"b-0008\", \"shape\": {\"seq_align\": 1792, \"heads_align\": 32, \"hidden_align\": 4096}, \"notes\": {\"bucket\": \"baseline_seq_only\"}}\n"
+  },
+  {
+   "k": 11,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "\n=== Bucket 1 ===\nCost: 2.4830e+12\nPad Ratio: 1.4363\nP95 Latency (ms): 1.3157e+07\nSequential Timecost (ms): 4.8973e+07\nNum batches: 8\nNum shapes: 8\nShapes used: [(128, 32, 4096), (448, 32, 4096), (640, 32, 4096), (1216, 32, 4096), (1408, 32, 4096), (1600, 32, 4096), (1792, 32, 4096), (2048, 32, 4096)]\n\n=== Bucket 2 ===\nCost: 1.6673e+12\nPad Ratio: 4.0430\nP95 Latency (ms): 3.4104e+06\nSequential Timecost (ms): 1.1463e+07\nNum batches: 8\nNum shapes: 8\nShapes used: [(64, 32, 4096), (192, 32, 4096), (256, 32, 4096), (320, 32, 4096), (448, 32, 4096), (512, 32, 4096), (576, 32, 4096), (704, 32, 4096)]\n"
+  },
+  {
+   "k": 12,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "on length stats:\n  Min: 16, Max: 1200\nAligned sequence length distribution (top 10):\n  128: 255 requests\n  64: 152 requests\n  192: 121 requests\n  320: 107 requests\n  256: 82 requests\n  576: 28 requests\n  512: 22 requests\n  640: 11 requests\n  448: 10 requests\n  384: 9 requests\nUnique aligned sequence lengths: 11\nGeneration length distribution (top 10):\n  16: 357 requests\n  19: 16 requests\n  24: 14 requests\n  18: 13 requests\n  17: 12 requests\n  22: 12 requests\n  32: 12 requests\n  33: 11 requests\n  23: 11 requests\n  27: 11 requests\nTotal tokens (prompt + gen): 187073\nPrompt padding alone: 0.1768\n"
+  },
+  {
+   "k": 13,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "Total unique seq_aligns: 27\nTop seq_aligns by frequency: [(128, 531), (64, 286), (320, 141), (192, 121), (256, 82), (576, 75), (512, 70), (384, 64), (640, 57), (448, 48)]\nSelected representative shapes: [64, 128, 192, 256, 320, 512, 576, 2048]\n\n=== Creating batches for bucket 1 ===\nRequests per shape: [(64, 134), (128, 276), (576, 47), (512, 141), (2048, 168), (320, 34)]\n\n=== Creating batches for bucket 2 ===\nRequests per shape: [(128, 255), (2048, 14), (320, 107), (192, 121), (576, 28), (64, 152), (256, 82), (512, 41)]\n\nGenerated 800 records for bucket 1\nGenerated 800 records for bucket 2\n"
+  },
+  {
+   "k": 14,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "\n=== Bucket 1 ===\nCost: 4.7951e+11\nPad Ratio: 0.0976\nP95 Latency (ms): 2.7045e+06\nSequential Timecost (ms): 5.5727e+07\nNum batches: 68\nNum shapes: 6\nShapes used: [(64, 32, 4096), (128, 32, 4096), (320, 32, 4096), (512, 32, 4096), (576, 32, 4096), (2048, 32, 4096)]\n\n=== Bucket 2 ===\nCost: 7.6514e+10\nPad Ratio: 0.2350\nP95 Latency (ms): 6.6185e+05\nSequential Timecost (ms): 1.5203e+07\nNum batches: 59\nNum shapes: 8\nShapes used: [(64, 32, 4096), (128, 32, 4096), (192, 32, 4096), (256, 32, 4096), (320, 32, 4096), (512, 32, 4096), (576, 32, 4096), (2048, 32, 4096)]\n"
+  },
+  {
+   "k": 15,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.015,
+   "out_tail": "nge=113-113\n[B2] Shape 512: gen_len distribution (top 5): [(16, 12), (31, 3), (246, 1), (89, 1), (85, 1)]\n[B2] Shape 512 batch 0: size=8, gen_len range=16-16\n[B2] Shape 512 batch 1: size=4, gen_len range=16-16\n[B2] Shape 512 batch 2: size=3, gen_len range=19-22\n[B2] Shape 512 batch 3: size=6, gen_len range=31-38\n[B2] Shape 512 batch 4: size=7, gen_len range=68-108\n[B2] Shape 512 batch 5: size=1, gen_len range=184-184\n[B2] Shape 512 batch 6: size=2, gen_len range=246-273\n[B2] Shape 512 batch 7: size=1, gen_len range=540-540\n\nGenerated 800 records for bucket 1\nGenerated 800 records for bucket 2\n"
+  },
+  {
+   "k": 16,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "\n=== Bucket 1 ===\nCost: 4.7600e+11\nPad Ratio: 0.0721\nP95 Latency (ms): 2.5055e+06\nSequential Timecost (ms): 6.9644e+07\nNum batches: 78\nNum shapes: 6\nShapes used: [(64, 32, 4096), (128, 32, 4096), (320, 32, 4096), (384, 32, 4096), (512, 32, 4096), (576, 32, 4096)]\n\n=== Bucket 2 ===\nCost: 4.8867e+10\nPad Ratio: 0.1669\nP95 Latency (ms): 2.7567e+05\nSequential Timecost (ms): 2.0621e+07\nNum batches: 89\nNum shapes: 8\nShapes used: [(64, 32, 4096), (128, 32, 4096), (192, 32, 4096), (256, 32, 4096), (320, 32, 4096), (384, 32, 4096), (512, 32, 4096), (576, 32, 4096)]\n"
+  },
+  {
+   "k": 17,
+   "type": "bash",
+   "secs": 0.2,
+   "out_sim": 1.0,
+   "out_tail": "Traceback (most recent call last):\n  File \"/app/task_file/scripts/final_packer.py\", line 149, in <module>\n    build_final_plan()\n    ~~~~~~~~~~~~~~~~^^\n  File \"/app/task_file/scripts/final_packer.py\", line 142, in build_final_plan\n    plan1 = create_ultra_optimized_batches(reqs1, representatives)\n  File \"/app/task_file/scripts/final_packer.py\", line 43, in create_ultra_optimized_batches\n    rep_shape = min(rep for rep in representatives if rep >= seq_align)\nValueError: min() iterable argument is empty\n"
+  },
+  {
+   "k": 18,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "Selected representative shapes: [64, 128, 192, 256, 320, 384, 512, 576]\nGenerated 800 records for bucket 1\nGenerated 800 records for bucket 2\n"
+  },
+  {
+   "k": 19,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "\n=== Bucket 1 ===\nCost: 3.8497e+11\nPad Ratio: 0.0545\nP95 Latency (ms): 2.2941e+06\nSequential Timecost (ms): 1.7926e+08\nNum batches: 162\nNum shapes: 6\nShapes used: [(64, 32, 4096), (128, 32, 4096), (320, 32, 4096), (384, 32, 4096), (512, 32, 4096), (576, 32, 4096)]\n\n=== Bucket 2 ===\nCost: 4.3771e+10\nPad Ratio: 0.1396\nP95 Latency (ms): 1.9534e+05\nSequential Timecost (ms): 3.0939e+07\nNum batches: 151\nNum shapes: 8\nShapes used: [(64, 32, 4096), (128, 32, 4096), (192, 32, 4096), (256, 32, 4096), (320, 32, 4096), (384, 32, 4096), (512, 32, 4096), (576, 32, 4096)]\n"
+  },
+  {
+   "k": 20,
+   "type": "bash",
+   "secs": 0.2,
+   "out_sim": 1.0,
+   "out_tail": "Generated 520 records for bucket 1\nGenerated 511 records for bucket 2\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 1,
+    "failed": 5,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_input_data_integrity"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "raw_tail": "_data/plan_b1.jsonl'\n\n/tests/test_outputs.py:82: FileNotFoundError\n_________________________ test_performance_thresholds __________________________\n\n    def test_performance_thresholds() -> None:\n        \"\"\"Test solution meets performance thresholds described in task.yaml.\n    \n        **Performance Thresholds:**\n        - Bucket 1: cost \u2264 3.0e11, pad_ratio \u2264 0.055, p95_latency \u2264 2.1e6 ms,\n          sequential_timecost \u2264 2.7e8 ms\n        - Bucket 2: cost \u2264 4.8e10, pad_ratio \u2264 0.15, p95_latency \u2264 2.1e5 ms,\n          sequential_timecost \u2264 3.2e7 ms\n    \n        **Optimization Verification:**\n        - Global shape constraint: \u2264 8 unique shapes across all buckets\n    \n        \"\"\"\n    \n        req1_path = \"/app/task_file/input_data/requests_bucket_1.jsonl\"\n        plan1_path = \"/app/task_file/output_data/plan_b1.jsonl\"\n>       m_b1 = _plan_metrics(req1_path, plan1_path)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:314: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nreq_path = '/app/task_file/input_data/requests_bucket_1.jsonl'\nplan_path = '/app/task_file/output_data/plan_b1.jsonl', gran = 64\n\n    def _plan_metrics(req_path: str, plan_path: str, gran: int = 64) -> dict:\n        \"\"\"Calculate performance metrics for a batching plan.\n    \n        Args:\n            req_path: Path to the input requests file (JSONL format)\n            plan_path: Path to the output plan file (JSONL format)\n            gran: Granularity for alignment calculations (default: 64)\n    \n        Returns:\n            Dictionary containing performance metrics:\n            - cost: Total computational cost\n            - pad_ratio: Fraction of computation spent on padding\n            - p95_latency_ms: 95th percentile latency in milliseconds\n            - sequential_timecost: Total time to execute all batches sequentially\n        \"\"\"\n        cm = CostModel(granularity=gran)\n        with open(req_path) as f:\n            reqs = [json.loads(line) for line in f]\n        req_idx = {r[\"request_id\"]: r for r in reqs}\n>       with open(plan_path) as f:\n             ^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/task_file/output_data/plan_b1.jsonl'\n\n/tests/test_outputs.py:54: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nFAILED ../tests/test_outputs.py::test_output_files_exist - AssertionError: Mi...\nFAILED ../tests/test_outputs.py::test_generate_and_schema - FileNotFoundError...\nFAILED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nFAILED ../tests/test_outputs.py::test_solution_coverage_no_duplicates - FileN...\nFAILED ../tests/test_outputs.py::test_performance_thresholds - FileNotFoundEr...\n========================= 5 failed, 1 passed in 0.19s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_both_plan_files_exist"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 16 items\n\n../subtests/test_sub.py Fsssssssss..ssss                                 [100%]\n\n=================================== FAILURES ===================================\n_______________________ test_must_both_plan_files_exist ________________________\n\n    def test_must_both_plan_files_exist():\n>       assert OUT[1].exists() and OUT[2].exists()\nE       AssertionError: assert (False)\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/task_file/output_data/plan_b1.jsonl').exists\n\n/subtests/test_sub.py:43: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nSKIPPED [11] ../subtests/test_sub.py:25: no plan yet\nSKIPPED [2] ../subtests/test_sub.py:96: no plan yet\nFAILED ../subtests/test_sub.py::test_must_both_plan_files_exist - AssertionEr...\n=================== 1 failed, 2 passed, 13 skipped in 0.09s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 360ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nPASSED ../tests/test_outputs.py::test_performance_thresholds\n============================== 6 passed in 0.22s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 10,
+      "failed": 0,
+      "total": 10,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ubtests/test_sub.py ................                                 [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[1]\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\n============================== 16 passed in 0.13s ==============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "14": {
+   "tests": {
+    "passed": 5,
+    "failed": 1,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 325ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py .....F                                          [100%]\n\n=================================== FAILURES ===================================\n_________________________ test_performance_thresholds __________________________\n\n    def test_performance_thresholds() -> None:\n        \"\"\"Test solution meets performance thresholds described in task.yaml.\n    \n        **Performance Thresholds:**\n        - Bucket 1: cost \u2264 3.0e11, pad_ratio \u2264 0.055, p95_latency \u2264 2.1e6 ms,\n          sequential_timecost \u2264 2.7e8 ms\n        - Bucket 2: cost \u2264 4.8e10, pad_ratio \u2264 0.15, p95_latency \u2264 2.1e5 ms,\n          sequential_timecost \u2264 3.2e7 ms\n    \n        **Optimization Verification:**\n        - Global shape constraint: \u2264 8 unique shapes across all buckets\n    \n        \"\"\"\n    \n        req1_path = \"/app/task_file/input_data/requests_bucket_1.jsonl\"\n        plan1_path = \"/app/task_file/output_data/plan_b1.jsonl\"\n        m_b1 = _plan_metrics(req1_path, plan1_path)\n    \n        req2_path = \"/app/task_file/input_data/requests_bucket_2.jsonl\"\n        plan2_path = \"/app/task_file/output_data/plan_b2.jsonl\"\n        m_b2 = _plan_metrics(req2_path, plan2_path)\n    \n        # Validate against tight absolute performance thresholds\n        # Bucket 1\n>       assert m_b1[\"cost\"] <= 3.0e11, f\"bucket1 cost {m_b1['cost']} > 3.0e11\"\nE       AssertionError: bucket1 cost 479507032643.0 > 3.0e11\nE       assert 479507032643.0 <= 300000000000.0\n\n/tests/test_outputs.py:322: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nFAILED ../tests/test_outputs.py::test_performance_thresholds - AssertionError...\n========================= 1 failed, 5 passed in 0.25s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 8,
+      "failed": 2,
+      "total": 10,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_performance_thresholds[1]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[2]"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "000000.0\n\n/subtests/test_sub.py:71: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[1] - Asserti...\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[2] - Asserti...\n========================= 2 failed, 14 passed in 0.14s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 375ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nPASSED ../tests/test_outputs.py::test_performance_thresholds\n============================== 6 passed in 0.17s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 10,
+      "failed": 0,
+      "total": 10,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ubtests/test_sub.py ................                                 [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[1]\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\n============================== 16 passed in 0.13s ==============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "15": {
+   "tests": {
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "raw_tail": "eq_align\"] >= max_s\n    \n>       _check_bucket(1, \"plan_b1.jsonl\")\n\n/tests/test_outputs.py:259: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nbucket_idx = 1, plan_name = 'plan_b1.jsonl'\n\n    def _check_bucket(bucket_idx: int, plan_name: str) -> None:\n        reqs = _load_requests(bucket_idx)\n        req_idx = {r[\"request_id\"]: r for r in reqs}\n        plan = _load_plan(plan_name)\n    \n        # Per-record feasibility and schema checks\n        for p in plan:\n            rid = p[\"request_id\"]\n            assert rid in req_idx\n            r = req_idx[rid]\n            s_aligned = align(r[\"prompt_len\"], gran)\n            sh = p[\"shape\"]\n            assert sh[\"seq_align\"] % gran == 0\n            assert sh[\"heads_align\"] == HEADS\n            assert sh[\"hidden_align\"] == HIDDEN\n            # Feasibility: assigned shape must cover the aligned prompt length\n>           assert sh[\"seq_align\"] >= s_aligned\nE           assert 576 >= 1984\n\n/tests/test_outputs.py:242: AssertionError\n_________________________ test_performance_thresholds __________________________\n\n    def test_performance_thresholds() -> None:\n        \"\"\"Test solution meets performance thresholds described in task.yaml.\n    \n        **Performance Thresholds:**\n        - Bucket 1: cost \u2264 3.0e11, pad_ratio \u2264 0.055, p95_latency \u2264 2.1e6 ms,\n          sequential_timecost \u2264 2.7e8 ms\n        - Bucket 2: cost \u2264 4.8e10, pad_ratio \u2264 0.15, p95_latency \u2264 2.1e5 ms,\n          sequential_timecost \u2264 3.2e7 ms\n    \n        **Optimization Verification:**\n        - Global shape constraint: \u2264 8 unique shapes across all buckets\n    \n        \"\"\"\n    \n        req1_path = \"/app/task_file/input_data/requests_bucket_1.jsonl\"\n        plan1_path = \"/app/task_file/output_data/plan_b1.jsonl\"\n        m_b1 = _plan_metrics(req1_path, plan1_path)\n    \n        req2_path = \"/app/task_file/input_data/requests_bucket_2.jsonl\"\n        plan2_path = \"/app/task_file/output_data/plan_b2.jsonl\"\n        m_b2 = _plan_metrics(req2_path, plan2_path)\n    \n        # Validate against tight absolute performance thresholds\n        # Bucket 1\n>       assert m_b1[\"cost\"] <= 3.0e11, f\"bucket1 cost {m_b1['cost']} > 3.0e11\"\nE       AssertionError: bucket1 cost 476002840123.0 > 3.0e11\nE       assert 476002840123.0 <= 300000000000.0\n\n/tests/test_outputs.py:322: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nFAILED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nFAILED ../tests/test_outputs.py::test_performance_thresholds - AssertionError...\n========================= 2 failed, 4 passed in 0.26s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 6,
+      "failed": 4,
+      "total": 10,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]",
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[1]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[2]"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "000000.0\n\n/subtests/test_sub.py:71: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[1] - Asserti...\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[2] - Asserti...\n========================= 4 failed, 12 passed in 0.15s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 1.65s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nPASSED ../tests/test_outputs.py::test_performance_thresholds\n============================== 6 passed in 0.18s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 10,
+      "failed": 0,
+      "total": 10,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ubtests/test_sub.py ................                                 [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[1]\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\n============================== 16 passed in 0.13s ==============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "16": {
+   "tests": {
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "raw_tail": "eq_align\"] >= max_s\n    \n>       _check_bucket(1, \"plan_b1.jsonl\")\n\n/tests/test_outputs.py:259: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nbucket_idx = 1, plan_name = 'plan_b1.jsonl'\n\n    def _check_bucket(bucket_idx: int, plan_name: str) -> None:\n        reqs = _load_requests(bucket_idx)\n        req_idx = {r[\"request_id\"]: r for r in reqs}\n        plan = _load_plan(plan_name)\n    \n        # Per-record feasibility and schema checks\n        for p in plan:\n            rid = p[\"request_id\"]\n            assert rid in req_idx\n            r = req_idx[rid]\n            s_aligned = align(r[\"prompt_len\"], gran)\n            sh = p[\"shape\"]\n            assert sh[\"seq_align\"] % gran == 0\n            assert sh[\"heads_align\"] == HEADS\n            assert sh[\"hidden_align\"] == HIDDEN\n            # Feasibility: assigned shape must cover the aligned prompt length\n>           assert sh[\"seq_align\"] >= s_aligned\nE           assert 576 >= 1984\n\n/tests/test_outputs.py:242: AssertionError\n_________________________ test_performance_thresholds __________________________\n\n    def test_performance_thresholds() -> None:\n        \"\"\"Test solution meets performance thresholds described in task.yaml.\n    \n        **Performance Thresholds:**\n        - Bucket 1: cost \u2264 3.0e11, pad_ratio \u2264 0.055, p95_latency \u2264 2.1e6 ms,\n          sequential_timecost \u2264 2.7e8 ms\n        - Bucket 2: cost \u2264 4.8e10, pad_ratio \u2264 0.15, p95_latency \u2264 2.1e5 ms,\n          sequential_timecost \u2264 3.2e7 ms\n    \n        **Optimization Verification:**\n        - Global shape constraint: \u2264 8 unique shapes across all buckets\n    \n        \"\"\"\n    \n        req1_path = \"/app/task_file/input_data/requests_bucket_1.jsonl\"\n        plan1_path = \"/app/task_file/output_data/plan_b1.jsonl\"\n        m_b1 = _plan_metrics(req1_path, plan1_path)\n    \n        req2_path = \"/app/task_file/input_data/requests_bucket_2.jsonl\"\n        plan2_path = \"/app/task_file/output_data/plan_b2.jsonl\"\n        m_b2 = _plan_metrics(req2_path, plan2_path)\n    \n        # Validate against tight absolute performance thresholds\n        # Bucket 1\n>       assert m_b1[\"cost\"] <= 3.0e11, f\"bucket1 cost {m_b1['cost']} > 3.0e11\"\nE       AssertionError: bucket1 cost 476002840123.0 > 3.0e11\nE       assert 476002840123.0 <= 300000000000.0\n\n/tests/test_outputs.py:322: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nFAILED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nFAILED ../tests/test_outputs.py::test_performance_thresholds - AssertionError...\n========================= 2 failed, 4 passed in 0.20s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 6,
+      "failed": 4,
+      "total": 10,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]",
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[1]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[2]"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "000000.0\n\n/subtests/test_sub.py:71: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[1] - Asserti...\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[2] - Asserti...\n========================= 4 failed, 12 passed in 0.20s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 632ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nPASSED ../tests/test_outputs.py::test_performance_thresholds\n============================== 6 passed in 0.18s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 10,
+      "failed": 0,
+      "total": 10,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ubtests/test_sub.py ................                                 [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[1]\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\n============================== 16 passed in 0.13s ==============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "17": {
+   "tests": {
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "raw_tail": "eq_align\"] >= max_s\n    \n>       _check_bucket(1, \"plan_b1.jsonl\")\n\n/tests/test_outputs.py:259: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nbucket_idx = 1, plan_name = 'plan_b1.jsonl'\n\n    def _check_bucket(bucket_idx: int, plan_name: str) -> None:\n        reqs = _load_requests(bucket_idx)\n        req_idx = {r[\"request_id\"]: r for r in reqs}\n        plan = _load_plan(plan_name)\n    \n        # Per-record feasibility and schema checks\n        for p in plan:\n            rid = p[\"request_id\"]\n            assert rid in req_idx\n            r = req_idx[rid]\n            s_aligned = align(r[\"prompt_len\"], gran)\n            sh = p[\"shape\"]\n            assert sh[\"seq_align\"] % gran == 0\n            assert sh[\"heads_align\"] == HEADS\n            assert sh[\"hidden_align\"] == HIDDEN\n            # Feasibility: assigned shape must cover the aligned prompt length\n>           assert sh[\"seq_align\"] >= s_aligned\nE           assert 576 >= 1984\n\n/tests/test_outputs.py:242: AssertionError\n_________________________ test_performance_thresholds __________________________\n\n    def test_performance_thresholds() -> None:\n        \"\"\"Test solution meets performance thresholds described in task.yaml.\n    \n        **Performance Thresholds:**\n        - Bucket 1: cost \u2264 3.0e11, pad_ratio \u2264 0.055, p95_latency \u2264 2.1e6 ms,\n          sequential_timecost \u2264 2.7e8 ms\n        - Bucket 2: cost \u2264 4.8e10, pad_ratio \u2264 0.15, p95_latency \u2264 2.1e5 ms,\n          sequential_timecost \u2264 3.2e7 ms\n    \n        **Optimization Verification:**\n        - Global shape constraint: \u2264 8 unique shapes across all buckets\n    \n        \"\"\"\n    \n        req1_path = \"/app/task_file/input_data/requests_bucket_1.jsonl\"\n        plan1_path = \"/app/task_file/output_data/plan_b1.jsonl\"\n        m_b1 = _plan_metrics(req1_path, plan1_path)\n    \n        req2_path = \"/app/task_file/input_data/requests_bucket_2.jsonl\"\n        plan2_path = \"/app/task_file/output_data/plan_b2.jsonl\"\n        m_b2 = _plan_metrics(req2_path, plan2_path)\n    \n        # Validate against tight absolute performance thresholds\n        # Bucket 1\n>       assert m_b1[\"cost\"] <= 3.0e11, f\"bucket1 cost {m_b1['cost']} > 3.0e11\"\nE       AssertionError: bucket1 cost 476002840123.0 > 3.0e11\nE       assert 476002840123.0 <= 300000000000.0\n\n/tests/test_outputs.py:322: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nFAILED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nFAILED ../tests/test_outputs.py::test_performance_thresholds - AssertionError...\n========================= 2 failed, 4 passed in 0.77s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 6,
+      "failed": 4,
+      "total": 10,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]",
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[1]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[2]"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "000000.0\n\n/subtests/test_sub.py:71: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[1] - Asserti...\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[2] - Asserti...\n========================= 4 failed, 12 passed in 0.16s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 927ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nPASSED ../tests/test_outputs.py::test_performance_thresholds\n============================== 6 passed in 0.21s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 10,
+      "failed": 0,
+      "total": 10,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ubtests/test_sub.py ................                                 [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[1]\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\n============================== 16 passed in 0.16s ==============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "18": {
+   "tests": {
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "raw_tail": "eq_align\"] >= max_s\n    \n>       _check_bucket(1, \"plan_b1.jsonl\")\n\n/tests/test_outputs.py:259: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nbucket_idx = 1, plan_name = 'plan_b1.jsonl'\n\n    def _check_bucket(bucket_idx: int, plan_name: str) -> None:\n        reqs = _load_requests(bucket_idx)\n        req_idx = {r[\"request_id\"]: r for r in reqs}\n        plan = _load_plan(plan_name)\n    \n        # Per-record feasibility and schema checks\n        for p in plan:\n            rid = p[\"request_id\"]\n            assert rid in req_idx\n            r = req_idx[rid]\n            s_aligned = align(r[\"prompt_len\"], gran)\n            sh = p[\"shape\"]\n            assert sh[\"seq_align\"] % gran == 0\n            assert sh[\"heads_align\"] == HEADS\n            assert sh[\"hidden_align\"] == HIDDEN\n            # Feasibility: assigned shape must cover the aligned prompt length\n>           assert sh[\"seq_align\"] >= s_aligned\nE           assert 576 >= 1984\n\n/tests/test_outputs.py:242: AssertionError\n_________________________ test_performance_thresholds __________________________\n\n    def test_performance_thresholds() -> None:\n        \"\"\"Test solution meets performance thresholds described in task.yaml.\n    \n        **Performance Thresholds:**\n        - Bucket 1: cost \u2264 3.0e11, pad_ratio \u2264 0.055, p95_latency \u2264 2.1e6 ms,\n          sequential_timecost \u2264 2.7e8 ms\n        - Bucket 2: cost \u2264 4.8e10, pad_ratio \u2264 0.15, p95_latency \u2264 2.1e5 ms,\n          sequential_timecost \u2264 3.2e7 ms\n    \n        **Optimization Verification:**\n        - Global shape constraint: \u2264 8 unique shapes across all buckets\n    \n        \"\"\"\n    \n        req1_path = \"/app/task_file/input_data/requests_bucket_1.jsonl\"\n        plan1_path = \"/app/task_file/output_data/plan_b1.jsonl\"\n        m_b1 = _plan_metrics(req1_path, plan1_path)\n    \n        req2_path = \"/app/task_file/input_data/requests_bucket_2.jsonl\"\n        plan2_path = \"/app/task_file/output_data/plan_b2.jsonl\"\n        m_b2 = _plan_metrics(req2_path, plan2_path)\n    \n        # Validate against tight absolute performance thresholds\n        # Bucket 1\n>       assert m_b1[\"cost\"] <= 3.0e11, f\"bucket1 cost {m_b1['cost']} > 3.0e11\"\nE       AssertionError: bucket1 cost 384966773525.0 > 3.0e11\nE       assert 384966773525.0 <= 300000000000.0\n\n/tests/test_outputs.py:322: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nFAILED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nFAILED ../tests/test_outputs.py::test_performance_thresholds - AssertionError...\n========================= 2 failed, 4 passed in 0.20s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 7,
+      "failed": 3,
+      "total": 10,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]",
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[1]"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "5.0 <= 300000000000.0\n\n/subtests/test_sub.py:71: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[1] - Asserti...\n========================= 3 failed, 13 passed in 0.19s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 825ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nPASSED ../tests/test_outputs.py::test_performance_thresholds\n============================== 6 passed in 0.21s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 10,
+      "failed": 0,
+      "total": 10,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ubtests/test_sub.py ................                                 [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[1]\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\n============================== 16 passed in 0.15s ==============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "19": {
+   "tests": {
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "raw_tail": "eq_align\"] >= max_s\n    \n>       _check_bucket(1, \"plan_b1.jsonl\")\n\n/tests/test_outputs.py:259: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nbucket_idx = 1, plan_name = 'plan_b1.jsonl'\n\n    def _check_bucket(bucket_idx: int, plan_name: str) -> None:\n        reqs = _load_requests(bucket_idx)\n        req_idx = {r[\"request_id\"]: r for r in reqs}\n        plan = _load_plan(plan_name)\n    \n        # Per-record feasibility and schema checks\n        for p in plan:\n            rid = p[\"request_id\"]\n            assert rid in req_idx\n            r = req_idx[rid]\n            s_aligned = align(r[\"prompt_len\"], gran)\n            sh = p[\"shape\"]\n            assert sh[\"seq_align\"] % gran == 0\n            assert sh[\"heads_align\"] == HEADS\n            assert sh[\"hidden_align\"] == HIDDEN\n            # Feasibility: assigned shape must cover the aligned prompt length\n>           assert sh[\"seq_align\"] >= s_aligned\nE           assert 576 >= 1984\n\n/tests/test_outputs.py:242: AssertionError\n_________________________ test_performance_thresholds __________________________\n\n    def test_performance_thresholds() -> None:\n        \"\"\"Test solution meets performance thresholds described in task.yaml.\n    \n        **Performance Thresholds:**\n        - Bucket 1: cost \u2264 3.0e11, pad_ratio \u2264 0.055, p95_latency \u2264 2.1e6 ms,\n          sequential_timecost \u2264 2.7e8 ms\n        - Bucket 2: cost \u2264 4.8e10, pad_ratio \u2264 0.15, p95_latency \u2264 2.1e5 ms,\n          sequential_timecost \u2264 3.2e7 ms\n    \n        **Optimization Verification:**\n        - Global shape constraint: \u2264 8 unique shapes across all buckets\n    \n        \"\"\"\n    \n        req1_path = \"/app/task_file/input_data/requests_bucket_1.jsonl\"\n        plan1_path = \"/app/task_file/output_data/plan_b1.jsonl\"\n        m_b1 = _plan_metrics(req1_path, plan1_path)\n    \n        req2_path = \"/app/task_file/input_data/requests_bucket_2.jsonl\"\n        plan2_path = \"/app/task_file/output_data/plan_b2.jsonl\"\n        m_b2 = _plan_metrics(req2_path, plan2_path)\n    \n        # Validate against tight absolute performance thresholds\n        # Bucket 1\n>       assert m_b1[\"cost\"] <= 3.0e11, f\"bucket1 cost {m_b1['cost']} > 3.0e11\"\nE       AssertionError: bucket1 cost 384966773525.0 > 3.0e11\nE       assert 384966773525.0 <= 300000000000.0\n\n/tests/test_outputs.py:322: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nFAILED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nFAILED ../tests/test_outputs.py::test_performance_thresholds - AssertionError...\n========================= 2 failed, 4 passed in 0.22s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 7,
+      "failed": 3,
+      "total": 10,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]",
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[1]"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "5.0 <= 300000000000.0\n\n/subtests/test_sub.py:71: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[1] - Asserti...\n========================= 3 failed, 13 passed in 0.17s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 1.47s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nPASSED ../tests/test_outputs.py::test_performance_thresholds\n============================== 6 passed in 0.32s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 10,
+      "failed": 0,
+      "total": 10,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ubtests/test_sub.py ................                                 [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[1]\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\n============================== 16 passed in 0.14s ==============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "20": {
+   "tests": {
+    "passed": 2,
+    "failed": 4,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "raw_tail": "heck_bucket_no_duplicates(bucket_idx: int) -> None:\n        \"\"\"Check that a bucket has no duplicates and covers all requests.\"\"\"\n        reqs = _load_requests(bucket_idx)\n        plan = _load_plan(f\"plan_b{bucket_idx}.jsonl\")\n        ids_req = {r[\"request_id\"] for r in reqs}\n        ids_plan = [p[\"request_id\"] for p in plan]\n    \n        # Check coverage\n>       assert set(ids_plan) == ids_req, f\"Coverage mismatch in bucket {bucket_idx}\"\nE       AssertionError: Coverage mismatch in bucket 1\nE       assert {'r-000000', ...-000006', ...} == {'r-000000', ...-000005', ...}\nE         \nE         Extra items in the right set:\nE         'r-000414'\nE         'r-000046'\nE         'r-000774'\nE         'r-000416'\nE         'r-000306'...\nE         \nE         ...Full output truncated (276 lines hidden), use '-vv' to show\n\n/tests/test_outputs.py:283: AssertionError\n_________________________ test_performance_thresholds __________________________\n\n    def test_performance_thresholds() -> None:\n        \"\"\"Test solution meets performance thresholds described in task.yaml.\n    \n        **Performance Thresholds:**\n        - Bucket 1: cost \u2264 3.0e11, pad_ratio \u2264 0.055, p95_latency \u2264 2.1e6 ms,\n          sequential_timecost \u2264 2.7e8 ms\n        - Bucket 2: cost \u2264 4.8e10, pad_ratio \u2264 0.15, p95_latency \u2264 2.1e5 ms,\n          sequential_timecost \u2264 3.2e7 ms\n    \n        **Optimization Verification:**\n        - Global shape constraint: \u2264 8 unique shapes across all buckets\n    \n        \"\"\"\n    \n        req1_path = \"/app/task_file/input_data/requests_bucket_1.jsonl\"\n        plan1_path = \"/app/task_file/output_data/plan_b1.jsonl\"\n        m_b1 = _plan_metrics(req1_path, plan1_path)\n    \n        req2_path = \"/app/task_file/input_data/requests_bucket_2.jsonl\"\n        plan2_path = \"/app/task_file/output_data/plan_b2.jsonl\"\n        m_b2 = _plan_metrics(req2_path, plan2_path)\n    \n        # Validate against tight absolute performance thresholds\n        # Bucket 1\n        assert m_b1[\"cost\"] <= 3.0e11, f\"bucket1 cost {m_b1['cost']} > 3.0e11\"\n        pad_msg = f\"bucket1 pad_ratio {m_b1['pad_ratio']} > 0.055\"\n>       assert m_b1[\"pad_ratio\"] <= 0.055, pad_msg\nE       AssertionError: bucket1 pad_ratio 0.08183495055336826 > 0.055\nE       assert 0.08183495055336826 <= 0.055\n\n/tests/test_outputs.py:324: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nFAILED ../tests/test_outputs.py::test_generate_and_schema - AssertionError: r...\nFAILED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nFAILED ../tests/test_outputs.py::test_solution_coverage_no_duplicates - Asser...\nFAILED ../tests/test_outputs.py::test_performance_thresholds - AssertionError...\n========================= 4 failed, 2 passed in 0.21s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 6,
+      "total": 10,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_every_request_exactly_once[1]",
+       "../subtests/test_sub.py::test_must_every_request_exactly_once[2]",
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]",
+       "../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[1]",
+       "../subtests/test_sub.py::test_must_performance_thresholds[2]"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "s/test_sub.py:71: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\nFAILED ../subtests/test_sub.py::test_must_every_request_exactly_once[1] - Ass...\nFAILED ../subtests/test_sub.py::test_must_every_request_exactly_once[2] - Ass...\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nFAILED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[1] - Asserti...\nFAILED ../subtests/test_sub.py::test_must_performance_thresholds[2] - Asserti...\n========================= 6 failed, 10 passed in 0.16s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_output_files_exist",
+     "../tests/test_outputs.py::test_input_data_integrity",
+     "../tests/test_outputs.py::test_generate_and_schema",
+     "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+     "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+     "../tests/test_outputs.py::test_performance_thresholds"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 6.41s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nPASSED ../tests/test_outputs.py::test_performance_thresholds\n============================== 6 passed in 0.17s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 10,
+      "failed": 0,
+      "total": 10,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ubtests/test_sub.py ................                                 [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[1]\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\n============================== 16 passed in 0.13s ==============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793144711.3563478
+}

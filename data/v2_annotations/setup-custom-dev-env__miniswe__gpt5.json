@@ -1,0 +1,49 @@
+{
+  "case_id": "setup-custom-dev-env__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "tool_use",
+  "primary_failure_subtype": "command_orchestration_instability",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "completion_protocol",
+  "contributing_failure_1_subtype": "premature_completion",
+  "root_cause_label": "command_orchestration_instability_and_premature_submission_with_unresolved_oh_my_zsh_validation",
+  "one_sentence_failure_summary": "The agent repeatedly generated overly complex chained shell commands that failed due to dpkg locks, syntax errors, and an interactive chsh password prompt, then declared task completion without verifying that oh-my-zsh was functional or that the default shell had been changed.",
+  "m": 10,
+  "t_err": 1,
+  "t_err_evidence": "Step 1 issues a single massive chained command combining apt install, oh-my-zsh installer, plugin cloning, .zshrc writing, Miniconda install, and chsh into one pipeline; assessment marks it incorrect with error_label oh_my_zsh_missing, meaning the oh-my-zsh installation failed to produce a working setup despite the command appearing to run.",
+  "t_commit": 9,
+  "t_commit_evidence": "Step 9 runs chsh which outputs 'Password:' blocking execution non-interactively; with only step 10 remaining, the agent cannot recover from the blocked prompt and the unverified oh-my-zsh state, making failure inevitable.",
+  "t_surface": 2,
+  "t_surface_evidence": "Step 2 terminal output shows 'E: Could not get lock /var/lib/dpkg/lock-frontend', 'git: not found', and 'Syntax error: && unexpected', providing the first visible signals that the setup pipeline is broken.",
+  "timepoint_confidence": "medium",
+  "trigger_mechanism": "capability_limit",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent's plan was conceptually correct (install zsh/omz/miniconda/plugins, configure rc files, set default shell), but it repeatedly generated excessively long chained commands mixing here-documents, subshells, and conditionals that broke under /bin/sh parsing (syntax errors) and environment constraints (dpkg lock, interactive prompts), demonstrating a code-generation capability limitation in producing robust shell scripts.",
+  "forewarning_present": true,
+  "forewarning_first_step": 2,
+  "forewarning_types": [
+    "command_error",
+    "repeated_command"
+  ],
+  "forewarning_evidence": "Step 2 shows dpkg lock error and syntax error; steps 4, 5, and 7 each show the same 'Syntax error: && unexpected' from /bin/sh, indicating repeated failure of the same chaining pattern across multiple steps before t_commit.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 6,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 9, "X"],
+    [10, 10, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err",
+    "t_commit"
+  ]
+}

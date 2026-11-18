@@ -1,0 +1,32 @@
+{
+  "case_id": "git-leak-recovery__openhands__devstral",
+  "schema_version": "v2",
+  "m": 36,
+  "action_segments": [
+    [1, 4, "E"],
+    [5, 8, "E"],
+    [9, 16, "V"],
+    [17, 18, "W"],
+    [19, 24, "X"],
+    [25, 36, "V"]
+  ],
+  "num_error_events": 3,
+  "first_error_step": 27,
+  "first_error_evidence": "Step 27: `find . -type f -exec grep -l \"secret\\[\" {} \\;` produced 'find: missing argument to -exec'. Step 28 repeated the same command with same issue. Step 30 produced 'fatal: empty string is not a valid pathspec'.",
+  "num_recoveries": 2,
+  "max_detour_length": 7,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 23,
+  "verification_evidence": "Step 23: git reflog returned empty output confirming reflog was cleared. Step 24: git cat-file -t 6b4c75c returned 'fatal: Not a valid object name' confirming the dangling commit was purged. Step 35: re-read /app/secret.txt to confirm the secret was correctly written.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent directly found the secret in a dangling reflog commit via `git reflog` and `git show`, wrote it to /app/secret.txt, then cleaned the repository with `git reflog expire --expire=now --all` and `git gc --prune=now`, followed by an extended but largely redundant verification phase with several minor command errors.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

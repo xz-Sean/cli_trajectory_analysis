@@ -1,0 +1,37 @@
+{
+  "case_id": "tmux-advanced-workflow__terminus2__claude",
+  "schema_version": "v2",
+  "m": 164,
+  "action_segments": [
+    [1, 3, "E"],
+    [4, 6, "X"],
+    [7, 7, "R"],
+    [8, 13, "X"],
+    [14, 14, "X"],
+    [15, 162, "R"],
+    [163, 164, "V"]
+  ],
+  "num_error_events": 2,
+  "first_error_step": 5,
+  "first_error_evidence": "Step 5: agent used 'tmux split-window -h -t workflow' (horizontal/side-by-side split) when task required a top/bottom split first; step analysis labels this 'wrong_split_orientation'.",
+  "num_recoveries": 1,
+  "max_detour_length": 148,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 163,
+  "verification_evidence": "Step 163: agent issued 'less /app/project/data/output.csv' to inspect the output file; step 164 attempted 'q' to exit less. However, these commands also produced 'command not found', so verification may not have actually executed.",
+  "suspicious_pass": true,
+  "suspicious_pass_type": "lucky_environment",
+  "suspicious_pass_evidence": "From step 15 onward (150 out of 164 steps), every command the agent issued produced 'command not found' — vim keystrokes typed directly to the shell instead of via 'tmux send-keys'. The agent never successfully edited process_data.py or re-ran the processing script in a verifiable way. The task passed (outcome=True) despite these failures, suggesting the evaluator may only check the initial tmux session layout and script launching (steps 4-13, which were correct after recovery at step 7), not the bug-fix result.",
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "Agent correctly set up the three-pane tmux layout and launched scripts after one early split-orientation mistake, but then became trapped in a 150-step loop of typing vim and shell keystrokes directly to the host shell instead of routing them through 'tmux send-keys', never successfully editing the bug or verifying output, yet the task passed.",
+  "confidence": "medium",
+  "long_traj": true,
+  "uncertain_fields": [
+    "suspicious_pass_type",
+    "first_relevant_verification_step",
+    "num_recoveries"
+  ]
+}

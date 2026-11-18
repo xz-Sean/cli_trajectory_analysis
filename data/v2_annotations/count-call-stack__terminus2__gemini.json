@@ -1,0 +1,51 @@
+{
+  "case_id": "count-call-stack__terminus2__gemini",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "brittle_parsing_logic",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "verification",
+  "contributing_failure_1_subtype": "surface_only_check",
+  "root_cause_label": "Brittle Shell Pipeline for Stateful Log Parsing",
+  "one_sentence_failure_summary": "The agent used 'grep -A 3 | paste -d| - - -' to extract the top 3 frames per trace, a strategy that misaligns when trace frames span fewer than 3 lines or when multi-line wrapped frame text exists, producing incorrect unique-site counts; the agent then only fixed a cosmetic 'in' prefix issue and never recognized the fundamental logic flaw.",
+  "m": 8,
+  "t_err": 3,
+  "t_err_evidence": "In step 3, the agent writes the core pipeline 'grep -A 3 '^[0-9][0-9]*$' log.stack | grep -v '^[0-9][0-9]*$' | grep -v '^--$' | sed ... | paste -d '|' - - -', which assumes every trace contributes exactly 3 non-separator output lines. The head -n 20 output from step 2 already showed a single trace with at least 18 frames, and the log lines can also wrap (e.g., line 63-64 in step 2 shows a single frame split across two terminal lines). The 'paste -d| - - -' groups consecutive lines in fixed triplets regardless of actual trace boundaries, causing systematic misalignment.",
+  "t_commit": 3,
+  "t_commit_evidence": "After step 3 executes './analyze.sh > /app/output.txt' with the flawed pipeline, the output file is written with incorrect data. All subsequent steps only fix formatting cosmetics or confirm the result; the core logic is never revised, locking in the wrong output.",
+  "t_surface": null,
+  "t_surface_evidence": null,
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent acted on the unverified assumption that every stack trace in the log contributes exactly 3 lines of frame output after filtering out separator lines and grep context separators ('--'). The head output at step 2 already showed a trace with many more than 3 frames, but the agent did not reason about what 'grep -A 3' would produce for such multi-frame traces or how 'paste -d| - - -' would mis-group the resulting lines.",
+  "forewarning_present": true,
+  "forewarning_first_step": 2,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 2's 'head -n 20 log.stack' output shows the first trace alone has at least 18 frames (the output continues well past the first few frames), making it visually clear that traces are not uniformly 3 frames long. This contradicts the 'grep -A 3' strategy chosen in step 3.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "cosmetic_progress",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 4,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 3, "W"],
+    [4, 4, "V"],
+    [5, 5, "R"],
+    [6, 6, "V"],
+    [7, 8, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_surface"
+  ]
+}

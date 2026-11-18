@@ -1,0 +1,31 @@
+{
+  "case_id": "llm-inference-batching-scheduler__miniswe__gpt5",
+  "schema_version": "v2",
+  "m": 8,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 3, "E"],
+    [4, 4, "W"],
+    [5, 7, "R"],
+    [8, 8, "C"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 5,
+  "first_error_evidence": "Step 5 switched to greedy bounded-spread batching (gen_delta=96), causing all metrics to worsen: cost rose from 3.014e+11 to 3.214e+11, pad_ratio from 0.0639 to 0.0773, and p95_latency from 2.173e+06 to 2.207e+06 for bucket1 — a regression from the step-4 plan.",
+  "num_recoveries": 1,
+  "max_detour_length": 1,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 7,
+  "verification_evidence": "Step 7 runs the cost model evaluator and prints metrics confirming all thresholds are met (bucket1: cost=2.917e+11, pad_ratio=0.0535, p95=2.018e+06, seq_timecost=2.575e+08; bucket2: cost=4.497e+10, pad_ratio=0.1485, p95=1.953e+05) before the completion claim at step 8.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent explored existing scripts, implemented a shape-aware batching scheduler grouping requests by aligned prompt length and generation-length ceilings, then iteratively tuned batch size and generation-alignment granularity (with one regression at step 5) until metrics met all thresholds.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

@@ -1,0 +1,32 @@
+{
+  "case_id": "ilp-solver__terminus2__deepseek-v3.2",
+  "schema_version": "v2",
+  "m": 8,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 3, "W"],
+    [4, 4, "X"],
+    [5, 5, "R"],
+    [6, 6, "X"],
+    [7, 8, "V"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 3,
+  "first_error_evidence": "Step 3 writes solve.py with the budget constraint modeled as '-100A -300B <= 300', which incorrectly allows A=1,B=1,C=1 (year-0 outflow of 400 exceeds the 300 budget) because any negative value satisfies <= 300.",
+  "num_recoveries": 1,
+  "max_detour_length": 2,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 7,
+  "verification_evidence": "Step 7 runs 'cat /app/ilp_output.txt' and confirms the file contains the correct solution (Invest A: y, Invest B: n, Defer B: n, Invest C: y, Maximized NPV: 299.00). Step 8 further verifies file existence and metadata with 'ls -la'.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent formulated the capital-budgeting ILP as an exhaustive binary enumeration in Python, initially mis-specified the budget constraints (allowing infeasible selections), self-corrected after inspecting the wrong output, re-ran the fixed solver to obtain the correct optimal portfolio (A and C, NPV=299.00), and verified the output file.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

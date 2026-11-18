@@ -1,0 +1,89 @@
+{
+ "task": "parallelize-graph",
+ "pristine": {
+  "passed": 3,
+  "failed": 6,
+  "total": 9,
+  "passed_names": [
+   "../tests/test_outputs.py::test_outputs_contain_dna_sequences",
+   "../tests/test_outputs.py::test_outputs_are_contigs_not_kmers",
+   "../tests/test_outputs.py::test_contig_count_reasonable"
+  ],
+  "failed_names": [
+   "../tests/test_outputs.py::test_serial_executable_exists",
+   "../tests/test_outputs.py::test_parallel_executable_exists",
+   "../tests/test_outputs.py::test_makefile_exists",
+   "../tests/test_outputs.py::test_serial_output_exists",
+   "../tests/test_outputs.py::test_parallel_output_exists",
+   "../tests/test_outputs.py::test_outputs_are_identical"
+  ],
+  "raw_tail": "assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/serial.out').exists\n\n/tests/test_outputs.py:39: AssertionError\n_________________________ test_parallel_output_exists __________________________\n\n    def test_parallel_output_exists():\n        \"\"\"Check that parallel version produced output files starting with pgen.\n    \n        Output files should end with .out (e.g., pgen_0.out, pgen_1.out).\n        \"\"\"\n        # Check for individual pgen_*.out files\n        pgen_files = list(Path(\"/app\").glob(\"pgen*.out\"))\n    \n>       assert len(pgen_files) > 0, (\n            \"No parallel output files found matching pattern pgen*.out\"\n        )\nE       AssertionError: No parallel output files found matching pattern pgen*.out\nE       assert 0 > 0\nE        +  where 0 = len([])\n\n/tests/test_outputs.py:53: AssertionError\n__________________________ test_outputs_are_identical __________________________\n\n    def test_outputs_are_identical():\n        \"\"\"Check that serial and parallel versions produce identical contigs when sorted.\"\"\"\n        serial_out = Path(\"/app/serial.out\")\n    \n        # Collect all contigs from serial output\n        serial_contigs = set()\n        if serial_out.exists():\n            content = serial_out.read_text()\n            for line in content.strip().split(\"\\n\"):\n                if line.strip():\n                    serial_contigs.add(line.strip())\n    \n        # Collect all contigs from parallel outputs\n        parallel_contigs = set()\n        pgen_files = list(Path(\"/app\").glob(\"pgen*.out\"))\n        for pgen_file in pgen_files:\n            if pgen_file.exists():\n                content = pgen_file.read_text()\n                for line in content.strip().split(\"\\n\"):\n                    if line.strip():\n                        parallel_contigs.add(line.strip())\n    \n>       assert len(serial_contigs) > 0, \"No contigs found in serial output\"\nE       AssertionError: No contigs found in serial output\nE       assert 0 > 0\nE        +  where 0 = len(set())\n\n/tests/test_outputs.py:185: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_outputs_contain_dna_sequences\nPASSED ../tests/test_outputs.py::test_outputs_are_contigs_not_kmers\nPASSED ../tests/test_outputs.py::test_contig_count_reasonable\nFAILED ../tests/test_outputs.py::test_serial_executable_exists - AssertionErr...\nFAILED ../tests/test_outputs.py::test_parallel_executable_exists - AssertionE...\nFAILED ../tests/test_outputs.py::test_makefile_exists - AssertionError: Makef...\nFAILED ../tests/test_outputs.py::test_serial_output_exists - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_parallel_output_exists - AssertionError...\nFAILED ../tests/test_outputs.py::test_outputs_are_identical - AssertionError:...\n========================= 6 failed, 3 passed in 0.04s ==========================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_serial_executable",
+     "../subtests/test_sub.py::test_must_pgen_executable",
+     "../subtests/test_sub.py::test_must_makefile_has_serial_and_pgen_targets",
+     "../subtests/test_sub.py::test_must_parallel_outputs_exist_with_contigs"
+    ]
+   },
+   "mustnot": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n________________ test_must_makefile_has_serial_and_pgen_targets ________________\n\n    def test_must_makefile_has_serial_and_pgen_targets():\n>       assert (APP/\"Makefile\").is_file()\nE       AssertionError: assert False\nE        +  where False = is_file()\nE        +    where is_file = (PosixPath('/app') / 'Makefile').is_file\n\n/subtests/test_sub.py:26: AssertionError\n________________ test_must_parallel_outputs_exist_with_contigs _________________\n\n    def test_must_parallel_outputs_exist_with_contigs():\n>       fs = _pgen_files(); assert fs, \"no /app/pgen*.out\"\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: no /app/pgen*.out\nE       assert []\n\n/subtests/test_sub.py:38: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_test_file_modified\nSKIPPED [3] ../subtests/test_sub.py:16: /app/serial.out not produced yet\nSKIPPED [1] ../subtests/test_sub.py:16: /app/pgen not produced yet\nFAILED ../subtests/test_sub.py::test_must_serial_executable - AssertionError:...\nFAILED ../subtests/test_sub.py::test_must_pgen_executable - AssertionError: a...\nFAILED ../subtests/test_sub.py::test_must_makefile_has_serial_and_pgen_targets\nFAILED ../subtests/test_sub.py::test_must_parallel_outputs_exist_with_contigs\n==================== 4 failed, 1 passed, 4 skipped in 0.03s ====================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 9,
+  "failed": 0,
+  "total": 9,
+  "passed_names": [
+   "../tests/test_outputs.py::test_serial_executable_exists",
+   "../tests/test_outputs.py::test_parallel_executable_exists",
+   "../tests/test_outputs.py::test_makefile_exists",
+   "../tests/test_outputs.py::test_serial_output_exists",
+   "../tests/test_outputs.py::test_parallel_output_exists",
+   "../tests/test_outputs.py::test_outputs_contain_dna_sequences",
+   "../tests/test_outputs.py::test_outputs_are_contigs_not_kmers",
+   "../tests/test_outputs.py::test_contig_count_reasonable",
+   "../tests/test_outputs.py::test_outputs_are_identical"
+  ],
+  "failed_names": [],
+  "raw_tail": "om/ubuntu-ports noble-updates/restricted arm64 Packages [3251 kB]\nGet:10 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 Packages [1790 kB]\nGet:11 http://ports.ubuntu.com/ubuntu-ports noble-updates/universe arm64 Packages [2215 kB]\nGet:12 http://ports.ubuntu.com/ubuntu-ports noble-updates/multiverse arm64 Packages [104 kB]\nGet:13 http://ports.ubuntu.com/ubuntu-ports noble-backports/universe arm64 Packages [36.3 kB]\nGet:14 http://ports.ubuntu.com/ubuntu-ports noble-backports/multiverse arm64 Packages [669 B]\nGet:15 http://ports.ubuntu.com/ubuntu-ports noble-backports/main arm64 Packages [49.0 kB]\nGet:16 http://ports.ubuntu.com/ubuntu-ports noble-security/restricted arm64 Packages [3129 kB]\nGet:17 http://ports.ubuntu.com/ubuntu-ports noble-security/multiverse arm64 Packages [99.1 kB]\nGet:18 http://ports.ubuntu.com/ubuntu-ports noble-security/universe arm64 Packages [1638 kB]\nGet:19 http://ports.ubuntu.com/ubuntu-ports noble-security/main arm64 Packages [1476 kB]\nFetched 35.6 MB in 3s (13.6 MB/s)\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\n0 upgraded, 0 newly installed, 0 to remove and 42 not upgraded.\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 130ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 132ms\nInstalled 5 packages in 9ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 9 items\n\n../tests/test_outputs.py .........                                       [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_serial_executable_exists\nPASSED ../tests/test_outputs.py::test_parallel_executable_exists\nPASSED ../tests/test_outputs.py::test_makefile_exists\nPASSED ../tests/test_outputs.py::test_serial_output_exists\nPASSED ../tests/test_outputs.py::test_parallel_output_exists\nPASSED ../tests/test_outputs.py::test_outputs_contain_dna_sequences\nPASSED ../tests/test_outputs.py::test_outputs_are_contigs_not_kmers\nPASSED ../tests/test_outputs.py::test_contig_count_reasonable\nPASSED ../tests/test_outputs.py::test_outputs_are_identical\n============================== 9 passed in 0.02s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_serial_executable\nPASSED ../subtests/test_sub.py::test_must_pgen_executable\nPASSED ../subtests/test_sub.py::test_must_makefile_has_serial_and_pgen_targets\nPASSED ../subtests/test_sub.py::test_must_serial_out_is_contigs\nPASSED ../subtests/test_sub.py::test_must_parallel_outputs_exist_with_contigs\nPASSED ../subtests/test_sub.py::test_must_parallel_contigs_identical_to_serial\nPASSED ../subtests/test_sub.py::test_mustnot_input_test_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_serial_out_copied_as_pgen_out\nPASSED ../subtests/test_sub.py::test_untested_pgen_is_a_upc_program\n============================== 9 passed in 0.02s ===============================\n",
+  "oracle_rc": 0
+ }
+}

@@ -1,0 +1,52 @@
+{
+  "case_id": "play-zork-easy__terminus2__devstral",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "verification",
+  "primary_failure_subtype": "hallucinated_task_progress",
+  "contributing_failure_1_layer": "agent",
+  "contributing_failure_1_category": "tool_use",
+  "contributing_failure_1_subtype": "command_execution_failure",
+  "root_cause_label": "State Hallucination Following Execution Failure",
+  "one_sentence_failure_summary": "The agent sent keystrokes to start the Zork game but the process never launched, yet it hallucinated over 120 steps of full gameplay from the unchanged ls -la terminal output, ultimately writing a fabricated ending message to the answer file.",
+  "m": 173,
+  "t_err": 4,
+  "t_err_evidence": "Step 4 shows the terminal still displaying the same ls -la directory listing from step 2 (the game never started), yet the agent's analysis states 'The game has started! I'm at the West of House location' and issues the command 'open mailbox' as if interacting with a live game.",
+  "t_commit": 4,
+  "t_commit_evidence": "From step 4 onward the agent is fully committed to hallucinating game state from static ls -la output; no recovery is possible because the agent never recognizes the game failed to launch and never attempts any corrective shell command.",
+  "t_surface": 125,
+  "t_surface_evidence": "Step 125 is the first step where a real error message appears in terminal output: 'bash: sudo: command not found', indicating the agent has escaped the hallucination loop and is now receiving actual shell errors. Step 127 shows the cleaner failure signal: './frotz zork1.z5' yields '-sh: 1: ./frotz: not found'.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "misread_output",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "At step 3 the agent issued './frotz zork1.z5' as a keystroke but the game process did not launch (the terminal output at step 3 shows the identical ls -la listing from step 2, with no game welcome screen). At step 4 the agent misinterprets this unchanged ls -la output as a game state display, narrating a fictional 'West of House' room description entirely from its own knowledge of Zork 1, and proceeds to hallucinate all subsequent game responses from the static directory listing.",
+  "forewarning_present": true,
+  "forewarning_first_step": 3,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 3 terminal output is identical to step 2 (same ls -la listing), with no game welcome banner or room description, which should have signaled that the game failed to start.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 125,
+  "num_recovery_attempts": 3,
+  "tail_dominant_behavior": "fabrication",
+  "fabrication_present": true,
+  "fabrication_type": "direct_fabrication",
+  "fabrication_onset_step": 4,
+  "fabrication_evidence": "Steps 4-123 contain elaborate fictional game narration (defeating a troll, navigating underground rooms, inflating a boat) despite every terminal output being the identical ls -la directory listing. Steps 127-170 continue narrating game play while terminal shows '-sh: 1: ./frotz: not found'. Step 171 writes 'Congratulations! You have found the Egg of the Great Underground Empire...' to /app/answer.txt without ever having played the game.",
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 2, "E"],
+    [3, 3, "X"],
+    [4, 123, "X"],
+    [124, 126, "R"],
+    [127, 170, "X"],
+    [171, 171, "W"],
+    [172, 173, "C"]
+  ],
+  "long_traj": true,
+  "uncertain_fields": [
+    "t_surface"
+  ]
+}

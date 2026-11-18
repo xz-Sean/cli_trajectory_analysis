@@ -1,0 +1,32 @@
+{
+  "case_id": "pandas-etl__terminus2__deepseek-v3.2",
+  "schema_version": "v2",
+  "m": 18,
+  "action_segments": [
+    [1, 7, "E"],
+    [8, 9, "W"],
+    [10, 11, "E"],
+    [12, 13, "W"],
+    [14, 16, "V"],
+    [17, 18, "V"]
+  ],
+  "num_error_events": 2,
+  "first_error_step": 3,
+  "first_error_evidence": "Agent uses wc -l on a multiline CSV (step 3), treating physical line count as record count; also in steps 6-7, agent pipes a single physical line via sed to csv.reader, which cannot parse a record spanning multiple physical lines.",
+  "num_recoveries": 1,
+  "max_detour_length": 4,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 13,
+  "verification_evidence": "Step 13 runs transform_final.py and inspects printed output rows; steps 17-18 create and run a dedicated validation script that asserts header correctness and per-row constraints, reporting 'All rows validated successfully.'",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent explored the CSV structure via shell tools, hit dead ends with sed-based line parsing, then pivoted to a proper csv.reader-based Python script that correctly extracted postal_code/city from multiline addresses, reformatted birth_date, constructed team_name, and validated the output.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

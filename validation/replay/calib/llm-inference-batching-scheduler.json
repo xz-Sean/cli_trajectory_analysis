@@ -1,0 +1,80 @@
+{
+ "task": "llm-inference-batching-scheduler",
+ "pristine": {
+  "passed": 1,
+  "failed": 5,
+  "total": 6,
+  "passed_names": [
+   "../tests/test_outputs.py::test_input_data_integrity"
+  ],
+  "failed_names": [
+   "../tests/test_outputs.py::test_output_files_exist",
+   "../tests/test_outputs.py::test_generate_and_schema",
+   "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+   "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+   "../tests/test_outputs.py::test_performance_thresholds"
+  ],
+  "raw_tail": "_data/plan_b1.jsonl'\n\n/tests/test_outputs.py:82: FileNotFoundError\n_________________________ test_performance_thresholds __________________________\n\n    def test_performance_thresholds() -> None:\n        \"\"\"Test solution meets performance thresholds described in task.yaml.\n    \n        **Performance Thresholds:**\n        - Bucket 1: cost \u2264 3.0e11, pad_ratio \u2264 0.055, p95_latency \u2264 2.1e6 ms,\n          sequential_timecost \u2264 2.7e8 ms\n        - Bucket 2: cost \u2264 4.8e10, pad_ratio \u2264 0.15, p95_latency \u2264 2.1e5 ms,\n          sequential_timecost \u2264 3.2e7 ms\n    \n        **Optimization Verification:**\n        - Global shape constraint: \u2264 8 unique shapes across all buckets\n    \n        \"\"\"\n    \n        req1_path = \"/app/task_file/input_data/requests_bucket_1.jsonl\"\n        plan1_path = \"/app/task_file/output_data/plan_b1.jsonl\"\n>       m_b1 = _plan_metrics(req1_path, plan1_path)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n/tests/test_outputs.py:314: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nreq_path = '/app/task_file/input_data/requests_bucket_1.jsonl'\nplan_path = '/app/task_file/output_data/plan_b1.jsonl', gran = 64\n\n    def _plan_metrics(req_path: str, plan_path: str, gran: int = 64) -> dict:\n        \"\"\"Calculate performance metrics for a batching plan.\n    \n        Args:\n            req_path: Path to the input requests file (JSONL format)\n            plan_path: Path to the output plan file (JSONL format)\n            gran: Granularity for alignment calculations (default: 64)\n    \n        Returns:\n            Dictionary containing performance metrics:\n            - cost: Total computational cost\n            - pad_ratio: Fraction of computation spent on padding\n            - p95_latency_ms: 95th percentile latency in milliseconds\n            - sequential_timecost: Total time to execute all batches sequentially\n        \"\"\"\n        cm = CostModel(granularity=gran)\n        with open(req_path) as f:\n            reqs = [json.loads(line) for line in f]\n        req_idx = {r[\"request_id\"]: r for r in reqs}\n>       with open(plan_path) as f:\n             ^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/task_file/output_data/plan_b1.jsonl'\n\n/tests/test_outputs.py:54: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nFAILED ../tests/test_outputs.py::test_output_files_exist - AssertionError: Mi...\nFAILED ../tests/test_outputs.py::test_generate_and_schema - FileNotFoundError...\nFAILED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nFAILED ../tests/test_outputs.py::test_solution_coverage_no_duplicates - FileN...\nFAILED ../tests/test_outputs.py::test_performance_thresholds - FileNotFoundEr...\n========================= 5 failed, 1 passed in 0.07s ==========================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "failed_names": [
+     "../subtests/test_sub.py::test_must_both_plan_files_exist"
+    ]
+   },
+   "mustnot": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 16 items\n\n../subtests/test_sub.py Fsssssssss..ssss                                 [100%]\n\n=================================== FAILURES ===================================\n_______________________ test_must_both_plan_files_exist ________________________\n\n    def test_must_both_plan_files_exist():\n>       assert OUT[1].exists() and OUT[2].exists()\nE       AssertionError: assert (False)\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/task_file/output_data/plan_b1.jsonl').exists\n\n/subtests/test_sub.py:43: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nSKIPPED [11] ../subtests/test_sub.py:25: no plan yet\nSKIPPED [2] ../subtests/test_sub.py:96: no plan yet\nFAILED ../subtests/test_sub.py::test_must_both_plan_files_exist - AssertionEr...\n=================== 1 failed, 2 passed, 13 skipped in 0.03s ====================\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 6,
+  "failed": 0,
+  "total": 6,
+  "passed_names": [
+   "../tests/test_outputs.py::test_output_files_exist",
+   "../tests/test_outputs.py::test_input_data_integrity",
+   "../tests/test_outputs.py::test_generate_and_schema",
+   "../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency",
+   "../tests/test_outputs.py::test_solution_coverage_no_duplicates",
+   "../tests/test_outputs.py::test_performance_thresholds"
+  ],
+  "failed_names": [],
+  "raw_tail": "4 (7.88.1-10+deb12u15) ...\nSelecting previously unselected package curl.\nPreparing to unpack .../09-curl_7.88.1-10+deb12u15_arm64.deb ...\nUnpacking curl (7.88.1-10+deb12u15) ...\nSelecting previously unselected package libldap-common.\nPreparing to unpack .../10-libldap-common_2.5.13+dfsg-5_all.deb ...\nUnpacking libldap-common (2.5.13+dfsg-5) ...\nSelecting previously unselected package libsasl2-modules:arm64.\nPreparing to unpack .../11-libsasl2-modules_2.1.28+dfsg-10_arm64.deb ...\nUnpacking libsasl2-modules:arm64 (2.1.28+dfsg-10) ...\nSelecting previously unselected package publicsuffix.\nPreparing to unpack .../12-publicsuffix_20230209.2326-1_all.deb ...\nUnpacking publicsuffix (20230209.2326-1) ...\nSetting up libpsl5:arm64 (0.21.2-1) ...\nSetting up libbrotli1:arm64 (1.0.9-2+deb12u1) ...\nSetting up libsasl2-modules:arm64 (2.1.28+dfsg-10) ...\nSetting up libnghttp2-14:arm64 (1.52.0-1+deb12u3) ...\nSetting up libldap-common (2.5.13+dfsg-5) ...\nSetting up libsasl2-modules-db:arm64 (2.1.28+dfsg-10) ...\nSetting up librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b2) ...\nSetting up libsasl2-2:arm64 (2.1.28+dfsg-10) ...\nSetting up libssh2-1:arm64 (1.10.0-3+deb12u1) ...\nSetting up publicsuffix (20230209.2326-1) ...\nSetting up libldap-2.5-0:arm64 (2.5.13+dfsg-5) ...\nSetting up libcurl4:arm64 (7.88.1-10+deb12u15) ...\nSetting up curl (7.88.1-10+deb12u15) ...\nProcessing triggers for libc-bin (2.36-9+deb12u9) ...\ndownloading uv 0.7.13 aarch64-unknown-linux-gnu\nno checksums to verify\ninstalling to /root/.local/bin\n  uv\n  uvx\neverything's installed!\n\nTo add $HOME/.local/bin to your PATH, either restart your shell or run:\n\n    source $HOME/.local/bin/env (sh, bash, zsh)\n    source $HOME/.local/bin/env.fish (fish)\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 497ms\nDownloading pygments (1.2MiB)\n Downloading pygments\nPrepared 5 packages in 647ms\nInstalled 5 packages in 35ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_output_files_exist\nPASSED ../tests/test_outputs.py::test_input_data_integrity\nPASSED ../tests/test_outputs.py::test_generate_and_schema\nPASSED ../tests/test_outputs.py::test_solution_shape_feasibility_and_batch_consistency\nPASSED ../tests/test_outputs.py::test_solution_coverage_no_duplicates\nPASSED ../tests/test_outputs.py::test_performance_thresholds\n============================== 6 passed in 0.11s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 10,
+    "failed": 0,
+    "total": 10,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "ubtests/test_sub.py ................                                 [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_both_plan_files_exist\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[1]\nPASSED ../subtests/test_sub.py::test_must_every_request_exactly_once[2]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[1]\nPASSED ../subtests/test_sub.py::test_must_shape_alignment_and_feasibility[2]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[1]\nPASSED ../subtests/test_sub.py::test_must_identical_shape_within_batch[2]\nPASSED ../subtests/test_sub.py::test_must_at_most_8_unique_shapes_across_both_buckets\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[1]\nPASSED ../subtests/test_sub.py::test_must_performance_thresholds[2]\nPASSED ../subtests/test_sub.py::test_mustnot_input_data_modified\nPASSED ../subtests/test_sub.py::test_mustnot_provided_scripts_modified\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[1]\nPASSED ../subtests/test_sub.py::test_untested_record_schema_matches_example_format[2]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[1]\nPASSED ../subtests/test_sub.py::test_untested_file_is_strict_jsonl[2]\n============================== 16 passed in 0.06s ==============================\n",
+  "oracle_rc": 0
+ }
+}

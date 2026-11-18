@@ -1,0 +1,576 @@
+{
+ "cid": "configure-git-webserver__terminus2__gemini",
+ "task": "configure-git-webserver",
+ "scaffold": "terminus2",
+ "model": "gemini",
+ "m": 6,
+ "kmin": 1,
+ "kmax": 6,
+ "rep": 2,
+ "started": 1793062760.611562,
+ "steps": [
+  {
+   "k": 1,
+   "type": "empty",
+   "secs": 984.4,
+   "out_sim": 0.0,
+   "out_tail": "d1.1) ...\nSetting up libxdmcp6:arm64 (1:1.1.3-0ubuntu6) ...\nSetting up libxcb1:arm64 (1.15-1ubuntu2) ...\nSetting up libedit2:arm64 (3.1-20230828-1build1) ...\nSetting up perl (5.38.2-3.2ubuntu0.6) ...\nSetting up libx11-6:arm64 (2:1.8.7-1ubuntu0.1) ...\nSetting up libxmuu1:arm64 (2:1.1.3-3build2) ...\nSetting up openssh-client (1:9.6p1-3ubuntu13.20) ...\nSetting up libxext6:arm64 (2:1.3.4-1build2) ...\nSetting up liberror-perl (0.17029-2) ...\nSetting up git (1:2.43.0-1ubuntu7.4) ...\nSetting up xauth (1:1.1.2-1build1) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.4) ...\nroot@ef1ab7738310:/app#\n"
+  },
+  {
+   "k": 2,
+   "type": "empty",
+   "secs": 3.1,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 3,
+   "type": "empty",
+   "secs": 7.6,
+   "out_sim": 0.943,
+   "out_tail": "t: Using 'master' as the name for the initial branch. This default branch name\nhint: is subject to change. To configure the initial branch name to use in all\nhint: of your new repositories, which will suppress this warning, call:\nhint:\nhint:   git config --global init.defaultBranch <name>\nhint:\nhint: Names commonly chosen instead of 'master' are 'main', 'trunk' and\nhint: 'development'. The just-created branch can be renamed via this command:\nhint:\nhint:   git branch -m <name>\nInitialized empty Git repository in /git/server/\nroot@ef1ab7738310:/app# mkdir -p /var/www/html\nroot@ef1ab7738310:/app#"
+  },
+  {
+   "k": 4,
+   "type": "empty",
+   "secs": 5.3,
+   "out_sim": 0.874,
+   "out_tail": "root@ef1ab7738310:/app# cat <<EOF > /git/server/hooks/post-receive\n> #!/bin/sh\n> git --work-tree=/var/www/html --git-dir=/git/server checkout -f\n> EOF\nroot@ef1ab7738310:/app# chmod +x /git/server/hooks/post-receive\nroot@ef1ab7738310:/app#"
+  },
+  {
+   "k": 5,
+   "type": "empty",
+   "secs": 5.9,
+   "out_sim": 0.541,
+   "out_tail": "root@ef1ab7738310:/app# cd /var/www/html\nroot@ef1ab7738310:/var/www/html# python3 -m http.server 8080 &\n[1] 906\nroot@ef1ab7738310:/var/www/html# Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ..."
+  },
+  {
+   "k": 6,
+   "type": "empty",
+   "secs": 3.1,
+   "out_sim": 1.0,
+   "out_tail": ""
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 36ms\nInstalled 5 packages in 423ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nGet:2 http://ports.ubuntu.com/ubuntu-ports noble-updates ...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nGet:2 http://ports.ubuntu.com/ubuntu-ports noble-updates ...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...y\\n    while executing\\n\"spawn git clone git@localhost:/git/server server-test\"\\n    (file \"./git_test.exp\" line 5)\\n').stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 4.94s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 2,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_git_repo_at_git_server",
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "sh 2>/dev/null | head -5\", returncode=0, stdout='', stderr='').stdout\n\n/subtests/test_sub.py:72: AssertionError\n_______________________ test_mustnot_ssh_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xef118f0f5440>('sshd')\nE        +    where <function which at 0xef118f0f5440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n=========================== short test summary info ============================\nSKIPPED [1] ../subtests/test_sub.py:55: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:60: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:81: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:92: no git / no repo\nFAILED ../subtests/test_sub.py::test_must_git_repo_at_git_server - AssertionE...\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n========================= 3 failed, 4 skipped in 0.09s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 92ms\nInstalled 5 packages in 528ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_hello_html_exists\n============================== 1 passed in 6.06s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 7 items\n\n../subtests/test_sub.py .......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nPASSED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nPASSED ../subtests/test_sub.py::test_must_webserver_on_port_8080\nPASSED ../subtests/test_sub.py::test_mustnot_ssh_server_missing\nPASSED ../subtests/test_sub.py::test_mustnot_deployed_hello_html_outside_served_root\nPASSED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\n============================== 7 passed in 0.19s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "1": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 32ms\nInstalled 5 packages in 368ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nHit:2 http://ports.ubuntu.com/ubuntu-ports noble-updates ...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nHit:2 http://ports.ubuntu.com/ubuntu-ports noble-updates ...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout=\"Hit:1 http://ports.ubuntu.com/ubuntu-ports n...t installed\\nexpect: spawn id exp3 not open\\n    while executing\\n\"expect eof\"\\n    (file \"./git_test.exp\" line 15)\\n').stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 4.89s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 2,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_git_repo_at_git_server",
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "sh 2>/dev/null | head -5\", returncode=0, stdout='', stderr='').stdout\n\n/subtests/test_sub.py:72: AssertionError\n_______________________ test_mustnot_ssh_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xe133854e5440>('sshd')\nE        +    where <function which at 0xe133854e5440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n=========================== short test summary info ============================\nSKIPPED [1] ../subtests/test_sub.py:55: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:60: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:81: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:92: no git / no repo\nFAILED ../subtests/test_sub.py::test_must_git_repo_at_git_server - AssertionE...\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n========================= 3 failed, 4 skipped in 0.05s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 38ms\nInstalled 5 packages in 591ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py .                                               [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_hello_html_exists\n============================== 1 passed in 6.42s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 7 items\n\n../subtests/test_sub.py .......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nPASSED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nPASSED ../subtests/test_sub.py::test_must_webserver_on_port_8080\nPASSED ../subtests/test_sub.py::test_mustnot_ssh_server_missing\nPASSED ../subtests/test_sub.py::test_mustnot_deployed_hello_html_outside_served_root\nPASSED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\n============================== 7 passed in 0.29s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "2": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 33ms\nInstalled 5 packages in 376ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nHit:2 http://ports.ubuntu.com/ubuntu-ports noble-updates ...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nHit:2 http://ports.ubuntu.com/ubuntu-ports noble-updates ...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout=\"Hit:1 http://ports.ubuntu.com/ubuntu-ports n...t installed\\nexpect: spawn id exp3 not open\\n    while executing\\n\"expect eof\"\\n    (file \"./git_test.exp\" line 15)\\n').stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 5.16s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 2,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_git_repo_at_git_server",
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "sh 2>/dev/null | head -5\", returncode=0, stdout='', stderr='').stdout\n\n/subtests/test_sub.py:72: AssertionError\n_______________________ test_mustnot_ssh_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xf645159f5440>('sshd')\nE        +    where <function which at 0xf645159f5440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n=========================== short test summary info ============================\nSKIPPED [1] ../subtests/test_sub.py:55: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:60: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:81: no git / no repo\nSKIPPED [1] ../subtests/test_sub.py:92: no git / no repo\nFAILED ../subtests/test_sub.py::test_must_git_repo_at_git_server - AssertionE...\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n========================= 3 failed, 4 skipped in 0.08s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 51ms\nInstalled 5 packages in 404ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 404\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 404\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...ce in /var/cache/apt/archives/.\\n/tests/verify.sh: line 49: ./git_test.exp: cannot execute: required file not found\\n\").stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 3.97s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 1,
+      "failed": 3,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_git_repo_at_git_server",
+       "../subtests/test_sub.py::test_must_push_to_master_is_accepted",
+       "../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html"
+      ]
+     }
+    },
+    "sub_raw_tail": "eceive deployment)\"\nE       AssertionError: pushed files were not deployed anywhere outside the clone (no post-receive deployment)\nE       assert []\n\n/subtests/test_sub.py:62: AssertionError\n__________ test_untested_hook_deploys_whole_tree_not_only_hello_html ___________\n\n    def test_untested_hook_deploys_whole_tree_not_only_hello_html():\n        # a push must publish the pushed tree (the user may push other files later); official only checks hello.html\n        if not shutil.which(\"git\") or not REPO.exists(): pytest.skip(\"no git / no repo\")\n        dirs = _deployed_dirs()\n>       assert dirs and all((d/_state[\"probe\"]).read_text().strip() == \"hello world\" for d in dirs)\nE       assert ([])\n\n/subtests/test_sub.py:94: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_webserver_on_port_8080\nPASSED ../subtests/test_sub.py::test_mustnot_ssh_server_missing\nSKIPPED [1] ../subtests/test_sub.py:83: nothing deployed\nFAILED ../subtests/test_sub.py::test_must_git_repo_at_git_server - AssertionE...\nFAILED ../subtests/test_sub.py::test_must_push_to_master_is_accepted - Assert...\nFAILED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nFAILED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\n==================== 4 failed, 2 passed, 1 skipped in 0.12s ====================\n",
+    "oracle_rc": 0
+   }
+  },
+  "3": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 454ms\nInstalled 5 packages in 315ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...ce in /var/cache/apt/archives/.\\n/tests/verify.sh: line 49: ./git_test.exp: cannot execute: required file not found\\n\").stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 4.53s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 2,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot",
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html"
+      ]
+     }
+    },
+    "sub_raw_tail": "ts()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n__________ test_untested_hook_deploys_whole_tree_not_only_hello_html ___________\n\n    def test_untested_hook_deploys_whole_tree_not_only_hello_html():\n        # a push must publish the pushed tree (the user may push other files later); official only checks hello.html\n        if not shutil.which(\"git\") or not REPO.exists(): pytest.skip(\"no git / no repo\")\n        dirs = _deployed_dirs()\n>       assert dirs and all((d/_state[\"probe\"]).read_text().strip() == \"hello world\" for d in dirs)\nE       assert ([])\n\n/subtests/test_sub.py:94: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nSKIPPED [1] ../subtests/test_sub.py:83: nothing deployed\nFAILED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\nFAILED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\n==================== 4 failed, 2 passed, 1 skipped in 0.17s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 540ms\nInstalled 5 packages in 285ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...ce in /var/cache/apt/archives/.\\n/tests/verify.sh: line 49: ./git_test.exp: cannot execute: required file not found\\n\").stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 5.32s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 1,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "h_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xfd039fee5440>('sshd')\nE        +    where <function which at 0xfd039fee5440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nPASSED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nPASSED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\nSKIPPED [1] ../subtests/test_sub.py:86: web root not discoverable from config\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n==================== 2 failed, 4 passed, 1 skipped in 0.15s ====================\n",
+    "oracle_rc": 0
+   }
+  },
+  "4": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 56ms\nInstalled 5 packages in 429ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...ce in /var/cache/apt/archives/.\\n/tests/verify.sh: line 49: ./git_test.exp: cannot execute: required file not found\\n\").stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 3.80s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 1,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "h_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xf23b15975440>('sshd')\nE        +    where <function which at 0xf23b15975440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nPASSED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nPASSED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\nSKIPPED [1] ../subtests/test_sub.py:86: web root not discoverable from config\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n==================== 2 failed, 4 passed, 1 skipped in 0.14s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 32ms\nInstalled 5 packages in 312ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...ce in /var/cache/apt/archives/.\\n/tests/verify.sh: line 49: ./git_test.exp: cannot execute: required file not found\\n\").stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 3.55s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 1,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "h_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xfc5407d75440>('sshd')\nE        +    where <function which at 0xfc5407d75440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nPASSED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nPASSED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\nSKIPPED [1] ../subtests/test_sub.py:86: web root not discoverable from config\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n==================== 2 failed, 4 passed, 1 skipped in 0.12s ====================\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 77ms\nInstalled 5 packages in 330ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...ce in /var/cache/apt/archives/.\\n/tests/verify.sh: line 49: ./git_test.exp: cannot execute: required file not found\\n\").stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 4.28s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 1,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "h_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xf0e585eb5440>('sshd')\nE        +    where <function which at 0xf0e585eb5440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nPASSED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nPASSED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\nSKIPPED [1] ../subtests/test_sub.py:86: web root not discoverable from config\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n==================== 2 failed, 4 passed, 1 skipped in 0.14s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 274ms\nInstalled 5 packages in 442ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...ce in /var/cache/apt/archives/.\\n/tests/verify.sh: line 49: ./git_test.exp: cannot execute: required file not found\\n\").stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 3.72s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 1,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "h_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xe680b5875440>('sshd')\nE        +    where <function which at 0xe680b5875440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nPASSED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nPASSED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\nSKIPPED [1] ../subtests/test_sub.py:86: web root not discoverable from config\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n==================== 2 failed, 4 passed, 1 skipped in 0.12s ====================\n",
+    "oracle_rc": 0
+   }
+  },
+  "6": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "Using CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 33ms\nInstalled 5 packages in 358ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...ce in /var/cache/apt/archives/.\\n/tests/verify.sh: line 49: ./git_test.exp: cannot execute: required file not found\\n\").stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 3.72s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 1,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "h_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xffee07c45440>('sshd')\nE        +    where <function which at 0xffee07c45440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nPASSED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nPASSED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\nSKIPPED [1] ../subtests/test_sub.py:86: web root not discoverable from config\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n==================== 2 failed, 4 passed, 1 skipped in 0.13s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_hello_html_exists"
+    ],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 41ms\nInstalled 5 packages in 268ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 1 item\n\n../tests/test_outputs.py F                                               [100%]\n\n=================================== FAILURES ===================================\n____________________________ test_hello_html_exists ____________________________\n\n    def test_hello_html_exists():\n        \"\"\"Test that the hello.html file exists and contains the correct content.\"\"\"\n        result = subprocess.run([\"bash\", \"/tests/verify.sh\"], capture_output=True, text=True)\n    \n>       assert \"TEST PASSED\" in result.stdout, \"Did not pass test\"\nE       AssertionError: Did not pass test\nE       assert 'TEST PASSED' in 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n'\nE        +  where 'Hit:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease\\nErr:1 http://ports.ubuntu.com/ubuntu-ports noble InReleas...Testing web server...\\nUsing curl to test web server...\\n\u274c TEST FAILED: Web server returned HTTP 000\\nTest completed\\n' = CompletedProcess(args=['bash', '/tests/verify.sh'], returncode=0, stdout='Hit:1 http://ports.ubuntu.com/ubuntu-ports n...ce in /var/cache/apt/archives/.\\n/tests/verify.sh: line 49: ./git_test.exp: cannot execute: required file not found\\n\").stdout\n\n/tests/test_outputs.py:13: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_hello_html_exists - AssertionError: Did...\n============================== 1 failed in 3.84s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 1,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_webserver_on_port_8080"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_mustnot_ssh_server_missing"
+      ]
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "h_server_missing ________________________\n\n    def test_mustnot_ssh_server_missing():\n        # \"git clone user@server:/git/server\" from another machine needs an ssh daemon installed on the server\n>       assert shutil.which(\"sshd\") or Path(\"/usr/sbin/sshd\").exists(), \"no sshd installed\"\nE       AssertionError: no sshd installed\nE       assert (None or False)\nE        +  where None = <function which at 0xfd7f24c85440>('sshd')\nE        +    where <function which at 0xfd7f24c85440> = shutil.which\nE        +  and   False = exists()\nE        +    where exists = PosixPath('/usr/sbin/sshd').exists\nE        +      where PosixPath('/usr/sbin/sshd') = Path('/usr/sbin/sshd')\n\n/subtests/test_sub.py:77: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_git_repo_at_git_server\nPASSED ../subtests/test_sub.py::test_must_push_to_master_is_accepted\nPASSED ../subtests/test_sub.py::test_must_push_deploys_hello_html_to_webroot\nPASSED ../subtests/test_sub.py::test_untested_hook_deploys_whole_tree_not_only_hello_html\nSKIPPED [1] ../subtests/test_sub.py:86: web root not discoverable from config\nFAILED ../subtests/test_sub.py::test_must_webserver_on_port_8080 - AssertionE...\nFAILED ../subtests/test_sub.py::test_mustnot_ssh_server_missing - AssertionEr...\n==================== 2 failed, 4 passed, 1 skipped in 0.15s ====================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793065668.759379
+}

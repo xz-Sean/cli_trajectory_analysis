@@ -1,0 +1,49 @@
+{
+  "case_id": "organization-json-generator__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "agent",
+  "primary_failure_category": "completion_protocol",
+  "primary_failure_subtype": "invalid_completion_signal",
+  "contributing_failure_1_layer": "agent",
+  "contributing_failure_1_category": "data_transformation",
+  "contributing_failure_1_subtype": "wrong_output_key_schema",
+  "root_cause_label": "Harness-Aware Completion Failure with Masked Content Bug",
+  "one_sentence_failure_summary": "The agent generated /app/organization.json with a departmentSizes key mismatch (IDs instead of names) that went undetected due to a flawed custom validator, then issued 'echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT' as a shell command rather than the proper harness completion signal, causing the task to be marked NOT RESOLVED.",
+  "m": 5,
+  "t_err": 3,
+  "t_err_evidence": "Step 3 Python script computes 'department_sizes = {d[\"id\"]: len(d[\"employees\"]) for d in departments}', using department IDs as keys instead of department names as expected by the tests (KeyError for 'Engineering').",
+  "t_commit": 5,
+  "t_commit_evidence": "Step 5 issues 'echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT' as a plain shell command — not the harness-recognized completion mechanism — locking in task failure with no remaining steps.",
+  "t_surface": null,
+  "t_surface_evidence": null,
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "spec_neglect",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent never verified that departmentSizes keys should be department names (as implied by the schema and expected by the test suite); it defaulted to IDs without checking the specification. Additionally, the agent used an ad-hoc echo command for completion instead of the harness-documented mechanism, reflecting a gap in awareness of the harness API contract.",
+  "forewarning_present": true,
+  "forewarning_first_step": 2,
+  "forewarning_types": [
+    "command_error"
+  ],
+  "forewarning_evidence": "Step 2 produced a shell syntax error ('/bin/sh: 120: Syntax error: \"&&\" unexpected') indicating fragile command construction; the agent recovered the shell issue but did not notice the departmentSizes schema gap it introduced in step 3.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 4,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 3, "W"],
+    [4, 4, "V"],
+    [5, 5, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "contributing_failure_1_subtype"
+  ]
+}

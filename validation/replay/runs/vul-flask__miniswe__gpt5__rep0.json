@@ -1,0 +1,215 @@
+{
+ "cid": "vul-flask__miniswe__gpt5",
+ "task": "vul-flask",
+ "scaffold": "miniswe",
+ "model": "gpt5",
+ "m": 7,
+ "kmin": 7,
+ "kmax": 7,
+ "rep": 0,
+ "started": 1793043557.2291822,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.707,
+   "out_tail": "da: flask.render_template_string(  # noqa: E731\n/app/flask_1.1.1/tests/test_blueprints.py:761:        rv = flask.render_template_string(\"{{ get_answer() }}\")\n/app/flask_1.1.1/tests/test_helpers.py:265:        render = flask.render_template_string\n/app/flask_1.1.1/CHANGES.rst:482:-   Turn on autoescape for ``flask.templating.render_template_string``\n/app/flask_1.1.1/src/flask/templating.py:144:def render_template_string(source, **context):\n/app/flask_1.1.1/src/flask/__init__.py:58:from .templating import render_template_string\nnl: /app/flask_1.1.1/flask/templating.py: No such file or directory\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "autoescaped.\n   147\t\n   148\t    :param source: the source code of the template to be\n   149\t                   rendered\n   150\t    :param context: the variables that should be available in the\n   151\t                    context of the template.\n   152\t    \"\"\"\n   153\t    ctx = _app_ctx_stack.top\n   154\t    ctx.app.update_template_context(context)\n   155\t    return _render(ctx.app.jinja_env.from_string(source), context, ctx.app)\n  File \"<stdin>\", line 8\n    PY && sed -n '1,240p' /app/flask_1.1.1/src/flask/templating.py | sed -n '1,240p' && python3 - << 'PY'\n        ^\nSyntaxError: invalid syntax\n"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "  File \"<stdin>\", line 7\n    PY && perl -0777 -i -pe 's/(ctx\\.app\\.update_template_context\\(context\\)\\n)/$1    context = dict(context)\\n    context[\"source\"] = source\\n/' /app/flask_1.1.1/src/flask/templating.py && sed -i 's/from_string(source)/from_string(\"{{ source }}\")/' /app/flask_1.1.1/src/flask/templating.py && sed -n '140,160p' /app/flask_1.1.1/src/flask/templating.py && python3 - << 'PY'\n                ^\nSyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers\n"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.698,
+   "out_tail": "Traceback (most recent call last):\n  File \"<stdin>\", line 5, in <module>\n  File \"/app/flask_1.1.1/src/flask/__init__.py\", line 14, in <module>\n    from jinja2 import escape\nModuleNotFoundError: No module named 'jinja2'\n"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.828,
+   "out_tail": "Traceback (most recent call last):\n  File \"<stdin>\", line 3, in <module>\n  File \"/app/flask_1.1.1/src/flask/__init__.py\", line 14, in <module>\n    from markupsafe import escape\nModuleNotFoundError: No module named 'markupsafe'\n"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "ort Blueprint\nfrom .config import Config\nfrom .ctx import after_this_request\nfrom .ctx import copy_current_request_context\nfrom .ctx import has_app_context\nfrom .ctx import has_request_context\nfrom .globals import _app_ctx_stack\nfrom .globals import _request_ctx_stack\nfrom .globals import current_app\nfrom .globals import g\nfrom .globals import request\nfrom .globals import session\nfrom .helpers import flash\nfrom .helpers import get_flashed_messages\nfrom .helpers import get_template_attribute\nfrom .helpers import make_response\nfrom .helpers import safe_join\nCOMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 1,
+    "failed": 2,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_server_is_flask_and_version_matches"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_ssti_renders_expression_as_text_1",
+     "../tests/test_outputs.py::test_ssti_renders_expression_as_text_2"
+    ],
+    "raw_tail": "sponse.read().decode(\"utf-8\", errors=\"ignore\").strip()\n    \n        print(\"body::: \", body)\n    \n>       assert \"54289\" not in body, (\n            \"SSTI vulnerability: expression '{{233*233}}' was executed (found \"\n            \"'54289' from HTTP response). \"\n            f\"Response: {body}\"\n        )\nE       AssertionError: SSTI vulnerability: expression '{{233*233}}' was executed (found '54289' from HTTP response). Response: 54289\nE       assert '54289' not in '54289'\nE         \nE         '54289' is contained here:\nE           54289\n\n/tests/test_outputs.py:25: AssertionError\n----------------------------- Captured stdout call -----------------------------\nbody:::  54289\n____________________ test_ssti_renders_expression_as_text_2 ____________________\n\n    def test_ssti_renders_expression_as_text_2():\n        \"\"\"Ensure complex SSTI payload does NOT execute shell.\n    \n        Verifies 'root' does not appear in the HTTP response.\n        \"\"\"\n        url = \"http://127.0.0.1:8000/?name=%7B%25%20for%20c%20in%20%5B%5D.__class__.__base__.__subclasses__()%20%25%7D%0A%7B%25%20if%20c.__name__%20%3D%3D%20%27catch_warnings%27%20%25%7D%0A%20%20%7B%25%20for%20b%20in%20c.__init__.__globals__.values()%20%25%7D%0A%20%20%7B%25%20if%20b.__class__%20%3D%3D%20%7B%7D.__class__%20%25%7D%0A%20%20%20%20%7B%25%20if%20%27eval%27%20in%20b.keys()%20%25%7D%0A%20%20%20%20%20%20%7B%7B%20b%5B%27eval%27%5D(%27__import__(%22os%22).popen(%22id%22).read()%27)%20%7D%7D%0A%20%20%20%20%7B%25%20endif%20%25%7D%0A%20%20%7B%25%20endif%20%25%7D%0A%20%20%7B%25%20endfor%20%25%7D%0A%7B%25%20endif%20%25%7D%0A%7B%25%20endfor%20%25%7D\"\n    \n        with urllib.request.urlopen(url, timeout=10) as response:\n            body = response.read().decode(\"utf-8\", errors=\"ignore\").strip()\n    \n        print(\"body::: \", body)\n    \n>       assert \"root\" not in body, (\n            \"SSTI vulnerability: server-side command execution detected (found \"\n            \"'root' from HTTP response). \"\n            f\"Response: {body}\"\n        )\nE       AssertionError: SSTI vulnerability: server-side command execution detected (found 'root' from HTTP response). Response: uid=0(root) gid=0(root) groups=0(root)\nE       assert 'root' not in 'uid=0(root)...oups=0(root)'\nE         \nE         'root' is contained here:\nE           uid=0(root) gid=0(root) groups=0(root)\nE         ?       ++++\n\n/tests/test_outputs.py:49: AssertionError\n----------------------------- Captured stdout call -----------------------------\nbody:::  uid=0(root) gid=0(root) groups=0(root)\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_server_is_flask_and_version_matches\nFAILED ../tests/test_outputs.py::test_ssti_renders_expression_as_text_1 - Ass...\nFAILED ../tests/test_outputs.py::test_ssti_renders_expression_as_text_2 - Ass...\n========================= 2 failed, 1 passed in 0.48s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 1,
+      "failed": 3,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_expression_not_evaluated",
+       "../subtests/test_sub.py::test_must_statement_blocks_not_executed",
+       "../subtests/test_sub.py::test_must_fix_lives_in_flask_codebase"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ot)\nE         \nE       assert ('root' not in 'uid=0(root)...ps=0(root)\\n'\nE         \nE         'root' is contained here:\nE           uid=0(root) gid=0(root) groups=0(root)\nE         ?       ++++)\n\n/subtests/test_sub.py:46: AssertionError\n____________________ test_must_fix_lives_in_flask_codebase _____________________\n\n    def test_must_fix_lives_in_flask_codebase():\n        changed = [f for f, md5 in PRISTINE_MD5.items()\n                   if not (SRC/\"flask\"/f).is_file() or hashlib.md5((SRC/\"flask\"/f).read_bytes()).hexdigest() != md5]\n>       assert changed, \"no file under /app/flask_1.1.1/src/flask differs from the pristine 1.1.1 source\"\nE       AssertionError: no file under /app/flask_1.1.1/src/flask differs from the pristine 1.1.1 source\nE       assert []\n\n/subtests/test_sub.py:52: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_version_still_1_1_1\nPASSED ../subtests/test_sub.py::test_mustnot_plain_text_rendering_broken\nPASSED ../subtests/test_sub.py::test_mustnot_file_templates_broken\nFAILED ../subtests/test_sub.py::test_must_expression_not_evaluated - Assertio...\nFAILED ../subtests/test_sub.py::test_must_statement_blocks_not_executed - Ass...\nFAILED ../subtests/test_sub.py::test_must_fix_lives_in_flask_codebase - Asser...\n========================= 3 failed, 3 passed in 1.16s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_ssti_renders_expression_as_text_1",
+     "../tests/test_outputs.py::test_ssti_renders_expression_as_text_2",
+     "../tests/test_outputs.py::test_server_is_flask_and_version_matches"
+    ],
+    "failed_names": [],
+    "raw_tail": "afe\n  Building wheel for MarkupSafe (pyproject.toml): started\n  Building wheel for MarkupSafe (pyproject.toml): finished with status 'done'\n  Created wheel for MarkupSafe: filename=markupsafe-2.0.1-py3-none-any.whl size=9774 sha256=e8f19bd0c960de7c826d27b99cd5aa0789d8506a9a237363acb6614cf9a240d2\n  Stored in directory: /tmp/pip-ephem-wheel-cache-9bkaof2n/wheels/4f/d0/53/2b4a97f61dfc68c6cc6248bfb770e2f6ff952e89a5c2696aae\nSuccessfully built MarkupSafe\nInstalling collected packages: Werkzeug, MarkupSafe, itsdangerous, click, Jinja2\nSuccessfully installed Jinja2-3.0.3 MarkupSafe-2.0.1 Werkzeug-1.0.1 click-7.1.2 itsdangerous-2.0.1\nProcessing ./flask_1.1.1\n  Installing build dependencies: started\n  Installing build dependencies: finished with status 'done'\n  Getting requirements to build wheel: started\n  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: Flask\n  Building wheel for Flask (pyproject.toml): started\n  Building wheel for Flask (pyproject.toml): finished with status 'done'\n  Created wheel for Flask: filename=flask-1.1.1-py2.py3-none-any.whl size=94685 sha256=61d8675aa188db1ae98d8ab7473b0e0af81c5aa95db0534f57784a572ef983cd\n  Stored in directory: /tmp/pip-ephem-wheel-cache-vwxyvnqc/wheels/56/e2/c8/a7cb22fe2ab2be0469c9fa6f0adf5c36599eb2ba9b581aebef\nSuccessfully built Flask\nInstalling collected packages: Flask\nSuccessfully installed Flask-1.1.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n____________________ test_ssti_renders_expression_as_text_1 ____________________\n----------------------------- Captured stdout call -----------------------------\nbody:::  {{233*233}}\n____________________ test_ssti_renders_expression_as_text_2 ____________________\n----------------------------- Captured stdout call -----------------------------\nbody:::  {% for c in [].__class__.__base__.__subclasses__() %}\n{% if c.__name__ == &#39;catch_warnings&#39; %}\n  {% for b in c.__init__.__globals__.values() %}\n  {% if b.__class__ == {}.__class__ %}\n    {% if &#39;eval&#39; in b.keys() %}\n      {{ b[&#39;eval&#39;](&#39;__import__(&#34;os&#34;).popen(&#34;id&#34;).read()&#39;) }}\n    {% endif %}\n  {% endif %}\n  {% endfor %}\n{% endif %}\n{% endfor %}\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_ssti_renders_expression_as_text_1\nPASSED ../tests/test_outputs.py::test_ssti_renders_expression_as_text_2\nPASSED ../tests/test_outputs.py::test_server_is_flask_and_version_matches\n============================== 3 passed in 0.26s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_expression_not_evaluated\nPASSED ../subtests/test_sub.py::test_must_statement_blocks_not_executed\nPASSED ../subtests/test_sub.py::test_must_fix_lives_in_flask_codebase\nPASSED ../subtests/test_sub.py::test_must_version_still_1_1_1\nPASSED ../subtests/test_sub.py::test_mustnot_plain_text_rendering_broken\nPASSED ../subtests/test_sub.py::test_mustnot_file_templates_broken\n============================== 6 passed in 0.83s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "7": {
+   "tests": {
+    "passed": 1,
+    "failed": 2,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_server_is_flask_and_version_matches"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_ssti_renders_expression_as_text_1",
+     "../tests/test_outputs.py::test_ssti_renders_expression_as_text_2"
+    ],
+    "raw_tail": "sponse.read().decode(\"utf-8\", errors=\"ignore\").strip()\n    \n        print(\"body::: \", body)\n    \n>       assert \"54289\" not in body, (\n            \"SSTI vulnerability: expression '{{233*233}}' was executed (found \"\n            \"'54289' from HTTP response). \"\n            f\"Response: {body}\"\n        )\nE       AssertionError: SSTI vulnerability: expression '{{233*233}}' was executed (found '54289' from HTTP response). Response: 54289\nE       assert '54289' not in '54289'\nE         \nE         '54289' is contained here:\nE           54289\n\n/tests/test_outputs.py:25: AssertionError\n----------------------------- Captured stdout call -----------------------------\nbody:::  54289\n____________________ test_ssti_renders_expression_as_text_2 ____________________\n\n    def test_ssti_renders_expression_as_text_2():\n        \"\"\"Ensure complex SSTI payload does NOT execute shell.\n    \n        Verifies 'root' does not appear in the HTTP response.\n        \"\"\"\n        url = \"http://127.0.0.1:8000/?name=%7B%25%20for%20c%20in%20%5B%5D.__class__.__base__.__subclasses__()%20%25%7D%0A%7B%25%20if%20c.__name__%20%3D%3D%20%27catch_warnings%27%20%25%7D%0A%20%20%7B%25%20for%20b%20in%20c.__init__.__globals__.values()%20%25%7D%0A%20%20%7B%25%20if%20b.__class__%20%3D%3D%20%7B%7D.__class__%20%25%7D%0A%20%20%20%20%7B%25%20if%20%27eval%27%20in%20b.keys()%20%25%7D%0A%20%20%20%20%20%20%7B%7B%20b%5B%27eval%27%5D(%27__import__(%22os%22).popen(%22id%22).read()%27)%20%7D%7D%0A%20%20%20%20%7B%25%20endif%20%25%7D%0A%20%20%7B%25%20endif%20%25%7D%0A%20%20%7B%25%20endfor%20%25%7D%0A%7B%25%20endif%20%25%7D%0A%7B%25%20endfor%20%25%7D\"\n    \n        with urllib.request.urlopen(url, timeout=10) as response:\n            body = response.read().decode(\"utf-8\", errors=\"ignore\").strip()\n    \n        print(\"body::: \", body)\n    \n>       assert \"root\" not in body, (\n            \"SSTI vulnerability: server-side command execution detected (found \"\n            \"'root' from HTTP response). \"\n            f\"Response: {body}\"\n        )\nE       AssertionError: SSTI vulnerability: server-side command execution detected (found 'root' from HTTP response). Response: uid=0(root) gid=0(root) groups=0(root)\nE       assert 'root' not in 'uid=0(root)...oups=0(root)'\nE         \nE         'root' is contained here:\nE           uid=0(root) gid=0(root) groups=0(root)\nE         ?       ++++\n\n/tests/test_outputs.py:49: AssertionError\n----------------------------- Captured stdout call -----------------------------\nbody:::  uid=0(root) gid=0(root) groups=0(root)\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_server_is_flask_and_version_matches\nFAILED ../tests/test_outputs.py::test_ssti_renders_expression_as_text_1 - Ass...\nFAILED ../tests/test_outputs.py::test_ssti_renders_expression_as_text_2 - Ass...\n========================= 2 failed, 1 passed in 0.36s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 1,
+      "failed": 3,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_expression_not_evaluated",
+       "../subtests/test_sub.py::test_must_statement_blocks_not_executed",
+       "../subtests/test_sub.py::test_must_fix_lives_in_flask_codebase"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "ot)\nE         \nE       assert ('root' not in 'uid=0(root)...ps=0(root)\\n'\nE         \nE         'root' is contained here:\nE           uid=0(root) gid=0(root) groups=0(root)\nE         ?       ++++)\n\n/subtests/test_sub.py:46: AssertionError\n____________________ test_must_fix_lives_in_flask_codebase _____________________\n\n    def test_must_fix_lives_in_flask_codebase():\n        changed = [f for f, md5 in PRISTINE_MD5.items()\n                   if not (SRC/\"flask\"/f).is_file() or hashlib.md5((SRC/\"flask\"/f).read_bytes()).hexdigest() != md5]\n>       assert changed, \"no file under /app/flask_1.1.1/src/flask differs from the pristine 1.1.1 source\"\nE       AssertionError: no file under /app/flask_1.1.1/src/flask differs from the pristine 1.1.1 source\nE       assert []\n\n/subtests/test_sub.py:52: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_version_still_1_1_1\nPASSED ../subtests/test_sub.py::test_mustnot_plain_text_rendering_broken\nPASSED ../subtests/test_sub.py::test_mustnot_file_templates_broken\nFAILED ../subtests/test_sub.py::test_must_expression_not_evaluated - Assertio...\nFAILED ../subtests/test_sub.py::test_must_statement_blocks_not_executed - Ass...\nFAILED ../subtests/test_sub.py::test_must_fix_lives_in_flask_codebase - Asser...\n========================= 3 failed, 3 passed in 1.10s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_ssti_renders_expression_as_text_1",
+     "../tests/test_outputs.py::test_ssti_renders_expression_as_text_2",
+     "../tests/test_outputs.py::test_server_is_flask_and_version_matches"
+    ],
+    "failed_names": [],
+    "raw_tail": "afe\n  Building wheel for MarkupSafe (pyproject.toml): started\n  Building wheel for MarkupSafe (pyproject.toml): finished with status 'done'\n  Created wheel for MarkupSafe: filename=markupsafe-2.0.1-py3-none-any.whl size=9774 sha256=0f64a53b2fa10282e088b39b5fd81a41b05bac77ded1d81b79d70f89d4089212\n  Stored in directory: /tmp/pip-ephem-wheel-cache-9sv_17pj/wheels/4f/d0/53/2b4a97f61dfc68c6cc6248bfb770e2f6ff952e89a5c2696aae\nSuccessfully built MarkupSafe\nInstalling collected packages: Werkzeug, MarkupSafe, itsdangerous, click, Jinja2\nSuccessfully installed Jinja2-3.0.3 MarkupSafe-2.0.1 Werkzeug-1.0.1 click-7.1.2 itsdangerous-2.0.1\nProcessing ./flask_1.1.1\n  Installing build dependencies: started\n  Installing build dependencies: finished with status 'done'\n  Getting requirements to build wheel: started\n  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: Flask\n  Building wheel for Flask (pyproject.toml): started\n  Building wheel for Flask (pyproject.toml): finished with status 'done'\n  Created wheel for Flask: filename=flask-1.1.1-py2.py3-none-any.whl size=94685 sha256=9014c3767112d44b4e35d27081d2ff307ea4ebb840843841a0e64e9f182311b8\n  Stored in directory: /tmp/pip-ephem-wheel-cache-nqnur9u6/wheels/56/e2/c8/a7cb22fe2ab2be0469c9fa6f0adf5c36599eb2ba9b581aebef\nSuccessfully built Flask\nInstalling collected packages: Flask\nSuccessfully installed Flask-1.1.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n____________________ test_ssti_renders_expression_as_text_1 ____________________\n----------------------------- Captured stdout call -----------------------------\nbody:::  {{233*233}}\n____________________ test_ssti_renders_expression_as_text_2 ____________________\n----------------------------- Captured stdout call -----------------------------\nbody:::  {% for c in [].__class__.__base__.__subclasses__() %}\n{% if c.__name__ == &#39;catch_warnings&#39; %}\n  {% for b in c.__init__.__globals__.values() %}\n  {% if b.__class__ == {}.__class__ %}\n    {% if &#39;eval&#39; in b.keys() %}\n      {{ b[&#39;eval&#39;](&#39;__import__(&#34;os&#34;).popen(&#34;id&#34;).read()&#39;) }}\n    {% endif %}\n  {% endif %}\n  {% endfor %}\n{% endif %}\n{% endfor %}\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_ssti_renders_expression_as_text_1\nPASSED ../tests/test_outputs.py::test_ssti_renders_expression_as_text_2\nPASSED ../tests/test_outputs.py::test_server_is_flask_and_version_matches\n============================== 3 passed in 0.46s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 6 items\n\n../subtests/test_sub.py ......                                           [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_expression_not_evaluated\nPASSED ../subtests/test_sub.py::test_must_statement_blocks_not_executed\nPASSED ../subtests/test_sub.py::test_must_fix_lives_in_flask_codebase\nPASSED ../subtests/test_sub.py::test_must_version_still_1_1_1\nPASSED ../subtests/test_sub.py::test_mustnot_plain_text_rendering_broken\nPASSED ../subtests/test_sub.py::test_mustnot_file_templates_broken\n============================== 6 passed in 0.99s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793043643.9417498
+}

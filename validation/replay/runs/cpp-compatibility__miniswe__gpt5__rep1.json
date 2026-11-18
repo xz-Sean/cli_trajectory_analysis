@@ -1,0 +1,484 @@
+{
+ "cid": "cpp-compatibility__miniswe__gpt5",
+ "task": "cpp-compatibility",
+ "scaffold": "miniswe",
+ "model": "gpt5",
+ "m": 6,
+ "kmin": 2,
+ "kmax": 6,
+ "rep": 1,
+ "started": 1793050033.084943,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "     1\t#include <array>\n     2\t\n     3\ttemplate <typename T, std::size_t N>\n     4\tconstexpr T sum_array(const std::array<T, N> &arr)\n     5\t{\n     6\t    T sum = 0;\n     7\t    for (std::size_t i = 0; i < N; ++i)\n     8\t    {\n     9\t        sum += arr[i];\n    10\t    }\n    11\t    return sum;\n    12\t}\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.853,
+   "out_tail": "total 12\ndrwxr-xr-x 1 root root 4096 Oct  6 12:41 .\ndrwxr-xr-x 1 root root 4096 Oct 26 21:28 ..\n-rw-r--r-- 1 root root  215 Jul 22 14:11 sum_array.h\n"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.937,
+   "out_tail": "sh: 11: Syntax error: \"&&\" unexpected\n"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "ate <typename T, std::size_t N>\n     4\tconstexpr T sum_array(const std::array<T, N> &arr)\n     5\t{\n     6\t    T sum = 0;\n     7\t    for (std::size_t i = 0; i < N; ++i)\n     8\t    {\n     9\t        sum += arr[i];\n    10\t    }\n    11\t    return sum;\n    12\t}\nbash: -c: line 11: syntax error near unexpected token `;'\nbash: -c: line 11: `; g++ -std=c++11 /tmp/test_sum_array.cpp -o /tmp/a.out >/tmp/compile_before.log 2>&1; if [ $? -eq 0 ]; then echo \"Unexpected: compile succeeded before fix\"; else echo \"Compile failed as expected (C++11 constexpr body with loop)\"; fi; cat <<'EOF' > /app/sum_array.h'\n"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.937,
+   "out_tail": "sh: 11: Syntax error: \"&&\" unexpected\n"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 0.2,
+   "out_sim": 1.0,
+   "out_tail": "COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "raw_tail": "~~~~~~~~~~\nE             In file included from /tmp/tmpv1yqboqa/test.cpp:2:\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 1]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             /tmp/tmpv1yqboqa/test.cpp:14:61: error: non-constant condition for static assertion\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~\nE             /tmp/tmpv1yqboqa/test.cpp:14:28: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 called in a constant expression\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             /tmp/tmpv1yqboqa/test.cpp:15:48: error: non-constant condition for static assertion\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~\nE             /tmp/tmpv1yqboqa/test.cpp:15:28: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 called in a constant expression\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             \nE           assert 1 == 0\nE            +  where 1 = CompletedProcess(args='g++ -std=c++11 /tmp/tmpv1yqboqa/test.cpp -o /dev/null', returncode=1, stdout=b'', stderr=b'/tmp...80\\x99 function because:\\n    4 | constexpr T sum_array(const std::array<T, N> &arr)\\n      |             ^~~~~~~~~\\n').returncode\n\n/tests/test_outputs.py:45: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nFAILED ../tests/test_outputs.py::test_compile - AssertionError: Compilation f...\n========================= 1 failed, 1 passed in 0.09s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "sert rc == 0, err[-800:]\nE       AssertionError: /tmp/tmpdb8_56c5/t.cpp:4:27: error: non-constant condition for static assertion\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~~~~^~~\nE         /tmp/tmpdb8_56c5/t.cpp:4:24: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 called in a constant expression\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~^~~\nE         In file included from /tmp/tmpdb8_56c5/t.cpp:2:\nE         /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE             4 | constexpr T sum_array(const std::array<T, N> &arr)\nE               |             ^~~~~~~~~\nE         \nE       assert 1 == 0\n\n/subtests/test_sub.py:21: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\nFAILED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\n========================= 1 failed, 4 passed in 1.11s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist",
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 45.05s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nPASSED ../tests/test_outputs.py::test_compile\n============================== 2 passed in 0.11s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\n============================== 5 passed in 1.78s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "2": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "raw_tail": "~~~~~~~~~~\nE             In file included from /tmp/tmpbqs3wqga/test.cpp:2:\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 1]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             /tmp/tmpbqs3wqga/test.cpp:14:61: error: non-constant condition for static assertion\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~\nE             /tmp/tmpbqs3wqga/test.cpp:14:28: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 called in a constant expression\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             /tmp/tmpbqs3wqga/test.cpp:15:48: error: non-constant condition for static assertion\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~\nE             /tmp/tmpbqs3wqga/test.cpp:15:28: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 called in a constant expression\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             \nE           assert 1 == 0\nE            +  where 1 = CompletedProcess(args='g++ -std=c++11 /tmp/tmpbqs3wqga/test.cpp -o /dev/null', returncode=1, stdout=b'', stderr=b'/tmp...80\\x99 function because:\\n    4 | constexpr T sum_array(const std::array<T, N> &arr)\\n      |             ^~~~~~~~~\\n').returncode\n\n/tests/test_outputs.py:45: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nFAILED ../tests/test_outputs.py::test_compile - AssertionError: Compilation f...\n========================= 1 failed, 1 passed in 0.20s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "sert rc == 0, err[-800:]\nE       AssertionError: /tmp/tmp76g7p63e/t.cpp:4:27: error: non-constant condition for static assertion\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~~~~^~~\nE         /tmp/tmp76g7p63e/t.cpp:4:24: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 called in a constant expression\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~^~~\nE         In file included from /tmp/tmp76g7p63e/t.cpp:2:\nE         /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE             4 | constexpr T sum_array(const std::array<T, N> &arr)\nE               |             ^~~~~~~~~\nE         \nE       assert 1 == 0\n\n/subtests/test_sub.py:21: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\nFAILED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\n========================= 1 failed, 4 passed in 4.27s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist",
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 4.10s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nPASSED ../tests/test_outputs.py::test_compile\n============================== 2 passed in 0.76s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\n============================== 5 passed in 0.57s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "3": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "raw_tail": "~~~~~~~~~~\nE             In file included from /tmp/tmp1yiiw7_6/test.cpp:2:\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 1]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             /tmp/tmp1yiiw7_6/test.cpp:14:61: error: non-constant condition for static assertion\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~\nE             /tmp/tmp1yiiw7_6/test.cpp:14:28: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 called in a constant expression\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             /tmp/tmp1yiiw7_6/test.cpp:15:48: error: non-constant condition for static assertion\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~\nE             /tmp/tmp1yiiw7_6/test.cpp:15:28: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 called in a constant expression\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             \nE           assert 1 == 0\nE            +  where 1 = CompletedProcess(args='g++ -std=c++11 /tmp/tmp1yiiw7_6/test.cpp -o /dev/null', returncode=1, stdout=b'', stderr=b'/tmp...80\\x99 function because:\\n    4 | constexpr T sum_array(const std::array<T, N> &arr)\\n      |             ^~~~~~~~~\\n').returncode\n\n/tests/test_outputs.py:45: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nFAILED ../tests/test_outputs.py::test_compile - AssertionError: Compilation f...\n========================= 1 failed, 1 passed in 0.19s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "sert rc == 0, err[-800:]\nE       AssertionError: /tmp/tmpshpbnxaf/t.cpp:4:27: error: non-constant condition for static assertion\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~~~~^~~\nE         /tmp/tmpshpbnxaf/t.cpp:4:24: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 called in a constant expression\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~^~~\nE         In file included from /tmp/tmpshpbnxaf/t.cpp:2:\nE         /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE             4 | constexpr T sum_array(const std::array<T, N> &arr)\nE               |             ^~~~~~~~~\nE         \nE       assert 1 == 0\n\n/subtests/test_sub.py:21: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\nFAILED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\n========================= 1 failed, 4 passed in 0.46s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist",
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 8.49s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nPASSED ../tests/test_outputs.py::test_compile\n============================== 2 passed in 0.16s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\n============================== 5 passed in 0.35s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "4": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "raw_tail": "~~~~~~~~~~\nE             In file included from /tmp/tmpxp65orct/test.cpp:2:\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 1]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             /tmp/tmpxp65orct/test.cpp:14:61: error: non-constant condition for static assertion\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~\nE             /tmp/tmpxp65orct/test.cpp:14:28: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 called in a constant expression\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             /tmp/tmpxp65orct/test.cpp:15:48: error: non-constant condition for static assertion\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~\nE             /tmp/tmpxp65orct/test.cpp:15:28: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 called in a constant expression\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             \nE           assert 1 == 0\nE            +  where 1 = CompletedProcess(args='g++ -std=c++11 /tmp/tmpxp65orct/test.cpp -o /dev/null', returncode=1, stdout=b'', stderr=b'/tmp...80\\x99 function because:\\n    4 | constexpr T sum_array(const std::array<T, N> &arr)\\n      |             ^~~~~~~~~\\n').returncode\n\n/tests/test_outputs.py:45: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nFAILED ../tests/test_outputs.py::test_compile - AssertionError: Compilation f...\n========================= 1 failed, 1 passed in 0.11s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "sert rc == 0, err[-800:]\nE       AssertionError: /tmp/tmplu4lgju2/t.cpp:4:27: error: non-constant condition for static assertion\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~~~~^~~\nE         /tmp/tmplu4lgju2/t.cpp:4:24: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 called in a constant expression\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~^~~\nE         In file included from /tmp/tmplu4lgju2/t.cpp:2:\nE         /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE             4 | constexpr T sum_array(const std::array<T, N> &arr)\nE               |             ^~~~~~~~~\nE         \nE       assert 1 == 0\n\n/subtests/test_sub.py:21: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\nFAILED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\n========================= 1 failed, 4 passed in 0.33s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist",
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 2ms\nInstalled 5 packages in 4.60s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nPASSED ../tests/test_outputs.py::test_compile\n============================== 2 passed in 0.11s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\n============================== 5 passed in 0.21s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "raw_tail": "~~~~~~~~~~\nE             In file included from /tmp/tmptkms3t_8/test.cpp:2:\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 1]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             /tmp/tmptkms3t_8/test.cpp:14:61: error: non-constant condition for static assertion\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~\nE             /tmp/tmptkms3t_8/test.cpp:14:28: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 called in a constant expression\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             /tmp/tmptkms3t_8/test.cpp:15:48: error: non-constant condition for static assertion\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~\nE             /tmp/tmptkms3t_8/test.cpp:15:28: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 called in a constant expression\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE                 4 | constexpr T sum_array(const std::array<T, N> &arr)\nE                   |             ^~~~~~~~~\nE             \nE           assert 1 == 0\nE            +  where 1 = CompletedProcess(args='g++ -std=c++11 /tmp/tmptkms3t_8/test.cpp -o /dev/null', returncode=1, stdout=b'', stderr=b'/tmp...80\\x99 function because:\\n    4 | constexpr T sum_array(const std::array<T, N> &arr)\\n      |             ^~~~~~~~~\\n').returncode\n\n/tests/test_outputs.py:45: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nFAILED ../tests/test_outputs.py::test_compile - AssertionError: Compilation f...\n========================= 1 failed, 1 passed in 0.44s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "sert rc == 0, err[-800:]\nE       AssertionError: /tmp/tmpjjq_ri9b/t.cpp:4:27: error: non-constant condition for static assertion\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~~~~^~~\nE         /tmp/tmpjjq_ri9b/t.cpp:4:24: error: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 called in a constant expression\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~^~~\nE         In file included from /tmp/tmpjjq_ri9b/t.cpp:2:\nE         /app/sum_array.h:4:13: note: \u2018constexpr T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 is not usable as a \u2018constexpr\u2019 function because:\nE             4 | constexpr T sum_array(const std::array<T, N> &arr)\nE               |             ^~~~~~~~~\nE         \nE       assert 1 == 0\n\n/subtests/test_sub.py:21: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\nFAILED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\n========================= 1 failed, 4 passed in 1.10s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist",
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 129ms\nInstalled 5 packages in 8.13s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nPASSED ../tests/test_outputs.py::test_compile\n============================== 2 passed in 0.82s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\n============================== 5 passed in 0.96s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "6": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "raw_tail": " \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~\nE             In file included from /tmp/tmp3m9k1mod/test.cpp:2:\nE             /app/sum_array.h:10:23: note: \u2018T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 1]\u2019 declared here\nE                10 | SUM_ARRAY_CONSTEXPR T sum_array(const std::array<T, N> &arr)\nE                   |                       ^~~~~~~~~\nE             /tmp/tmp3m9k1mod/test.cpp:14:61: error: non-constant condition for static assertion\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~\nE             /tmp/tmp3m9k1mod/test.cpp:14:28: error: call to non-\u2018constexpr\u2019 function \u2018T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019\nE                14 |     static_assert(sum_array(make_array<int>(1, 2, 3, 4, 5)) == 15, \"Inequal arrays\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:10:23: note: \u2018T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 5]\u2019 declared here\nE                10 | SUM_ARRAY_CONSTEXPR T sum_array(const std::array<T, N> &arr)\nE                   |                       ^~~~~~~~~\nE             /tmp/tmp3m9k1mod/test.cpp:15:48: error: non-constant condition for static assertion\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~\nE             /tmp/tmp3m9k1mod/test.cpp:15:28: error: call to non-\u2018constexpr\u2019 function \u2018T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019\nE                15 |     static_assert(sum_array(make_array<int>()) == 0, \"Arrays are not equal\");\nE                   |                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~\nE             /app/sum_array.h:10:23: note: \u2018T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 0]\u2019 declared here\nE                10 | SUM_ARRAY_CONSTEXPR T sum_array(const std::array<T, N> &arr)\nE                   |                       ^~~~~~~~~\nE             \nE           assert 1 == 0\nE            +  where 1 = CompletedProcess(args='g++ -std=c++11 /tmp/tmp3m9k1mod/test.cpp -o /dev/null', returncode=1, stdout=b'', stderr=b'/tmp...here\\n   10 | SUM_ARRAY_CONSTEXPR T sum_array(const std::array<T, N> &arr)\\n      |                       ^~~~~~~~~\\n').returncode\n\n/tests/test_outputs.py:45: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nFAILED ../tests/test_outputs.py::test_compile - AssertionError: Compilation f...\n========================= 1 failed, 1 passed in 0.10s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "um_array(b)==6?0:1;}')\n>       assert rc == 0, err[-800:]\nE       AssertionError: /tmp/tmpz8_akuj6/t.cpp:4:27: error: non-constant condition for static assertion\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~~~~^~~\nE         /tmp/tmpz8_akuj6/t.cpp:4:24: error: call to non-\u2018constexpr\u2019 function \u2018T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019\nE             4 | static_assert(sum_array(a)==6,\"x\");\nE               |               ~~~~~~~~~^~~\nE         In file included from /tmp/tmpz8_akuj6/t.cpp:2:\nE         /app/sum_array.h:10:23: note: \u2018T sum_array(const std::array<_Tp, _Nm>&) [with T = int; long unsigned int N = 3]\u2019 declared here\nE            10 | SUM_ARRAY_CONSTEXPR T sum_array(const std::array<T, N> &arr)\nE               |                       ^~~~~~~~~\nE         \nE       assert 1 == 0\n\n/subtests/test_sub.py:21: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\nFAILED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\n========================= 1 failed, 4 passed in 0.55s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_file_exist",
+     "../tests/test_outputs.py::test_compile"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4.11s\nInstalled 5 packages in 19.02s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_file_exist\nPASSED ../tests/test_outputs.py::test_compile\n============================== 2 passed in 0.16s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 5 items\n\n../subtests/test_sub.py .....                                            [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_header_exists\nPASSED ../subtests/test_sub.py::test_must_compiles_under_cpp11_with_same_interface\nPASSED ../subtests/test_sub.py::test_mustnot_header_defines_main\nPASSED ../subtests/test_sub.py::test_mustnot_function_renamed\nPASSED ../subtests/test_sub.py::test_untested_non_int_element_type\n============================== 5 passed in 0.77s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793050947.9051652
+}

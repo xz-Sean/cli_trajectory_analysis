@@ -1,0 +1,197 @@
+{
+ "cid": "cancel-async-tasks__terminus2__gpt5",
+ "task": "cancel-async-tasks",
+ "scaffold": "terminus2",
+ "model": "gpt5",
+ "m": 3,
+ "kmin": 3,
+ "kmax": 3,
+ "rep": 0,
+ "started": 1793043390.0586689,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.023,
+   "out_tail": "ted:\n>             t.cancel()\n>         await asyncio.gather(*created, return_exceptions=True)\n>         raise\n>     except asyncio.CancelledError:\n>         # Propagate outer cancellation, but ensure cleanup runs\n>         for t in created:\n>             t.cancel()\n>         await asyncio.gather(*created, return_exceptions=True)\n>         raise\n>     else:\n>         # Propagate the first non-cancellation exception, if any\n>         for r in results:\n>             if isinstance(r, Exception) and not isinstance(r, asyncio.CancelledError):\n>                 raise r\n> PY\nroot@89750831f181:/app#\n\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 5.6,
+   "out_sim": 0.602,
+   "out_tail": "root@89750831f181:/app# ls -la /app\ntotal 12\ndrwxr-xr-x 1 root root 4096 Oct 26 19:37 .\ndrwxr-xr-x 1 root root 4096 Oct 26 19:37 ..\n-rw-r--r-- 1 root root 2102 Oct 26 19:37 run.py\nroot@89750831f181:/app#"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 5.7,
+   "out_sim": 0.159,
+   "out_tail": "root@89750831f181:/app# python3 - << 'PY'\n> import run\n> print(\"Imported:\", run.run_tasks)\n> PY\nImported: <function run_tasks at 0x79e5ae053e20>\nroot@89750831f181:/app#"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 6,
+    "total": 6,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_run_py_file_exists",
+     "../tests/test_outputs.py::test_tasks_run_concurrently",
+     "../tests/test_outputs.py::test_tasks_obey_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_below_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_at_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_above_max_concurrent"
+    ],
+    "raw_tail": "ks cancel when at the max concurrent. This should behave similar to when\n        task count is below.\n        \"\"\"\n        proc = subprocess.Popen(\n            [\n                \"python\",\n                \"test.py\",\n                \"--n-tasks\",\n                \"2\",\n                \"--max-concurrent\",\n                \"2\",\n            ],\n            stdout=subprocess.PIPE,\n            stderr=subprocess.PIPE,\n        )\n    \n        # Wait 500ms, then send SIGINT (KeyboardInterrupt)\n        time.sleep(0.5)\n        proc.send_signal(signal.SIGINT)\n    \n        try:\n            stdout, stderr = proc.communicate(timeout=5)\n        finally:\n            proc.kill()\n    \n        stdout = stdout.decode(\"utf-8\")\n    \n>       assert stdout.count(\"Task started.\") == 2\nE       AssertionError: assert 0 == 2\nE        +  where 0 = <built-in method count of str object at 0x7a22016952c8>('Task started.')\nE        +    where <built-in method count of str object at 0x7a22016952c8> = ''.count\n\n/tests/test_outputs.py:135: AssertionError\n____________________ test_tasks_cancel_above_max_concurrent ____________________\n\n    def test_tasks_cancel_above_max_concurrent():\n        \"\"\"\n        Test that cancellation occurs and only the first two tasks are started and\n        cancelled.\n    \n        This is a common gotcha in Python because asyncio.gather doesn't properly cancel\n        existing tasks if there are still tasks in the queue.\n        \"\"\"\n        proc = subprocess.Popen(\n            [\n                \"python\",\n                \"test.py\",\n                \"--n-tasks\",\n                \"3\",\n                \"--max-concurrent\",\n                \"2\",\n            ],\n            stdout=subprocess.PIPE,\n            stderr=subprocess.PIPE,\n        )\n    \n        # Wait 500ms, then send SIGINT (KeyboardInterrupt)\n        time.sleep(0.5)\n        proc.send_signal(signal.SIGINT)\n    \n        try:\n            stdout, stderr = proc.communicate(timeout=5)\n        finally:\n            proc.kill()\n    \n        stdout = stdout.decode(\"utf-8\")\n    \n>       assert stdout.count(\"Task started.\") == 2\nE       AssertionError: assert 0 == 2\nE        +  where 0 = <built-in method count of str object at 0x7a22016952c8>('Task started.')\nE        +    where <built-in method count of str object at 0x7a22016952c8> = ''.count\n\n/tests/test_outputs.py:171: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_run_py_file_exists - AssertionError: Fi...\nFAILED ../tests/test_outputs.py::test_tasks_run_concurrently - subprocess.Cal...\nFAILED ../tests/test_outputs.py::test_tasks_obey_max_concurrent - subprocess....\nFAILED ../tests/test_outputs.py::test_tasks_cancel_below_max_concurrent - Ass...\nFAILED ../tests/test_outputs.py::test_tasks_cancel_at_max_concurrent - Assert...\nFAILED ../tests/test_outputs.py::test_tasks_cancel_above_max_concurrent - Ass...\n============================== 6 failed in 2.26s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_run_py_exports_async_run_tasks",
+       "../subtests/test_sub.py::test_must_tasks_run_concurrently",
+       "../subtests/test_sub.py::test_must_max_concurrent_respected",
+       "../subtests/test_sub.py::test_must_cleanup_runs_on_keyboard_interrupt",
+       "../subtests/test_sub.py::test_must_interrupt_does_not_start_queued_tasks"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_exact_signature"
+      ]
+     }
+    },
+    "sub_raw_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: Traceback (most recent call last):\nE           File \"<string>\", line 1, in <module>\nE             import inspect; from run import run_tasks; p=list(inspect.signature(run_tasks).parameters); assert p[:2]==['tasks','max_concurrent'], p\nE                             ^^^^^^^^^^^^^^^^^^^^^^^^^\nE         ModuleNotFoundError: No module named 'run'\nE         \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['python3', '-c', \"import inspect; from run import run_tasks; p=list(inspect.signature(run_tasks...\\'max_concurrent\\'], p\\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^\\nModuleNotFoundError: No module named \\'run\\'\\n').returncode\n\n/subtests/test_sub.py:73: AssertionError\n=========================== short test summary info ============================\nSKIPPED [1] ../subtests/test_sub.py:60: no run.py yet\nSKIPPED [1] ../subtests/test_sub.py:66: no run.py yet\nFAILED ../subtests/test_sub.py::test_must_run_py_exports_async_run_tasks - As...\nFAILED ../subtests/test_sub.py::test_must_tasks_run_concurrently - AssertionE...\nFAILED ../subtests/test_sub.py::test_must_max_concurrent_respected - Assertio...\nFAILED ../subtests/test_sub.py::test_must_cleanup_runs_on_keyboard_interrupt\nFAILED ../subtests/test_sub.py::test_must_interrupt_does_not_start_queued_tasks\nFAILED ../subtests/test_sub.py::test_untested_exact_signature - AssertionErro...\n========================= 6 failed, 2 skipped in 1.83s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_run_py_file_exists",
+     "../tests/test_outputs.py::test_tasks_run_concurrently",
+     "../tests/test_outputs.py::test_tasks_obey_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_below_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_at_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_above_max_concurrent"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 1.99s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_run_py_file_exists\nPASSED ../tests/test_outputs.py::test_tasks_run_concurrently\nPASSED ../tests/test_outputs.py::test_tasks_obey_max_concurrent\nPASSED ../tests/test_outputs.py::test_tasks_cancel_below_max_concurrent\nPASSED ../tests/test_outputs.py::test_tasks_cancel_at_max_concurrent\nPASSED ../tests/test_outputs.py::test_tasks_cancel_above_max_concurrent\n============================== 6 passed in 14.06s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_run_py_exports_async_run_tasks\nPASSED ../subtests/test_sub.py::test_must_tasks_run_concurrently\nPASSED ../subtests/test_sub.py::test_must_max_concurrent_respected\nPASSED ../subtests/test_sub.py::test_must_cleanup_runs_on_keyboard_interrupt\nPASSED ../subtests/test_sub.py::test_must_interrupt_does_not_start_queued_tasks\nPASSED ../subtests/test_sub.py::test_mustnot_import_has_side_effects\nPASSED ../subtests/test_sub.py::test_mustnot_return_before_tasks_finish\nPASSED ../subtests/test_sub.py::test_untested_exact_signature\n============================== 8 passed in 5.70s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "3": {
+   "tests": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_run_py_file_exists",
+     "../tests/test_outputs.py::test_tasks_run_concurrently",
+     "../tests/test_outputs.py::test_tasks_obey_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_below_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_at_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_above_max_concurrent"
+    ],
+    "failed_names": [],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 946ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_run_py_file_exists\nPASSED ../tests/test_outputs.py::test_tasks_run_concurrently\nPASSED ../tests/test_outputs.py::test_tasks_obey_max_concurrent\nPASSED ../tests/test_outputs.py::test_tasks_cancel_below_max_concurrent\nPASSED ../tests/test_outputs.py::test_tasks_cancel_at_max_concurrent\nPASSED ../tests/test_outputs.py::test_tasks_cancel_above_max_concurrent\n============================== 6 passed in 15.52s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_run_py_exports_async_run_tasks\nPASSED ../subtests/test_sub.py::test_must_tasks_run_concurrently\nPASSED ../subtests/test_sub.py::test_must_max_concurrent_respected\nPASSED ../subtests/test_sub.py::test_must_cleanup_runs_on_keyboard_interrupt\nPASSED ../subtests/test_sub.py::test_must_interrupt_does_not_start_queued_tasks\nPASSED ../subtests/test_sub.py::test_mustnot_import_has_side_effects\nPASSED ../subtests/test_sub.py::test_mustnot_return_before_tasks_finish\nPASSED ../subtests/test_sub.py::test_untested_exact_signature\n============================== 8 passed in 5.25s ===============================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_run_py_file_exists",
+     "../tests/test_outputs.py::test_tasks_run_concurrently",
+     "../tests/test_outputs.py::test_tasks_obey_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_below_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_at_max_concurrent",
+     "../tests/test_outputs.py::test_tasks_cancel_above_max_concurrent"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 17.11s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_run_py_file_exists\nPASSED ../tests/test_outputs.py::test_tasks_run_concurrently\nPASSED ../tests/test_outputs.py::test_tasks_obey_max_concurrent\nPASSED ../tests/test_outputs.py::test_tasks_cancel_below_max_concurrent\nPASSED ../tests/test_outputs.py::test_tasks_cancel_at_max_concurrent\nPASSED ../tests/test_outputs.py::test_tasks_cancel_above_max_concurrent\n============================== 6 passed in 14.40s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_run_py_exports_async_run_tasks\nPASSED ../subtests/test_sub.py::test_must_tasks_run_concurrently\nPASSED ../subtests/test_sub.py::test_must_max_concurrent_respected\nPASSED ../subtests/test_sub.py::test_must_cleanup_runs_on_keyboard_interrupt\nPASSED ../subtests/test_sub.py::test_must_interrupt_does_not_start_queued_tasks\nPASSED ../subtests/test_sub.py::test_mustnot_import_has_side_effects\nPASSED ../subtests/test_sub.py::test_mustnot_return_before_tasks_finish\nPASSED ../subtests/test_sub.py::test_untested_exact_signature\n============================== 8 passed in 5.28s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793043553.042807
+}

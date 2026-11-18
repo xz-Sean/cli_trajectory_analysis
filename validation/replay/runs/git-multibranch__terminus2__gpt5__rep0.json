@@ -1,0 +1,1615 @@
+{
+ "cid": "git-multibranch__terminus2__gpt5",
+ "task": "git-multibranch",
+ "scaffold": "terminus2",
+ "model": "gpt5",
+ "m": 21,
+ "kmin": 1,
+ "kmax": 21,
+ "rep": 0,
+ "started": 1793238237.5651228,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 16.9,
+   "out_sim": 0.139,
+   "out_tail": "in amd64 Packages [1740 kB]\nGet:15 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [2235 kB]\nGet:16 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [61.7 kB]\nGet:17 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [669 B]\nGet:18 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.0 kB]\nGet:19 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.0 kB]\nFetched 33.6 MB in 11s (3053 kB/s)\nReading package lists... Done\nroot@27dc9fd32e32:/app#\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 4.9,
+   "out_sim": 0.798,
+   "out_tail": "root@27dc9fd32e32:/app# DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server git nginx openssl\nReading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\nopenssh-server is already the newest version (1:9.6p1-3ubuntu13.20).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nnginx is already the newest version (1.24.0-2ubuntu7.19).\nopenssl is already the newest version (3.0.13-0ubuntu3.16).\nopenssl set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.224,
+   "out_tail": "root@27dc9fd32e32:/app# mkdir -p /var/run/sshd\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.186,
+   "out_tail": "root@27dc9fd32e32:/app# useradd -m -s /bin/bash git || true\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.177,
+   "out_tail": "root@27dc9fd32e32:/app# echo 'git:password' | chpasswd\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.03,
+   "out_tail": "ir -p /git && git init --bare /git/project\nhint: Using 'master' as the name for the initial branch. This default branch name\nhint: is subject to change. To configure the initial branch name to use in all\nhint: of your new repositories, which will suppress this warning, call:\nhint:\nhint:   git config --global init.defaultBranch <name>\nhint:\nhint: Names commonly chosen instead of 'master' are 'main', 'trunk' and\nhint: 'development'. The just-created branch can be renamed via this command:\nhint:\nhint:   git branch -m <name>\nInitialized empty Git repository in /git/project/\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 5.1,
+   "out_sim": 0.191,
+   "out_tail": "root@27dc9fd32e32:/app# chown -R git:git /git\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 4.3,
+   "out_sim": 0.143,
+   "out_tail": "root@27dc9fd32e32:/app# mkdir -p /var/www/html/dev && chown -R git:git /var/www/html\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.064,
+   "out_tail": "!/bin/bash\n> set -euo pipefail\n> while read oldrev newrev refname; do\n>   case \"$refname\" in\n>     refs/heads/main)\n>       dest=\"/var/www/html\"\n>       ;;\n>     refs/heads/dev)\n>       dest=\"/var/www/html/dev\"\n>       ;;\n>     *)\n>       continue\n>       ;;\n>   esac\n>   mkdir -p \"$dest\"\n>   tmpdir=$(mktemp -d)\n>   # Export the exact tree of the commit\n>   git archive \"$newrev\" | tar -x -C \"$tmpdir\"\n>   # Fast deploy: replace destination contents\n>   rm -rf \"$dest\"/* 2>/dev/null || true\n>   cp -r \"$tmpdir\"/* \"$dest\"/ 2>/dev/null || true\n>   rm -rf \"$tmpdir\"\n> done\n> EOF\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.149,
+   "out_tail": "root@27dc9fd32e32:/app# chmod +x /git/project/hooks/post-receive\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 11,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.028,
+   "out_tail": "..+.+......+..+...+.......+..+......+....\n.....+...+.....................+.+........+..........+.....+.+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n.+.+......+.....+...+.............+..+...+...+.+......+..+.+............+...+.....+.+..............+....+.................+....+......+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.....+.+........\n.+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.+.........+.........+.+.........+........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n-----\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 12,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.053,
+   "out_tail": "root@27dc9fd32e32:/app# cat > /etc/nginx/sites-available/git_deploy.conf << 'EOF'\n> server {\n>     listen 8443 ssl;\n>     server_name localhost;\n>\n>     ssl_certificate     /etc/ssl/certs/gitserver.crt;\n>     ssl_certificate_key /etc/ssl/private/gitserver.key;\n>\n>     root /var/www/html;\n>     index index.html;\n>\n>     location / {\n>         try_files $uri $uri/ =404;\n>     }\n> }\n> EOF\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 13,
+   "type": "bash",
+   "secs": 5.7,
+   "out_sim": 0.182,
+   "out_tail": "root@27dc9fd32e32:/app# rm -f /etc/nginx/sites-enabled/default\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 14,
+   "type": "bash",
+   "secs": 4.6,
+   "out_sim": 0.141,
+   "out_tail": "root@27dc9fd32e32:/app# ln -sf /etc/nginx/sites-available/git_deploy.conf /etc/nginx/sites-enabled/git_deploy.conf\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 15,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.821,
+   "out_tail": "root@27dc9fd32e32:/app# nginx -t\nnginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 16,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.153,
+   "out_tail": "root@27dc9fd32e32:/app# sed -i 's/^#\\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 17,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.16,
+   "out_tail": "root@27dc9fd32e32:/app# sed -i 's/^#\\?ChallengeResponseAuthentication .*/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 18,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.605,
+   "out_tail": "root@27dc9fd32e32:/app# service ssh restart\n * Restarting OpenBSD Secure Shell server sshd                                                                                                                                                                       [ OK ]\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 19,
+   "type": "bash",
+   "secs": 4.5,
+   "out_sim": 0.363,
+   "out_tail": "root@27dc9fd32e32:/app# service nginx restart\n * Restarting nginx nginx                                                                                                                                                                                            [ OK ]\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 20,
+   "type": "bash",
+   "secs": 4.2,
+   "out_sim": 0.621,
+   "out_tail": "root@27dc9fd32e32:/app# ss -tlnp | grep -E ':22|:8443' || true\nLISTEN 0      128          0.0.0.0:22        0.0.0.0:*    users:((\"sshd\",pid=1356,fd=3))\nLISTEN 0      511          0.0.0.0:8443      0.0.0.0:*    users:((\"nginx\",pid=1428,fd=5))\nLISTEN 0      128             [::]:22           [::]:*    users:((\"sshd\",pid=1356,fd=4))\nroot@27dc9fd32e32:/app#"
+  },
+  {
+   "k": 21,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.171,
+   "out_tail": "root@27dc9fd32e32:/app# chown -R git:git /git /var/www/html\nroot@27dc9fd32e32:/app#"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "3.20).\nopenssh-client set to manually installed.\nSuggested packages:\n  tk8.6 tcl-tclreadline\nThe following NEW packages will be installed:\n  expect libtcl8.6 tcl-expect tcl8.6\n0 upgraded, 4 newly installed, 0 to remove and 25 not upgraded.\nNeed to get 1249 kB of archives.\nAfter this operation, 4764 kB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libtcl8.6 amd64 8.6.14+dfsg-1build1 [988 kB]\nGet:2 http://archive.ubuntu.com/ubuntu noble/main amd64 tcl8.6 amd64 8.6.14+dfsg-1build1 [14.7 kB]\nGet:3 http://archive.ubuntu.com/ubuntu noble/universe amd64 tcl-expect amd64 5.45.4-3 [110 kB]\nGet:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 expect amd64 5.45.4-3 [137 kB]\nFetched 1249 kB in 2s (523 kB/s)\nSelecting previously unselected package libtcl8.6:amd64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 23622 files and directories currently installed.)\nPreparing to unpack .../libtcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl8.6.\nPreparing to unpack .../tcl8.6_8.6.14+dfsg-1build1_amd64.deb ...\nUnpacking tcl8.6 (8.6.14+dfsg-1build1) ...\nSelecting previously unselected package tcl-expect:amd64.\nPreparing to unpack .../tcl-expect_5.45.4-3_amd64.deb ...\nUnpacking tcl-expect:amd64 (5.45.4-3) ...\nSelecting previously unselected package expect.\nPreparing to unpack .../expect_5.45.4-3_amd64.deb ...\nUnpacking expect (5.45.4-3) ...\nSetting up libtcl8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n========================= 1 failed in 95.35s (0:01:35) =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "l8.6:amd64 (8.6.14+dfsg-1build1) ...\nSetting up tcl8.6 (8.6.14+dfsg-1build1) ...\nSetting up tcl-expect:amd64 (5.45.4-3) ...\nSetting up expect (5.45.4-3) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.9) ...\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) bf68613] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 98e7a4b] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 259 bytes | 259.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n----------------------------- Captured stderr call -----------------------------\ndebconf: delaying package configuration, since apt-utils is not installed\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 22.49s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "1": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 40.23s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "Reading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 87e17c4] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev cee8497] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 9.95s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "2": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 8.38s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "Reading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 23f01ce] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev c2fa1f2] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 11.81s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "3": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 11.54s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "Reading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 618921a] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 00378b8] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 257 bytes | 257.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 11.68s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "4": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\\nHit:2 http://security.ubuntu.com/ubuntu noble-security InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 7.68s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "Reading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) aa048df] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 65d9eaf] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 18.39s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 6.11s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "Reading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 519a620] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'main'        \nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev c1cc6e1] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nremote: Switched to branch 'dev'        \nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 16.28s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "6": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 6.79s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 2c360ba] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 54639cb] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nAttempt 1: Waiting for deployment to complete...\nAttempt 2: Waiting for deployment to complete...\nAttempt 3: Waiting for deployment to complete...\nAttempt 4: Waiting for deployment to complete...\nAttempt 5: Waiting for deployment to complete...\nTEST FAILED\nExpected main: 'main branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\nExpected dev: 'dev branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\n\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 29.38s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "7": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 8.21s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 5a0d8e6] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 9032ca8] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 129.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nAttempt 1: Waiting for deployment to complete...\nAttempt 2: Waiting for deployment to complete...\nAttempt 3: Waiting for deployment to complete...\nAttempt 4: Waiting for deployment to complete...\nAttempt 5: Waiting for deployment to complete...\nTEST FAILED\nExpected main: 'main branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\nExpected dev: 'dev branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\n\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 30.55s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "8": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble-updates InReleas... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nHit:4 http://security.ubuntu.com/ubuntu noble-security InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 6.58s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 8b6a768] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 0ca3db4] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nAttempt 1: Waiting for deployment to complete...\nAttempt 2: Waiting for deployment to complete...\nAttempt 3: Waiting for deployment to complete...\nAttempt 4: Waiting for deployment to complete...\nAttempt 5: Waiting for deployment to complete...\nTEST FAILED\nExpected main: 'main branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\nExpected dev: 'dev branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\n\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 27.49s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "9": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 12.77s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "              git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) d56645d] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nhint: The 'hooks/post-receive' hook was ignored because it's not set as executable.\nhint: You can disable this warning with `git config advice.ignoredHook false`.\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 5633b3d] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nhint: The 'hooks/post-receive' hook was ignored because it's not set as executable.\nhint: You can disable this warning with `git config advice.ignoredHook false`.\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nAttempt 1: Waiting for deployment to complete...\nAttempt 2: Waiting for deployment to complete...\nAttempt 3: Waiting for deployment to complete...\nAttempt 4: Waiting for deployment to complete...\nAttempt 5: Waiting for deployment to complete...\nTEST FAILED\nExpected main: 'main branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\nExpected dev: 'dev branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\n\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 28.14s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "10": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\\nHit:2 http://security.ubuntu.com/ubuntu noble-security InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 9.02s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "t clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 154a9da] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 5a42dff] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nAttempt 1: Waiting for deployment to complete...\nAttempt 2: Waiting for deployment to complete...\nAttempt 3: Waiting for deployment to complete...\nAttempt 4: Waiting for deployment to complete...\nAttempt 5: Waiting for deployment to complete...\nTEST FAILED\nExpected dev: 'dev branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\n\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 21.84s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "11": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 8.58s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "t clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 54e2320] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 8186bd0] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nAttempt 1: Waiting for deployment to complete...\nAttempt 2: Waiting for deployment to complete...\nAttempt 3: Waiting for deployment to complete...\nAttempt 4: Waiting for deployment to complete...\nAttempt 5: Waiting for deployment to complete...\nTEST FAILED\nExpected dev: 'dev branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\n\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 25.39s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "12": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 9.22s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "t clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 0f65e7b] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 862f38d] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 257 bytes | 257.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nAttempt 1: Waiting for deployment to complete...\nAttempt 2: Waiting for deployment to complete...\nAttempt 3: Waiting for deployment to complete...\nAttempt 4: Waiting for deployment to complete...\nAttempt 5: Waiting for deployment to complete...\nTEST FAILED\nExpected dev: 'dev branch content', got: <html>\n<head><title>404 Not Found</title></head>\n<body>\n<center><h1>404 Not Found</h1></center>\n<hr><center>nginx/1.24.0 (Ubuntu)</center>\n</body>\n</html>\n\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 26.10s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "13": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\\nHit:2 http://security.ubuntu.com/ubuntu noble-security InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 6.12s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "ssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 4543cb7] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 730d96a] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 257 bytes | 257.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nAttempt 1: Waiting for deployment to complete...\nAttempt 2: Waiting for deployment to complete...\nAttempt 3: Waiting for deployment to complete...\nAttempt 4: Waiting for deployment to complete...\nAttempt 5: Waiting for deployment to complete...\nTEST FAILED\nExpected main: 'main branch content', got: \nExpected dev: 'dev branch content', got: \n\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 21.49s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "14": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble-updates InReleas... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nHit:4 http://security.ubuntu.com/ubuntu noble-security InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 25.28s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "ease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) affddd0] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev c953a4f] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 11.52s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "15": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 11.28s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "ease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 41b011d] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 56ed8f9] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 11.31s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "16": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 8.85s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "ease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 1cd9d07] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev d2c7ac7] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 11.73s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "17": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble-updates InReleas... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nHit:4 http://security.ubuntu.com/ubuntu noble-security InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 13.81s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "ease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) a49ce04] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 430d299] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 14.02s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "18": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 7.45s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "ease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 9b8e704] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev f268683] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 257 bytes | 257.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 13.31s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "19": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble InRele... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 6.67s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "ease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 18712aa] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev ea0618a] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 17.20s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "20": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble-updates InReleas... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nHit:4 http://security.ubuntu.com/ubuntu noble-security InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 6.03s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "ease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 54fd4c7] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev cfe1469] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 10.71s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "21": {
+   "tests": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "raw_tail": "    ./git_push.exp\n    \n    # Give nginx time to update\n    sleep 3\n    \n    # Test with retries in case the server needs more time\n    for i in {1..5}; do\n        MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")\n        DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")\n    \n        if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n            break\n        fi\n    \n        echo \"Attempt $i: Waiting for deployment to complete...\"\n        sleep 2\n    done\n    \n    if [ \"$MAIN\" = \"main branch content\" ] && [ \"$DEV\" = \"dev branch content\" ]; then\n      echo \"TEST PASSED\"\n    else\n      echo \"TEST FAILED\"\n      [ \"$MAIN\" != \"main branch content\" ] && \\\n        echo \"Expected main: 'main branch content', got: $MAIN\"\n      [ \"$DEV\" != \"dev branch content\" ] && \\\n        echo \"Expected dev: 'dev branch content', got: $DEV\"\n      exit 1\n    fi\n    \"\"\")\n    \n        time.sleep(1)\n        result = os.popen(\"bash verify.sh\").read()\n        print(result)\n    \n>       assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\"\nE       AssertionError: HTTPS multi-branch deploy test failed\nE       assert 'TEST PASSED' in 'Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\\nHit:2 http://archive.ubuntu.com/ubuntu noble-updates InReleas... not read from remote repository.\\n\\nPlease make sure you have the correct access rights\\nand the repository exists.\\n'\n\n/tests/test_outputs.py:99: AssertionError\n----------------------------- Captured stdout call -----------------------------\nHit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:3 http://archive.ubuntu.com/ubuntu noble-backports InRelease\nHit:4 http://security.ubuntu.com/ubuntu noble-security InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nssh: connect to host localhost port 22: Connection refused\n\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\n----------------------------- Captured stderr call -----------------------------\nexpect: spawn id exp3 not open\n    while executing\n\"expect eof\"\n    (file \"./git_push.exp\" line 9)\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_multi_branch_https_deploy - AssertionEr...\n============================== 1 failed in 12.67s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1,
+    "passed_names": [
+     "../tests/test_outputs.py::test_multi_branch_https_deploy"
+    ],
+    "failed_names": [],
+    "raw_tail": "ease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\ncurl is already the newest version (8.5.0-2ubuntu10.16).\nexpect is already the newest version (5.45.4-3).\ngit is already the newest version (1:2.43.0-1ubuntu7.4).\nopenssh-client is already the newest version (1:9.6p1-3ubuntu13.20).\nopenssh-client set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 25 not upgraded.\nspawn git clone git@localhost:/git/project project-test\nCloning into 'project-test'...\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nwarning: You appear to have cloned an empty repository.\nspawn bash -c cd project-test &&                 git config user.email 'main@example.com' &&                 git config user.name 'Main Dev' &&                 git checkout -B main &&                 echo 'main branch content' > index.html &&                 git add index.html &&                 git commit -m 'main commit'\nSwitched to a new branch 'main'\n[main (root-commit) 2ea9812] main commit\n 1 file changed, 1 insertion(+)\n create mode 100644 index.html\nspawn bash -c cd project-test && git push -u origin main\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 3, done.\nCounting objects:  33% (1/3)\nCounting objects:  66% (2/3)\nCounting objects: 100% (3/3)\nCounting objects: 100% (3/3), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 231 bytes | 231.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      main -> main\nbranch 'main' set up to track 'origin/main'.\nspawn bash -c cd project-test &&                git checkout -b dev &&                echo 'dev branch content' > index.html &&                git add index.html &&                git commit -m 'dev commit'\nSwitched to a new branch 'dev'\n[dev 127b997] dev commit\n 1 file changed, 1 insertion(+), 1 deletion(-)\nspawn bash -c cd project-test && git push -u origin dev\nWarning: Permanently added 'localhost' (ED25519) to the list of known hosts.\n\n\ngit@localhost's password: \nEnumerating objects: 5, done.\nCounting objects:  20% (1/5)\nCounting objects:  40% (2/5)\nCounting objects:  60% (3/5)\nCounting objects:  80% (4/5)\nCounting objects: 100% (5/5)\nCounting objects: 100% (5/5), done.\nWriting objects:  33% (1/3)\nWriting objects:  66% (2/3)\nWriting objects: 100% (3/3)\nWriting objects: 100% (3/3), 258 bytes | 258.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0), pack-reused 0\nTo localhost:/git/project\n * [new branch]      dev -> dev\nbranch 'dev' set up to track 'origin/dev'.\nTEST PASSED\n\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_multi_branch_https_deploy\n============================== 1 passed in 17.76s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793241593.9290955
+}

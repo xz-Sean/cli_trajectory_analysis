@@ -1,0 +1,694 @@
+{
+ "cid": "audio-synth-stft-peaks__terminus2__claude",
+ "task": "audio-synth-stft-peaks",
+ "scaffold": "terminus2",
+ "model": "claude",
+ "m": 37,
+ "kmin": 1,
+ "kmax": 6,
+ "rep": 0,
+ "started": 1793176930.6212444,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.033,
+   "out_tail": "SV with schema frame,bin,val\n>     with open('data/mag.csv', 'w', newline='') as csvfile:\n>         writer = csv.writer(csvfile)\n>         writer.writerow(['frame', 'bin', 'val'])\n>\n>         for frame_idx in range(magnitude.shape[1]):\n>             for bin_idx in range(magnitude.shape[0]):\n>                 writer.writerow([frame_idx, bin_idx, magnitude[bin_idx, frame_idx]])\n>\n> if __name__ == '__main__':\n>     print(\"Generating WAV file...\")\n>     generate_wav()\n>     print(\"Computing STFT and writing magnitude CSV...\")\n>     compute_stft()\n>     print(\"Done!\")\n> EOF\nroot@de774fe791ef:/app#\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.033,
+   "out_tail": "\n>             # Extract top 3 bins\n>             split(frame_data[1], top1)\n>             split(frame_data[2], top2)\n>             split(frame_data[3], top3)\n>\n>             print frame, top1[1], top2[1], top3[1]\n>         }\n>     }' data/mag.csv > data/peaks.csv\n> }\n>\n> # Main pipeline\n> if [ \"$PEAKS_ONLY\" = \"1\" ]; then\n>     echo \"PEAKS_ONLY mode: processing existing mag.csv\"\n>     extract_peaks\n> else\n>     echo \"Running full pipeline...\"\n>     python3 audioproc.py\n>     echo \"Extracting peaks with awk...\"\n>     extract_peaks\n> fi\n>\n> echo \"Pipeline complete!\"\n> EOF\nroot@de774fe791ef:/app#"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.193,
+   "out_tail": "root@de774fe791ef:/app# chmod +x solution.sh\nroot@de774fe791ef:/app#"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 7.1,
+   "out_sim": 0.91,
+   "out_tail": "root@de774fe791ef:/app# ./solution.sh\nRunning full pipeline...\nTraceback (most recent call last):\n  File \"/app/audioproc.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\nExtracting peaks with awk...\nawk: cmd. line:4: fatal: cannot open file `data/mag.csv' for reading: No such file or directory\nPipeline complete!\nroot@de774fe791ef:/app#"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.434,
+   "out_tail": "root@de774fe791ef:/app# pip install numpy scipy\n-bash: pip: command not found\nroot@de774fe791ef:/app#"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 32.3,
+   "out_sim": 0.439,
+   "out_tail": "root@de774fe791ef:/app# pip3 install numpy scipy\n-bash: pip3: command not found\nroot@de774fe791ef:/app#"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 13,
+    "total": 13,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "raw_tail": "\n                    # POSIX _communicate already populated the output so\n                    # far into the TimeoutExpired exception.\n                    process.wait()\n                raise\n            except:  # Including KeyboardInterrupt, communicate handled that.\n                process.kill()\n                # We don't call process.wait() as .__exit__ does that for us.\n                raise\n            retcode = process.poll()\n            if check and retcode:\n>               raise CalledProcessError(retcode, process.args,\n                                         output=stdout, stderr=stderr)\nE               subprocess.CalledProcessError: Command '['python3', '/app/audioproc.py']' returned non-zero exit status 2.\n\n/usr/lib/python3.12/subprocess.py:571: CalledProcessError\n----------------------------- Captured stderr call -----------------------------\npython3: can't open file '/app/audioproc.py': [Errno 2] No such file or directory\n___________________ test_cli_pipeline_enforces_awk_for_peaks ___________________\n\ntmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_cli_pipeline_enforces_awk0')\n\n    def test_cli_pipeline_enforces_awk_for_peaks(tmp_path):\n        \"\"\"\n        In PEAKS_ONLY=1:\n          - solution.sh must invoke `awk` via PATH (not an absolute path),\n          - `awk` must actually run,\n          - peaks.csv must be produced by that awk step and be correct,\n          - python must NOT be invoked.\n        \"\"\"\n        sol = Path(\"/app/solution.sh\")\n>       assert sol.exists(), \"Expected /app/solution.sh to exist.\"\nE       AssertionError: Expected /app/solution.sh to exist.\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/solution.sh').exists\n\n/tests/test_outputs.py:293: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_wav_file_exists - AssertionError: File ...\nFAILED ../tests/test_outputs.py::test_audioproc_script_exists - AssertionErro...\nFAILED ../tests/test_outputs.py::test_wav_properties - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_exists - AssertionError: File /...\nFAILED ../tests/test_outputs.py::test_mag_csv_structure - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_peaks_csv_exists - AssertionError: File...\nFAILED ../tests/test_outputs.py::test_peaks_csv_structure - FileNotFoundError...\nFAILED ../tests/test_outputs.py::test_peaks_accuracy - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft - FileNotFou...\nFAILED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted - FileNo...\nFAILED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks - subpr...\nFAILED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft - subprocess...\nFAILED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks - A...\n============================== 13 failed in 6.07s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 13,
+    "failed": 0,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 7 packages in 236ms\nDownloading scipy (34.0MiB)\nDownloading numpy (15.9MiB)\n Downloading numpy\n Downloading scipy\nPrepared 2 packages in 2.34s\nInstalled 7 packages in 11.61s\n + iniconfig==2.3.1\n + numpy==2.3.3\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scipy==1.16.2\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 13 items\n\n../tests/test_outputs.py .............                                   [100%]\n\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n___________________ test_cli_pipeline_enforces_awk_for_peaks ___________________\n----------------------------- Captured stdout call -----------------------------\nExtracted peaks to data/peaks.csv\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_wav_file_exists\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_wav_properties\nPASSED ../tests/test_outputs.py::test_mag_csv_exists\nPASSED ../tests/test_outputs.py::test_mag_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_csv_exists\nPASSED ../tests/test_outputs.py::test_peaks_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_accuracy\nPASSED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft\nPASSED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nPASSED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks\n============================= 13 passed in 11.55s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "1": {
+   "tests": {
+    "passed": 3,
+    "failed": 10,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "raw_tail": "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _load_mag_csv_array():\n        \"\"\"Return magnitude as a (freq_bins=513, frames=184) float32 array from CSV.\"\"\"\n        mag_path = Path(\"/app/data/mag.csv\")\n>       with open(mag_path, \"r\") as f:\n             ^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/data/mag.csv'\n\n/tests/test_outputs.py:167: FileNotFoundError\n___________________ test_cli_pipeline_enforces_awk_for_peaks ___________________\n\ntmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_cli_pipeline_enforces_awk0')\n\n    def test_cli_pipeline_enforces_awk_for_peaks(tmp_path):\n        \"\"\"\n        In PEAKS_ONLY=1:\n          - solution.sh must invoke `awk` via PATH (not an absolute path),\n          - `awk` must actually run,\n          - peaks.csv must be produced by that awk step and be correct,\n          - python must NOT be invoked.\n        \"\"\"\n        sol = Path(\"/app/solution.sh\")\n>       assert sol.exists(), \"Expected /app/solution.sh to exist.\"\nE       AssertionError: Expected /app/solution.sh to exist.\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/solution.sh').exists\n\n/tests/test_outputs.py:293: AssertionError\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nFAILED ../tests/test_outputs.py::test_wav_file_exists - AssertionError: File ...\nFAILED ../tests/test_outputs.py::test_wav_properties - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_exists - AssertionError: File /...\nFAILED ../tests/test_outputs.py::test_mag_csv_structure - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_peaks_csv_exists - AssertionError: File...\nFAILED ../tests/test_outputs.py::test_peaks_csv_structure - FileNotFoundError...\nFAILED ../tests/test_outputs.py::test_peaks_accuracy - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft - FileNotFou...\nFAILED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted - FileNo...\nFAILED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks - A...\n========================= 10 failed, 3 passed in 7.63s =========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 13,
+    "failed": 0,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 7 packages in 638ms\nDownloading scipy (34.0MiB)\nDownloading numpy (15.9MiB)\n Downloading numpy\n Downloading scipy\nPrepared 2 packages in 1.69s\nInstalled 7 packages in 11.35s\n + iniconfig==2.3.1\n + numpy==2.3.3\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scipy==1.16.2\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 13 items\n\n../tests/test_outputs.py .............                                   [100%]\n\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n___________________ test_cli_pipeline_enforces_awk_for_peaks ___________________\n----------------------------- Captured stdout call -----------------------------\nExtracted peaks to data/peaks.csv\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_wav_file_exists\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_wav_properties\nPASSED ../tests/test_outputs.py::test_mag_csv_exists\nPASSED ../tests/test_outputs.py::test_mag_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_csv_exists\nPASSED ../tests/test_outputs.py::test_peaks_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_accuracy\nPASSED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft\nPASSED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nPASSED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks\n============================= 13 passed in 16.40s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "2": {
+   "tests": {
+    "passed": 3,
+    "failed": 10,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "raw_tail": "v must exist before the PEAKS_ONLY awk stage.\"\n        peaks = Path(\"/app/data/peaks.csv\")\n        if peaks.exists():\n            peaks.unlink()\n    \n        env = os.environ.copy()\n        env[\"PATH\"] = f\"{shim_dir}:{env.get('PATH', '')}\"\n        env[\"PEAKS_ONLY\"] = \"1\"\n    \n        # Run only the awk stage via solution.sh\n        subprocess.run([\"/bin/bash\", \"/app/solution.sh\"], check=True, cwd=\"/app\", env=env)\n    \n        # Assertions: awk was invoked via PATH (not absolute path), and peaks.csv exists\n        assert awk_log.exists() and awk_log.read_text().strip(), \"awk was not invoked.\"\n        assert peaks.exists(), \"peaks.csv was not produced by the awk stage.\"\n    \n        # Correctness: peaks are true top-3 and sorted desc\n        mag_arr = _load_mag_csv_array()\n        with open(peaks, \"r\") as f:\n            rdr = csv.DictReader(f)\n            for row in rdr:\n                fidx = int(row[\"frame\"])\n>               b1 = int(row[\"f1_bin\"])\n                     ^^^^^^^^^^^^^^^^^^\nE               ValueError: invalid literal for int() with base 10: '0 0.13152046671648335'\n\n/tests/test_outputs.py:336: ValueError\n----------------------------- Captured stdout call -----------------------------\nPEAKS_ONLY mode: processing existing mag.csv\nPipeline complete!\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nFAILED ../tests/test_outputs.py::test_wav_file_exists - AssertionError: File ...\nFAILED ../tests/test_outputs.py::test_wav_properties - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_exists - AssertionError: File /...\nFAILED ../tests/test_outputs.py::test_mag_csv_structure - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_peaks_csv_exists - AssertionError: File...\nFAILED ../tests/test_outputs.py::test_peaks_csv_structure - FileNotFoundError...\nFAILED ../tests/test_outputs.py::test_peaks_accuracy - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft - FileNotFou...\nFAILED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted - FileNo...\nFAILED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks - V...\n=================== 10 failed, 3 passed in 96.98s (0:01:36) ====================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 13,
+    "failed": 0,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 7 packages in 145ms\nDownloading numpy (15.9MiB)\nDownloading scipy (34.0MiB)\n Downloading numpy\n Downloading scipy\nPrepared 2 packages in 764ms\nInstalled 7 packages in 22.05s\n + iniconfig==2.3.1\n + numpy==2.3.3\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scipy==1.16.2\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 13 items\n\n../tests/test_outputs.py .............                                   [100%]\n\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n___________________ test_cli_pipeline_enforces_awk_for_peaks ___________________\n----------------------------- Captured stdout call -----------------------------\nExtracted peaks to data/peaks.csv\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_wav_file_exists\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_wav_properties\nPASSED ../tests/test_outputs.py::test_mag_csv_exists\nPASSED ../tests/test_outputs.py::test_mag_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_csv_exists\nPASSED ../tests/test_outputs.py::test_peaks_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_accuracy\nPASSED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft\nPASSED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nPASSED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks\n============================== 13 passed in 6.40s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "3": {
+   "tests": {
+    "passed": 3,
+    "failed": 10,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "raw_tail": "v must exist before the PEAKS_ONLY awk stage.\"\n        peaks = Path(\"/app/data/peaks.csv\")\n        if peaks.exists():\n            peaks.unlink()\n    \n        env = os.environ.copy()\n        env[\"PATH\"] = f\"{shim_dir}:{env.get('PATH', '')}\"\n        env[\"PEAKS_ONLY\"] = \"1\"\n    \n        # Run only the awk stage via solution.sh\n        subprocess.run([\"/bin/bash\", \"/app/solution.sh\"], check=True, cwd=\"/app\", env=env)\n    \n        # Assertions: awk was invoked via PATH (not absolute path), and peaks.csv exists\n        assert awk_log.exists() and awk_log.read_text().strip(), \"awk was not invoked.\"\n        assert peaks.exists(), \"peaks.csv was not produced by the awk stage.\"\n    \n        # Correctness: peaks are true top-3 and sorted desc\n        mag_arr = _load_mag_csv_array()\n        with open(peaks, \"r\") as f:\n            rdr = csv.DictReader(f)\n            for row in rdr:\n                fidx = int(row[\"frame\"])\n>               b1 = int(row[\"f1_bin\"])\n                     ^^^^^^^^^^^^^^^^^^\nE               ValueError: invalid literal for int() with base 10: '0 0.10606768203679659'\n\n/tests/test_outputs.py:336: ValueError\n----------------------------- Captured stdout call -----------------------------\nPEAKS_ONLY mode: processing existing mag.csv\nPipeline complete!\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nFAILED ../tests/test_outputs.py::test_wav_file_exists - AssertionError: File ...\nFAILED ../tests/test_outputs.py::test_wav_properties - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_exists - AssertionError: File /...\nFAILED ../tests/test_outputs.py::test_mag_csv_structure - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_peaks_csv_exists - AssertionError: File...\nFAILED ../tests/test_outputs.py::test_peaks_csv_structure - FileNotFoundError...\nFAILED ../tests/test_outputs.py::test_peaks_accuracy - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft - FileNotFou...\nFAILED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted - FileNo...\nFAILED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks - V...\n=================== 10 failed, 3 passed in 83.56s (0:01:23) ====================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 13,
+    "failed": 0,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 7 packages in 342ms\nDownloading numpy (15.9MiB)\nDownloading scipy (34.0MiB)\n Downloading numpy\n Downloading scipy\nPrepared 2 packages in 2.00s\nInstalled 7 packages in 1m 57s\n + iniconfig==2.3.1\n + numpy==2.3.3\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scipy==1.16.2\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 13 items\n\n../tests/test_outputs.py .............                                   [100%]\n\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n___________________ test_cli_pipeline_enforces_awk_for_peaks ___________________\n----------------------------- Captured stdout call -----------------------------\nExtracted peaks to data/peaks.csv\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_wav_file_exists\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_wav_properties\nPASSED ../tests/test_outputs.py::test_mag_csv_exists\nPASSED ../tests/test_outputs.py::test_mag_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_csv_exists\nPASSED ../tests/test_outputs.py::test_peaks_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_accuracy\nPASSED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft\nPASSED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nPASSED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks\n============================== 13 passed in 7.46s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "4": {
+   "tests": {
+    "passed": 4,
+    "failed": 9,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "raw_tail": "ad_text().strip(), \"awk was not invoked.\"\n        assert peaks.exists(), \"peaks.csv was not produced by the awk stage.\"\n    \n        # Correctness: peaks are true top-3 and sorted desc\n        mag_arr = _load_mag_csv_array()\n        with open(peaks, \"r\") as f:\n            rdr = csv.DictReader(f)\n            for row in rdr:\n                fidx = int(row[\"frame\"])\n>               b1 = int(row[\"f1_bin\"])\n                     ^^^^^^^^^^^^^^^^^^\nE               ValueError: invalid literal for int() with base 10: '0 0.09547749625583665'\n\n/tests/test_outputs.py:336: ValueError\n----------------------------- Captured stdout call -----------------------------\nPEAKS_ONLY mode: processing existing mag.csv\nPipeline complete!\n=============================== warnings summary ===============================\ntest_outputs.py::test_peaks_accuracy\n  /app/.tbench-testing/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.\n    return _methods._mean(a, axis=axis, dtype=dtype,\n\ntest_outputs.py::test_peaks_accuracy\n  /app/.tbench-testing/lib/python3.12/site-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide\n    ret = ret.dtype.type(ret / rcount)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_peaks_csv_exists\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nFAILED ../tests/test_outputs.py::test_wav_file_exists - AssertionError: File ...\nFAILED ../tests/test_outputs.py::test_wav_properties - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_exists - AssertionError: File /...\nFAILED ../tests/test_outputs.py::test_mag_csv_structure - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_peaks_csv_structure - AssertionError: E...\nFAILED ../tests/test_outputs.py::test_peaks_accuracy - AssertionError: Median...\nFAILED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft - FileNotFou...\nFAILED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted - FileNo...\nFAILED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks - V...\n============== 9 failed, 4 passed, 2 warnings in 73.63s (0:01:13) ==============\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 13,
+    "failed": 0,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 7 packages in 281ms\nDownloading numpy (15.9MiB)\nDownloading scipy (34.0MiB)\n Downloading numpy\n Downloading scipy\nPrepared 2 packages in 3.64s\nInstalled 7 packages in 1.90s\n + iniconfig==2.3.1\n + numpy==2.3.3\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scipy==1.16.2\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 13 items\n\n../tests/test_outputs.py .............                                   [100%]\n\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n___________________ test_cli_pipeline_enforces_awk_for_peaks ___________________\n----------------------------- Captured stdout call -----------------------------\nExtracted peaks to data/peaks.csv\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_wav_file_exists\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_wav_properties\nPASSED ../tests/test_outputs.py::test_mag_csv_exists\nPASSED ../tests/test_outputs.py::test_mag_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_csv_exists\nPASSED ../tests/test_outputs.py::test_peaks_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_accuracy\nPASSED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft\nPASSED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nPASSED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks\n============================= 13 passed in 17.25s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 4,
+    "failed": 9,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "raw_tail": "ad_text().strip(), \"awk was not invoked.\"\n        assert peaks.exists(), \"peaks.csv was not produced by the awk stage.\"\n    \n        # Correctness: peaks are true top-3 and sorted desc\n        mag_arr = _load_mag_csv_array()\n        with open(peaks, \"r\") as f:\n            rdr = csv.DictReader(f)\n            for row in rdr:\n                fidx = int(row[\"frame\"])\n>               b1 = int(row[\"f1_bin\"])\n                     ^^^^^^^^^^^^^^^^^^\nE               ValueError: invalid literal for int() with base 10: '0 0.10877850038491291'\n\n/tests/test_outputs.py:336: ValueError\n----------------------------- Captured stdout call -----------------------------\nPEAKS_ONLY mode: processing existing mag.csv\nPipeline complete!\n=============================== warnings summary ===============================\ntest_outputs.py::test_peaks_accuracy\n  /app/.tbench-testing/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.\n    return _methods._mean(a, axis=axis, dtype=dtype,\n\ntest_outputs.py::test_peaks_accuracy\n  /app/.tbench-testing/lib/python3.12/site-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide\n    ret = ret.dtype.type(ret / rcount)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_peaks_csv_exists\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nFAILED ../tests/test_outputs.py::test_wav_file_exists - AssertionError: File ...\nFAILED ../tests/test_outputs.py::test_wav_properties - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_exists - AssertionError: File /...\nFAILED ../tests/test_outputs.py::test_mag_csv_structure - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_peaks_csv_structure - AssertionError: E...\nFAILED ../tests/test_outputs.py::test_peaks_accuracy - AssertionError: Median...\nFAILED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft - FileNotFou...\nFAILED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted - FileNo...\nFAILED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks - V...\n============== 9 failed, 4 passed, 2 warnings in 79.31s (0:01:19) ==============\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 13,
+    "failed": 0,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 7 packages in 164ms\nDownloading scipy (34.0MiB)\nDownloading numpy (15.9MiB)\n Downloading numpy\n Downloading scipy\nPrepared 2 packages in 1.81s\nInstalled 7 packages in 35.19s\n + iniconfig==2.3.1\n + numpy==2.3.3\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scipy==1.16.2\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 13 items\n\n../tests/test_outputs.py .............                                   [100%]\n\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n___________________ test_cli_pipeline_enforces_awk_for_peaks ___________________\n----------------------------- Captured stdout call -----------------------------\nExtracted peaks to data/peaks.csv\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_wav_file_exists\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_wav_properties\nPASSED ../tests/test_outputs.py::test_mag_csv_exists\nPASSED ../tests/test_outputs.py::test_mag_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_csv_exists\nPASSED ../tests/test_outputs.py::test_peaks_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_accuracy\nPASSED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft\nPASSED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nPASSED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks\n============================== 13 passed in 9.96s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "6": {
+   "tests": {
+    "passed": 4,
+    "failed": 9,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "raw_tail": "ad_text().strip(), \"awk was not invoked.\"\n        assert peaks.exists(), \"peaks.csv was not produced by the awk stage.\"\n    \n        # Correctness: peaks are true top-3 and sorted desc\n        mag_arr = _load_mag_csv_array()\n        with open(peaks, \"r\") as f:\n            rdr = csv.DictReader(f)\n            for row in rdr:\n                fidx = int(row[\"frame\"])\n>               b1 = int(row[\"f1_bin\"])\n                     ^^^^^^^^^^^^^^^^^^\nE               ValueError: invalid literal for int() with base 10: '0 0.15043087054597057'\n\n/tests/test_outputs.py:336: ValueError\n----------------------------- Captured stdout call -----------------------------\nPEAKS_ONLY mode: processing existing mag.csv\nPipeline complete!\n=============================== warnings summary ===============================\ntest_outputs.py::test_peaks_accuracy\n  /app/.tbench-testing/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.\n    return _methods._mean(a, axis=axis, dtype=dtype,\n\ntest_outputs.py::test_peaks_accuracy\n  /app/.tbench-testing/lib/python3.12/site-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide\n    ret = ret.dtype.type(ret / rcount)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerating WAV file...\nComputing STFT and writing magnitude CSV...\nDone!\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_peaks_csv_exists\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nFAILED ../tests/test_outputs.py::test_wav_file_exists - AssertionError: File ...\nFAILED ../tests/test_outputs.py::test_wav_properties - FileNotFoundError: [Er...\nFAILED ../tests/test_outputs.py::test_mag_csv_exists - AssertionError: File /...\nFAILED ../tests/test_outputs.py::test_mag_csv_structure - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_peaks_csv_structure - AssertionError: E...\nFAILED ../tests/test_outputs.py::test_peaks_accuracy - AssertionError: Median...\nFAILED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft - FileNotFou...\nFAILED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted - FileNo...\nFAILED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks - V...\n============== 9 failed, 4 passed, 2 warnings in 74.05s (0:01:14) ==============\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 13,
+    "failed": 0,
+    "total": 13,
+    "passed_names": [
+     "../tests/test_outputs.py::test_wav_file_exists",
+     "../tests/test_outputs.py::test_audioproc_script_exists",
+     "../tests/test_outputs.py::test_wav_properties",
+     "../tests/test_outputs.py::test_mag_csv_exists",
+     "../tests/test_outputs.py::test_mag_csv_structure",
+     "../tests/test_outputs.py::test_peaks_csv_exists",
+     "../tests/test_outputs.py::test_peaks_csv_structure",
+     "../tests/test_outputs.py::test_peaks_accuracy",
+     "../tests/test_outputs.py::test_mag_csv_matches_scipy_stft",
+     "../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted",
+     "../tests/test_outputs.py::test_audioproc_outputs_without_peaks",
+     "../tests/test_outputs.py::test_audioproc_calls_scipy_stft",
+     "../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 7 packages in 674ms\nDownloading scipy (34.0MiB)\nDownloading numpy (15.9MiB)\n Downloading numpy\n Downloading scipy\nPrepared 2 packages in 3.08s\nInstalled 7 packages in 37.21s\n + iniconfig==2.3.1\n + numpy==2.3.3\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n + scipy==1.16.2\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 13 items\n\n../tests/test_outputs.py .............                                   [100%]\n\n==================================== PASSES ====================================\n_____________________ test_audioproc_outputs_without_peaks _____________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n_______________________ test_audioproc_calls_scipy_stft ________________________\n----------------------------- Captured stdout call -----------------------------\nGenerated WAV: 48000 samples, RMS: 0.2000\nSTFT shape: 513 bins x 184 frames\nExported magnitude to data/mag.csv: 94392 rows\n___________________ test_cli_pipeline_enforces_awk_for_peaks ___________________\n----------------------------- Captured stdout call -----------------------------\nExtracted peaks to data/peaks.csv\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_wav_file_exists\nPASSED ../tests/test_outputs.py::test_audioproc_script_exists\nPASSED ../tests/test_outputs.py::test_wav_properties\nPASSED ../tests/test_outputs.py::test_mag_csv_exists\nPASSED ../tests/test_outputs.py::test_mag_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_csv_exists\nPASSED ../tests/test_outputs.py::test_peaks_csv_structure\nPASSED ../tests/test_outputs.py::test_peaks_accuracy\nPASSED ../tests/test_outputs.py::test_mag_csv_matches_scipy_stft\nPASSED ../tests/test_outputs.py::test_peaks_are_true_top3_and_sorted\nPASSED ../tests/test_outputs.py::test_audioproc_outputs_without_peaks\nPASSED ../tests/test_outputs.py::test_audioproc_calls_scipy_stft\nPASSED ../tests/test_outputs.py::test_cli_pipeline_enforces_awk_for_peaks\n============================= 13 passed in 10.54s ==============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793182894.0017788
+}

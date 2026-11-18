@@ -1,0 +1,72 @@
+{
+ "task": "chem-rf",
+ "pristine": {
+  "passed": 0,
+  "failed": 3,
+  "total": 3,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_rf_file_exists_example",
+   "../tests/test_outputs.py::test_featurize_smiles_exists",
+   "../tests/test_outputs.py::test_rf_performance"
+  ],
+  "raw_tail": "3.11.18, pytest-8.4.0, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 3 items\n\n../tests/test_outputs.py::test_rf_file_exists_example FAILED             [ 33%]\n../tests/test_outputs.py::test_featurize_smiles_exists FAILED            [ 66%]\n../tests/test_outputs.py::test_rf_performance FAILED                     [100%]\n\n=================================== FAILURES ===================================\n_________________________ test_rf_file_exists_example __________________________\n\n    def test_rf_file_exists_example():\n        \"\"\"Check if the trained model file exists.\"\"\"\n        rf_path = Path(\"/app/trained_model.pkl\")\n>       assert rf_path.exists(), f\"File {rf_path} does not exist\"\nE       AssertionError: File /app/trained_model.pkl does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/trained_model.pkl').exists\n\n/tests/test_outputs.py:21: AssertionError\n_________________________ test_featurize_smiles_exists _________________________\n\n    def test_featurize_smiles_exists():\n        \"\"\"Check if the featurize_smiles function can be imported.\"\"\"\n        try:\n>           from fit_model import featurize_smiles\nE           ModuleNotFoundError: No module named 'fit_model'\n\n/tests/test_outputs.py:27: ModuleNotFoundError\n\nDuring handling of the above exception, another exception occurred:\n\n    def test_featurize_smiles_exists():\n        \"\"\"Check if the featurize_smiles function can be imported.\"\"\"\n        try:\n            from fit_model import featurize_smiles\n    \n            assert callable(featurize_smiles), \"featurize_smiles is not callable\"\n        except ImportError:\n>           assert False, \"featurize_smiles could not be imported from fit_model\"\nE           AssertionError: featurize_smiles could not be imported from fit_model\nE           assert False\n\n/tests/test_outputs.py:31: AssertionError\n_____________________________ test_rf_performance ______________________________\n\n    def test_rf_performance():\n        \"\"\"run-test.sh runs a script that outputs an rf file to /app/trained_model.pkl. Here\n        we load  that file and  use the featurizer to featurize the test data, then\n        we predict using the  model. It needs to achieve a reasonable spearman\n        correlation which I arrived at with very little tuning and is based on the\n         average of 8 random seeds.\"\"\"\n>       from fit_model import featurize_smiles\nE       ModuleNotFoundError: No module named 'fit_model'\n\n/tests/test_outputs.py:40: ModuleNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_rf_file_exists_example - AssertionError...\nFAILED ../tests/test_outputs.py::test_featurize_smiles_exists - AssertionErro...\nFAILED ../tests/test_outputs.py::test_rf_performance - ModuleNotFoundError: N...\n============================== 3 failed in 5.74s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 3,
+  "failed": 0,
+  "total": 3,
+  "passed_names": [
+   "../tests/test_outputs.py::test_rf_file_exists_example",
+   "../tests/test_outputs.py::test_featurize_smiles_exists",
+   "../tests/test_outputs.py::test_rf_performance"
+  ],
+  "failed_names": [],
+  "raw_tail": "eted 94.6 MiB/97.3 MiB (14.1 MiB/s) with 1 file(s) remaining  \nCompleted 94.8 MiB/97.3 MiB (14.0 MiB/s) with 1 file(s) remaining  \nCompleted 95.1 MiB/97.3 MiB (14.1 MiB/s) with 1 file(s) remaining  \nCompleted 95.3 MiB/97.3 MiB (13.9 MiB/s) with 1 file(s) remaining  \nCompleted 95.6 MiB/97.3 MiB (13.9 MiB/s) with 1 file(s) remaining  \nCompleted 95.8 MiB/97.3 MiB (13.9 MiB/s) with 1 file(s) remaining  \nCompleted 96.1 MiB/97.3 MiB (13.7 MiB/s) with 1 file(s) remaining  \nCompleted 96.3 MiB/97.3 MiB (13.7 MiB/s) with 1 file(s) remaining  \nCompleted 96.6 MiB/97.3 MiB (13.7 MiB/s) with 1 file(s) remaining  \nCompleted 96.8 MiB/97.3 MiB (13.5 MiB/s) with 1 file(s) remaining  \nCompleted 97.1 MiB/97.3 MiB (13.4 MiB/s) with 1 file(s) remaining  \nCompleted 97.3 MiB/97.3 MiB (13.2 MiB/s) with 1 file(s) remaining  \ndownload: s3://kin-del-2024/data/mapk14_1M.parquet to test_data/train_data.parquet\nCompleted 256.0 KiB/1.1 MiB (348.0 KiB/s) with 1 file(s) remaining\nCompleted 512.0 KiB/1.1 MiB (453.4 KiB/s) with 1 file(s) remaining\nCompleted 768.0 KiB/1.1 MiB (475.2 KiB/s) with 1 file(s) remaining\nCompleted 1.0 MiB/1.1 MiB (509.5 KiB/s) with 1 file(s) remaining  \nCompleted 1.1 MiB/1.1 MiB (514.3 KiB/s) with 1 file(s) remaining  \ndownload: s3://kin-del-2024/data/splits/mapk14_disynthon.parquet to test_data/split_data.parquet\nCompleted 8.0 KiB/8.0 KiB (26.6 KiB/s) with 1 file(s) remaining\ndownload: s3://kin-del-2024/data/heldout/mapk14_offdna.csv to test_data/test_data.csv\n   \u2514\u2500\u2500 Loaded 1,000,000 rows in 1.4s\n[Parallel(n_jobs=-1)]: Using backend ThreadingBackend with 32 concurrent workers.\n[Parallel(n_jobs=-1)]: Done 100 out of 100 | elapsed:  2.1min finished\n============================= test session starts ==============================\nplatform linux -- Python 3.11.18, pytest-8.4.0, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 3 items\n\n../tests/test_outputs.py::test_rf_file_exists_example PASSED             [ 33%]\n../tests/test_outputs.py::test_featurize_smiles_exists PASSED            [ 66%]\n../tests/test_outputs.py::test_rf_performance PASSED                     [100%]\n\n==================================== PASSES ====================================\n_____________________________ test_rf_performance ______________________________\n----------------------------- Captured stdout call -----------------------------\nspear:-0.6351413292589763\n----------------------------- Captured stderr call -----------------------------\n[Parallel(n_jobs=32)]: Using backend ThreadingBackend with 32 concurrent workers.\n[Parallel(n_jobs=32)]: Done 100 out of 100 | elapsed:    0.0s finished\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_rf_file_exists_example\nPASSED ../tests/test_outputs.py::test_featurize_smiles_exists\nPASSED ../tests/test_outputs.py::test_rf_performance\n============================== 3 passed in 4.48s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n",
+  "oracle_rc": 0
+ },
+ "secs": 816
+}

@@ -1,0 +1,50 @@
+{
+  "case_id": "mcmc-sampling-stan__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "spec_violation",
+  "primary_failure_subtype": "replaced_required_mcmc_with_map_shortcut",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "tool_use",
+  "contributing_failure_1_subtype": "shell_incompatibility_pipefail",
+  "root_cause_label": "False timeout assumption leads to QUICK/MAP proxy replacing required rstan::sampling MCMC",
+  "one_sentence_failure_summary": "After a recoverable shell error in step 1, the agent falsely assumed step 2 timed out and introduced a QUICK mode using MAP optimization instead of the required rstan::sampling with 4 chains and 100,000 iterations, producing incorrect proxy output files and submitting prematurely.",
+  "m": 5,
+  "t_err": 3,
+  "t_err_evidence": "Step 3 agent analysis states 'The previous attempt timed out during heavy system package installation and Stan compilation' — but step 2 terminal output shows packages installing without any timeout indicator. The agent introduces QUICK mode (MAP optimization) to bypass rstan::sampling, a false premise about the prior step's outcome.",
+  "t_commit": 4,
+  "t_commit_evidence": "Step 4 successfully executes 'QUICK=1 Rscript /app/analysis.R' under bash -lc (return code 0), writing MAP-estimated values to posterior_alpha_mean.txt and posterior_beta_mean.txt instead of true MCMC posterior means; the wrong output files are now on disk.",
+  "t_surface": 4,
+  "t_surface_evidence": "Step 4 produces output files with MAP approximation values rather than MCMC posterior means; any evaluation checking rstan sampling output or numeric ranges consistent with true MCMC posteriors would fail at this point.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent falsely assumed step 2 timed out without any timeout evidence in the terminal output (step 2 showed only ongoing package installation output). Acting on this unverified assumption, it introduced the QUICK MAP mode that fundamentally violates the task requirement to use rstan::sampling.",
+  "forewarning_present": true,
+  "forewarning_first_step": 1,
+  "forewarning_types": [
+    "command_error"
+  ],
+  "forewarning_evidence": "Step 1 immediately fails with '/bin/sh: 1: set: Illegal option -o pipefail', indicating the agent's assumptions about the execution environment were incorrect before the critical QUICK-mode decision in step 3.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "fabrication",
+  "fabrication_present": true,
+  "fabrication_type": "proxy_or_shortcut",
+  "fabrication_onset_step": 4,
+  "fabrication_evidence": "Step 4 runs 'QUICK=1 Rscript /app/analysis.R' which executes MAP optimization via base R optim() and writes the MAP mode estimates to posterior_alpha_mean.txt and posterior_beta_mean.txt, falsely representing these as 'posterior means' without any MCMC sampling. Step 5 then submits claiming task completion.",
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "W"],
+    [2, 2, "W"],
+    [3, 3, "W"],
+    [4, 4, "X"],
+    [5, 5, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_err"
+  ]
+}

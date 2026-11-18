@@ -1,0 +1,51 @@
+{
+  "case_id": "chem-rf__terminus2__devstral",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "data_acquisition_failure",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "spec_violation",
+  "contributing_failure_1_subtype": "unauthorized_library_dependency",
+  "root_cause_label": "Failed S3 anonymous access due to knowledge gap, then proceeded to write unverified script without data",
+  "one_sentence_failure_summary": "The agent exhausted all data download attempts without discovering the correct boto3 UNSIGNED anonymous access pattern, then wrote and submitted a training script that was never actually executed against real data and used unauthorized libraries (scipy, joblib).",
+  "m": 19,
+  "t_err": 3,
+  "t_err_evidence": "Step 3: First S3 download attempt uses standard boto3 without anonymous credentials, fails with NoCredentialsError. The agent does not know the correct UNSIGNED config pattern (botocore.UNSIGNED) for anonymous public S3 access.",
+  "t_commit": 11,
+  "t_commit_evidence": "Step 11: After exhausting download alternatives (steps 3-10), agent explicitly decides to write the fit_model.py script based on assumptions without real data, making it impossible to train a real model or verify the Spearman correlation threshold.",
+  "t_surface": 3,
+  "t_surface_evidence": "Step 3: Terminal shows 'botocore.exceptions.NoCredentialsError: Unable to locate credentials' - the first observable failure signal that data access is broken.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent lacked the specific boto3 knowledge of using 'botocore.UNSIGNED' for truly anonymous S3 access. It tried no-credential default, wget, curl, and fake 'anonymous' credentials - none of which work for anonymous public S3 access - and never tried the correct pattern.",
+  "forewarning_present": true,
+  "forewarning_first_step": 3,
+  "forewarning_types": [
+    "command_error",
+    "repeated_command"
+  ],
+  "forewarning_evidence": "Steps 3-6 all show S3 download failures: NoCredentialsError in step 3, wget/curl not found in steps 4-5, 403 Forbidden in step 6. Steps 7-10 confirm no data files exist on the system. All these signals precede the commit at step 11.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 3,
+  "tail_dominant_behavior": "verification_theater",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 12,
+  "action_segments": [
+    [1, 2, "X"],
+    [3, 10, "R"],
+    [11, 11, "W"],
+    [12, 17, "V"],
+    [18, 19, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "contributing_failure_1_subtype"
+  ]
+}

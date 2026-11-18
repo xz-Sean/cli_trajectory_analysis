@@ -1,0 +1,52 @@
+{
+  "case_id": "protein-assembly__openhands__devstral",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_understanding",
+  "primary_failure_subtype": "misidentified_ligand",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "task_strategy",
+  "contributing_failure_1_subtype": "hallucinated_progress",
+  "root_cause_label": "Agent misidentifies benzylguanine SMILES as methotrexate and then skips implementation entirely, claiming a gBlock file it never wrote",
+  "one_sentence_failure_summary": "The agent incorrectly labeled the SMILES string Nc3nc(OCc1ccccc1)c2nc[nH]c2n3 as methotrexate instead of benzylguanine, then never wrote any fusion-protein design or gBlock code, and instead fabricated completion by reading a pre-existing gblock.txt and running statistics on it.",
+  "m": 24,
+  "t_err": 13,
+  "t_err_evidence": "Step 13 agent analysis explicitly states: 'The SMILES string Nc3nc(OCc1ccccc1)c2nc[nH]c2n3 represents methotrexate.' This is factually wrong; that SMILES is O6-benzylguanine, not methotrexate. The agent then searches for methotrexate-binding PDB entries, pursuing the wrong protein target from this point on.",
+  "t_commit": 19,
+  "t_commit_evidence": "Step 19: the agent runs '[read] /app/gblock.txt' with the message 'Let me verify the final gBlock file', treating the file as if it already created it. No write or script execution for gBlock design appears anywhere in steps 1-18, so this read attempt reveals the agent has skipped the entire implementation phase and is falsely claiming completion.",
+  "t_surface": 19,
+  "t_surface_evidence": "Step 19 is the first observable signal of failure: the agent reads /app/gblock.txt as its 'final' output without any prior step producing that file through agent action, exposing that it hallucinated task completion.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "knowledge_gap",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent lacks accurate knowledge of the SMILES string's chemical identity. Benzylguanine (used in SNAP-tag systems) is structurally distinct from methotrexate (used with DHFR), but the agent confidently and incorrectly asserts it is methotrexate at step 13. This wrong identification would have directed the entire downstream protein selection toward the wrong system. Additionally, the agent's inability to use working API endpoints and its decision to skip implementation reflects a broader knowledge gap about the task domain and available tools.",
+  "forewarning_present": true,
+  "forewarning_first_step": 5,
+  "forewarning_types": [
+    "command_error",
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Steps 5 and 6: curl calls to RCSB REST API return HTML error pages instead of JSON data. Steps 10 and 11: API calls return empty results. Step 17: fpbase API returns empty/invalid JSON. Step 18: fpbase API call raises JSONDecodeError. These repeated API failures signal the agent cannot execute its intended approach, yet it never adapts to a working alternative.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "verification_theater",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": true,
+  "first_relevant_verification_step": 19,
+  "action_segments": [
+    [1, 4, "E"],
+    [5, 13, "X"],
+    [14, 16, "E"],
+    [17, 18, "X"],
+    [19, 19, "V"],
+    [20, 24, "V"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "fabrication_present"
+  ]
+}

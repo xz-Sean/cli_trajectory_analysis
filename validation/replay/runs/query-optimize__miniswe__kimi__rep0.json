@@ -1,0 +1,261 @@
+{
+ "cid": "query-optimize__miniswe__kimi",
+ "task": "query-optimize",
+ "scaffold": "miniswe",
+ "model": "kimi",
+ "m": 12,
+ "kmin": 12,
+ "kmax": 12,
+ "rep": 0,
+ "started": 1793041009.1846504,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.999,
+   "out_tail": "                   LIMIT 1)) AS top_synset_sense_count\nFROM (\n  SELECT \n    w.wordid,\n    w.word,\n    COUNT(DISTINCT s.synsetid) AS total_synsets,\n    COUNT(*) AS total_senses,\n    COUNT(DISTINCT syn.domainid) AS distinct_domains,\n    COUNT(DISTINCT syn.posid) AS distinct_posids\n  FROM words w\n  JOIN senses s ON w.wordid = s.wordid\n  JOIN synsets syn ON s.synsetid = syn.synsetid\n  GROUP BY w.wordid, w.word\n  HAVING total_synsets >= 2\n    AND distinct_domains >= 2 \n    AND total_senses >= 2\n) w\nORDER BY\n  total_senses DESC,\n  total_synsets DESC,\n  distinct_domains DESC,\n  word_id ASC\nLIMIT 500;"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 0.8,
+   "out_sim": 1.0,
+   "out_tail": "0|senseid|INT|1||0\n1|sensekey|VARCHAR(100)|0|NULL|0\n2|synsetid|INT|1||0\n3|luid|INT|1||0\n4|wordid|INT|1||0\n5|casedwordid|INT|0|NULL|0\n6|lexid|INT|1||0\n7|sensenum|INT|0|NULL|0\n8|tagcount|INT|0|NULL|0\n"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "0|wordid|INT|1||0\n1|word|VARCHAR(80)|1||0\n0|synsetid|INT|1||0\n1|posid|CHARACTER (1)|1||0\n2|domainid|INT|1||0\n3|definition|MEDIUMTEXT|1||0\n"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 1.1,
+   "out_sim": 1.0,
+   "out_tail": "17710|break|75|75|16|2|483|1\n33833|cut|70|70|17|4|58|1\n117295|run|57|57|16|2|4046|1\n104919|play|52|52|15|2|196|1\n83700|make|51|51|13|2|179|1\n80076|light|48|48|16|5|5923|1\n40345|draw|45|45|18|2|1921|1\n66644|hold|45|45|18|2|55|1\n122139|set|45|45|17|3|646|1\n26768|clear|45|45|12|5|3754|1\n"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 419.9,
+   "out_sim": 0.0,
+   "out_tail": "17710|break|75|75|16|2|483|1\n33833|cut|70|70|17|4|58|1\n117295|run|57|57|16|2|4046|1\n104919|play|52|52|15|2|196|1\n83700|make|51|51|13|2|179|1\n80076|light|48|48|16|5|5923|1\n40345|draw|45|45|18|2|1921|1\n66644|hold|45|45|18|2|55|1\n122139|set|45|45|17|3|646|1\n26768|clear|45|45|12|5|3754|1\n"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "                                                                  \n\nTable: senses_vtemplates                                                   \nCREATE TABLE `senses_vtemplates` (                                         \n`synsetid` INT NOT NULL,                                                   \n`luid` INT NOT NULL,                                                       \n`wordid` INT NOT NULL,                                                     \n`templateid` INT NOT NULL                                                  \n)                                                                          \n"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 1.5,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 0.3,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 11,
+   "type": "bash",
+   "secs": 1.7,
+   "out_sim": 1.0,
+   "out_tail": "17710|break|75|75|16|2|483|1\n33833|cut|70|70|17|4|58|1\n117295|run|57|57|16|2|4046|1\n104919|play|52|52|15|2|196|1\n83700|make|51|51|13|2|179|1\n80076|light|48|48|16|5|5923|1\n40345|draw|45|45|18|2|1921|1\n66644|hold|45|45|18|2|55|1\n122139|set|45|45|17|3|646|1\n26768|clear|45|45|12|5|3754|1\n"
+  },
+  {
+   "k": 12,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 2,
+    "failed": 4,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compare_golden_vs_my_sql_query_correctness",
+     "../tests/test_outputs.py::test_check_for_db_modifications"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compare_golden_vs_solution_runtime",
+     "../tests/test_outputs.py::test_outputs_match_exactly",
+     "../tests/test_outputs.py::test_solution_contains_single_sql_query",
+     "../tests/test_outputs.py::test_solution_is_small"
+    ],
+    "raw_tail": "      assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/sol.sql').exists\n\n/tests/test_outputs.py:88: AssertionError\n__________________________ test_outputs_match_exactly __________________________\n\n    def test_outputs_match_exactly():\n        \"\"\"Asserts the optimized query output matches the golden query EXACTLY:\n        - same column names (case and order)\n        - same number of rows\n        - same row values in the same order\n        \"\"\"\n        assert DB_PATH.exists(), f\"DB not found at {DB_PATH}\"\n        assert GOLDEN_SQL_PATH.exists(), f\"Golden SQL not found at {GOLDEN_SQL_PATH}\"\n>       assert SOL_SQL_PATH.exists(), f\"Solution SQL not found at {SOL_SQL_PATH}\"\nE       AssertionError: Solution SQL not found at /app/sol.sql\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/sol.sql').exists\n\n/tests/test_outputs.py:156: AssertionError\n___________________ test_solution_contains_single_sql_query ____________________\n\n    def test_solution_contains_single_sql_query():\n        \"\"\"\n        Verify that the solution file contains exactly one valid SQL SELECT statement\n        terminated by a semicolon, as required by the task specification.\n    \n        If we allow multiple sql queries, then the agent can reward hack.\n        It can modify the database, create temporary tables, and delete them\n        during execution and make sure the final hash is the same.\n        \"\"\"\n>       assert SOL_SQL_PATH.exists(), f\"Solution SQL not found at {SOL_SQL_PATH}\"\nE       AssertionError: Solution SQL not found at /app/sol.sql\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/sol.sql').exists\n\n/tests/test_outputs.py:187: AssertionError\n____________________________ test_solution_is_small ____________________________\n\n    def test_solution_is_small():\n        \"\"\"\n        Verify that the solution file is small.\n        \"\"\"\n>       assert SOL_SQL_PATH.exists(), f\"Solution SQL not found at {SOL_SQL_PATH}\"\nE       AssertionError: Solution SQL not found at /app/sol.sql\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/sol.sql').exists\n\n/tests/test_outputs.py:237: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compare_golden_vs_my_sql_query_correctness\nPASSED ../tests/test_outputs.py::test_check_for_db_modifications\nFAILED ../tests/test_outputs.py::test_compare_golden_vs_solution_runtime - As...\nFAILED ../tests/test_outputs.py::test_outputs_match_exactly - AssertionError:...\nFAILED ../tests/test_outputs.py::test_solution_contains_single_sql_query - As...\nFAILED ../tests/test_outputs.py::test_solution_is_small - AssertionError: Sol...\n=================== 4 failed, 2 passed in 418.78s (0:06:58) ====================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 4,
+      "total": 4,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_sol_sql_exists",
+       "../subtests/test_sub.py::test_must_single_select_terminated_by_semicolon",
+       "../subtests/test_sub.py::test_must_same_output_as_original_query",
+       "../subtests/test_sub.py::test_must_query_is_fast"
+      ]
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_sol_contains_no_comments"
+      ]
+     }
+    },
+    "sub_raw_tail": "en(self, mode='r', buffering=-1, encoding=None,\n             errors=None, newline=None):\n        \"\"\"\n        Open the file pointed by this path and return a file object, as\n        the built-in open() function does.\n        \"\"\"\n        if \"b\" not in mode:\n            encoding = io.text_encoding(encoding)\n>       return io.open(self, mode, buffering, encoding, errors, newline)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       FileNotFoundError: [Errno 2] No such file or directory: '/app/sol.sql'\n\n/usr/lib/python3.12/pathlib.py:1015: FileNotFoundError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_database_modified\nPASSED ../subtests/test_sub.py::test_mustnot_database_permissions_changed\nPASSED ../subtests/test_sub.py::test_mustnot_original_query_file_modified\nSKIPPED [1] ../subtests/test_sub.py:97: no sol.sql yet\nFAILED ../subtests/test_sub.py::test_must_sol_sql_exists - AssertionError: as...\nFAILED ../subtests/test_sub.py::test_must_single_select_terminated_by_semicolon\nFAILED ../subtests/test_sub.py::test_must_same_output_as_original_query - Fil...\nFAILED ../subtests/test_sub.py::test_must_query_is_fast - FileNotFoundError: ...\nFAILED ../subtests/test_sub.py::test_untested_sol_contains_no_comments - File...\n==================== 5 failed, 3 passed, 1 skipped in 0.37s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compare_golden_vs_my_sql_query_correctness",
+     "../tests/test_outputs.py::test_check_for_db_modifications",
+     "../tests/test_outputs.py::test_compare_golden_vs_solution_runtime",
+     "../tests/test_outputs.py::test_outputs_match_exactly",
+     "../tests/test_outputs.py::test_solution_contains_single_sql_query",
+     "../tests/test_outputs.py::test_solution_is_small"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 26ms\nInstalled 5 packages in 16.13s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n___________________ test_compare_golden_vs_solution_runtime ____________________\n----------------------------- Captured stdout call -----------------------------\nRunning iteration 0 of 5\n{'iterations': 5, 'golden': {'median_s': 0.7545766904950142, 'min_s': 0.7231526644900441, 'max_s': 0.7660303665325046}, 'solution': {'median_s': 0.7462038863450289, 'min_s': 0.7288687992841005, 'max_s': 0.7920559598132968}, 'speedup_solution_vs_golden': 1.0112205314166829}\n___________________ test_solution_contains_single_sql_query ____________________\n----------------------------- Captured stdout call -----------------------------\n\u2713 Solution file contains exactly one valid SQL SELECT statement\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compare_golden_vs_my_sql_query_correctness\nPASSED ../tests/test_outputs.py::test_check_for_db_modifications\nPASSED ../tests/test_outputs.py::test_compare_golden_vs_solution_runtime\nPASSED ../tests/test_outputs.py::test_outputs_match_exactly\nPASSED ../tests/test_outputs.py::test_solution_contains_single_sql_query\nPASSED ../tests/test_outputs.py::test_solution_is_small\n======================== 6 passed in 412.44s (0:06:52) =========================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_sol_sql_exists\nPASSED ../subtests/test_sub.py::test_must_single_select_terminated_by_semicolon\nPASSED ../subtests/test_sub.py::test_must_same_output_as_original_query\nPASSED ../subtests/test_sub.py::test_must_query_is_fast\nPASSED ../subtests/test_sub.py::test_mustnot_database_modified\nPASSED ../subtests/test_sub.py::test_mustnot_database_permissions_changed\nPASSED ../subtests/test_sub.py::test_mustnot_original_query_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_sol_uses_write_or_pragma_statements\nPASSED ../subtests/test_sub.py::test_untested_sol_contains_no_comments\n============================== 9 passed in 2.17s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "12": {
+   "tests": {
+    "passed": 5,
+    "failed": 1,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compare_golden_vs_my_sql_query_correctness",
+     "../tests/test_outputs.py::test_check_for_db_modifications",
+     "../tests/test_outputs.py::test_outputs_match_exactly",
+     "../tests/test_outputs.py::test_solution_contains_single_sql_query",
+     "../tests/test_outputs.py::test_solution_is_small"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compare_golden_vs_solution_runtime"
+    ],
+    "raw_tail": "execute(\"PRAGMA case_sensitive_like=OFF\")\n            con.execute(\"PRAGMA optimize\")\n    \n            # Warm-up (not timed)\n            _fetch_all(con, q_golden)\n            _fetch_all(con, q_sol)\n    \n            times_golden = []\n            times_sol = []\n    \n            # Alternate order each iteration to reduce cache bias\n            for i in range(ITERATIONS):\n                if i % 10 == 0:\n                    print(f\"Running iteration {i} of {ITERATIONS}\")\n    \n                if i % 2 == 0:\n                    times_golden.append(_run_and_time(con, q_golden))\n                    times_sol.append(_run_and_time(con, q_sol))\n                else:\n                    times_sol.append(_run_and_time(con, q_sol))\n                    times_golden.append(_run_and_time(con, q_golden))\n    \n            summary = {\n                \"iterations\": ITERATIONS,\n                \"golden\": {\n                    \"median_s\": stats.median(times_golden),\n                    \"min_s\": min(times_golden),\n                    \"max_s\": max(times_golden),\n                },\n                \"solution\": {\n                    \"median_s\": stats.median(times_sol),\n                    \"min_s\": min(times_sol),\n                    \"max_s\": max(times_sol),\n                },\n            }\n            # Derived metric\n            summary[\"speedup_solution_vs_golden\"] = (\n                summary[\"golden\"][\"median_s\"] / summary[\"solution\"][\"median_s\"]\n            )\n    \n            print(summary)\n    \n            # performance threshold:\n>           assert summary[\"solution\"][\"median_s\"] <= 1.05 * summary[\"golden\"][\"median_s\"]\nE           assert 0.8609971767291427 <= (1.05 * 0.8196033025160432)\n\n/tests/test_outputs.py:142: AssertionError\n----------------------------- Captured stdout call -----------------------------\nRunning iteration 0 of 5\n{'iterations': 5, 'golden': {'median_s': 0.8196033025160432, 'min_s': 0.7688425593078136, 'max_s': 0.9610346993431449}, 'solution': {'median_s': 0.8609971767291427, 'min_s': 0.7698822384700179, 'max_s': 1.0014967592433095}, 'speedup_solution_vs_golden': 0.9519233333954109}\n==================================== PASSES ====================================\n___________________ test_solution_contains_single_sql_query ____________________\n----------------------------- Captured stdout call -----------------------------\n\u2713 Solution file contains exactly one valid SQL SELECT statement\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compare_golden_vs_my_sql_query_correctness\nPASSED ../tests/test_outputs.py::test_check_for_db_modifications\nPASSED ../tests/test_outputs.py::test_outputs_match_exactly\nPASSED ../tests/test_outputs.py::test_solution_contains_single_sql_query\nPASSED ../tests/test_outputs.py::test_solution_is_small\nFAILED ../tests/test_outputs.py::test_compare_golden_vs_solution_runtime - as...\n=================== 1 failed, 5 passed in 439.05s (0:07:19) ====================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_sol_sql_exists\nPASSED ../subtests/test_sub.py::test_must_single_select_terminated_by_semicolon\nPASSED ../subtests/test_sub.py::test_must_same_output_as_original_query\nPASSED ../subtests/test_sub.py::test_must_query_is_fast\nPASSED ../subtests/test_sub.py::test_mustnot_database_modified\nPASSED ../subtests/test_sub.py::test_mustnot_database_permissions_changed\nPASSED ../subtests/test_sub.py::test_mustnot_original_query_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_sol_uses_write_or_pragma_statements\nPASSED ../subtests/test_sub.py::test_untested_sol_contains_no_comments\n============================== 9 passed in 2.43s ===============================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compare_golden_vs_my_sql_query_correctness",
+     "../tests/test_outputs.py::test_check_for_db_modifications",
+     "../tests/test_outputs.py::test_compare_golden_vs_solution_runtime",
+     "../tests/test_outputs.py::test_outputs_match_exactly",
+     "../tests/test_outputs.py::test_solution_contains_single_sql_query",
+     "../tests/test_outputs.py::test_solution_is_small"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 46ms\nInstalled 5 packages in 5.97s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n___________________ test_compare_golden_vs_solution_runtime ____________________\n----------------------------- Captured stdout call -----------------------------\nRunning iteration 0 of 5\n{'iterations': 5, 'golden': {'median_s': 1.0443354463204741, 'min_s': 0.7274211263284087, 'max_s': 1.2559794271364808}, 'solution': {'median_s': 0.9114245194941759, 'min_s': 0.7545690508559346, 'max_s': 1.3370992867276073}, 'speedup_solution_vs_golden': 1.1458276840083932}\n___________________ test_solution_contains_single_sql_query ____________________\n----------------------------- Captured stdout call -----------------------------\n\u2713 Solution file contains exactly one valid SQL SELECT statement\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compare_golden_vs_my_sql_query_correctness\nPASSED ../tests/test_outputs.py::test_check_for_db_modifications\nPASSED ../tests/test_outputs.py::test_compare_golden_vs_solution_runtime\nPASSED ../tests/test_outputs.py::test_outputs_match_exactly\nPASSED ../tests/test_outputs.py::test_solution_contains_single_sql_query\nPASSED ../tests/test_outputs.py::test_solution_is_small\n======================== 6 passed in 463.96s (0:07:43) =========================\n",
+    "sub": {
+     "must": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_sol_sql_exists\nPASSED ../subtests/test_sub.py::test_must_single_select_terminated_by_semicolon\nPASSED ../subtests/test_sub.py::test_must_same_output_as_original_query\nPASSED ../subtests/test_sub.py::test_must_query_is_fast\nPASSED ../subtests/test_sub.py::test_mustnot_database_modified\nPASSED ../subtests/test_sub.py::test_mustnot_database_permissions_changed\nPASSED ../subtests/test_sub.py::test_mustnot_original_query_file_modified\nPASSED ../subtests/test_sub.py::test_mustnot_sol_uses_write_or_pragma_statements\nPASSED ../subtests/test_sub.py::test_untested_sol_contains_no_comments\n============================== 9 passed in 2.41s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793043390.2380123
+}

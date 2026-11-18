@@ -1,0 +1,1108 @@
+{
+ "cid": "rare-mineral-allocation__terminus2__deepseek-v3.2",
+ "task": "rare-mineral-allocation",
+ "scaffold": "terminus2",
+ "model": "deepseek-v3.2",
+ "m": 59,
+ "kmin": 4,
+ "kmax": 16,
+ "rep": 0,
+ "started": 1793217750.5203831,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 13.1,
+   "out_sim": 0.67,
+   "out_tail": "root@37ed73aa0465:/app# ls -la\ntotal 24\ndrwxr-xr-x 1 root root 4096 Oct 28 02:59 .\ndrwxr-xr-x 1 root root 4096 Oct 28 20:16 ..\n-rw-r--r-- 1 root root 8128 Oct 26 17:29 p.npy\n-rw-r--r-- 1 root root 8128 Oct 26 17:29 q.npy\nroot@37ed73aa0465:/app#\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.298,
+   "out_tail": "root@37ed73aa0465:/app# python3 --version\nPython 3.11.18\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 4.9,
+   "out_sim": 0.536,
+   "out_tail": "root@37ed73aa0465:/app# pip list 2>/dev/null | head -20\nPackage     Version\n----------- -------\ncffi        2.1.1\nclarabel    0.11.1\ncloudpickle 3.1.2\ncvxpy       1.7.2\nJinja2      3.1.6\njoblib      1.6.0\nMarkupSafe  3.0.4\nnumpy       2.3.2\nosqp        1.1.3\npackaging   26.3\npip         24.0\npycparser   3.12\nscipy       1.17.1\nscs         3.3.1\nsetuptools  79.0.1\nwheel       0.46.3\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 4.6,
+   "out_sim": 0.3,
+   "out_tail": "root@37ed73aa0465:/app# python3 -c \"import numpy; print('numpy available'); import scipy; print('scipy available')\" 2>&1\nnumpy available\nscipy available\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 6.4,
+   "out_sim": 0.08,
+   "out_tail": "root@37ed73aa0465:/app# cat > inspect.py << 'EOF'\n> import numpy as np\n> p = np.load('p.npy')\n> q = np.load('q.npy')\n> print('p shape:', p.shape)\n> print('q shape:', q.shape)\n> print('p mean:', p.mean(), 'std:', p.std())\n> print('q mean:', q.mean(), 'std:', q.std())\n> print('First 5 p:', p[:5])\n> print('First 5 q:', q[:5])\n> EOF\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 113.7,
+   "out_sim": 0.892,
+   "out_tail": "root@37ed73aa0465:/app# python3 inspect.py\np shape: (1000,)\nq shape: (1000,)\np mean: -0.1895907121930888 std: 5.200258729587513\nq mean: 0.2557455161521304 std: 5.020772612987469\nFirst 5 p: [-3.56420188 -3.84849159  3.47339781 -1.09999155  2.40170438]\nFirst 5 q: [-1.50429979 -0.54556976 -3.59298214 -7.08910361  0.28412338]\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 117.8,
+   "out_sim": 0.042,
+   "out_tail": " print('sum x:', np.sum(x_opt))\n> print('Checking constraints...')\n> print('All >=0?', np.all(x_opt >= -1e-6))\n> print('All <=10?', np.all(x_opt <= 10 + 1e-6))\n> print('Equality diff:', abs(np.sum(x_opt) - 500))\n> # Save solution\n> np.save('solution.npy', x_opt)\n> print('Saved solution.npy')\n> # Also compute each term\n> term1 = np.sum(x_opt**4)\n> term2 = np.sum((p * x_opt)**2)\n> term3 = (np.sum(q * x_opt))**2\n> print('Term1 (quartic):', term1)\n> print('Term2 (p quadratic):', term2)\n> print('Term3 (global):', term3)\n> print('Total (recalc):', term1 + term2 + term3)\n> EOF\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 13.4,
+   "out_sim": 0.746,
+   "out_tail": "mport (Array, array_namespace, is_lazy_array, is_numpy,\n  File \"/usr/local/lib/python3.11/site-packages/scipy/_lib/_array_api.py\", line 24, in <module>\n    from scipy._lib.array_api_compat import (\n  File \"/usr/local/lib/python3.11/site-packages/scipy/_lib/array_api_compat/numpy/__init__.py\", line 4, in <module>\n    from .._internal import clone_module\n  File \"/usr/local/lib/python3.11/site-packages/scipy/_lib/array_api_compat/_internal.py\", line 8, in <module>\n    from inspect import signature\nImportError: cannot import name 'signature' from 'inspect' (/app/inspect.py)\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.762,
+   "out_tail": "mport (Array, array_namespace, is_lazy_array, is_numpy,\n  File \"/usr/local/lib/python3.11/site-packages/scipy/_lib/_array_api.py\", line 24, in <module>\n    from scipy._lib.array_api_compat import (\n  File \"/usr/local/lib/python3.11/site-packages/scipy/_lib/array_api_compat/numpy/__init__.py\", line 4, in <module>\n    from .._internal import clone_module\n  File \"/usr/local/lib/python3.11/site-packages/scipy/_lib/array_api_compat/_internal.py\", line 8, in <module>\n    from inspect import signature\nImportError: cannot import name 'signature' from 'inspect' (/app/inspect.py)\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.739,
+   "out_tail": "mport (Array, array_namespace, is_lazy_array, is_numpy,\n  File \"/usr/local/lib/python3.11/site-packages/scipy/_lib/_array_api.py\", line 24, in <module>\n    from scipy._lib.array_api_compat import (\n  File \"/usr/local/lib/python3.11/site-packages/scipy/_lib/array_api_compat/numpy/__init__.py\", line 4, in <module>\n    from .._internal import clone_module\n  File \"/usr/local/lib/python3.11/site-packages/scipy/_lib/array_api_compat/_internal.py\", line 8, in <module>\n    from inspect import signature\nImportError: cannot import name 'signature' from 'inspect' (/app/inspect.py)\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 11,
+   "type": "bash",
+   "secs": 4.8,
+   "out_sim": 0.181,
+   "out_tail": "h\n sudo, you should use sudo's -H flag.\nRequirement already satisfied: scipy in /usr/local/lib/python3.11/site-packages (1.17.1)\nRequirement already satisfied: numpy<2.7,>=1.26.4 in /usr/local/lib/python3.11/site-packages (from scipy) (2.3.2)\nWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/ven\nv\n\n[notice] A new release of pip is available: 24.0 -> 26.2.2\n[notice] To update, run: pip install --upgrade pip\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 12,
+   "type": "bash",
+   "secs": 3.9,
+   "out_sim": 0.835,
+   "out_tail": "root@37ed73aa0465:/app# python3 -c \"import scipy; print(scipy.__version__)\" 2>&1\np shape: (1000,)\nq shape: (1000,)\np mean: -0.1895907121930888 std: 5.200258729587513\nq mean: 0.2557455161521304 std: 5.020772612987469\nFirst 5 p: [-3.56420188 -3.84849159  3.47339781 -1.09999155  2.40170438]\nFirst 5 q: [-1.50429979 -0.54556976 -3.59298214 -7.08910361  0.28412338]\n1.17.1\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 13,
+   "type": "bash",
+   "secs": 71.2,
+   "out_sim": 0.191,
+   "out_tail": "root@37ed73aa0465:/app# pip install scipy==1.14.0 2>&1 | tail -30"
+  },
+  {
+   "k": 14,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.022,
+   "out_tail": "python3.11/site-packages/numpy/ma/__init__.py\", line 42, in <module>\n    from . import core\n  File \"/usr/local/lib/python3.11/site-packages/numpy/ma/core.py\", line 8299, in <module>\n    inner.__doc__ = doc_note(np.inner.__doc__,\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/numpy/ma/core.py\", line 123, in doc_note\n    notesplit = re.split(r'\\n\\s*?Notes\\n\\s*?-----', inspect.cleandoc(initialdoc))\n                                                    ^^^^^^^^^^^^^^^^\nAttributeError: module 'inspect' has no attribute 'cleandoc'\nroot@37ed73aa0465:/app#"
+  },
+  {
+   "k": 15,
+   "type": "empty",
+   "secs": 3.2,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 16,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.061,
+   "out_tail": "root@37ed73aa0465:/app# python3 -c \"import scipy; print(scipy.__version__)\" 2>&1\np shape: (1000,)\nq shape: (1000,)\np mean: -0.1895907121930888 std: 5.200258729587513\nq mean: 0.2557455161521304 std: 5.020772612987469\nFirst 5 p: [-3.56420188 -3.84849159  3.47339781 -1.09999155  2.40170438]\nFirst 5 q: [-1.50429979 -0.54556976 -3.59298214 -7.08910361  0.28412338]\n1.14.0\nroot@37ed73aa0465:/app#"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x71373d774110>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 1.52s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.18 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.11.18 environment at: .tbench-testing\nResolved 6 packages in 10ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 6 packages in 2.19s\n + iniconfig==2.3.1\n + numpy==2.4.6\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n/tests/run-tests.sh: line 29: copy: command not found\n/tests/run-tests.sh: line 30: copy: command not found\n============================= test session starts ==============================\nplatform linux -- Python 3.11.18, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_gradient_two_norm\nPASSED ../tests/test_outputs.py::test_sum_five_hundred\nPASSED ../tests/test_outputs.py::test_variance\n============================== 3 passed in 0.54s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "4": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7cd5e22e4350>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.57s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.18 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.11.18 environment at: .tbench-testing\nResolved 6 packages in 8ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 6 packages in 327ms\n + iniconfig==2.3.1\n + numpy==2.4.6\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n/tests/run-tests.sh: line 29: copy: command not found\n/tests/run-tests.sh: line 30: copy: command not found\n============================= test session starts ==============================\nplatform linux -- Python 3.11.18, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_gradient_two_norm\nPASSED ../tests/test_outputs.py::test_sum_five_hundred\nPASSED ../tests/test_outputs.py::test_variance\n============================== 3 passed in 0.30s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7e87bd2ec350>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.45s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x73896b3bdfd0>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.44s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "6": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x799955faac10>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.46s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7429d8f83b50>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.48s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "7": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7a1fcb9fc390>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.44s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7c9c1c5dc2d0>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.45s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "8": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7dee4fef41d0>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.42s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7e8b737a6f50>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 1.46s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "9": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7fee55cf37d0>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.81s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x78f8fa9e4350>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 1.57s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "10": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7de0ec2e45d0>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.71s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7d29b6d60fd0>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.74s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "11": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7e0ec814fa90>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 1.16s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x70f7ee8f4550>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.58s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "12": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x736b528e4150>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.82s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7147ab2f0310>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.37s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "13": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x78e25ebb1fd0>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 1.01s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7ff34d6e4390>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.80s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "14": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x76260ecf9d90>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.42s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x720d88be3d50>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.38s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "15": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7021e83e4310>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.66s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x73546baf9d90>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.92s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  },
+  "16": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x7679210bbb10>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.38s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_gradient_two_norm",
+     "../tests/test_outputs.py::test_sum_five_hundred",
+     "../tests/test_outputs.py::test_variance"
+    ],
+    "raw_tail": "nch-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x795ace5e4190>\npath = '/app/solution.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/solution.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_gradient_two_norm - FileNotFoundError: ...\nFAILED ../tests/test_outputs.py::test_sum_five_hundred - FileNotFoundError: /...\nFAILED ../tests/test_outputs.py::test_variance - FileNotFoundError: /app/solu...\n============================== 3 failed in 0.64s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 1
+   }
+  }
+ },
+ "finished": 1793225051.0232627
+}

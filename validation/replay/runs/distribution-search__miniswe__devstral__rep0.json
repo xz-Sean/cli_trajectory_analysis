@@ -1,0 +1,693 @@
+{
+ "cid": "distribution-search__miniswe__devstral",
+ "task": "distribution-search",
+ "scaffold": "miniswe",
+ "model": "devstral",
+ "m": 36,
+ "kmin": 1,
+ "kmax": 7,
+ "rep": 0,
+ "started": 1793045143.3304474,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.849,
+   "out_tail": "total 8\ndrwxr-xr-x 2 root root 4096 Mar 28  2025 .\ndrwxr-xr-x 1 root root 4096 Oct 26 20:05 ..\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": ""
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "python: can't open file '//find_distribution.py': [Errno 2] No such file or directory\n"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 0.5,
+   "out_sim": 1.0,
+   "out_tail": "/app/find_distribution.py\n"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 4.1,
+   "out_sim": 0.0,
+   "out_tail": "d_kl=10.0049, error=1.50\nOptimization terminated successfully.\n         Current function value: 1.498763\n         Iterations: 41\n         Function evaluations: 80\n\nFinal distribution:\nk (number of high-prob elements) = 2\nalpha (prob for high-prob elements) = 0.4999771936\nForward KL: 11.224230 (target: 10.000000, error: 1.224230)\nBackward KL: 9.995026 (target: 10.000000, error: 0.004974)\nSum of probabilities: 1.0000000000\nMin probability: 0.0000000003\nMax probability: 0.4999771936\n\nWARNING: Distribution does not meet tolerance requirements\nForward KL error: 1.224230\nBackward KL error: 0.004974\n"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": ""
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 6.0,
+   "out_sim": 0.386,
+   "out_tail": "19458663134\ndifferential_evolution step 20: f(x)= 87.52819458663134\ndifferential_evolution step 21: f(x)= 87.52819458663134\nPolishing solution with 'L-BFGS-B'\n\nFinal distribution:\nk (number of high-prob elements) = 75929\nalpha (prob for high-prob elements) = 0.6569849757\nForward KL: 0.680837 (target: 10.000000, error: 9.319163)\nBackward KL: 10.825462 (target: 10.000000, error: 0.825462)\nSum of probabilities: 1.0000000000\nMin probability: 0.0000000000\nMax probability: 0.0000131702\n\nWARNING: Distribution does not meet tolerance requirements\nForward KL error: 9.319163\nBackward KL error: 0.825462\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "raw_tail": "hion to the open function::\n    \n            with load('foo.npz') as data:\n                a = data['a']\n    \n          The underlying file descriptor is closed when exiting the 'with'\n          block.\n    \n        Examples\n        --------\n        >>> import numpy as np\n    \n        Store data to disk, and load it again:\n    \n        >>> np.save('/tmp/123', np.array([[1, 2, 3], [4, 5, 6]]))\n        >>> np.load('/tmp/123.npy')\n        array([[1, 2, 3],\n               [4, 5, 6]])\n    \n        Store compressed data to disk, and load it again:\n    \n        >>> a=np.array([[1, 2, 3], [4, 5, 6]])\n        >>> b=np.array([1, 2])\n        >>> np.savez('/tmp/123.npz', a=a, b=b)\n        >>> data = np.load('/tmp/123.npz')\n        >>> data['a']\n        array([[1, 2, 3],\n               [4, 5, 6]])\n        >>> data['b']\n        array([1, 2])\n        >>> data.close()\n    \n        Mem-map the stored array, and then access the second row\n        directly from disk:\n    \n        >>> X = np.load('/tmp/123.npy', mmap_mode='r')\n        >>> X[1, :]\n        memmap([4, 5, 6])\n    \n        \"\"\"\n        if encoding not in ('ASCII', 'latin1', 'bytes'):\n            # The 'encoding' value for pickle also affects what encoding\n            # the serialized binary data of NumPy arrays is loaded\n            # in. Pickle does not pass on the encoding information to\n            # NumPy. The unpickling code in numpy._core.multiarray is\n            # written to assume that unicode data appearing where binary\n            # should be is in 'latin1'. 'bytes' is also safe, as is 'ASCII'.\n            #\n            # Other encoding values can corrupt binary data, and we\n            # purposefully disallow them. For the same reason, the errors=\n            # argument is not exposed, as values other than 'strict'\n            # result can similarly silently corrupt numerical data.\n            raise ValueError(\"encoding must be 'ASCII', 'latin1', or 'bytes'\")\n    \n        pickle_kwargs = {'encoding': encoding, 'fix_imports': fix_imports}\n    \n        with contextlib.ExitStack() as stack:\n            if hasattr(file, 'read'):\n                fid = file\n                own_fid = False\n            else:\n>               fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE               FileNotFoundError: [Errno 2] No such file or directory: '/app/dist.npy'\n\n.tbench-testing/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:454: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_distribution_file_exists - Failed: Dist...\nFAILED ../tests/test_outputs.py::test_distribution_shape - FileNotFoundError:...\nFAILED ../tests/test_outputs.py::test_distribution_validity - FileNotFoundErr...\nFAILED ../tests/test_outputs.py::test_kl_divergences - FileNotFoundError: [Er...\n============================== 4 failed in 0.91s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_dist_file_exists_and_loads",
+       "../subtests/test_sub.py::test_must_vocab_size_150000",
+       "../subtests/test_sub.py::test_must_valid_probability_distribution",
+       "../subtests/test_sub.py::test_must_forward_kl_is_10",
+       "../subtests/test_sub.py::test_must_backward_kl_is_10"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists"
+      ]
+     }
+    },
+    "sub_raw_tail": "exists():\n        # instruction: \"Create a Python script that implements the following\" -- official tests only inspect dist.npy\n        scripts = [p for p in Path(\"/app\").rglob(\"*.py\") if \".tbench-testing\" not in p.parts and \"tests\" not in p.parts]\n>       assert any(\"dist.npy\" in p.read_text(errors=\"ignore\") for p in scripts), \"no /app/*.py script refers to dist.npy\"\nE       AssertionError: no /app/*.py script refers to dist.npy\nE       assert False\nE        +  where False = any(<generator object test_untested_python_script_that_produces_dist_exists.<locals>.<genexpr> at 0x7c531bb9b5a0>)\n\n/subtests/test_sub.py:51: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nSKIPPED [1] ../subtests/test_sub.py:39: no output yet\nFAILED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads - Assert...\nFAILED ../subtests/test_sub.py::test_must_vocab_size_150000 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_must_valid_probability_distribution - Fa...\nFAILED ../subtests/test_sub.py::test_must_forward_kl_is_10 - Failed: /app/dis...\nFAILED ../subtests/test_sub.py::test_must_backward_kl_is_10 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n==================== 6 failed, 1 passed, 1 skipped in 0.64s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 144ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 367ms\nInstalled 6 packages in 744ms\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.51s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.63s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "1": {
+   "tests": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "raw_tail": "hion to the open function::\n    \n            with load('foo.npz') as data:\n                a = data['a']\n    \n          The underlying file descriptor is closed when exiting the 'with'\n          block.\n    \n        Examples\n        --------\n        >>> import numpy as np\n    \n        Store data to disk, and load it again:\n    \n        >>> np.save('/tmp/123', np.array([[1, 2, 3], [4, 5, 6]]))\n        >>> np.load('/tmp/123.npy')\n        array([[1, 2, 3],\n               [4, 5, 6]])\n    \n        Store compressed data to disk, and load it again:\n    \n        >>> a=np.array([[1, 2, 3], [4, 5, 6]])\n        >>> b=np.array([1, 2])\n        >>> np.savez('/tmp/123.npz', a=a, b=b)\n        >>> data = np.load('/tmp/123.npz')\n        >>> data['a']\n        array([[1, 2, 3],\n               [4, 5, 6]])\n        >>> data['b']\n        array([1, 2])\n        >>> data.close()\n    \n        Mem-map the stored array, and then access the second row\n        directly from disk:\n    \n        >>> X = np.load('/tmp/123.npy', mmap_mode='r')\n        >>> X[1, :]\n        memmap([4, 5, 6])\n    \n        \"\"\"\n        if encoding not in ('ASCII', 'latin1', 'bytes'):\n            # The 'encoding' value for pickle also affects what encoding\n            # the serialized binary data of NumPy arrays is loaded\n            # in. Pickle does not pass on the encoding information to\n            # NumPy. The unpickling code in numpy._core.multiarray is\n            # written to assume that unicode data appearing where binary\n            # should be is in 'latin1'. 'bytes' is also safe, as is 'ASCII'.\n            #\n            # Other encoding values can corrupt binary data, and we\n            # purposefully disallow them. For the same reason, the errors=\n            # argument is not exposed, as values other than 'strict'\n            # result can similarly silently corrupt numerical data.\n            raise ValueError(\"encoding must be 'ASCII', 'latin1', or 'bytes'\")\n    \n        pickle_kwargs = {'encoding': encoding, 'fix_imports': fix_imports}\n    \n        with contextlib.ExitStack() as stack:\n            if hasattr(file, 'read'):\n                fid = file\n                own_fid = False\n            else:\n>               fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE               FileNotFoundError: [Errno 2] No such file or directory: '/app/dist.npy'\n\n.tbench-testing/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:454: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_distribution_file_exists - Failed: Dist...\nFAILED ../tests/test_outputs.py::test_distribution_shape - FileNotFoundError:...\nFAILED ../tests/test_outputs.py::test_distribution_validity - FileNotFoundErr...\nFAILED ../tests/test_outputs.py::test_kl_divergences - FileNotFoundError: [Er...\n============================== 4 failed in 0.63s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_dist_file_exists_and_loads",
+       "../subtests/test_sub.py::test_must_vocab_size_150000",
+       "../subtests/test_sub.py::test_must_valid_probability_distribution",
+       "../subtests/test_sub.py::test_must_forward_kl_is_10",
+       "../subtests/test_sub.py::test_must_backward_kl_is_10"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists"
+      ]
+     }
+    },
+    "sub_raw_tail": "exists():\n        # instruction: \"Create a Python script that implements the following\" -- official tests only inspect dist.npy\n        scripts = [p for p in Path(\"/app\").rglob(\"*.py\") if \".tbench-testing\" not in p.parts and \"tests\" not in p.parts]\n>       assert any(\"dist.npy\" in p.read_text(errors=\"ignore\") for p in scripts), \"no /app/*.py script refers to dist.npy\"\nE       AssertionError: no /app/*.py script refers to dist.npy\nE       assert False\nE        +  where False = any(<generator object test_untested_python_script_that_produces_dist_exists.<locals>.<genexpr> at 0x73f3891cb5a0>)\n\n/subtests/test_sub.py:51: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nSKIPPED [1] ../subtests/test_sub.py:39: no output yet\nFAILED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads - Assert...\nFAILED ../subtests/test_sub.py::test_must_vocab_size_150000 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_must_valid_probability_distribution - Fa...\nFAILED ../subtests/test_sub.py::test_must_forward_kl_is_10 - Failed: /app/dis...\nFAILED ../subtests/test_sub.py::test_must_backward_kl_is_10 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n==================== 6 failed, 1 passed, 1 skipped in 0.48s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 144ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 387ms\nInstalled 6 packages in 2.14s\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.46s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.47s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "2": {
+   "tests": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "raw_tail": "hion to the open function::\n    \n            with load('foo.npz') as data:\n                a = data['a']\n    \n          The underlying file descriptor is closed when exiting the 'with'\n          block.\n    \n        Examples\n        --------\n        >>> import numpy as np\n    \n        Store data to disk, and load it again:\n    \n        >>> np.save('/tmp/123', np.array([[1, 2, 3], [4, 5, 6]]))\n        >>> np.load('/tmp/123.npy')\n        array([[1, 2, 3],\n               [4, 5, 6]])\n    \n        Store compressed data to disk, and load it again:\n    \n        >>> a=np.array([[1, 2, 3], [4, 5, 6]])\n        >>> b=np.array([1, 2])\n        >>> np.savez('/tmp/123.npz', a=a, b=b)\n        >>> data = np.load('/tmp/123.npz')\n        >>> data['a']\n        array([[1, 2, 3],\n               [4, 5, 6]])\n        >>> data['b']\n        array([1, 2])\n        >>> data.close()\n    \n        Mem-map the stored array, and then access the second row\n        directly from disk:\n    \n        >>> X = np.load('/tmp/123.npy', mmap_mode='r')\n        >>> X[1, :]\n        memmap([4, 5, 6])\n    \n        \"\"\"\n        if encoding not in ('ASCII', 'latin1', 'bytes'):\n            # The 'encoding' value for pickle also affects what encoding\n            # the serialized binary data of NumPy arrays is loaded\n            # in. Pickle does not pass on the encoding information to\n            # NumPy. The unpickling code in numpy._core.multiarray is\n            # written to assume that unicode data appearing where binary\n            # should be is in 'latin1'. 'bytes' is also safe, as is 'ASCII'.\n            #\n            # Other encoding values can corrupt binary data, and we\n            # purposefully disallow them. For the same reason, the errors=\n            # argument is not exposed, as values other than 'strict'\n            # result can similarly silently corrupt numerical data.\n            raise ValueError(\"encoding must be 'ASCII', 'latin1', or 'bytes'\")\n    \n        pickle_kwargs = {'encoding': encoding, 'fix_imports': fix_imports}\n    \n        with contextlib.ExitStack() as stack:\n            if hasattr(file, 'read'):\n                fid = file\n                own_fid = False\n            else:\n>               fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE               FileNotFoundError: [Errno 2] No such file or directory: '/app/dist.npy'\n\n.tbench-testing/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:454: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_distribution_file_exists - Failed: Dist...\nFAILED ../tests/test_outputs.py::test_distribution_shape - FileNotFoundError:...\nFAILED ../tests/test_outputs.py::test_distribution_validity - FileNotFoundErr...\nFAILED ../tests/test_outputs.py::test_kl_divergences - FileNotFoundError: [Er...\n============================== 4 failed in 0.63s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_dist_file_exists_and_loads",
+       "../subtests/test_sub.py::test_must_vocab_size_150000",
+       "../subtests/test_sub.py::test_must_valid_probability_distribution",
+       "../subtests/test_sub.py::test_must_forward_kl_is_10",
+       "../subtests/test_sub.py::test_must_backward_kl_is_10"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "    Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n_________________________ test_must_backward_kl_is_10 __________________________\n\n    def test_must_backward_kl_is_10():\n        import numpy as np\n>       P = _P().astype(float); P = P / P.sum()\n            ^^^^\n\n/subtests/test_sub.py:33: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _P():\n        import numpy as np\n>       if not DIST.exists(): pytest.fail(\"/app/dist.npy missing\")\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\nSKIPPED [1] ../subtests/test_sub.py:39: no output yet\nFAILED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads - Assert...\nFAILED ../subtests/test_sub.py::test_must_vocab_size_150000 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_must_valid_probability_distribution - Fa...\nFAILED ../subtests/test_sub.py::test_must_forward_kl_is_10 - Failed: /app/dis...\nFAILED ../subtests/test_sub.py::test_must_backward_kl_is_10 - Failed: /app/di...\n==================== 5 failed, 2 passed, 1 skipped in 0.59s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 136ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 399ms\nInstalled 6 packages in 618ms\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.59s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.41s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "3": {
+   "tests": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "raw_tail": "hion to the open function::\n    \n            with load('foo.npz') as data:\n                a = data['a']\n    \n          The underlying file descriptor is closed when exiting the 'with'\n          block.\n    \n        Examples\n        --------\n        >>> import numpy as np\n    \n        Store data to disk, and load it again:\n    \n        >>> np.save('/tmp/123', np.array([[1, 2, 3], [4, 5, 6]]))\n        >>> np.load('/tmp/123.npy')\n        array([[1, 2, 3],\n               [4, 5, 6]])\n    \n        Store compressed data to disk, and load it again:\n    \n        >>> a=np.array([[1, 2, 3], [4, 5, 6]])\n        >>> b=np.array([1, 2])\n        >>> np.savez('/tmp/123.npz', a=a, b=b)\n        >>> data = np.load('/tmp/123.npz')\n        >>> data['a']\n        array([[1, 2, 3],\n               [4, 5, 6]])\n        >>> data['b']\n        array([1, 2])\n        >>> data.close()\n    \n        Mem-map the stored array, and then access the second row\n        directly from disk:\n    \n        >>> X = np.load('/tmp/123.npy', mmap_mode='r')\n        >>> X[1, :]\n        memmap([4, 5, 6])\n    \n        \"\"\"\n        if encoding not in ('ASCII', 'latin1', 'bytes'):\n            # The 'encoding' value for pickle also affects what encoding\n            # the serialized binary data of NumPy arrays is loaded\n            # in. Pickle does not pass on the encoding information to\n            # NumPy. The unpickling code in numpy._core.multiarray is\n            # written to assume that unicode data appearing where binary\n            # should be is in 'latin1'. 'bytes' is also safe, as is 'ASCII'.\n            #\n            # Other encoding values can corrupt binary data, and we\n            # purposefully disallow them. For the same reason, the errors=\n            # argument is not exposed, as values other than 'strict'\n            # result can similarly silently corrupt numerical data.\n            raise ValueError(\"encoding must be 'ASCII', 'latin1', or 'bytes'\")\n    \n        pickle_kwargs = {'encoding': encoding, 'fix_imports': fix_imports}\n    \n        with contextlib.ExitStack() as stack:\n            if hasattr(file, 'read'):\n                fid = file\n                own_fid = False\n            else:\n>               fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE               FileNotFoundError: [Errno 2] No such file or directory: '/app/dist.npy'\n\n.tbench-testing/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:454: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_distribution_file_exists - Failed: Dist...\nFAILED ../tests/test_outputs.py::test_distribution_shape - FileNotFoundError:...\nFAILED ../tests/test_outputs.py::test_distribution_validity - FileNotFoundErr...\nFAILED ../tests/test_outputs.py::test_kl_divergences - FileNotFoundError: [Er...\n============================== 4 failed in 0.69s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_dist_file_exists_and_loads",
+       "../subtests/test_sub.py::test_must_vocab_size_150000",
+       "../subtests/test_sub.py::test_must_valid_probability_distribution",
+       "../subtests/test_sub.py::test_must_forward_kl_is_10",
+       "../subtests/test_sub.py::test_must_backward_kl_is_10"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "    Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n_________________________ test_must_backward_kl_is_10 __________________________\n\n    def test_must_backward_kl_is_10():\n        import numpy as np\n>       P = _P().astype(float); P = P / P.sum()\n            ^^^^\n\n/subtests/test_sub.py:33: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _P():\n        import numpy as np\n>       if not DIST.exists(): pytest.fail(\"/app/dist.npy missing\")\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\nSKIPPED [1] ../subtests/test_sub.py:39: no output yet\nFAILED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads - Assert...\nFAILED ../subtests/test_sub.py::test_must_vocab_size_150000 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_must_valid_probability_distribution - Fa...\nFAILED ../subtests/test_sub.py::test_must_forward_kl_is_10 - Failed: /app/dis...\nFAILED ../subtests/test_sub.py::test_must_backward_kl_is_10 - Failed: /app/di...\n==================== 5 failed, 2 passed, 1 skipped in 0.43s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 448ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 637ms\nInstalled 6 packages in 1.85s\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.50s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.41s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "4": {
+   "tests": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "raw_tail": "hion to the open function::\n    \n            with load('foo.npz') as data:\n                a = data['a']\n    \n          The underlying file descriptor is closed when exiting the 'with'\n          block.\n    \n        Examples\n        --------\n        >>> import numpy as np\n    \n        Store data to disk, and load it again:\n    \n        >>> np.save('/tmp/123', np.array([[1, 2, 3], [4, 5, 6]]))\n        >>> np.load('/tmp/123.npy')\n        array([[1, 2, 3],\n               [4, 5, 6]])\n    \n        Store compressed data to disk, and load it again:\n    \n        >>> a=np.array([[1, 2, 3], [4, 5, 6]])\n        >>> b=np.array([1, 2])\n        >>> np.savez('/tmp/123.npz', a=a, b=b)\n        >>> data = np.load('/tmp/123.npz')\n        >>> data['a']\n        array([[1, 2, 3],\n               [4, 5, 6]])\n        >>> data['b']\n        array([1, 2])\n        >>> data.close()\n    \n        Mem-map the stored array, and then access the second row\n        directly from disk:\n    \n        >>> X = np.load('/tmp/123.npy', mmap_mode='r')\n        >>> X[1, :]\n        memmap([4, 5, 6])\n    \n        \"\"\"\n        if encoding not in ('ASCII', 'latin1', 'bytes'):\n            # The 'encoding' value for pickle also affects what encoding\n            # the serialized binary data of NumPy arrays is loaded\n            # in. Pickle does not pass on the encoding information to\n            # NumPy. The unpickling code in numpy._core.multiarray is\n            # written to assume that unicode data appearing where binary\n            # should be is in 'latin1'. 'bytes' is also safe, as is 'ASCII'.\n            #\n            # Other encoding values can corrupt binary data, and we\n            # purposefully disallow them. For the same reason, the errors=\n            # argument is not exposed, as values other than 'strict'\n            # result can similarly silently corrupt numerical data.\n            raise ValueError(\"encoding must be 'ASCII', 'latin1', or 'bytes'\")\n    \n        pickle_kwargs = {'encoding': encoding, 'fix_imports': fix_imports}\n    \n        with contextlib.ExitStack() as stack:\n            if hasattr(file, 'read'):\n                fid = file\n                own_fid = False\n            else:\n>               fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE               FileNotFoundError: [Errno 2] No such file or directory: '/app/dist.npy'\n\n.tbench-testing/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:454: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_distribution_file_exists - Failed: Dist...\nFAILED ../tests/test_outputs.py::test_distribution_shape - FileNotFoundError:...\nFAILED ../tests/test_outputs.py::test_distribution_validity - FileNotFoundErr...\nFAILED ../tests/test_outputs.py::test_kl_divergences - FileNotFoundError: [Er...\n============================== 4 failed in 0.80s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_dist_file_exists_and_loads",
+       "../subtests/test_sub.py::test_must_vocab_size_150000",
+       "../subtests/test_sub.py::test_must_valid_probability_distribution",
+       "../subtests/test_sub.py::test_must_forward_kl_is_10",
+       "../subtests/test_sub.py::test_must_backward_kl_is_10"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "    Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n_________________________ test_must_backward_kl_is_10 __________________________\n\n    def test_must_backward_kl_is_10():\n        import numpy as np\n>       P = _P().astype(float); P = P / P.sum()\n            ^^^^\n\n/subtests/test_sub.py:33: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _P():\n        import numpy as np\n>       if not DIST.exists(): pytest.fail(\"/app/dist.npy missing\")\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\nSKIPPED [1] ../subtests/test_sub.py:39: no output yet\nFAILED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads - Assert...\nFAILED ../subtests/test_sub.py::test_must_vocab_size_150000 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_must_valid_probability_distribution - Fa...\nFAILED ../subtests/test_sub.py::test_must_forward_kl_is_10 - Failed: /app/dis...\nFAILED ../subtests/test_sub.py::test_must_backward_kl_is_10 - Failed: /app/di...\n==================== 5 failed, 2 passed, 1 skipped in 0.39s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 219ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 488ms\nInstalled 6 packages in 677ms\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.84s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.81s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "raw_tail": "hion to the open function::\n    \n            with load('foo.npz') as data:\n                a = data['a']\n    \n          The underlying file descriptor is closed when exiting the 'with'\n          block.\n    \n        Examples\n        --------\n        >>> import numpy as np\n    \n        Store data to disk, and load it again:\n    \n        >>> np.save('/tmp/123', np.array([[1, 2, 3], [4, 5, 6]]))\n        >>> np.load('/tmp/123.npy')\n        array([[1, 2, 3],\n               [4, 5, 6]])\n    \n        Store compressed data to disk, and load it again:\n    \n        >>> a=np.array([[1, 2, 3], [4, 5, 6]])\n        >>> b=np.array([1, 2])\n        >>> np.savez('/tmp/123.npz', a=a, b=b)\n        >>> data = np.load('/tmp/123.npz')\n        >>> data['a']\n        array([[1, 2, 3],\n               [4, 5, 6]])\n        >>> data['b']\n        array([1, 2])\n        >>> data.close()\n    \n        Mem-map the stored array, and then access the second row\n        directly from disk:\n    \n        >>> X = np.load('/tmp/123.npy', mmap_mode='r')\n        >>> X[1, :]\n        memmap([4, 5, 6])\n    \n        \"\"\"\n        if encoding not in ('ASCII', 'latin1', 'bytes'):\n            # The 'encoding' value for pickle also affects what encoding\n            # the serialized binary data of NumPy arrays is loaded\n            # in. Pickle does not pass on the encoding information to\n            # NumPy. The unpickling code in numpy._core.multiarray is\n            # written to assume that unicode data appearing where binary\n            # should be is in 'latin1'. 'bytes' is also safe, as is 'ASCII'.\n            #\n            # Other encoding values can corrupt binary data, and we\n            # purposefully disallow them. For the same reason, the errors=\n            # argument is not exposed, as values other than 'strict'\n            # result can similarly silently corrupt numerical data.\n            raise ValueError(\"encoding must be 'ASCII', 'latin1', or 'bytes'\")\n    \n        pickle_kwargs = {'encoding': encoding, 'fix_imports': fix_imports}\n    \n        with contextlib.ExitStack() as stack:\n            if hasattr(file, 'read'):\n                fid = file\n                own_fid = False\n            else:\n>               fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE               FileNotFoundError: [Errno 2] No such file or directory: '/app/dist.npy'\n\n.tbench-testing/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:454: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_distribution_file_exists - Failed: Dist...\nFAILED ../tests/test_outputs.py::test_distribution_shape - FileNotFoundError:...\nFAILED ../tests/test_outputs.py::test_distribution_validity - FileNotFoundErr...\nFAILED ../tests/test_outputs.py::test_kl_divergences - FileNotFoundError: [Er...\n============================== 4 failed in 1.74s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_dist_file_exists_and_loads",
+       "../subtests/test_sub.py::test_must_vocab_size_150000",
+       "../subtests/test_sub.py::test_must_valid_probability_distribution",
+       "../subtests/test_sub.py::test_must_forward_kl_is_10",
+       "../subtests/test_sub.py::test_must_backward_kl_is_10"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "    Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n_________________________ test_must_backward_kl_is_10 __________________________\n\n    def test_must_backward_kl_is_10():\n        import numpy as np\n>       P = _P().astype(float); P = P / P.sum()\n            ^^^^\n\n/subtests/test_sub.py:33: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _P():\n        import numpy as np\n>       if not DIST.exists(): pytest.fail(\"/app/dist.npy missing\")\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\nSKIPPED [1] ../subtests/test_sub.py:39: no output yet\nFAILED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads - Assert...\nFAILED ../subtests/test_sub.py::test_must_vocab_size_150000 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_must_valid_probability_distribution - Fa...\nFAILED ../subtests/test_sub.py::test_must_forward_kl_is_10 - Failed: /app/dis...\nFAILED ../subtests/test_sub.py::test_must_backward_kl_is_10 - Failed: /app/di...\n==================== 5 failed, 2 passed, 1 skipped in 0.88s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 149ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 829ms\nInstalled 6 packages in 2.90s\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.61s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.55s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "6": {
+   "tests": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "raw_tail": "hion to the open function::\n    \n            with load('foo.npz') as data:\n                a = data['a']\n    \n          The underlying file descriptor is closed when exiting the 'with'\n          block.\n    \n        Examples\n        --------\n        >>> import numpy as np\n    \n        Store data to disk, and load it again:\n    \n        >>> np.save('/tmp/123', np.array([[1, 2, 3], [4, 5, 6]]))\n        >>> np.load('/tmp/123.npy')\n        array([[1, 2, 3],\n               [4, 5, 6]])\n    \n        Store compressed data to disk, and load it again:\n    \n        >>> a=np.array([[1, 2, 3], [4, 5, 6]])\n        >>> b=np.array([1, 2])\n        >>> np.savez('/tmp/123.npz', a=a, b=b)\n        >>> data = np.load('/tmp/123.npz')\n        >>> data['a']\n        array([[1, 2, 3],\n               [4, 5, 6]])\n        >>> data['b']\n        array([1, 2])\n        >>> data.close()\n    \n        Mem-map the stored array, and then access the second row\n        directly from disk:\n    \n        >>> X = np.load('/tmp/123.npy', mmap_mode='r')\n        >>> X[1, :]\n        memmap([4, 5, 6])\n    \n        \"\"\"\n        if encoding not in ('ASCII', 'latin1', 'bytes'):\n            # The 'encoding' value for pickle also affects what encoding\n            # the serialized binary data of NumPy arrays is loaded\n            # in. Pickle does not pass on the encoding information to\n            # NumPy. The unpickling code in numpy._core.multiarray is\n            # written to assume that unicode data appearing where binary\n            # should be is in 'latin1'. 'bytes' is also safe, as is 'ASCII'.\n            #\n            # Other encoding values can corrupt binary data, and we\n            # purposefully disallow them. For the same reason, the errors=\n            # argument is not exposed, as values other than 'strict'\n            # result can similarly silently corrupt numerical data.\n            raise ValueError(\"encoding must be 'ASCII', 'latin1', or 'bytes'\")\n    \n        pickle_kwargs = {'encoding': encoding, 'fix_imports': fix_imports}\n    \n        with contextlib.ExitStack() as stack:\n            if hasattr(file, 'read'):\n                fid = file\n                own_fid = False\n            else:\n>               fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE               FileNotFoundError: [Errno 2] No such file or directory: '/app/dist.npy'\n\n.tbench-testing/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:454: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_distribution_file_exists - Failed: Dist...\nFAILED ../tests/test_outputs.py::test_distribution_shape - FileNotFoundError:...\nFAILED ../tests/test_outputs.py::test_distribution_validity - FileNotFoundErr...\nFAILED ../tests/test_outputs.py::test_kl_divergences - FileNotFoundError: [Er...\n============================== 4 failed in 0.63s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_dist_file_exists_and_loads",
+       "../subtests/test_sub.py::test_must_vocab_size_150000",
+       "../subtests/test_sub.py::test_must_valid_probability_distribution",
+       "../subtests/test_sub.py::test_must_forward_kl_is_10",
+       "../subtests/test_sub.py::test_must_backward_kl_is_10"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "    Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n_________________________ test_must_backward_kl_is_10 __________________________\n\n    def test_must_backward_kl_is_10():\n        import numpy as np\n>       P = _P().astype(float); P = P / P.sum()\n            ^^^^\n\n/subtests/test_sub.py:33: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _P():\n        import numpy as np\n>       if not DIST.exists(): pytest.fail(\"/app/dist.npy missing\")\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\nSKIPPED [1] ../subtests/test_sub.py:39: no output yet\nFAILED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads - Assert...\nFAILED ../subtests/test_sub.py::test_must_vocab_size_150000 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_must_valid_probability_distribution - Fa...\nFAILED ../subtests/test_sub.py::test_must_forward_kl_is_10 - Failed: /app/dis...\nFAILED ../subtests/test_sub.py::test_must_backward_kl_is_10 - Failed: /app/di...\n==================== 5 failed, 2 passed, 1 skipped in 0.42s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 145ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 690ms\nInstalled 6 packages in 3.43s\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.53s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.41s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "7": {
+   "tests": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "raw_tail": "hion to the open function::\n    \n            with load('foo.npz') as data:\n                a = data['a']\n    \n          The underlying file descriptor is closed when exiting the 'with'\n          block.\n    \n        Examples\n        --------\n        >>> import numpy as np\n    \n        Store data to disk, and load it again:\n    \n        >>> np.save('/tmp/123', np.array([[1, 2, 3], [4, 5, 6]]))\n        >>> np.load('/tmp/123.npy')\n        array([[1, 2, 3],\n               [4, 5, 6]])\n    \n        Store compressed data to disk, and load it again:\n    \n        >>> a=np.array([[1, 2, 3], [4, 5, 6]])\n        >>> b=np.array([1, 2])\n        >>> np.savez('/tmp/123.npz', a=a, b=b)\n        >>> data = np.load('/tmp/123.npz')\n        >>> data['a']\n        array([[1, 2, 3],\n               [4, 5, 6]])\n        >>> data['b']\n        array([1, 2])\n        >>> data.close()\n    \n        Mem-map the stored array, and then access the second row\n        directly from disk:\n    \n        >>> X = np.load('/tmp/123.npy', mmap_mode='r')\n        >>> X[1, :]\n        memmap([4, 5, 6])\n    \n        \"\"\"\n        if encoding not in ('ASCII', 'latin1', 'bytes'):\n            # The 'encoding' value for pickle also affects what encoding\n            # the serialized binary data of NumPy arrays is loaded\n            # in. Pickle does not pass on the encoding information to\n            # NumPy. The unpickling code in numpy._core.multiarray is\n            # written to assume that unicode data appearing where binary\n            # should be is in 'latin1'. 'bytes' is also safe, as is 'ASCII'.\n            #\n            # Other encoding values can corrupt binary data, and we\n            # purposefully disallow them. For the same reason, the errors=\n            # argument is not exposed, as values other than 'strict'\n            # result can similarly silently corrupt numerical data.\n            raise ValueError(\"encoding must be 'ASCII', 'latin1', or 'bytes'\")\n    \n        pickle_kwargs = {'encoding': encoding, 'fix_imports': fix_imports}\n    \n        with contextlib.ExitStack() as stack:\n            if hasattr(file, 'read'):\n                fid = file\n                own_fid = False\n            else:\n>               fid = stack.enter_context(open(os.fspath(file), \"rb\"))\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE               FileNotFoundError: [Errno 2] No such file or directory: '/app/dist.npy'\n\n.tbench-testing/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:454: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_distribution_file_exists - Failed: Dist...\nFAILED ../tests/test_outputs.py::test_distribution_shape - FileNotFoundError:...\nFAILED ../tests/test_outputs.py::test_distribution_validity - FileNotFoundErr...\nFAILED ../tests/test_outputs.py::test_kl_divergences - FileNotFoundError: [Er...\n============================== 4 failed in 0.59s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_dist_file_exists_and_loads",
+       "../subtests/test_sub.py::test_must_vocab_size_150000",
+       "../subtests/test_sub.py::test_must_valid_probability_distribution",
+       "../subtests/test_sub.py::test_must_forward_kl_is_10",
+       "../subtests/test_sub.py::test_must_backward_kl_is_10"
+      ]
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "    Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n_________________________ test_must_backward_kl_is_10 __________________________\n\n    def test_must_backward_kl_is_10():\n        import numpy as np\n>       P = _P().astype(float); P = P / P.sum()\n            ^^^^\n\n/subtests/test_sub.py:33: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _P():\n        import numpy as np\n>       if not DIST.exists(): pytest.fail(\"/app/dist.npy missing\")\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: /app/dist.npy missing\n\n/subtests/test_sub.py:10: Failed\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\nSKIPPED [1] ../subtests/test_sub.py:39: no output yet\nFAILED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads - Assert...\nFAILED ../subtests/test_sub.py::test_must_vocab_size_150000 - Failed: /app/di...\nFAILED ../subtests/test_sub.py::test_must_valid_probability_distribution - Fa...\nFAILED ../subtests/test_sub.py::test_must_forward_kl_is_10 - Failed: /app/dis...\nFAILED ../subtests/test_sub.py::test_must_backward_kl_is_10 - Failed: /app/di...\n==================== 5 failed, 2 passed, 1 skipped in 0.53s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "passed_names": [
+     "../tests/test_outputs.py::test_distribution_file_exists",
+     "../tests/test_outputs.py::test_distribution_shape",
+     "../tests/test_outputs.py::test_distribution_validity",
+     "../tests/test_outputs.py::test_kl_divergences"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 6 packages in 163ms\nDownloading numpy (15.9MiB)\n Downloading numpy\nPrepared 1 package in 327ms\nInstalled 6 packages in 1.55s\n + iniconfig==2.3.1\n + numpy==2.3.0\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0 -- /app/.tbench-testing/bin/python3\ncachedir: .pytest_cache\nrootdir: /tests\ncollecting ... collected 4 items\n\n../tests/test_outputs.py::test_distribution_file_exists PASSED           [ 25%]\n../tests/test_outputs.py::test_distribution_shape PASSED                 [ 50%]\n../tests/test_outputs.py::test_distribution_validity PASSED              [ 75%]\n../tests/test_outputs.py::test_kl_divergences PASSED                     [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_distribution_file_exists\nPASSED ../tests/test_outputs.py::test_distribution_shape\nPASSED ../tests/test_outputs.py::test_distribution_validity\nPASSED ../tests/test_outputs.py::test_kl_divergences\n============================== 4 passed in 0.39s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 8 items\n\n../subtests/test_sub.py ........                                         [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_dist_file_exists_and_loads\nPASSED ../subtests/test_sub.py::test_must_vocab_size_150000\nPASSED ../subtests/test_sub.py::test_must_valid_probability_distribution\nPASSED ../subtests/test_sub.py::test_must_forward_kl_is_10\nPASSED ../subtests/test_sub.py::test_must_backward_kl_is_10\nPASSED ../subtests/test_sub.py::test_mustnot_dist_is_pickled_or_non_numeric\nPASSED ../subtests/test_sub.py::test_mustnot_provided_numpy_scipy_removed\nPASSED ../subtests/test_sub.py::test_untested_python_script_that_produces_dist_exists\n============================== 8 passed in 0.50s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793045343.4513037
+}

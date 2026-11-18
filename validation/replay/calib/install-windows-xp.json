@@ -1,0 +1,77 @@
+{
+ "task": "install-windows-xp",
+ "pristine": {
+  "passed": 2,
+  "failed": 9,
+  "total": 11,
+  "passed_names": [
+   "../tests/test_outputs.py::test_active_vnc_connections",
+   "../tests/test_outputs.py::test_windows_iso_files_created"
+  ],
+  "failed_names": [
+   "../tests/test_outputs.py::test_qemu_process_running",
+   "../tests/test_outputs.py::test_qemu_info",
+   "../tests/test_outputs.py::test_boot_sector_and_ntfs_formatting",
+   "../tests/test_outputs.py::test_disk_activity",
+   "../tests/test_outputs.py::test_network_status",
+   "../tests/test_outputs.py::test_installation_phase",
+   "../tests/test_outputs.py::test_login_screen_visual_verification",
+   "../tests/test_outputs.py::test_windows_xp_installation_filesystem_verification",
+   "../tests/test_outputs.py::test_tb_admin_user_creation"
+  ],
+  "raw_tail": "_rate:.1f}% of files correct (need \u226550%)\"\n>           assert success_rate >= 50.0, success_rate_result\nE           AssertionError: Only 0.0% of files correct (need \u226550%)\nE           assert 0.0 >= 50.0\n\n/tests/test_outputs.py:299: AssertionError\n_________________________ test_tb_admin_user_creation __________________________\n\n    def test_tb_admin_user_creation():\n        \"\"\"\n        Verify that the tb-admin user was created during Windows XP installation.\n        Checks for user account picture which is created during unattended setup.\n        \"\"\"\n        import tempfile\n    \n        vhd_path = Path(\"/app/isos/xp.img\")\n    \n        with tempfile.TemporaryDirectory() as temp_dir:\n            extract_dir = temp_dir + \"/xp_extract\"\n            os.makedirs(extract_dir)\n    \n            # Extract VHD contents\n            subprocess.run(\n                [\"7z\", \"x\", str(vhd_path), f\"-o{extract_dir}\", \"-r\"],\n                capture_output=True,\n                text=True,\n            )\n    \n            # Look for tb-admin.bmp (case-insensitive)\n            tb_admin_picture = None\n            for root, dirs, files in os.walk(extract_dir):\n                for file in files:\n                    if file.lower() == \"tb-admin.bmp\":\n                        tb_admin_picture = Path(root) / file\n                        break\n                if tb_admin_picture:\n                    break\n    \n>           assert tb_admin_picture and tb_admin_picture.exists(), (\n                \"tb-admin user was not created - account picture not found\"\n            )\nE           AssertionError: tb-admin user was not created - account picture not found\nE           assert (None)\n\n/tests/test_outputs.py:332: AssertionError\n==================================== PASSES ====================================\n_________________________ test_active_vnc_connections __________________________\n----------------------------- Captured stdout call -----------------------------\nVNC connections found: 0\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_active_vnc_connections\nPASSED ../tests/test_outputs.py::test_windows_iso_files_created\nFAILED ../tests/test_outputs.py::test_qemu_process_running - AssertionError: ...\nFAILED ../tests/test_outputs.py::test_qemu_info - AssertionError: Invalid QEM...\nFAILED ../tests/test_outputs.py::test_boot_sector_and_ntfs_formatting - Asser...\nFAILED ../tests/test_outputs.py::test_disk_activity - AssertionError: VHD fil...\nFAILED ../tests/test_outputs.py::test_network_status - AssertionError: VNC se...\nFAILED ../tests/test_outputs.py::test_installation_phase - AssertionError: Fa...\nFAILED ../tests/test_outputs.py::test_login_screen_visual_verification - cv2....\nFAILED ../tests/test_outputs.py::test_windows_xp_installation_filesystem_verification\nFAILED ../tests/test_outputs.py::test_tb_admin_user_creation - AssertionError...\n========================= 9 failed, 2 passed in 1.74s ==========================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 0,
+  "failed": 0,
+  "total": 0,
+  "passed_names": [],
+  "failed_names": [],
+  "raw_tail": "<<E4 TEST TIMEOUT>>",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "",
+  "oracle_rc": null
+ },
+ "secs": 3355
+}

@@ -1,0 +1,49 @@
+{
+  "case_id": "filter-js-from-html__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "verification",
+  "primary_failure_subtype": "wrong_test_execution",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "completion_protocol",
+  "contributing_failure_1_subtype": "premature_completion",
+  "root_cause_label": "ignored_signal_shell_syntax_repeated_then_premature_submission",
+  "one_sentence_failure_summary": "The agent encountered a shell heredoc+&& syntax error in step 1, partially adapted in step 2 by creating the file alone, then repeated the exact same heredoc chaining error in step 3, and finally submitted prematurely at step 4 without ever successfully running or validating the filter implementation.",
+  "m": 4,
+  "t_err": 2,
+  "t_err_evidence": "implemented regex-based filter is incomplete for the task. It only removes <script> tags, on* attributes, and a simple 'javascript:' scheme",
+  "t_commit": 4,
+  "t_commit_evidence": "Step 4 issues 'echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT' and the agent states 'I will now submit the task as complete', locking in failure with no valid test or fix ever executed.",
+  "t_surface": 3,
+  "t_surface_evidence": "/bin/sh: 24: Syntax error: \"&&\" unexpected",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "ignored_signal",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent saw the heredoc+&& shell syntax error at step 1 (an explicit disconfirming signal), adapted minimally in step 2 by splitting the file creation into a standalone heredoc, but then at step 3 reintroduced the exact same forbidden pattern (heredoc followed by && chaining) and received the identical syntax error. The agent ignored the lesson from step 1.",
+  "forewarning_present": true,
+  "forewarning_first_step": 1,
+  "forewarning_types": [
+    "command_error"
+  ],
+  "forewarning_evidence": "/bin/sh: 54: Syntax error: \"&&\" unexpected",
+  "awareness": "aware_abandoned",
+  "first_awareness_step": 4,
+  "num_recovery_attempts": 1,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": false,
+  "fabrication_type": null,
+  "fabrication_onset_step": null,
+  "fabrication_evidence": null,
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "W"],
+    [2, 2, "W"],
+    [3, 3, "V"],
+    [4, 4, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "num_recovery_attempts"
+  ]
+}

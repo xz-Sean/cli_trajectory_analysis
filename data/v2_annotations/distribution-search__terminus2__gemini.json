@@ -1,0 +1,35 @@
+{
+  "case_id": "distribution-search__terminus2__gemini",
+  "schema_version": "v2",
+  "m": 5,
+  "action_segments": [
+    [1, 1, "P"],
+    [2, 2, "X"],
+    [3, 3, "W"],
+    [4, 4, "X"],
+    [5, 5, "C"]
+  ],
+  "num_error_events": 3,
+  "first_error_step": 2,
+  "first_error_evidence": "Step 2 terminal output shows 'Verification failed.' with KL values 9.9715 (fwd) and 10.0284 (bwd), both outside the 0.001 tolerance from target 10.0",
+  "num_recoveries": 3,
+  "max_detour_length": 3,
+  "near_miss": true,
+  "near_miss_description": "Step 5 has empty terminal output but is marked resolved; the third approach (3-level distribution) was mathematically sound and directly addressed the root constraint, but execution results are not visible in the trajectory",
+  "near_miss_evidence": "Step 5 terminal_result is empty string despite task_complete=true and is_resolved=True; steps 2-4 all had explicit verification failures",
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 2,
+  "verification_evidence": "Each script included a verify_solution() function that computed actual KL divergences and compared to tolerance; verification ran in steps 2, 3, and 4 with explicit printed output before claim in step 5",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent iteratively tried three progressively sophisticated numerical approaches (2-level 3-variable solver, integer-k iteration with 1D root-finding, and finally a 3-level distribution with exact 3-equation system) to find a probability distribution satisfying simultaneous forward and backward KL divergence constraints of 10.0 within tolerance 0.001.",
+  "confidence": "medium",
+  "long_traj": false,
+  "uncertain_fields": [
+    "near_miss",
+    "suspicious_pass",
+    "first_relevant_verification_step"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "case_id": "tmux-advanced-workflow__openhands__gemini",
+  "schema_version": "v2",
+  "m": 25,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 3, "X"],
+    [4, 6, "R"],
+    [7, 10, "R"],
+    [11, 13, "X"],
+    [14, 14, "X"],
+    [15, 15, "V"],
+    [16, 20, "R"],
+    [21, 21, "W"],
+    [22, 24, "V"],
+    [25, 25, "C"]
+  ],
+  "num_error_events": 4,
+  "first_error_step": 4,
+  "first_error_evidence": "Step 4: tmux send-keys to pane 1 returned 'can't find pane: 1', indicating the split-window -h command did not create panes with expected indices",
+  "num_recoveries": 3,
+  "max_detour_length": 10,
+  "near_miss": true,
+  "near_miss_description": "The sed fix command at step 16 appeared to execute in the wrong context (terminal output shows monitor script running in foreground), raising doubt about whether it applied. The agent correctly noticed and re-applied the fix at step 21 after stopping the monitor.",
+  "near_miss_evidence": "Step 16 terminal output shows monitor script output rather than a clean shell prompt, suggesting the sed command may not have run properly; step 20 confirmed the monitor was still running; step 21 re-applied the same sed fix successfully",
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 15,
+  "verification_evidence": "Step 15 checks /app/project/logs/process.log to confirm processing completed ('Processed 9 records'); steps 22-24 re-run the processing script and use 'less' to examine the output.csv after applying the fix",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent iteratively debugged tmux pane-indexing failures through multiple kill-and-recreate cycles before successfully setting up three panes, running monitor and processing scripts, applying a line-stripping bug fix with sed, and verifying the output file.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": [
+    "near_miss"
+  ]
+}

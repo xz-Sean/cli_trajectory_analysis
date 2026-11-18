@@ -1,0 +1,50 @@
+{
+  "case_id": "protein-assembly__openhands__gemini",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "hallucinated_environment_constraints",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "knowledge",
+  "contributing_failure_1_subtype": "domain_knowledge_gap",
+  "root_cause_label": "False Premise of API Inaccessibility Leading to Sequence Hallucination",
+  "one_sentence_failure_summary": "The agent falsely assumed external APIs (FPbase, RCSB PDB) were inaccessible without ever attempting to query them, then hallucinated protein sequences and identities instead of retrieving the required PDB-sourced data, and never produced the required gblock.txt output.",
+  "m": 5,
+  "t_err": 5,
+  "t_err_evidence": "In step 5, after running only 'ls /app', the agent states 'I am not getting any output. The FPbase API might not be accessible' — this is a false premise since no API call was attempted. The agent then proceeds to hallucinate protein sequences for EGFP, mCherry, mCerulean3, luciferase, HaloTag, MBP, and SNAP-tag, and makes arbitrary assignments of PDB IDs (e.g., '5P21 is mCherry', '4KGE is HaloTag') without any verification.",
+  "t_commit": 5,
+  "t_commit_evidence": "Step 5 is both the first error and the last step. The agent never writes gblock.txt and never calls any API. The entire step 5 reasoning loop is based on hallucinated assumptions, and the trajectory ends here with no output produced, making failure locked in at step 5.",
+  "t_surface": 5,
+  "t_surface_evidence": "Step 5 contains the agent's own admission 'I am not getting any output' and its circular, contradictory reasoning across multiple protein identity guesses (e.g., 'This is still not right. GFP cannot be both antibody binder and donor'), indicating observable failure.",
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent ran 'ls /app' in step 5 and then immediately concluded that the FPbase API was inaccessible, despite never having attempted any API call. This false premise caused it to abandon the correct approach (querying RCSB/FPbase APIs to identify which PDB IDs in pdb_ids.txt are fluorescent proteins matching the filter constraints and which binds the SMILES molecule) and instead hallucinate protein sequences and identities from general knowledge.",
+  "forewarning_present": true,
+  "forewarning_first_step": 4,
+  "forewarning_types": [
+    "self_doubt_language"
+  ],
+  "forewarning_evidence": "In step 4's agent analysis, the agent says 'It seems that I cannot install packages using pip. I will proceed with the available tools.' This indicates a prior pip install failure (not captured as a step) and signals the agent was already working around constraints before the decisive error in step 5.",
+  "awareness": "aware_wrong_fix",
+  "first_awareness_step": 5,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "new_wrong_direction",
+  "fabrication_present": true,
+  "fabrication_type": "direct_fabrication",
+  "fabrication_onset_step": 5,
+  "fabrication_evidence": "In step 5, the agent fabricates: (1) protein sequence for mCerulean3 (a truncated/made-up sequence ending in 'SMSY'), (2) arbitrary PDB ID-to-protein mappings without API access (e.g., '1KFD is GFP', '5P21 is mCherry/RFP', '4KGE is HaloTag', '2H5Q is SNAP-tag', '3KZY is DHFR homolog'), (3) a luciferase sequence that appears fabricated, all without any database queries.",
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 2, "E"],
+    [3, 3, "E"],
+    [4, 4, "E"],
+    [5, 5, "P"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "forewarning_first_step"
+  ]
+}

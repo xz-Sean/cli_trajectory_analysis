@@ -1,0 +1,32 @@
+{
+  "case_id": "git-leak-recovery__miniswe__deepseek-v3.2",
+  "schema_version": "v2",
+  "m": 9,
+  "action_segments": [
+    [1, 3, "E"],
+    [4, 5, "X"],
+    [6, 6, "E"],
+    [7, 7, "X"],
+    [8, 8, "V"],
+    [9, 9, "C"]
+  ],
+  "num_error_events": 2,
+  "first_error_step": 4,
+  "first_error_evidence": "git filter-branch --tree-filter at step 4 ran but showed 'WARNING: Ref refs/heads/master is unchanged', meaning it had no effect on reachable history and left the dangling commit with the secret intact; this was an ineffective cleanup attempt.",
+  "num_recoveries": 2,
+  "max_detour_length": 2,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 8,
+  "verification_evidence": "Step 8: git log --all -p | grep -n 'secret[' returned 'Secret cleanup verified', confirming no secret in reachable history after the reflog expiry and gc at step 7.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "trial_and_error",
+  "one_sentence_strategy_summary": "The agent found the secret in a dangling reflog commit via git reflog and git show, then recovered it to /app/secret.txt and eventually used the correct git reflog expire + git gc --prune=now approach after two failed cleanup attempts (filter-branch and missing filter-repo).",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

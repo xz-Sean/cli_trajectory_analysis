@@ -1,0 +1,863 @@
+{
+ "cid": "extract-elf__terminus2__kimi",
+ "task": "extract-elf",
+ "scaffold": "terminus2",
+ "model": "kimi",
+ "m": 17,
+ "kmin": 9,
+ "kmax": 17,
+ "rep": 2,
+ "started": 1793067477.286597,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 3.5,
+   "out_sim": 0.673,
+   "out_tail": "root@811412a11b99:/app# ls -la\ntotal 84\ndrwxr-xr-x 1 root root  4096 Oct 26 17:42 .\ndrwxr-xr-x 1 root root  4096 Oct 27 02:18 ..\n-rwxr-xr-x 1 root root 70312 Oct 26 17:42 a.out\n-rw-r--r-- 1 root root    61 Oct 26 17:23 hi.c\nroot@811412a11b99:/app#\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 1007.4,
+   "out_sim": 0.667,
+   "out_tail": "root@811412a11b99:/app# cat hi.c\n#include<stdio.h>\n\nint main() {\n  printf(\"Hello world\\n\");\n}\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 3.8,
+   "out_sim": 0.454,
+   "out_tail": "root@811412a11b99:/app# hexdump -C a.out | head -20\n-bash: hexdump: command not found\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 4.0,
+   "out_sim": 0.485,
+   "out_tail": " 000001f0  000000000001fda0  000000000001fda0  0000fda0  2**3\n                  CONTENTS, ALLOC, LOAD, DATA\n 20 .got          00000070  000000000001ff90  000000000001ff90  0000ff90  2**3\n                  CONTENTS, ALLOC, LOAD, DATA\n 21 .data         00000010  0000000000020000  0000000000020000  00010000  2**3\n                  CONTENTS, ALLOC, LOAD, DATA\n 22 .bss          00000008  0000000000020010  0000000000020010  00010010  2**0\n                  ALLOC\n 23 .comment      0000002d  0000000000000000  0000000000000000  00010010  2**0\n                  CONTENTS, READONLY\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 3.6,
+   "out_sim": 0.694,
+   "out_tail": "root@811412a11b99:/app# objdump -s -j .data a.out\n\na.out:     file format elf64-littleaarch64\n\nContents of section .data:\n 20000 00000000 00000000 08000200 00000000  ................\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 3.5,
+   "out_sim": 0.609,
+   "out_tail": "root@811412a11b99:/app# objdump -s -j .rodata a.out\n\na.out:     file format elf64-littleaarch64\n\nContents of section .rodata:\n 0790 01000200 00000000 48656c6c 6f20776f  ........Hello wo\n 07a0 726c6400                             rld.\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 3.7,
+   "out_sim": 0.129,
+   "out_tail": "root@811412a11b99:/app# objdump -s -j .got a.out\n\na.out:     file format elf64-littleaarch64\n\nContents of section .got:\n 1ff90 00000000 00000000 00000000 00000000  ................\n 1ffa0 00000000 00000000 d0050000 00000000  ................\n 1ffb0 d0050000 00000000 d0050000 00000000  ................\n 1ffc0 d0050000 00000000 d0050000 00000000  ................\n 1ffd0 a0fd0100 00000000 00000000 00000000  ................\n 1ffe0 00000000 00000000 00000000 00000000  ................\n 1fff0 58070000 00000000 00000000 00000000  X...............\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 3.5,
+   "out_sim": 0.045,
+   "out_tail": " 00000000  ...o............\n 1ff00 feffff6f 00000000 50040000 00000000  ...o....P.......\n 1ff10 ffffff6f 00000000 01000000 00000000  ...o............\n 1ff20 f0ffff6f 00000000 3a040000 00000000  ...o....:.......\n 1ff30 f9ffff6f 00000000 04000000 00000000  ...o............\n 1ff40 00000000 00000000 00000000 00000000  ................\n 1ff50 00000000 00000000 00000000 00000000  ................\n 1ff60 00000000 00000000 00000000 00000000  ................\n 1ff70 00000000 00000000 00000000 00000000  ................\n 1ff80 00000000 00000000 00000000 00000000  ................\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 3.5,
+   "out_sim": 0.214,
+   "out_tail": "root@811412a11b99:/app# which xxd\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.024,
+   "out_tail": "nst addr = startAddr + i;\n>                 const value = buffer.readUInt32LE(startOffset + i);\n>                 result[addr.toString()] = value;\n>             }\n>         }\n>     }\n>\n>     return result;\n> }\n>\n> if (process.argv.length < 3) {\n>     console.error('Usage: node extract.js <binary_file>');\n>     process.exit(1);\n> }\n>\n> const binaryFile = process.argv[2];\n> try {\n>     const values = extractMemoryValues(binaryFile);\n>     console.log(JSON.stringify(values));\n> } catch (error) {\n>     console.error('Error:', error.message);\n>     process.exit(1);\n> }\n> EOF\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 11,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.008,
+   "out_tail": "888\":0,\"130892\":0,\"130896\":0,\"130900\":0,\"130904\":0,\"130908\":0,\"130912\":0,\"130916\":0,\"130920\":0,\"130924\":0,\"130928\":0,\"130932\":0,\"130936\":0,\"130940\":0,\"130944\":0,\"130948\":0,\"\n130952\":0,\"130956\":0,\"130960\":0,\"130964\":0,\"130968\":0,\"130972\":0,\"130976\":0,\"130980\":0,\"130984\":1488,\"130988\":0,\"130992\":1488,\"130996\":0,\"131000\":1488,\"131004\":0,\"131008\":1488,\"131012\":0,\"131016\":1488,\"131020\":0,\"131024\"\n:130464,\"131028\":0,\"131032\":0,\"131036\":0,\"131040\":0,\"131044\":0,\"131048\":0,\"131052\":0,\"131056\":1880,\"131060\":0,\"131064\":0,\"131068\":0,\"131072\":0,\"131076\":0,\"131080\":131080,\"131084\":0}\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 12,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.009,
+   "out_tail": ";\n>                 if (value !== 0) { // Only include non-zero values\n>                     result[addr.toString()] = value;\n>                 }\n>             }\n>         }\n>     }\n>\n>     return result;\n> }\n>\n> if (process.argv.length < 3) {\n>     console.error('Usage: node extract.js <binary_file>');\n>     process.exit(1);\n> }\n>\n> const binaryFile = process.argv[2];\n> try {\n>     const values = extractMemoryValues(binaryFile);\n>     console.log(JSON.stringify(values));\n> } catch (error) {\n>     console.error('Error:', error.message);\n>     process.exit(1);\n> }\n> EOF\nroot@811412a11b99:/app#\n"
+  },
+  {
+   "k": 13,
+   "type": "bash",
+   "secs": 3.6,
+   "out_sim": 0.032,
+   "out_tail": "00\":936,\"130608\":6,\"130616\":696,\"130624\":10,\"130632\":146,\"130640\":11,\"130648\":24,\"130656\":21,\"130672\":3,\"130680\":130960,\"130688\":2,\"130696\":120,\"130\n704\":20,\"130712\":7,\"130720\":23,\"130728\":1344,\"130736\":7,\"130744\":1152,\"130752\":8,\"130760\":192,\"130768\":9,\"130776\":24,\"130784\":30,\"130792\":8,\"130800\":1879048187,\"130808\":134217729,\"130816\":1879048190,\"130824\":1104,\"130832\n\":1879048191,\"130840\":1,\"130848\":1879048176,\"130856\":1082,\"130864\":1879048185,\"130872\":4,\"130984\":1488,\"130992\":1488,\"131000\":1488,\"131008\":1488,\"131016\":1488,\"131024\":130464,\"131056\":1880,\"131080\":131080}\nroot@811412a11b99:/app#\n"
+  },
+  {
+   "k": 14,
+   "type": "bash",
+   "secs": 3.5,
+   "out_sim": 0.072,
+   "out_tail": ",\"130752\":8,\"130760\":192,\"130768\":9,\"130776\":24,\"130784\":30,\"130792\":8,\"130800\":1879048187,\"130808\":134217729,\"130816\":1879048190,\"130824\":1104,\"130832\n\":1879048191,\"130840\":1,\"130848\":1879048176,\"130856\":1082,\"130864\":1879048185,\"130872\":4,\"130984\":1488,\"130992\":1488,\"131000\":1488,\"131008\":1488,\"131016\":1488,\"131024\":130464,\"131056\":1880,\"131080\":131080}\nroot@811412a11b99:/app# node extract.js /app/a.out > out.json\nProcessing .rodata at 0x790, size: 20\nProcessing .dynamic at 0x1fda0, size: 496\nProcessing .got at 0x1ff90, size: 112\nProcessing .data at 0x20000, size: 16\nroot@811412a11b99:/app#\n"
+  },
+  {
+   "k": 15,
+   "type": "bash",
+   "secs": 908.4,
+   "out_sim": 0.004,
+   "out_tail": "00\":936,\"130608\":6,\"130616\":696,\"130624\":10,\"130632\":146,\"130640\":11,\"130648\":24,\"130656\":21,\"130672\":3,\"130680\":130960,\"130688\":2,\"130696\":120,\"130\n704\":20,\"130712\":7,\"130720\":23,\"130728\":1344,\"130736\":7,\"130744\":1152,\"130752\":8,\"130760\":192,\"130768\":9,\"130776\":24,\"130784\":30,\"130792\":8,\"130800\":1879048187,\"130808\":134217729,\"130816\":1879048190,\"130824\":1104,\"130832\n\":1879048191,\"130840\":1,\"130848\":1879048176,\"130856\":1082,\"130864\":1879048185,\"130872\":4,\"130984\":1488,\"130992\":1488,\"131000\":1488,\"131008\":1488,\"131016\":1488,\"131024\":130464,\"131056\":1880,\"131080\":131080}\nroot@811412a11b99:/app#\n"
+  },
+  {
+   "k": 16,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.01,
+   "out_tail": "\":146,\"130640\":11,\"130648\":24,\"130656\":21,\"130672\":3,\"130680\":130960,\"130688\":2,\"130696\":120,\"130\n704\":20,\"130712\":7,\"130720\":23,\"130728\":1344,\"130736\":7,\"130744\":1152,\"130752\":8,\"130760\":192,\"130768\":9,\"130776\":24,\"130784\":30,\"130792\":8,\"130800\":1879048187,\"130808\":134217729,\"130816\":1879048190,\"130824\":1104,\"130832\n\":1879048191,\"130840\":1,\"130848\":1879048176,\"130856\":1082,\"130864\":1879048185,\"130872\":4,\"130984\":1488,\"130992\":1488,\"131000\":1488,\"131008\":1488,\"131016\":1488,\"131024\":130464,\"131056\":1880,\"131080\":131080}\nroot@811412a11b99:/app# wc -c out.json\n866 out.json\nroot@811412a11b99:/app#"
+  },
+  {
+   "k": 17,
+   "type": "bash",
+   "secs": 3.4,
+   "out_sim": 0.057,
+   "out_tail": "1879048187,\"130808\":134217729,\"130816\":1879048190,\"130824\":1104,\"130832\n\":1879048191,\"130840\":1,\"130848\":1879048176,\"130856\":1082,\"130864\":1879048185,\"130872\":4,\"130984\":1488,\"130992\":1488,\"131000\":1488,\"131008\":1488,\"131016\":1488,\"131024\":130464,\"131056\":1880,\"131080\":131080}\nroot@811412a11b99:/app# wc -c out.json\n866 out.json\nroot@811412a11b99:/app# node extract.js /app/a.out > out2.json && diff out.json out2.json\nProcessing .rodata at 0x790, size: 20\nProcessing .dynamic at 0x1fda0, size: 496\nProcessing .got at 0x1ff90, size: 112\nProcessing .data at 0x20000, size: 16\nroot@811412a11b99:/app#\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "raw_tail": "t_extract_js_exists ____________________________\n\n    def test_extract_js_exists():\n        \"\"\"Test that the extract.js file exists\"\"\"\n        extract_path = Path(\"/app/extract.js\")\n>       assert extract_path.exists(), f\"File {extract_path} does not exist\"\nE       AssertionError: File /app/extract.js does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/extract.js').exists\n\n/tests/test_outputs.py:312: AssertionError\n________________________ test_output_matches_reference _________________________\n\n    def test_output_matches_reference():\n        \"\"\"Test that the output of extract.js matches the reference solution\"\"\"\n        # Run the student's script to generate output\n    \n        # Write a simple C program for testing\n        with open(\"/app/new.c\", \"w\") as f:\n            f.write(\"\"\"#include<stdio.h>\n    \n    int main(int argc, char** argv) {\n      printf(\"Here are the %d arguments you requested\\\\n\", argc);\n      for (int i = 0; i < argc; i++) {\n        printf(\"Argument %d: %s\\\\n\", i, argv[i]);\n      }\n      return 0;\n    }\"\"\")\n    \n        # Compile with full paths\n        result = subprocess.run(\n            [\"gcc\", \"-o\", \"/app/new.o\", \"/app/new.c\"], capture_output=True, text=True\n        )\n        assert result.returncode == 0, f\"Compilation failed: {result.stderr}\"\n    \n        # Run extract.js on the compiled binary\n        result = subprocess.run(\n            [\"node\", \"/app/extract.js\", \"/app/new.o\"],\n            stdout=open(\"/app/out.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n>       assert result.returncode == 0, f\"extract.js execution failed: {result.stderr}\"\nE       AssertionError: extract.js execution failed: node:internal/modules/cjs/loader:1137\nE           throw err;\nE           ^\nE         \nE         Error: Cannot find module '/app/extract.js'\nE             at Module._resolveFilename (node:internal/modules/cjs/loader:1134:15)\nE             at Module._load (node:internal/modules/cjs/loader:975:27)\nE             at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:128:12)\nE             at node:internal/main/run_main_module:28:49 {\nE           code: 'MODULE_NOT_FOUND',\nE           requireStack: []\nE         }\nE         \nE         Node.js v18.19.1\nE         \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['node', '/app/extract.js', '/app/new.o'], returncode=1, stderr=\"node:internal/modules/cjs/loade... node:internal/main/run_main_module:28:49 {\\n  code: 'MODULE_NOT_FOUND',\\n  requireStack: []\\n}\\n\\nNode.js v18.19.1\\n\").returncode\n\n/tests/test_outputs.py:345: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_extract_js_exists - AssertionError: Fil...\nFAILED ../tests/test_outputs.py::test_output_matches_reference - AssertionErr...\n============================== 2 failed in 0.11s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_extract_js_exists",
+       "../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object",
+       "../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers",
+       "../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out",
+       "../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_stdout_is_pure_json"
+      ]
+     }
+    },
+    "sub_raw_tail": "____\n\n    def test_untested_stdout_is_pure_json():\n        # \"node extract.js /app/a.out > out.json\": stdout must be nothing but the JSON document\n>       r = _run(AOUT); assert r.returncode == 0\n                        ^^^^^^^^^^^^^^^^^^^^^^^^\nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['node', '/app/extract.js', '/app/a.out'], returncode=1, stdout='', stderr=\"node:internal/module... node:internal/main/run_main_module:28:49 {\\n  code: 'MODULE_NOT_FOUND',\\n  requireStack: []\\n}\\n\\nNode.js v18.19.1\\n\").returncode\n\n/subtests/test_sub.py:89: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nSKIPPED [1] ../subtests/test_sub.py:79: no extract.js yet\nFAILED ../subtests/test_sub.py::test_must_extract_js_exists - AssertionError:...\nFAILED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nFAILED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nFAILED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nFAILED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary - Ass...\nFAILED ../subtests/test_sub.py::test_untested_stdout_is_pure_json - assert 1 ...\n==================== 6 failed, 2 passed, 1 skipped in 0.55s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 1ms\nInstalled 5 packages in 407ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nPASSED ../tests/test_outputs.py::test_output_matches_reference\n============================== 2 passed in 0.15s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nPASSED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\n============================== 9 passed in 0.48s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "9": {
+   "tests": {
+    "passed": 0,
+    "failed": 2,
+    "total": 2,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "raw_tail": "t_extract_js_exists ____________________________\n\n    def test_extract_js_exists():\n        \"\"\"Test that the extract.js file exists\"\"\"\n        extract_path = Path(\"/app/extract.js\")\n>       assert extract_path.exists(), f\"File {extract_path} does not exist\"\nE       AssertionError: File /app/extract.js does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/extract.js').exists\n\n/tests/test_outputs.py:312: AssertionError\n________________________ test_output_matches_reference _________________________\n\n    def test_output_matches_reference():\n        \"\"\"Test that the output of extract.js matches the reference solution\"\"\"\n        # Run the student's script to generate output\n    \n        # Write a simple C program for testing\n        with open(\"/app/new.c\", \"w\") as f:\n            f.write(\"\"\"#include<stdio.h>\n    \n    int main(int argc, char** argv) {\n      printf(\"Here are the %d arguments you requested\\\\n\", argc);\n      for (int i = 0; i < argc; i++) {\n        printf(\"Argument %d: %s\\\\n\", i, argv[i]);\n      }\n      return 0;\n    }\"\"\")\n    \n        # Compile with full paths\n        result = subprocess.run(\n            [\"gcc\", \"-o\", \"/app/new.o\", \"/app/new.c\"], capture_output=True, text=True\n        )\n        assert result.returncode == 0, f\"Compilation failed: {result.stderr}\"\n    \n        # Run extract.js on the compiled binary\n        result = subprocess.run(\n            [\"node\", \"/app/extract.js\", \"/app/new.o\"],\n            stdout=open(\"/app/out.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n>       assert result.returncode == 0, f\"extract.js execution failed: {result.stderr}\"\nE       AssertionError: extract.js execution failed: node:internal/modules/cjs/loader:1137\nE           throw err;\nE           ^\nE         \nE         Error: Cannot find module '/app/extract.js'\nE             at Module._resolveFilename (node:internal/modules/cjs/loader:1134:15)\nE             at Module._load (node:internal/modules/cjs/loader:975:27)\nE             at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:128:12)\nE             at node:internal/main/run_main_module:28:49 {\nE           code: 'MODULE_NOT_FOUND',\nE           requireStack: []\nE         }\nE         \nE         Node.js v18.19.1\nE         \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['node', '/app/extract.js', '/app/new.o'], returncode=1, stderr=\"node:internal/modules/cjs/loade... node:internal/main/run_main_module:28:49 {\\n  code: 'MODULE_NOT_FOUND',\\n  requireStack: []\\n}\\n\\nNode.js v18.19.1\\n\").returncode\n\n/tests/test_outputs.py:345: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_extract_js_exists - AssertionError: Fil...\nFAILED ../tests/test_outputs.py::test_output_matches_reference - AssertionErr...\n============================== 2 failed in 0.08s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_extract_js_exists",
+       "../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object",
+       "../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers",
+       "../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out",
+       "../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary"
+      ]
+     },
+     "mustnot": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1,
+      "failed_names": [
+       "../subtests/test_sub.py::test_untested_stdout_is_pure_json"
+      ]
+     }
+    },
+    "sub_raw_tail": "____\n\n    def test_untested_stdout_is_pure_json():\n        # \"node extract.js /app/a.out > out.json\": stdout must be nothing but the JSON document\n>       r = _run(AOUT); assert r.returncode == 0\n                        ^^^^^^^^^^^^^^^^^^^^^^^^\nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['node', '/app/extract.js', '/app/a.out'], returncode=1, stdout='', stderr=\"node:internal/module... node:internal/main/run_main_module:28:49 {\\n  code: 'MODULE_NOT_FOUND',\\n  requireStack: []\\n}\\n\\nNode.js v18.19.1\\n\").returncode\n\n/subtests/test_sub.py:89: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nSKIPPED [1] ../subtests/test_sub.py:79: no extract.js yet\nFAILED ../subtests/test_sub.py::test_must_extract_js_exists - AssertionError:...\nFAILED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nFAILED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nFAILED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nFAILED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary - Ass...\nFAILED ../subtests/test_sub.py::test_untested_stdout_is_pure_json - assert 1 ...\n==================== 6 failed, 2 passed, 1 skipped in 0.31s ====================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 137ms\nInstalled 5 packages in 1.42s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nPASSED ../tests/test_outputs.py::test_output_matches_reference\n============================== 2 passed in 0.16s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nPASSED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\n============================== 9 passed in 0.45s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "10": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "raw_tail": "= subprocess.run(\n            [\"gcc\", \"-o\", \"/app/new.o\", \"/app/new.c\"], capture_output=True, text=True\n        )\n        assert result.returncode == 0, f\"Compilation failed: {result.stderr}\"\n    \n        # Run extract.js on the compiled binary\n        result = subprocess.run(\n            [\"node\", \"/app/extract.js\", \"/app/new.o\"],\n            stdout=open(\"/app/out.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"extract.js execution failed: {result.stderr}\"\n    \n        # Write the reference script with correct shebang line handling\n        with open(\"/app/ref.js\", \"w\") as f:\n            f.write(REF.strip())\n    \n        result = subprocess.run(\n            [\"node\", \"/app/ref.js\", \"/app/new.o\"],\n            stdout=open(\"/app/reference.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"Reference script execution failed: {result.stderr}\"\n    \n        # Check that out.json exists\n        out_json_path = Path(\"/app/out.json\")\n        assert out_json_path.exists(), f\"File {out_json_path} does not exist\"\n    \n        # Load the reference output\n        reference_path = Path(\"/app/reference.json\")\n        assert reference_path.exists(), f\"Reference file {reference_path} does not exist\"\n    \n        # Parse both JSON files\n        with open(out_json_path, \"r\") as f:\n            out_json = json.load(f)\n    \n        with open(reference_path, \"r\") as f:\n            reference_json = json.load(f)\n    \n        # Check requirement #1: Two memory addresses never have different values\n        inconsistent_values = {}\n        for addr, value in out_json.items():\n            if addr in reference_json and reference_json[addr] != value:\n                inconsistent_values[addr] = (value, reference_json[addr])\n    \n        assert len(inconsistent_values) == 0, (\n            f\"Found memory addresses with inconsistent values: {inconsistent_values}\"\n        )\n    \n        # Check requirement #2: At least 75% of reference values are present\n        found_keys = sum(1 for k in reference_json if k in out_json)\n        required_percentage = 75\n        actual_percentage = (found_keys / len(reference_json)) * 100\n    \n>       assert actual_percentage >= required_percentage, (\n            f\"Only found {actual_percentage:.2f}% of expected values \"\n            f\"(required: {required_percentage}%)\"\n        )\nE       AssertionError: Only found 18.03% of expected values (required: 75%)\nE       assert 18.0327868852459 >= 75\n\n/tests/test_outputs.py:389: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nFAILED ../tests/test_outputs.py::test_output_matches_reference - AssertionErr...\n========================= 1 failed, 1 passed in 0.17s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out",
+       "../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary"
+      ]
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "30464': 1, '130468': 0, '130472': 47, '130476': 0, ...}\nref = {'131072': 0, '131076': 0, '131080': 131080, '131084': 0, ...}\n\n    def _check(out, ref):\n        bad = {k: (v, ref[k]) for k, v in out.items() if k in ref and ref[k] != v}\n        assert not bad, f\"{len(bad)} addresses with wrong values, e.g. {list(bad.items())[:3]}\"\n        cov = sum(1 for k in ref if k in out) / len(ref)\n>       assert cov >= 0.75, f\"only {cov:.1%} of reference addresses present\"\nE       AssertionError: only 7.5% of reference addresses present\nE       assert 0.07476635514018691 >= 0.75\n\n/subtests/test_sub.py:46: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\nFAILED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nFAILED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary - Ass...\n========================= 2 failed, 7 passed in 0.39s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 34ms\nInstalled 5 packages in 455ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nPASSED ../tests/test_outputs.py::test_output_matches_reference\n============================== 2 passed in 0.12s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nPASSED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\n============================== 9 passed in 0.37s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "11": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "raw_tail": "= subprocess.run(\n            [\"gcc\", \"-o\", \"/app/new.o\", \"/app/new.c\"], capture_output=True, text=True\n        )\n        assert result.returncode == 0, f\"Compilation failed: {result.stderr}\"\n    \n        # Run extract.js on the compiled binary\n        result = subprocess.run(\n            [\"node\", \"/app/extract.js\", \"/app/new.o\"],\n            stdout=open(\"/app/out.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"extract.js execution failed: {result.stderr}\"\n    \n        # Write the reference script with correct shebang line handling\n        with open(\"/app/ref.js\", \"w\") as f:\n            f.write(REF.strip())\n    \n        result = subprocess.run(\n            [\"node\", \"/app/ref.js\", \"/app/new.o\"],\n            stdout=open(\"/app/reference.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"Reference script execution failed: {result.stderr}\"\n    \n        # Check that out.json exists\n        out_json_path = Path(\"/app/out.json\")\n        assert out_json_path.exists(), f\"File {out_json_path} does not exist\"\n    \n        # Load the reference output\n        reference_path = Path(\"/app/reference.json\")\n        assert reference_path.exists(), f\"Reference file {reference_path} does not exist\"\n    \n        # Parse both JSON files\n        with open(out_json_path, \"r\") as f:\n            out_json = json.load(f)\n    \n        with open(reference_path, \"r\") as f:\n            reference_json = json.load(f)\n    \n        # Check requirement #1: Two memory addresses never have different values\n        inconsistent_values = {}\n        for addr, value in out_json.items():\n            if addr in reference_json and reference_json[addr] != value:\n                inconsistent_values[addr] = (value, reference_json[addr])\n    \n        assert len(inconsistent_values) == 0, (\n            f\"Found memory addresses with inconsistent values: {inconsistent_values}\"\n        )\n    \n        # Check requirement #2: At least 75% of reference values are present\n        found_keys = sum(1 for k in reference_json if k in out_json)\n        required_percentage = 75\n        actual_percentage = (found_keys / len(reference_json)) * 100\n    \n>       assert actual_percentage >= required_percentage, (\n            f\"Only found {actual_percentage:.2f}% of expected values \"\n            f\"(required: {required_percentage}%)\"\n        )\nE       AssertionError: Only found 18.03% of expected values (required: 75%)\nE       assert 18.0327868852459 >= 75\n\n/tests/test_outputs.py:389: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nFAILED ../tests/test_outputs.py::test_output_matches_reference - AssertionErr...\n========================= 1 failed, 1 passed in 0.13s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out",
+       "../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary"
+      ]
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "30464': 1, '130468': 0, '130472': 47, '130476': 0, ...}\nref = {'131072': 0, '131076': 0, '131080': 131080, '131084': 0, ...}\n\n    def _check(out, ref):\n        bad = {k: (v, ref[k]) for k, v in out.items() if k in ref and ref[k] != v}\n        assert not bad, f\"{len(bad)} addresses with wrong values, e.g. {list(bad.items())[:3]}\"\n        cov = sum(1 for k in ref if k in out) / len(ref)\n>       assert cov >= 0.75, f\"only {cov:.1%} of reference addresses present\"\nE       AssertionError: only 7.5% of reference addresses present\nE       assert 0.07476635514018691 >= 0.75\n\n/subtests/test_sub.py:46: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\nFAILED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nFAILED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary - Ass...\n========================= 2 failed, 7 passed in 0.42s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 121ms\nInstalled 5 packages in 1.01s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nPASSED ../tests/test_outputs.py::test_output_matches_reference\n============================== 2 passed in 0.17s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nPASSED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\n============================== 9 passed in 0.42s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "12": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "raw_tail": "subprocess.run(\n            [\"gcc\", \"-o\", \"/app/new.o\", \"/app/new.c\"], capture_output=True, text=True\n        )\n        assert result.returncode == 0, f\"Compilation failed: {result.stderr}\"\n    \n        # Run extract.js on the compiled binary\n        result = subprocess.run(\n            [\"node\", \"/app/extract.js\", \"/app/new.o\"],\n            stdout=open(\"/app/out.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"extract.js execution failed: {result.stderr}\"\n    \n        # Write the reference script with correct shebang line handling\n        with open(\"/app/ref.js\", \"w\") as f:\n            f.write(REF.strip())\n    \n        result = subprocess.run(\n            [\"node\", \"/app/ref.js\", \"/app/new.o\"],\n            stdout=open(\"/app/reference.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"Reference script execution failed: {result.stderr}\"\n    \n        # Check that out.json exists\n        out_json_path = Path(\"/app/out.json\")\n        assert out_json_path.exists(), f\"File {out_json_path} does not exist\"\n    \n        # Load the reference output\n        reference_path = Path(\"/app/reference.json\")\n        assert reference_path.exists(), f\"Reference file {reference_path} does not exist\"\n    \n        # Parse both JSON files\n        with open(out_json_path, \"r\") as f:\n            out_json = json.load(f)\n    \n        with open(reference_path, \"r\") as f:\n            reference_json = json.load(f)\n    \n        # Check requirement #1: Two memory addresses never have different values\n        inconsistent_values = {}\n        for addr, value in out_json.items():\n            if addr in reference_json and reference_json[addr] != value:\n                inconsistent_values[addr] = (value, reference_json[addr])\n    \n        assert len(inconsistent_values) == 0, (\n            f\"Found memory addresses with inconsistent values: {inconsistent_values}\"\n        )\n    \n        # Check requirement #2: At least 75% of reference values are present\n        found_keys = sum(1 for k in reference_json if k in out_json)\n        required_percentage = 75\n        actual_percentage = (found_keys / len(reference_json)) * 100\n    \n>       assert actual_percentage >= required_percentage, (\n            f\"Only found {actual_percentage:.2f}% of expected values \"\n            f\"(required: {required_percentage}%)\"\n        )\nE       AssertionError: Only found 13.11% of expected values (required: 75%)\nE       assert 13.114754098360656 >= 75\n\n/tests/test_outputs.py:389: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nFAILED ../tests/test_outputs.py::test_output_matches_reference - AssertionErr...\n========================= 1 failed, 1 passed in 0.13s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out",
+       "../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary"
+      ]
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "': 1, '130472': 47, '130480': 12, '130488': 1464, ...}\nref = {'131072': 0, '131076': 0, '131080': 131080, '131084': 0, ...}\n\n    def _check(out, ref):\n        bad = {k: (v, ref[k]) for k, v in out.items() if k in ref and ref[k] != v}\n        assert not bad, f\"{len(bad)} addresses with wrong values, e.g. {list(bad.items())[:3]}\"\n        cov = sum(1 for k in ref if k in out) / len(ref)\n>       assert cov >= 0.75, f\"only {cov:.1%} of reference addresses present\"\nE       AssertionError: only 3.7% of reference addresses present\nE       assert 0.037383177570093455 >= 0.75\n\n/subtests/test_sub.py:46: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\nFAILED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nFAILED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary - Ass...\n========================= 2 failed, 7 passed in 0.44s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 33ms\nInstalled 5 packages in 317ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nPASSED ../tests/test_outputs.py::test_output_matches_reference\n============================== 2 passed in 0.16s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nPASSED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\n============================== 9 passed in 0.49s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "13": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "raw_tail": "subprocess.run(\n            [\"gcc\", \"-o\", \"/app/new.o\", \"/app/new.c\"], capture_output=True, text=True\n        )\n        assert result.returncode == 0, f\"Compilation failed: {result.stderr}\"\n    \n        # Run extract.js on the compiled binary\n        result = subprocess.run(\n            [\"node\", \"/app/extract.js\", \"/app/new.o\"],\n            stdout=open(\"/app/out.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"extract.js execution failed: {result.stderr}\"\n    \n        # Write the reference script with correct shebang line handling\n        with open(\"/app/ref.js\", \"w\") as f:\n            f.write(REF.strip())\n    \n        result = subprocess.run(\n            [\"node\", \"/app/ref.js\", \"/app/new.o\"],\n            stdout=open(\"/app/reference.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"Reference script execution failed: {result.stderr}\"\n    \n        # Check that out.json exists\n        out_json_path = Path(\"/app/out.json\")\n        assert out_json_path.exists(), f\"File {out_json_path} does not exist\"\n    \n        # Load the reference output\n        reference_path = Path(\"/app/reference.json\")\n        assert reference_path.exists(), f\"Reference file {reference_path} does not exist\"\n    \n        # Parse both JSON files\n        with open(out_json_path, \"r\") as f:\n            out_json = json.load(f)\n    \n        with open(reference_path, \"r\") as f:\n            reference_json = json.load(f)\n    \n        # Check requirement #1: Two memory addresses never have different values\n        inconsistent_values = {}\n        for addr, value in out_json.items():\n            if addr in reference_json and reference_json[addr] != value:\n                inconsistent_values[addr] = (value, reference_json[addr])\n    \n        assert len(inconsistent_values) == 0, (\n            f\"Found memory addresses with inconsistent values: {inconsistent_values}\"\n        )\n    \n        # Check requirement #2: At least 75% of reference values are present\n        found_keys = sum(1 for k in reference_json if k in out_json)\n        required_percentage = 75\n        actual_percentage = (found_keys / len(reference_json)) * 100\n    \n>       assert actual_percentage >= required_percentage, (\n            f\"Only found {actual_percentage:.2f}% of expected values \"\n            f\"(required: {required_percentage}%)\"\n        )\nE       AssertionError: Only found 13.11% of expected values (required: 75%)\nE       assert 13.114754098360656 >= 75\n\n/tests/test_outputs.py:389: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nFAILED ../tests/test_outputs.py::test_output_matches_reference - AssertionErr...\n========================= 1 failed, 1 passed in 0.21s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out",
+       "../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary"
+      ]
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "': 1, '130472': 47, '130480': 12, '130488': 1464, ...}\nref = {'131072': 0, '131076': 0, '131080': 131080, '131084': 0, ...}\n\n    def _check(out, ref):\n        bad = {k: (v, ref[k]) for k, v in out.items() if k in ref and ref[k] != v}\n        assert not bad, f\"{len(bad)} addresses with wrong values, e.g. {list(bad.items())[:3]}\"\n        cov = sum(1 for k in ref if k in out) / len(ref)\n>       assert cov >= 0.75, f\"only {cov:.1%} of reference addresses present\"\nE       AssertionError: only 3.7% of reference addresses present\nE       assert 0.037383177570093455 >= 0.75\n\n/subtests/test_sub.py:46: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\nFAILED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nFAILED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary - Ass...\n========================= 2 failed, 7 passed in 0.76s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 35ms\nInstalled 5 packages in 554ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nPASSED ../tests/test_outputs.py::test_output_matches_reference\n============================== 2 passed in 0.21s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nPASSED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\n============================== 9 passed in 0.62s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "14": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "raw_tail": "subprocess.run(\n            [\"gcc\", \"-o\", \"/app/new.o\", \"/app/new.c\"], capture_output=True, text=True\n        )\n        assert result.returncode == 0, f\"Compilation failed: {result.stderr}\"\n    \n        # Run extract.js on the compiled binary\n        result = subprocess.run(\n            [\"node\", \"/app/extract.js\", \"/app/new.o\"],\n            stdout=open(\"/app/out.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"extract.js execution failed: {result.stderr}\"\n    \n        # Write the reference script with correct shebang line handling\n        with open(\"/app/ref.js\", \"w\") as f:\n            f.write(REF.strip())\n    \n        result = subprocess.run(\n            [\"node\", \"/app/ref.js\", \"/app/new.o\"],\n            stdout=open(\"/app/reference.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"Reference script execution failed: {result.stderr}\"\n    \n        # Check that out.json exists\n        out_json_path = Path(\"/app/out.json\")\n        assert out_json_path.exists(), f\"File {out_json_path} does not exist\"\n    \n        # Load the reference output\n        reference_path = Path(\"/app/reference.json\")\n        assert reference_path.exists(), f\"Reference file {reference_path} does not exist\"\n    \n        # Parse both JSON files\n        with open(out_json_path, \"r\") as f:\n            out_json = json.load(f)\n    \n        with open(reference_path, \"r\") as f:\n            reference_json = json.load(f)\n    \n        # Check requirement #1: Two memory addresses never have different values\n        inconsistent_values = {}\n        for addr, value in out_json.items():\n            if addr in reference_json and reference_json[addr] != value:\n                inconsistent_values[addr] = (value, reference_json[addr])\n    \n        assert len(inconsistent_values) == 0, (\n            f\"Found memory addresses with inconsistent values: {inconsistent_values}\"\n        )\n    \n        # Check requirement #2: At least 75% of reference values are present\n        found_keys = sum(1 for k in reference_json if k in out_json)\n        required_percentage = 75\n        actual_percentage = (found_keys / len(reference_json)) * 100\n    \n>       assert actual_percentage >= required_percentage, (\n            f\"Only found {actual_percentage:.2f}% of expected values \"\n            f\"(required: {required_percentage}%)\"\n        )\nE       AssertionError: Only found 13.11% of expected values (required: 75%)\nE       assert 13.114754098360656 >= 75\n\n/tests/test_outputs.py:389: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nFAILED ../tests/test_outputs.py::test_output_matches_reference - AssertionErr...\n========================= 1 failed, 1 passed in 0.17s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out",
+       "../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary"
+      ]
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "': 1, '130472': 47, '130480': 12, '130488': 1464, ...}\nref = {'131072': 0, '131076': 0, '131080': 131080, '131084': 0, ...}\n\n    def _check(out, ref):\n        bad = {k: (v, ref[k]) for k, v in out.items() if k in ref and ref[k] != v}\n        assert not bad, f\"{len(bad)} addresses with wrong values, e.g. {list(bad.items())[:3]}\"\n        cov = sum(1 for k in ref if k in out) / len(ref)\n>       assert cov >= 0.75, f\"only {cov:.1%} of reference addresses present\"\nE       AssertionError: only 3.7% of reference addresses present\nE       assert 0.037383177570093455 >= 0.75\n\n/subtests/test_sub.py:46: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\nFAILED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nFAILED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary - Ass...\n========================= 2 failed, 7 passed in 0.41s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 36ms\nInstalled 5 packages in 294ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nPASSED ../tests/test_outputs.py::test_output_matches_reference\n============================== 2 passed in 0.18s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nPASSED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\n============================== 9 passed in 0.50s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "15": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "raw_tail": "subprocess.run(\n            [\"gcc\", \"-o\", \"/app/new.o\", \"/app/new.c\"], capture_output=True, text=True\n        )\n        assert result.returncode == 0, f\"Compilation failed: {result.stderr}\"\n    \n        # Run extract.js on the compiled binary\n        result = subprocess.run(\n            [\"node\", \"/app/extract.js\", \"/app/new.o\"],\n            stdout=open(\"/app/out.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"extract.js execution failed: {result.stderr}\"\n    \n        # Write the reference script with correct shebang line handling\n        with open(\"/app/ref.js\", \"w\") as f:\n            f.write(REF.strip())\n    \n        result = subprocess.run(\n            [\"node\", \"/app/ref.js\", \"/app/new.o\"],\n            stdout=open(\"/app/reference.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"Reference script execution failed: {result.stderr}\"\n    \n        # Check that out.json exists\n        out_json_path = Path(\"/app/out.json\")\n        assert out_json_path.exists(), f\"File {out_json_path} does not exist\"\n    \n        # Load the reference output\n        reference_path = Path(\"/app/reference.json\")\n        assert reference_path.exists(), f\"Reference file {reference_path} does not exist\"\n    \n        # Parse both JSON files\n        with open(out_json_path, \"r\") as f:\n            out_json = json.load(f)\n    \n        with open(reference_path, \"r\") as f:\n            reference_json = json.load(f)\n    \n        # Check requirement #1: Two memory addresses never have different values\n        inconsistent_values = {}\n        for addr, value in out_json.items():\n            if addr in reference_json and reference_json[addr] != value:\n                inconsistent_values[addr] = (value, reference_json[addr])\n    \n        assert len(inconsistent_values) == 0, (\n            f\"Found memory addresses with inconsistent values: {inconsistent_values}\"\n        )\n    \n        # Check requirement #2: At least 75% of reference values are present\n        found_keys = sum(1 for k in reference_json if k in out_json)\n        required_percentage = 75\n        actual_percentage = (found_keys / len(reference_json)) * 100\n    \n>       assert actual_percentage >= required_percentage, (\n            f\"Only found {actual_percentage:.2f}% of expected values \"\n            f\"(required: {required_percentage}%)\"\n        )\nE       AssertionError: Only found 13.11% of expected values (required: 75%)\nE       assert 13.114754098360656 >= 75\n\n/tests/test_outputs.py:389: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nFAILED ../tests/test_outputs.py::test_output_matches_reference - AssertionErr...\n========================= 1 failed, 1 passed in 0.18s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out",
+       "../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary"
+      ]
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "': 1, '130472': 47, '130480': 12, '130488': 1464, ...}\nref = {'131072': 0, '131076': 0, '131080': 131080, '131084': 0, ...}\n\n    def _check(out, ref):\n        bad = {k: (v, ref[k]) for k, v in out.items() if k in ref and ref[k] != v}\n        assert not bad, f\"{len(bad)} addresses with wrong values, e.g. {list(bad.items())[:3]}\"\n        cov = sum(1 for k in ref if k in out) / len(ref)\n>       assert cov >= 0.75, f\"only {cov:.1%} of reference addresses present\"\nE       AssertionError: only 3.7% of reference addresses present\nE       assert 0.037383177570093455 >= 0.75\n\n/subtests/test_sub.py:46: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\nFAILED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nFAILED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary - Ass...\n========================= 2 failed, 7 passed in 0.45s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 34ms\nInstalled 5 packages in 965ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nPASSED ../tests/test_outputs.py::test_output_matches_reference\n============================== 2 passed in 0.13s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nPASSED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\n============================== 9 passed in 0.44s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "16": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "raw_tail": "subprocess.run(\n            [\"gcc\", \"-o\", \"/app/new.o\", \"/app/new.c\"], capture_output=True, text=True\n        )\n        assert result.returncode == 0, f\"Compilation failed: {result.stderr}\"\n    \n        # Run extract.js on the compiled binary\n        result = subprocess.run(\n            [\"node\", \"/app/extract.js\", \"/app/new.o\"],\n            stdout=open(\"/app/out.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"extract.js execution failed: {result.stderr}\"\n    \n        # Write the reference script with correct shebang line handling\n        with open(\"/app/ref.js\", \"w\") as f:\n            f.write(REF.strip())\n    \n        result = subprocess.run(\n            [\"node\", \"/app/ref.js\", \"/app/new.o\"],\n            stdout=open(\"/app/reference.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"Reference script execution failed: {result.stderr}\"\n    \n        # Check that out.json exists\n        out_json_path = Path(\"/app/out.json\")\n        assert out_json_path.exists(), f\"File {out_json_path} does not exist\"\n    \n        # Load the reference output\n        reference_path = Path(\"/app/reference.json\")\n        assert reference_path.exists(), f\"Reference file {reference_path} does not exist\"\n    \n        # Parse both JSON files\n        with open(out_json_path, \"r\") as f:\n            out_json = json.load(f)\n    \n        with open(reference_path, \"r\") as f:\n            reference_json = json.load(f)\n    \n        # Check requirement #1: Two memory addresses never have different values\n        inconsistent_values = {}\n        for addr, value in out_json.items():\n            if addr in reference_json and reference_json[addr] != value:\n                inconsistent_values[addr] = (value, reference_json[addr])\n    \n        assert len(inconsistent_values) == 0, (\n            f\"Found memory addresses with inconsistent values: {inconsistent_values}\"\n        )\n    \n        # Check requirement #2: At least 75% of reference values are present\n        found_keys = sum(1 for k in reference_json if k in out_json)\n        required_percentage = 75\n        actual_percentage = (found_keys / len(reference_json)) * 100\n    \n>       assert actual_percentage >= required_percentage, (\n            f\"Only found {actual_percentage:.2f}% of expected values \"\n            f\"(required: {required_percentage}%)\"\n        )\nE       AssertionError: Only found 13.11% of expected values (required: 75%)\nE       assert 13.114754098360656 >= 75\n\n/tests/test_outputs.py:389: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nFAILED ../tests/test_outputs.py::test_output_matches_reference - AssertionErr...\n========================= 1 failed, 1 passed in 0.13s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out",
+       "../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary"
+      ]
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "': 1, '130472': 47, '130480': 12, '130488': 1464, ...}\nref = {'131072': 0, '131076': 0, '131080': 131080, '131084': 0, ...}\n\n    def _check(out, ref):\n        bad = {k: (v, ref[k]) for k, v in out.items() if k in ref and ref[k] != v}\n        assert not bad, f\"{len(bad)} addresses with wrong values, e.g. {list(bad.items())[:3]}\"\n        cov = sum(1 for k in ref if k in out) / len(ref)\n>       assert cov >= 0.75, f\"only {cov:.1%} of reference addresses present\"\nE       AssertionError: only 3.7% of reference addresses present\nE       assert 0.037383177570093455 >= 0.75\n\n/subtests/test_sub.py:46: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\nFAILED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nFAILED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary - Ass...\n========================= 2 failed, 7 passed in 0.41s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 34ms\nInstalled 5 packages in 669ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nPASSED ../tests/test_outputs.py::test_output_matches_reference\n============================== 2 passed in 0.16s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nPASSED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\n============================== 9 passed in 0.42s ===============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "17": {
+   "tests": {
+    "passed": 1,
+    "failed": 1,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "raw_tail": "subprocess.run(\n            [\"gcc\", \"-o\", \"/app/new.o\", \"/app/new.c\"], capture_output=True, text=True\n        )\n        assert result.returncode == 0, f\"Compilation failed: {result.stderr}\"\n    \n        # Run extract.js on the compiled binary\n        result = subprocess.run(\n            [\"node\", \"/app/extract.js\", \"/app/new.o\"],\n            stdout=open(\"/app/out.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"extract.js execution failed: {result.stderr}\"\n    \n        # Write the reference script with correct shebang line handling\n        with open(\"/app/ref.js\", \"w\") as f:\n            f.write(REF.strip())\n    \n        result = subprocess.run(\n            [\"node\", \"/app/ref.js\", \"/app/new.o\"],\n            stdout=open(\"/app/reference.json\", \"w\"),\n            stderr=subprocess.PIPE,\n            text=True,\n        )\n        assert result.returncode == 0, f\"Reference script execution failed: {result.stderr}\"\n    \n        # Check that out.json exists\n        out_json_path = Path(\"/app/out.json\")\n        assert out_json_path.exists(), f\"File {out_json_path} does not exist\"\n    \n        # Load the reference output\n        reference_path = Path(\"/app/reference.json\")\n        assert reference_path.exists(), f\"Reference file {reference_path} does not exist\"\n    \n        # Parse both JSON files\n        with open(out_json_path, \"r\") as f:\n            out_json = json.load(f)\n    \n        with open(reference_path, \"r\") as f:\n            reference_json = json.load(f)\n    \n        # Check requirement #1: Two memory addresses never have different values\n        inconsistent_values = {}\n        for addr, value in out_json.items():\n            if addr in reference_json and reference_json[addr] != value:\n                inconsistent_values[addr] = (value, reference_json[addr])\n    \n        assert len(inconsistent_values) == 0, (\n            f\"Found memory addresses with inconsistent values: {inconsistent_values}\"\n        )\n    \n        # Check requirement #2: At least 75% of reference values are present\n        found_keys = sum(1 for k in reference_json if k in out_json)\n        required_percentage = 75\n        actual_percentage = (found_keys / len(reference_json)) * 100\n    \n>       assert actual_percentage >= required_percentage, (\n            f\"Only found {actual_percentage:.2f}% of expected values \"\n            f\"(required: {required_percentage}%)\"\n        )\nE       AssertionError: Only found 13.11% of expected values (required: 75%)\nE       assert 13.114754098360656 >= 75\n\n/tests/test_outputs.py:389: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nFAILED ../tests/test_outputs.py::test_output_matches_reference - AssertionErr...\n========================= 1 failed, 1 passed in 0.16s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out",
+       "../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary"
+      ]
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "': 1, '130472': 47, '130480': 12, '130488': 1464, ...}\nref = {'131072': 0, '131076': 0, '131080': 131080, '131084': 0, ...}\n\n    def _check(out, ref):\n        bad = {k: (v, ref[k]) for k, v in out.items() if k in ref and ref[k] != v}\n        assert not bad, f\"{len(bad)} addresses with wrong values, e.g. {list(bad.items())[:3]}\"\n        cov = sum(1 for k in ref if k in out) / len(ref)\n>       assert cov >= 0.75, f\"only {cov:.1%} of reference addresses present\"\nE       AssertionError: only 3.7% of reference addresses present\nE       assert 0.037383177570093455 >= 0.75\n\n/subtests/test_sub.py:46: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\nFAILED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nFAILED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary - Ass...\n========================= 2 failed, 7 passed in 0.58s ==========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "passed_names": [
+     "../tests/test_outputs.py::test_extract_js_exists",
+     "../tests/test_outputs.py::test_output_matches_reference"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 38ms\nInstalled 5 packages in 383ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_extract_js_exists\nPASSED ../tests/test_outputs.py::test_output_matches_reference\n============================== 2 passed in 0.14s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 9 items\n\n../subtests/test_sub.py .........                                        [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_extract_js_exists\nPASSED ../subtests/test_sub.py::test_must_runs_on_a_out_and_prints_json_object\nPASSED ../subtests/test_sub.py::test_must_keys_are_addresses_and_values_are_integers\nPASSED ../subtests/test_sub.py::test_must_values_match_reference_and_cover_75pct_on_a_out\nPASSED ../subtests/test_sub.py::test_must_generalises_to_a_fresh_binary\nPASSED ../subtests/test_sub.py::test_mustnot_a_out_modified\nPASSED ../subtests/test_sub.py::test_mustnot_hi_c_modified\nPASSED ../subtests/test_sub.py::test_mustnot_output_hardcoded\nPASSED ../subtests/test_sub.py::test_untested_stdout_is_pure_json\n============================== 9 passed in 0.51s ===============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793069523.615932
+}

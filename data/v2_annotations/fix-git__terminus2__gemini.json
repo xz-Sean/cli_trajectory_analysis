@@ -1,0 +1,33 @@
+{
+  "case_id": "fix-git__terminus2__gemini",
+  "schema_version": "v2",
+  "m": 8,
+  "action_segments": [
+    [1, 1, "P"],
+    [2, 2, "E"],
+    [3, 3, "E"],
+    [4, 4, "X"],
+    [5, 5, "R"],
+    [6, 6, "R"],
+    [7, 8, "C"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 5,
+  "first_error_evidence": "Agent ran `git checkout --theirs _includes/about.md` then `git commit --no-edit` but got error: 'Committing is not possible because you have unmerged files.' — forgot to `git add` the resolved file before committing.",
+  "num_recoveries": 1,
+  "max_detour_length": 1,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 6,
+  "verification_evidence": "At step 6, `git log -n 3` confirms the merge commit `9cf4920` is at HEAD of master with parent commits including `650dba4` ('Move to Stanford'), proving the lost changes were successfully merged.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "Agent used git reflog to locate the detached-HEAD commit containing lost changes, verified its content with git show, merged it into master, and resolved a merge conflict by choosing the 'theirs' version and staging before committing.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

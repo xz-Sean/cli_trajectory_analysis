@@ -1,0 +1,32 @@
+{
+  "case_id": "schedule-vacation__openhands__gemini",
+  "schema_version": "v2",
+  "m": 7,
+  "action_segments": [
+    [1, 2, "X"],
+    [3, 6, "E"],
+    [7, 7, "X"]
+  ],
+  "num_error_events": 1,
+  "first_error_step": 3,
+  "first_error_evidence": "Step 3: attempt to read 'alice_schedule.txt' with relative path fails with 'Invalid `path` parameter: alice_schedule.txt. The path should be an absolute path'",
+  "num_recoveries": 1,
+  "max_detour_length": 3,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": false,
+  "first_relevant_verification_step": 7,
+  "verification_evidence": "Step 7: runs find_overlap.py which produces output confirming 14 windows found, best option July 28-Aug 3 with all 4 friends available",
+  "suspicious_pass": true,
+  "suspicious_pass_type": "lucky_environment",
+  "suspicious_pass_evidence": "Agent ran get_schedule.py for all 4 friends (steps 1-2) but never used those outputs to construct a JSON availability file. At step 7, it invokes find_overlap.py against /app/all_availability.json which must have been pre-existing in the environment, since get_schedule.py only prints to stdout and does not create any JSON file. The agent benefited from a pre-existing aggregated availability file rather than constructing the full pipeline from raw schedule outputs.",
+  "solution_directness": "detour",
+  "one_sentence_strategy_summary": "The agent ran get_schedule.py for all friends, recovered from a relative-path error, explored both tool scripts, then executed find_overlap.py against a pre-existing /app/all_availability.json to identify the best 7-day vacation window.",
+  "confidence": "medium",
+  "long_traj": false,
+  "uncertain_fields": [
+    "suspicious_pass",
+    "suspicious_pass_type"
+  ]
+}

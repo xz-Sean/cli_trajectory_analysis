@@ -1,0 +1,53 @@
+{
+  "case_id": "find-official-code__miniswe__gpt5",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "task_strategy",
+  "primary_failure_subtype": "wrong_selection_heuristic",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "task_understanding",
+  "contributing_failure_1_subtype": "misclassified_task",
+  "root_cause_label": "Wrong official repo selection via highest-star fallback heuristic",
+  "one_sentence_failure_summary": "The agent selects official repositories by falling back to highest star count when the Papers With Code API lacks an is_official flag, which frequently picks non-author repositories instead of the actual author-maintained official code.",
+  "m": 7,
+  "t_err": 1,
+  "t_err_evidence": "Step 1 code already encodes the flawed fallback logic: when is_official is not set, select the repo with highest stars (or known-org owner), which does not reliably identify author-maintained official repositories.",
+  "t_commit": 6,
+  "t_commit_evidence": "At step 6, the script successfully writes 10 items to /app/result.jsonl using the same flawed star-count fallback, locking in the incorrect repo selections with no subsequent correction attempt.",
+  "t_surface": 1,
+  "t_surface_evidence": "Step 1 terminal output says 'Wrote 1 items to /app/result.jsonl' instead of 10, immediately signaling an incomplete/wrong result (though this is the PDF parsing failure, not the URL selection failure; the URL selection failure is only observable externally at step 6).",
+  "timepoint_confidence": "medium",
+  "trigger_mechanism": "false_premise",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "The agent assumes that highest star count among listed repositories is a reliable proxy for identifying the official author-maintained repository. This false premise is encoded from step 1 and persists through step 6, causing incorrect URL selections when the is_official flag is absent.",
+  "forewarning_present": true,
+  "forewarning_first_step": 1,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 1 produces only 1 item instead of the expected 10, signaling that the pipeline has a fundamental problem (here, PDF parsing). While the agent correctly diagnoses and fixes the PDF parsing issue, it never questions the correctness of the URL-selection heuristic itself.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "immediate_claim",
+  "fabrication_present": true,
+  "fabrication_type": "proxy_or_shortcut",
+  "fabrication_onset_step": 1,
+  "fabrication_evidence": "From step 1 onward, the agent uses highest star count as a shortcut for identifying official repositories rather than applying domain-appropriate methods (e.g., checking author attribution, searching arXiv for explicit code links, or verifying repo owners against paper author names), producing URLs that appear legitimate but may not be the actual official repositories.",
+  "verification_ever": false,
+  "first_relevant_verification_step": null,
+  "action_segments": [
+    [1, 1, "X"],
+    [2, 2, "E"],
+    [3, 3, "X"],
+    [4, 4, "E"],
+    [5, 5, "X"],
+    [6, 6, "X"],
+    [7, 7, "C"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_surface",
+    "forewarning_first_step"
+  ]
+}

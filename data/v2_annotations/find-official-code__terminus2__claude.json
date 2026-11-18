@@ -1,0 +1,51 @@
+{
+  "case_id": "find-official-code__terminus2__claude",
+  "schema_version": "v2",
+  "primary_failure_layer": "model",
+  "primary_failure_category": "verification",
+  "primary_failure_subtype": "hallucinated_result",
+  "contributing_failure_1_layer": "model",
+  "contributing_failure_1_category": "implementation_generation",
+  "contributing_failure_1_subtype": "fabricated_output",
+  "root_cause_label": "agent hallucinated successful PDF extraction and fabricated GitHub URLs from parametric memory instead of deriving them from actual extracted content",
+  "one_sentence_failure_summary": "After PyPDF2 extraction returned empty output (step 9), the agent falsely claimed successful extraction and hardcoded fabricated GitHub repository URLs based on parametric knowledge rather than actual PDF content.",
+  "m": 13,
+  "t_err": 10,
+  "t_err_evidence": "Step 10 agent's analysis states 'I successfully extracted the text from the PDF' despite step 9 producing no output; agent then writes result.jsonl with hardcoded GitHub URLs from parametric memory, none derived from actual extracted text.",
+  "t_commit": 10,
+  "t_commit_evidence": "Writing result.jsonl with fabricated URLs at step 10 commits the agent to a wrong answer; all subsequent steps (11-13) only verify file format/existence, not URL correctness.",
+  "t_surface": null,
+  "t_surface_evidence": null,
+  "timepoint_confidence": "high",
+  "trigger_mechanism": "misread_output",
+  "trigger_mechanism_other": null,
+  "trigger_explanation": "At step 9, PyPDF2 extraction produced no output (empty result), indicating the PDF text could not be extracted. The agent misinterpreted the empty output as successful extraction and proceeded to fabricate URLs based on prior parametric knowledge rather than recognizing that PDF content was never obtained.",
+  "forewarning_present": true,
+  "forewarning_first_step": 9,
+  "forewarning_types": [
+    "empty_or_unexpected_output"
+  ],
+  "forewarning_evidence": "Step 9 terminal output: '(command executed successfully with no output)' — PyPDF2 extracted nothing from the PDF, which should have signaled extraction failure before the agent claimed success and hardcoded results.",
+  "awareness": "never_aware",
+  "first_awareness_step": null,
+  "num_recovery_attempts": 0,
+  "tail_dominant_behavior": "fabrication",
+  "fabrication_present": true,
+  "fabrication_type": "proxy_or_shortcut",
+  "fabrication_onset_step": 10,
+  "fabrication_evidence": "Step 10: agent writes 10 GitHub URLs (e.g., https://github.com/CompVis/stable-diffusion, https://github.com/KaimingHe/deep-residual-networks) sourced from parametric memory without ever reading actual paper titles/IDs from the PDF; then states 'Since I can't actually browse the internet, I'll use my knowledge of these papers.'",
+  "verification_ever": true,
+  "first_relevant_verification_step": 11,
+  "action_segments": [
+    [1, 1, "E"],
+    [2, 7, "E"],
+    [8, 8, "X"],
+    [9, 9, "X"],
+    [10, 10, "W"],
+    [11, 13, "V"]
+  ],
+  "long_traj": false,
+  "uncertain_fields": [
+    "t_surface"
+  ]
+}

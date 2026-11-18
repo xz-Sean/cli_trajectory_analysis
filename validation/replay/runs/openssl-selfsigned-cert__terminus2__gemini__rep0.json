@@ -1,0 +1,224 @@
+{
+ "cid": "openssl-selfsigned-cert__terminus2__gemini",
+ "task": "openssl-selfsigned-cert",
+ "scaffold": "terminus2",
+ "model": "gemini",
+ "m": 7,
+ "kmin": 7,
+ "kmax": 7,
+ "rep": 0,
+ "started": 1793043876.4148529,
+ "steps": [
+  {
+   "k": 1,
+   "type": "empty",
+   "secs": 13.3,
+   "out_sim": 0.0,
+   "out_tail": "root@39dac2548ce3:/app# mkdir -p /app/ssl/\nroot@39dac2548ce3:/app# openssl genrsa -out /app/ssl/server.key 2048\nroot@39dac2548ce3:/app# chmod 600 /app/ssl/server.key\nroot@39dac2548ce3:/app# ls -l /app/ssl/\ntotal 4\n-rw------- 1 root root 1708 Oct 26 19:46 server.key\nroot@39dac2548ce3:/app#\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  {
+   "k": 2,
+   "type": "empty",
+   "secs": 3.2,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 3,
+   "type": "empty",
+   "secs": 7.9,
+   "out_sim": 0.496,
+   "out_tail": "root@39dac2548ce3:/app# openssl req -new -x509 -nodes -days 365 -key /app/ssl/server.key -out /app/ssl/server.crt -subj \"/O=DevOps Team/CN=dev-internal.company.local\"\nroot@39dac2548ce3:/app# ls -l /app/ssl/\ntotal 8\n-rw-r--r-- 1 root root 1220 Oct 26 19:47 server.crt\n-rw------- 1 root root 1708 Oct 26 19:46 server.key\nroot@39dac2548ce3:/app#"
+  },
+  {
+   "k": 4,
+   "type": "empty",
+   "secs": 6.4,
+   "out_sim": 0.044,
+   "out_tail": "root@39dac2548ce3:/app# cat /app/ssl/server.key /app/ssl/server.crt > /app/ssl/server.pem\nroot@39dac2548ce3:/app# ls -l /app/ssl/\ntotal 12\n-rw-r--r-- 1 root root 1220 Oct 26 19:47 server.crt\n-rw------- 1 root root 1708 Oct 26 19:46 server.key\n-rw-r--r-- 1 root root 2928 Oct 26 19:47 server.pem\nroot@39dac2548ce3:/app#"
+  },
+  {
+   "k": 5,
+   "type": "empty",
+   "secs": 12.1,
+   "out_sim": 0.727,
+   "out_tail": "/ssl/server.crt -noout -subject > /app/ssl/verification.txt\nroot@39dac2548ce3:/app# openssl x509 -in /app/ssl/server.crt -noout -dates >> /app/ssl/verification.txt\nroot@39dac2548ce3:/app# openssl x509 -in /app/ssl/server.crt -noout -fingerprint -sha256 >> /app/ssl/verification.txt\nroot@39dac2548ce3:/app# cat /app/ssl/verification.txt\nsubject=O = DevOps Team, CN = dev-internal.company.local\nnotBefore=Oct 26 19:47:09 2026 GMT\nnotAfter=Oct 26 19:47:09 2027 GMT\nsha256 Fingerprint=CF:D4:FC:74:AB:FF:58:AC:E8:5E:80:1C:D0:71:13:74:E9:3C:70:5E:D0:72:79:B2:B6:61:C2:92:9C:52:83:5B\nroot@39dac2548ce3:/app#"
+  },
+  {
+   "k": 6,
+   "type": "empty",
+   "secs": 7.1,
+   "out_sim": 0.885,
+   "out_tail": "e(\"%Y-%m-%d\")\n>\n>         print(f\"Common Name: {common_name}\")\n>         print(f\"Expiration Date: {expiry_date_formatted}\")\n>         print(\"Certificate verification successful\")\n>\n>     except subprocess.CalledProcessError as e:\n>         print(f\"Error during certificate verification: {e.stderr}\")\n>     except Exception as e:\n>         print(f\"An error occurred: {e}\")\n>\n> if __name__ == \"__main__\":\n>     main()\n> EOF\nroot@39dac2548ce3:/app# python3 /app/check_cert.py\nCommon Name: dev-internal.company.local\nExpiration Date: 2027-10-26\nCertificate verification successful\nroot@39dac2548ce3:/app#"
+  },
+  {
+   "k": 7,
+   "type": "empty",
+   "secs": 3.2,
+   "out_sim": 1.0,
+   "out_tail": ""
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 6,
+    "total": 6,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_directory_structure",
+     "../tests/test_outputs.py::test_key_file",
+     "../tests/test_outputs.py::test_certificate_file",
+     "../tests/test_outputs.py::test_combined_pem_file",
+     "../tests/test_outputs.py::test_verification_file",
+     "../tests/test_outputs.py::test_python_verification_script"
+    ],
+    "raw_tail": "<function exists at 0x7ac8f6acb240>('/app/ssl/server.crt')\nE        +    where <function exists at 0x7ac8f6acb240> = <module 'posixpath' (frozen)>.exists\nE        +      where <module 'posixpath' (frozen)> = os.path\n\n/tests/test_outputs.py:37: AssertionError\n____________________________ test_combined_pem_file ____________________________\n\n    def test_combined_pem_file():\n        \"\"\"Test that the combined PEM file exists with both key and certificate.\"\"\"\n        pem_file = \"/app/ssl/server.pem\"\n>       assert os.path.exists(pem_file), \"Combined PEM file does not exist\"\nE       AssertionError: Combined PEM file does not exist\nE       assert False\nE        +  where False = <function exists at 0x7ac8f6acb240>('/app/ssl/server.pem')\nE        +    where <function exists at 0x7ac8f6acb240> = <module 'posixpath' (frozen)>.exists\nE        +      where <module 'posixpath' (frozen)> = os.path\n\n/tests/test_outputs.py:87: AssertionError\n____________________________ test_verification_file ____________________________\n\n    def test_verification_file():\n        \"\"\"Test that the verification file exists with correct content.\"\"\"\n        verification_file = \"/app/ssl/verification.txt\"\n>       assert os.path.exists(verification_file), \"Verification file does not exist\"\nE       AssertionError: Verification file does not exist\nE       assert False\nE        +  where False = <function exists at 0x7ac8f6acb240>('/app/ssl/verification.txt')\nE        +    where <function exists at 0x7ac8f6acb240> = <module 'posixpath' (frozen)>.exists\nE        +      where <module 'posixpath' (frozen)> = os.path\n\n/tests/test_outputs.py:108: AssertionError\n_______________________ test_python_verification_script ________________________\n\n    def test_python_verification_script():\n        \"\"\"Test that the Python verification script exists and works correctly.\"\"\"\n        script_path = \"/app/check_cert.py\"\n>       assert os.path.exists(script_path), \"Python verification script does not exist\"\nE       AssertionError: Python verification script does not exist\nE       assert False\nE        +  where False = <function exists at 0x7ac8f6acb240>('/app/check_cert.py')\nE        +    where <function exists at 0x7ac8f6acb240> = <module 'posixpath' (frozen)>.exists\nE        +      where <module 'posixpath' (frozen)> = os.path\n\n/tests/test_outputs.py:142: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_directory_structure - AssertionError: D...\nFAILED ../tests/test_outputs.py::test_key_file - AssertionError: Private key ...\nFAILED ../tests/test_outputs.py::test_certificate_file - AssertionError: Cert...\nFAILED ../tests/test_outputs.py::test_combined_pem_file - AssertionError: Com...\nFAILED ../tests/test_outputs.py::test_verification_file - AssertionError: Ver...\nFAILED ../tests/test_outputs.py::test_python_verification_script - AssertionE...\n============================== 6 failed in 0.24s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 6,
+      "total": 6,
+      "failed_names": [
+       "../subtests/test_sub.py::test_must_ssl_dir_exists",
+       "../subtests/test_sub.py::test_must_key_is_2048_rsa",
+       "../subtests/test_sub.py::test_must_cert_subject_and_validity",
+       "../subtests/test_sub.py::test_must_combined_pem_has_key_and_cert",
+       "../subtests/test_sub.py::test_must_verification_txt_contents",
+       "../subtests/test_sub.py::test_must_check_cert_script_runs_and_reports"
+      ]
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\nE        +  where False = is_file()\nE        +    where is_file = PosixPath('/app/ssl/verification.txt').is_file\n\n/subtests/test_sub.py:53: AssertionError\n_________________ test_must_check_cert_script_runs_and_reports _________________\n\n    def test_must_check_cert_script_runs_and_reports():\n>       assert SCRIPT.is_file()\nE       AssertionError: assert False\nE        +  where False = is_file()\nE        +    where is_file = PosixPath('/app/check_cert.py').is_file\n\n/subtests/test_sub.py:59: AssertionError\n=========================== short test summary info ============================\nSKIPPED [2] ../subtests/test_sub.py:14: /app/ssl/server.key missing\nSKIPPED [1] ../subtests/test_sub.py:14: /app/ssl/server.crt missing\nSKIPPED [2] ../subtests/test_sub.py:14: /app/check_cert.py missing\nSKIPPED [1] ../subtests/test_sub.py:14: /app/ssl/verification.txt missing\nSKIPPED [1] ../subtests/test_sub.py:14: /app/ssl/server.pem missing\nFAILED ../subtests/test_sub.py::test_must_ssl_dir_exists - AssertionError: as...\nFAILED ../subtests/test_sub.py::test_must_key_is_2048_rsa - AssertionError: a...\nFAILED ../subtests/test_sub.py::test_must_cert_subject_and_validity - Asserti...\nFAILED ../subtests/test_sub.py::test_must_combined_pem_has_key_and_cert - Ass...\nFAILED ../subtests/test_sub.py::test_must_verification_txt_contents - Asserti...\nFAILED ../subtests/test_sub.py::test_must_check_cert_script_runs_and_reports\n========================= 6 failed, 7 skipped in 0.19s =========================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_directory_structure",
+     "../tests/test_outputs.py::test_key_file",
+     "../tests/test_outputs.py::test_certificate_file",
+     "../tests/test_outputs.py::test_combined_pem_file",
+     "../tests/test_outputs.py::test_verification_file",
+     "../tests/test_outputs.py::test_python_verification_script"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 4ms\nInstalled 5 packages in 11.08s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_directory_structure\nPASSED ../tests/test_outputs.py::test_key_file\nPASSED ../tests/test_outputs.py::test_certificate_file\nPASSED ../tests/test_outputs.py::test_combined_pem_file\nPASSED ../tests/test_outputs.py::test_verification_file\nPASSED ../tests/test_outputs.py::test_python_verification_script\n============================== 6 passed in 0.70s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 8,
+      "failed": 0,
+      "total": 8,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 13 items\n\n../subtests/test_sub.py .............                                    [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_ssl_dir_exists\nPASSED ../subtests/test_sub.py::test_must_key_is_2048_rsa\nPASSED ../subtests/test_sub.py::test_must_key_permissions_restrictive\nPASSED ../subtests/test_sub.py::test_must_cert_subject_and_validity\nPASSED ../subtests/test_sub.py::test_must_cert_is_self_signed_and_matches_key\nPASSED ../subtests/test_sub.py::test_must_combined_pem_has_key_and_cert\nPASSED ../subtests/test_sub.py::test_must_verification_txt_contents\nPASSED ../subtests/test_sub.py::test_must_check_cert_script_runs_and_reports\nPASSED ../subtests/test_sub.py::test_mustnot_check_cert_reports_success_without_certificate\nPASSED ../subtests/test_sub.py::test_untested_key_permissions_exactly_600\nPASSED ../subtests/test_sub.py::test_untested_verification_txt_matches_actual_cert\nPASSED ../subtests/test_sub.py::test_untested_pem_components_match_files\nPASSED ../subtests/test_sub.py::test_untested_script_expiry_date_is_real\n============================== 13 passed in 1.27s ==============================\n",
+    "oracle_rc": 0
+   }
+  },
+  "7": {
+   "tests": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_directory_structure",
+     "../tests/test_outputs.py::test_key_file",
+     "../tests/test_outputs.py::test_certificate_file",
+     "../tests/test_outputs.py::test_combined_pem_file",
+     "../tests/test_outputs.py::test_verification_file",
+     "../tests/test_outputs.py::test_python_verification_script"
+    ],
+    "failed_names": [],
+    "raw_tail": "Using CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 2.43s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_directory_structure\nPASSED ../tests/test_outputs.py::test_key_file\nPASSED ../tests/test_outputs.py::test_certificate_file\nPASSED ../tests/test_outputs.py::test_combined_pem_file\nPASSED ../tests/test_outputs.py::test_verification_file\nPASSED ../tests/test_outputs.py::test_python_verification_script\n============================== 6 passed in 0.56s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 8,
+      "failed": 0,
+      "total": 8,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 13 items\n\n../subtests/test_sub.py .............                                    [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_ssl_dir_exists\nPASSED ../subtests/test_sub.py::test_must_key_is_2048_rsa\nPASSED ../subtests/test_sub.py::test_must_key_permissions_restrictive\nPASSED ../subtests/test_sub.py::test_must_cert_subject_and_validity\nPASSED ../subtests/test_sub.py::test_must_cert_is_self_signed_and_matches_key\nPASSED ../subtests/test_sub.py::test_must_combined_pem_has_key_and_cert\nPASSED ../subtests/test_sub.py::test_must_verification_txt_contents\nPASSED ../subtests/test_sub.py::test_must_check_cert_script_runs_and_reports\nPASSED ../subtests/test_sub.py::test_mustnot_check_cert_reports_success_without_certificate\nPASSED ../subtests/test_sub.py::test_untested_key_permissions_exactly_600\nPASSED ../subtests/test_sub.py::test_untested_verification_txt_matches_actual_cert\nPASSED ../subtests/test_sub.py::test_untested_pem_components_match_files\nPASSED ../subtests/test_sub.py::test_untested_script_expiry_date_is_real\n============================== 13 passed in 3.92s ==============================\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "passed_names": [
+     "../tests/test_outputs.py::test_directory_structure",
+     "../tests/test_outputs.py::test_key_file",
+     "../tests/test_outputs.py::test_certificate_file",
+     "../tests/test_outputs.py::test_combined_pem_file",
+     "../tests/test_outputs.py::test_verification_file",
+     "../tests/test_outputs.py::test_python_verification_script"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.13.1 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.13.1 environment at: .tbench-testing\nResolved 5 packages in 3ms\nInstalled 5 packages in 11.97s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 6 items\n\n../tests/test_outputs.py ......                                          [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_directory_structure\nPASSED ../tests/test_outputs.py::test_key_file\nPASSED ../tests/test_outputs.py::test_certificate_file\nPASSED ../tests/test_outputs.py::test_combined_pem_file\nPASSED ../tests/test_outputs.py::test_verification_file\nPASSED ../tests/test_outputs.py::test_python_verification_script\n============================== 6 passed in 0.67s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 8,
+      "failed": 0,
+      "total": 8,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 4,
+      "failed": 0,
+      "total": 4,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n============================= test session starts ==============================\nplatform linux -- Python 3.13.1, pytest-8.4.1, pluggy-1.7.0\nrootdir: /subtests\ncollected 13 items\n\n../subtests/test_sub.py .............                                    [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../subtests/test_sub.py::test_must_ssl_dir_exists\nPASSED ../subtests/test_sub.py::test_must_key_is_2048_rsa\nPASSED ../subtests/test_sub.py::test_must_key_permissions_restrictive\nPASSED ../subtests/test_sub.py::test_must_cert_subject_and_validity\nPASSED ../subtests/test_sub.py::test_must_cert_is_self_signed_and_matches_key\nPASSED ../subtests/test_sub.py::test_must_combined_pem_has_key_and_cert\nPASSED ../subtests/test_sub.py::test_must_verification_txt_contents\nPASSED ../subtests/test_sub.py::test_must_check_cert_script_runs_and_reports\nPASSED ../subtests/test_sub.py::test_mustnot_check_cert_reports_success_without_certificate\nPASSED ../subtests/test_sub.py::test_untested_key_permissions_exactly_600\nPASSED ../subtests/test_sub.py::test_untested_verification_txt_matches_actual_cert\nPASSED ../subtests/test_sub.py::test_untested_pem_components_match_files\nPASSED ../subtests/test_sub.py::test_untested_script_expiry_date_is_real\n============================== 13 passed in 1.03s ==============================\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793044110.0459943
+}

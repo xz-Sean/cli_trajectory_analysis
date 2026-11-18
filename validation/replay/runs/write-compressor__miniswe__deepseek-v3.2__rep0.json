@@ -1,0 +1,813 @@
+{
+ "cid": "write-compressor__miniswe__deepseek-v3.2",
+ "task": "write-compressor",
+ "scaffold": "miniswe",
+ "model": "deepseek-v3.2",
+ "m": 34,
+ "kmin": 5,
+ "kmax": 13,
+ "rep": 0,
+ "started": 1793207031.2810988,
+ "steps": [
+  {
+   "k": 1,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "\n}\n\n\n\nint get_integer(int tmp, int ctx) {\n  int subtract_it = 1<<tmp;\n  int result_ans = 1;\n  ctx*=99;\n  while (!get_bit(++tmp+ctx));\n  tmp--;\n  W {\n    result_ans = result_ans*2 | get_bit(ctx);\n  }\n  return result_ans - subtract_it;\n}\n\n\nint main() {\n  int tmp,i,j = get_integer(9, 0);\n  char* z;\n\n  char buf[10000];\n  char* Q = buf;\n\n  while (j--) {\n    if (get_bit(1)) {\n      z = Q - get_integer(OFF1, 2) - 1;\n      tmp = get_integer(OFF2, 3) + 1;\n        W {\n          *Q++ = *z++;\n        }\n    } else {\n      *Q++ = (1-2*get_bit(8)) * get_integer(LITSIZE, 9);\n    }\n  }\n\n  printf(\"%s\", buf);\n}\n"
+  },
+  {
+   "k": 2,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.889,
+   "out_tail": "-rw-r--r-- 1 root root 4868 Oct 26 17:32 /app/data.txt\n"
+  },
+  {
+   "k": 3,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "In information theory, data compression, source coding,[1] or bit-rate reduction is the process of e\n"
+  },
+  {
+   "k": 4,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "e coding should not be confused with channel coding, for error detection and correction or line coding, the means for mapping data onto a signal.\n\nData Compression algorithms present a space-time complexity trade-off between the bytes needed to store or transmit information, and the Computational resources needed to perform the encoding and decoding. The design of data compression schemes involves balancing the degree of compression, the amount of distortion introduced (when using lossy data compression), and the computational resources or time required to compress and decompress the data.[5]\n"
+  },
+  {
+   "k": 5,
+   "type": "bash",
+   "secs": 0.6,
+   "out_sim": 1.0,
+   "out_tail": "Compilation successful\n"
+  },
+  {
+   "k": 6,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 7,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 8,
+   "type": "bash",
+   "secs": 2.6,
+   "out_sim": 1.0,
+   "out_tail": "Floating point exception (core dumped)\n"
+  },
+  {
+   "k": 9,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 10,
+   "type": "bash",
+   "secs": 0.4,
+   "out_sim": 1.0,
+   "out_tail": "Segmentation fault (core dumped)\n"
+  },
+  {
+   "k": 11,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 0.0,
+   "out_tail": ""
+  },
+  {
+   "k": 12,
+   "type": "bash",
+   "secs": 0.3,
+   "out_sim": 0.909,
+   "out_tail": "sh: 1: hexdump: not found\n"
+  },
+  {
+   "k": 13,
+   "type": "bash",
+   "secs": 0.1,
+   "out_sim": 1.0,
+   "out_tail": "9737 /app/test.comp\n0000000 0000 0049 006e 0020 0069\n0000012\n"
+  }
+ ],
+ "eval": {
+  "0": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "raw_tail": " are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 65ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py FFF                                             [100%]\n\n=================================== FAILURES ===================================\n_________________________ test_compressed_file_exists __________________________\n\n    def test_compressed_file_exists():\n        \"\"\"Test that the compressed file was created.\"\"\"\n        setup()\n        compressed_path = Path(\"/app/data.comp\")\n>       assert compressed_path.exists(), f\"File {compressed_path} does not exist\"\nE       AssertionError: File /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:22: AssertionError\n_____________________ test_decompression_produces_original _____________________\n\n    def test_decompression_produces_original():\n        \"\"\"Test that decompressing the compressed file produces the file content.\"\"\"\n        setup()\n        # Paths\n        compressed_path = Path(\"/app/data.comp\")\n        decompressor_path = Path(\"/app/decomp2\")\n        original_path = Path(\"/app/data.txt\")\n    \n        # Check that all required files exist\n>       assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\nE       AssertionError: Compressed file /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:34: AssertionError\n____________________________ test_compression_size _____________________________\n\n    def test_compression_size():\n        \"\"\"Test that the compressed file size meets requirements.\"\"\"\n        setup()\n        max_size_bytes = 2500  # As specified in task.yaml\n    \n        compressed_path = Path(\"/app/data.comp\")\n>       assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\nE       AssertionError: Compressed file /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:66: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_compressed_file_exists - AssertionError...\nFAILED ../tests/test_outputs.py::test_decompression_produces_original - Asser...\nFAILED ../tests/test_outputs.py::test_compression_size - AssertionError: Comp...\n============================== 3 failed in 5.26s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 516ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_decompression_produces_original\nPASSED ../tests/test_outputs.py::test_compression_size\n============================== 3 passed in 1.92s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "5": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "raw_tail": " are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 75ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py FFF                                             [100%]\n\n=================================== FAILURES ===================================\n_________________________ test_compressed_file_exists __________________________\n\n    def test_compressed_file_exists():\n        \"\"\"Test that the compressed file was created.\"\"\"\n        setup()\n        compressed_path = Path(\"/app/data.comp\")\n>       assert compressed_path.exists(), f\"File {compressed_path} does not exist\"\nE       AssertionError: File /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:22: AssertionError\n_____________________ test_decompression_produces_original _____________________\n\n    def test_decompression_produces_original():\n        \"\"\"Test that decompressing the compressed file produces the file content.\"\"\"\n        setup()\n        # Paths\n        compressed_path = Path(\"/app/data.comp\")\n        decompressor_path = Path(\"/app/decomp2\")\n        original_path = Path(\"/app/data.txt\")\n    \n        # Check that all required files exist\n>       assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\nE       AssertionError: Compressed file /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:34: AssertionError\n____________________________ test_compression_size _____________________________\n\n    def test_compression_size():\n        \"\"\"Test that the compressed file size meets requirements.\"\"\"\n        setup()\n        max_size_bytes = 2500  # As specified in task.yaml\n    \n        compressed_path = Path(\"/app/data.comp\")\n>       assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\nE       AssertionError: Compressed file /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:66: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_compressed_file_exists - AssertionError...\nFAILED ../tests/test_outputs.py::test_decompression_produces_original - Asser...\nFAILED ../tests/test_outputs.py::test_compression_size - AssertionError: Comp...\n============================== 3 failed in 7.71s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 952ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_decompression_produces_original\nPASSED ../tests/test_outputs.py::test_compression_size\n============================== 3 passed in 3.66s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "6": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "raw_tail": " are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 90ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py FFF                                             [100%]\n\n=================================== FAILURES ===================================\n_________________________ test_compressed_file_exists __________________________\n\n    def test_compressed_file_exists():\n        \"\"\"Test that the compressed file was created.\"\"\"\n        setup()\n        compressed_path = Path(\"/app/data.comp\")\n>       assert compressed_path.exists(), f\"File {compressed_path} does not exist\"\nE       AssertionError: File /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:22: AssertionError\n_____________________ test_decompression_produces_original _____________________\n\n    def test_decompression_produces_original():\n        \"\"\"Test that decompressing the compressed file produces the file content.\"\"\"\n        setup()\n        # Paths\n        compressed_path = Path(\"/app/data.comp\")\n        decompressor_path = Path(\"/app/decomp2\")\n        original_path = Path(\"/app/data.txt\")\n    \n        # Check that all required files exist\n>       assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\nE       AssertionError: Compressed file /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:34: AssertionError\n____________________________ test_compression_size _____________________________\n\n    def test_compression_size():\n        \"\"\"Test that the compressed file size meets requirements.\"\"\"\n        setup()\n        max_size_bytes = 2500  # As specified in task.yaml\n    \n        compressed_path = Path(\"/app/data.comp\")\n>       assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\nE       AssertionError: Compressed file /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:66: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_compressed_file_exists - AssertionError...\nFAILED ../tests/test_outputs.py::test_decompression_produces_original - Asser...\nFAILED ../tests/test_outputs.py::test_compression_size - AssertionError: Comp...\n============================== 3 failed in 1.36s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 1.67s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_decompression_produces_original\nPASSED ../tests/test_outputs.py::test_compression_size\n============================== 3 passed in 4.72s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "7": {
+   "tests": {
+    "passed": 0,
+    "failed": 3,
+    "total": 3,
+    "passed_names": [],
+    "failed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "raw_tail": "are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 323ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py FFF                                             [100%]\n\n=================================== FAILURES ===================================\n_________________________ test_compressed_file_exists __________________________\n\n    def test_compressed_file_exists():\n        \"\"\"Test that the compressed file was created.\"\"\"\n        setup()\n        compressed_path = Path(\"/app/data.comp\")\n>       assert compressed_path.exists(), f\"File {compressed_path} does not exist\"\nE       AssertionError: File /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:22: AssertionError\n_____________________ test_decompression_produces_original _____________________\n\n    def test_decompression_produces_original():\n        \"\"\"Test that decompressing the compressed file produces the file content.\"\"\"\n        setup()\n        # Paths\n        compressed_path = Path(\"/app/data.comp\")\n        decompressor_path = Path(\"/app/decomp2\")\n        original_path = Path(\"/app/data.txt\")\n    \n        # Check that all required files exist\n>       assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\nE       AssertionError: Compressed file /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:34: AssertionError\n____________________________ test_compression_size _____________________________\n\n    def test_compression_size():\n        \"\"\"Test that the compressed file size meets requirements.\"\"\"\n        setup()\n        max_size_bytes = 2500  # As specified in task.yaml\n    \n        compressed_path = Path(\"/app/data.comp\")\n>       assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\nE       AssertionError: Compressed file /app/data.comp does not exist\nE       assert False\nE        +  where False = exists()\nE        +    where exists = PosixPath('/app/data.comp').exists\n\n/tests/test_outputs.py:66: AssertionError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_compressed_file_exists - AssertionError...\nFAILED ../tests/test_outputs.py::test_decompression_produces_original - Asser...\nFAILED ../tests/test_outputs.py::test_compression_size - AssertionError: Comp...\n============================== 3 failed in 2.40s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 950ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_decompression_produces_original\nPASSED ../tests/test_outputs.py::test_compression_size\n============================== 3 passed in 5.82s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "8": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_decompression_produces_original"
+    ],
+    "raw_tail": "=======================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py .F.                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________ test_decompression_produces_original _____________________\n\n    def test_decompression_produces_original():\n        \"\"\"Test that decompressing the compressed file produces the file content.\"\"\"\n        setup()\n        # Paths\n        compressed_path = Path(\"/app/data.comp\")\n        decompressor_path = Path(\"/app/decomp2\")\n        original_path = Path(\"/app/data.txt\")\n    \n        # Check that all required files exist\n        assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\n        assert decompressor_path.exists(), (\n            f\"Decompressor {decompressor_path} does not exist\"\n        )\n        assert original_path.exists(), f\"Original file {original_path} does not exist\"\n    \n        # Get original content\n        original_content = original_path.read_text()\n    \n        # Run decompression and capture output\n        result = subprocess.run(\n            f\"cat {compressed_path} | {decompressor_path}\",\n            shell=True,\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check if decompression was successful\n        assert result.returncode == 0, f\"Decompression failed with error: {result.stderr}\"\n    \n        # Compare decompressed content with original\n>       assert result.stdout == original_content, (\n            \"Decompressed content does not match original content\"\n        )\nE       AssertionError: Decompressed content does not match original content\nE       assert '' == 'In informati...nt.[12][13]\\n'\nE         \nE         - In information theory, data compression, source coding,[1] or bit-rate reduction is the process of encoding information using fewer bits than the original representation.[2] Any particular compression is either lossy or lossless. Lossless compression reduces bits by identifying and eliminating statistical redundancy. No information is lost in lossless compression. Lossy compression reduces bits by removing unnecessary or less important information.[3] Typically, a device that performs data compression is referred to as an encoder, and one that performs the reversal of the process (decompression)...\nE         \nE         ...Full output truncated (15 lines hidden), use '-vv' to show\n\n/tests/test_outputs.py:55: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_compression_size\nFAILED ../tests/test_outputs.py::test_decompression_produces_original - Asser...\n========================= 1 failed, 2 passed in 3.02s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 583ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_decompression_produces_original\nPASSED ../tests/test_outputs.py::test_compression_size\n============================== 3 passed in 3.43s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "9": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_decompression_produces_original"
+    ],
+    "raw_tail": "=======================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py .F.                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________ test_decompression_produces_original _____________________\n\n    def test_decompression_produces_original():\n        \"\"\"Test that decompressing the compressed file produces the file content.\"\"\"\n        setup()\n        # Paths\n        compressed_path = Path(\"/app/data.comp\")\n        decompressor_path = Path(\"/app/decomp2\")\n        original_path = Path(\"/app/data.txt\")\n    \n        # Check that all required files exist\n        assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\n        assert decompressor_path.exists(), (\n            f\"Decompressor {decompressor_path} does not exist\"\n        )\n        assert original_path.exists(), f\"Original file {original_path} does not exist\"\n    \n        # Get original content\n        original_content = original_path.read_text()\n    \n        # Run decompression and capture output\n        result = subprocess.run(\n            f\"cat {compressed_path} | {decompressor_path}\",\n            shell=True,\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check if decompression was successful\n        assert result.returncode == 0, f\"Decompression failed with error: {result.stderr}\"\n    \n        # Compare decompressed content with original\n>       assert result.stdout == original_content, (\n            \"Decompressed content does not match original content\"\n        )\nE       AssertionError: Decompressed content does not match original content\nE       assert '' == 'In informati...nt.[12][13]\\n'\nE         \nE         - In information theory, data compression, source coding,[1] or bit-rate reduction is the process of encoding information using fewer bits than the original representation.[2] Any particular compression is either lossy or lossless. Lossless compression reduces bits by identifying and eliminating statistical redundancy. No information is lost in lossless compression. Lossy compression reduces bits by removing unnecessary or less important information.[3] Typically, a device that performs data compression is referred to as an encoder, and one that performs the reversal of the process (decompression)...\nE         \nE         ...Full output truncated (15 lines hidden), use '-vv' to show\n\n/tests/test_outputs.py:55: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_compression_size\nFAILED ../tests/test_outputs.py::test_decompression_produces_original - Asser...\n========================= 1 failed, 2 passed in 4.73s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 1.86s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_decompression_produces_original\nPASSED ../tests/test_outputs.py::test_compression_size\n============================== 3 passed in 2.08s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "10": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_decompression_produces_original"
+    ],
+    "raw_tail": "=======================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py .F.                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________ test_decompression_produces_original _____________________\n\n    def test_decompression_produces_original():\n        \"\"\"Test that decompressing the compressed file produces the file content.\"\"\"\n        setup()\n        # Paths\n        compressed_path = Path(\"/app/data.comp\")\n        decompressor_path = Path(\"/app/decomp2\")\n        original_path = Path(\"/app/data.txt\")\n    \n        # Check that all required files exist\n        assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\n        assert decompressor_path.exists(), (\n            f\"Decompressor {decompressor_path} does not exist\"\n        )\n        assert original_path.exists(), f\"Original file {original_path} does not exist\"\n    \n        # Get original content\n        original_content = original_path.read_text()\n    \n        # Run decompression and capture output\n        result = subprocess.run(\n            f\"cat {compressed_path} | {decompressor_path}\",\n            shell=True,\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check if decompression was successful\n        assert result.returncode == 0, f\"Decompression failed with error: {result.stderr}\"\n    \n        # Compare decompressed content with original\n>       assert result.stdout == original_content, (\n            \"Decompressed content does not match original content\"\n        )\nE       AssertionError: Decompressed content does not match original content\nE       assert '' == 'In informati...nt.[12][13]\\n'\nE         \nE         - In information theory, data compression, source coding,[1] or bit-rate reduction is the process of encoding information using fewer bits than the original representation.[2] Any particular compression is either lossy or lossless. Lossless compression reduces bits by identifying and eliminating statistical redundancy. No information is lost in lossless compression. Lossy compression reduces bits by removing unnecessary or less important information.[3] Typically, a device that performs data compression is referred to as an encoder, and one that performs the reversal of the process (decompression)...\nE         \nE         ...Full output truncated (15 lines hidden), use '-vv' to show\n\n/tests/test_outputs.py:55: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_compression_size\nFAILED ../tests/test_outputs.py::test_decompression_produces_original - Asser...\n========================= 1 failed, 2 passed in 2.13s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 4ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 1.21s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_decompression_produces_original\nPASSED ../tests/test_outputs.py::test_compression_size\n============================== 3 passed in 3.41s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "11": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_decompression_produces_original"
+    ],
+    "raw_tail": "=======================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py .F.                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________ test_decompression_produces_original _____________________\n\n    def test_decompression_produces_original():\n        \"\"\"Test that decompressing the compressed file produces the file content.\"\"\"\n        setup()\n        # Paths\n        compressed_path = Path(\"/app/data.comp\")\n        decompressor_path = Path(\"/app/decomp2\")\n        original_path = Path(\"/app/data.txt\")\n    \n        # Check that all required files exist\n        assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\n        assert decompressor_path.exists(), (\n            f\"Decompressor {decompressor_path} does not exist\"\n        )\n        assert original_path.exists(), f\"Original file {original_path} does not exist\"\n    \n        # Get original content\n        original_content = original_path.read_text()\n    \n        # Run decompression and capture output\n        result = subprocess.run(\n            f\"cat {compressed_path} | {decompressor_path}\",\n            shell=True,\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check if decompression was successful\n        assert result.returncode == 0, f\"Decompression failed with error: {result.stderr}\"\n    \n        # Compare decompressed content with original\n>       assert result.stdout == original_content, (\n            \"Decompressed content does not match original content\"\n        )\nE       AssertionError: Decompressed content does not match original content\nE       assert '' == 'In informati...nt.[12][13]\\n'\nE         \nE         - In information theory, data compression, source coding,[1] or bit-rate reduction is the process of encoding information using fewer bits than the original representation.[2] Any particular compression is either lossy or lossless. Lossless compression reduces bits by identifying and eliminating statistical redundancy. No information is lost in lossless compression. Lossy compression reduces bits by removing unnecessary or less important information.[3] Typically, a device that performs data compression is referred to as an encoder, and one that performs the reversal of the process (decompression)...\nE         \nE         ...Full output truncated (15 lines hidden), use '-vv' to show\n\n/tests/test_outputs.py:55: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_compression_size\nFAILED ../tests/test_outputs.py::test_decompression_produces_original - Asser...\n========================= 1 failed, 2 passed in 0.43s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 1.61s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_decompression_produces_original\nPASSED ../tests/test_outputs.py::test_compression_size\n============================== 3 passed in 1.65s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "12": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_decompression_produces_original"
+    ],
+    "raw_tail": "=======================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py .F.                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________ test_decompression_produces_original _____________________\n\n    def test_decompression_produces_original():\n        \"\"\"Test that decompressing the compressed file produces the file content.\"\"\"\n        setup()\n        # Paths\n        compressed_path = Path(\"/app/data.comp\")\n        decompressor_path = Path(\"/app/decomp2\")\n        original_path = Path(\"/app/data.txt\")\n    \n        # Check that all required files exist\n        assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\n        assert decompressor_path.exists(), (\n            f\"Decompressor {decompressor_path} does not exist\"\n        )\n        assert original_path.exists(), f\"Original file {original_path} does not exist\"\n    \n        # Get original content\n        original_content = original_path.read_text()\n    \n        # Run decompression and capture output\n        result = subprocess.run(\n            f\"cat {compressed_path} | {decompressor_path}\",\n            shell=True,\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check if decompression was successful\n        assert result.returncode == 0, f\"Decompression failed with error: {result.stderr}\"\n    \n        # Compare decompressed content with original\n>       assert result.stdout == original_content, (\n            \"Decompressed content does not match original content\"\n        )\nE       AssertionError: Decompressed content does not match original content\nE       assert '' == 'In informati...nt.[12][13]\\n'\nE         \nE         - In information theory, data compression, source coding,[1] or bit-rate reduction is the process of encoding information using fewer bits than the original representation.[2] Any particular compression is either lossy or lossless. Lossless compression reduces bits by identifying and eliminating statistical redundancy. No information is lost in lossless compression. Lossy compression reduces bits by removing unnecessary or less important information.[3] Typically, a device that performs data compression is referred to as an encoder, and one that performs the reversal of the process (decompression)...\nE         \nE         ...Full output truncated (15 lines hidden), use '-vv' to show\n\n/tests/test_outputs.py:55: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_compression_size\nFAILED ../tests/test_outputs.py::test_decompression_produces_original - Asser...\n========================= 1 failed, 2 passed in 0.53s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 360ms\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_decompression_produces_original\nPASSED ../tests/test_outputs.py::test_compression_size\n============================== 3 passed in 7.79s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  },
+  "13": {
+   "tests": {
+    "passed": 2,
+    "failed": 1,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [
+     "../tests/test_outputs.py::test_decompression_produces_original"
+    ],
+    "raw_tail": "=======================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py .F.                                             [100%]\n\n=================================== FAILURES ===================================\n_____________________ test_decompression_produces_original _____________________\n\n    def test_decompression_produces_original():\n        \"\"\"Test that decompressing the compressed file produces the file content.\"\"\"\n        setup()\n        # Paths\n        compressed_path = Path(\"/app/data.comp\")\n        decompressor_path = Path(\"/app/decomp2\")\n        original_path = Path(\"/app/data.txt\")\n    \n        # Check that all required files exist\n        assert compressed_path.exists(), f\"Compressed file {compressed_path} does not exist\"\n        assert decompressor_path.exists(), (\n            f\"Decompressor {decompressor_path} does not exist\"\n        )\n        assert original_path.exists(), f\"Original file {original_path} does not exist\"\n    \n        # Get original content\n        original_content = original_path.read_text()\n    \n        # Run decompression and capture output\n        result = subprocess.run(\n            f\"cat {compressed_path} | {decompressor_path}\",\n            shell=True,\n            capture_output=True,\n            text=True,\n        )\n    \n        # Check if decompression was successful\n        assert result.returncode == 0, f\"Decompression failed with error: {result.stderr}\"\n    \n        # Compare decompressed content with original\n>       assert result.stdout == original_content, (\n            \"Decompressed content does not match original content\"\n        )\nE       AssertionError: Decompressed content does not match original content\nE       assert '' == 'In informati...nt.[12][13]\\n'\nE         \nE         - In information theory, data compression, source coding,[1] or bit-rate reduction is the process of encoding information using fewer bits than the original representation.[2] Any particular compression is either lossy or lossless. Lossless compression reduces bits by identifying and eliminating statistical redundancy. No information is lost in lossless compression. Lossy compression reduces bits by removing unnecessary or less important information.[3] Typically, a device that performs data compression is referred to as an encoder, and one that performs the reversal of the process (decompression)...\nE         \nE         ...Full output truncated (15 lines hidden), use '-vv' to show\n\n/tests/test_outputs.py:55: AssertionError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_compression_size\nFAILED ../tests/test_outputs.py::test_decompression_produces_original - Asser...\n========================= 1 failed, 2 passed in 3.81s ==========================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": null
+   },
+   "oracle": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "passed_names": [
+     "../tests/test_outputs.py::test_compressed_file_exists",
+     "../tests/test_outputs.py::test_decompression_produces_original",
+     "../tests/test_outputs.py::test_compression_size"
+    ],
+    "failed_names": [],
+    "raw_tail": "ORACLE_RC=0\nUsing CPython 3.12.3 interpreter at: /usr/bin/python3\nCreating virtual environment at: .tbench-testing\nUsing Python 3.12.3 environment at: .tbench-testing\nResolved 5 packages in 3ms\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 5 packages in 1.92s\n + iniconfig==2.3.1\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 3 items\n\n../tests/test_outputs.py ...                                             [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_compressed_file_exists\nPASSED ../tests/test_outputs.py::test_decompression_produces_original\nPASSED ../tests/test_outputs.py::test_compression_size\n============================== 3 passed in 4.24s ===============================\n",
+    "sub": {
+     "must": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "mustnot": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     },
+     "untested": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failed_names": []
+     }
+    },
+    "sub_raw_tail": "\n",
+    "oracle_rc": 0
+   }
+  }
+ },
+ "finished": 1793215588.0598748
+}

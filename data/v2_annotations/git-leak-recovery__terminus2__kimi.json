@@ -1,0 +1,33 @@
+{
+  "case_id": "git-leak-recovery__terminus2__kimi",
+  "schema_version": "v2",
+  "m": 19,
+  "action_segments": [
+    [1, 5, "E"],
+    [6, 6, "E"],
+    [7, 7, "W"],
+    [8, 8, "V"],
+    [9, 10, "E"],
+    [11, 12, "X"],
+    [13, 19, "V"]
+  ],
+  "num_error_events": 0,
+  "first_error_step": null,
+  "first_error_evidence": null,
+  "num_recoveries": 0,
+  "max_detour_length": 0,
+  "near_miss": false,
+  "near_miss_description": null,
+  "near_miss_evidence": null,
+  "verification_before_claim": true,
+  "first_relevant_verification_step": 8,
+  "verification_evidence": "Step 8: cat /app/secret.txt confirms the secret was written correctly; steps 13-19 comprehensively verify cleanup via git fsck (no dangling commits), README.md integrity check, git log grep, and git log -p grep showing no remaining secret references.",
+  "suspicious_pass": false,
+  "suspicious_pass_type": null,
+  "suspicious_pass_evidence": null,
+  "solution_directness": "direct",
+  "one_sentence_strategy_summary": "The agent used git reflog to identify a dangling commit from a prior reset, extracted the secret via git show, saved it to /app/secret.txt, then purged all traces by expiring the reflog and running aggressive garbage collection, verified by a clean git fsck output.",
+  "confidence": "high",
+  "long_traj": false,
+  "uncertain_fields": []
+}

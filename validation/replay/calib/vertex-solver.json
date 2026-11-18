@@ -1,0 +1,70 @@
+{
+ "task": "vertex-solver",
+ "pristine": {
+  "passed": 0,
+  "failed": 2,
+  "total": 2,
+  "passed_names": [],
+  "failed_names": [
+   "../tests/test_outputs.py::test_corner_checker",
+   "../tests/test_outputs.py::test_corner_average"
+  ],
+  "raw_tail": " = _read(fname, dtype=dtype, comment=comment, delimiter=delimiter,\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py:1011: in _read\n    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:192: in open\n    return ds.open(path, mode, encoding=encoding, newline=newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <numpy.lib.npyio.DataSource object at 0x767bda7248d0>\npath = '/app/corner_counts.txt', mode = 'rt', encoding = None, newline = None\n\n    def open(self, path, mode='r', encoding=None, newline=None):\n        \"\"\"\n        Open and return file-like object.\n    \n        If `path` is an URL, it will be downloaded, stored in the\n        `DataSource` directory and opened from there.\n    \n        Parameters\n        ----------\n        path : str or pathlib.Path\n            Local file path or URL to open.\n        mode : {'r', 'w', 'a'}, optional\n            Mode to open `path`.  Mode 'r' for reading, 'w' for writing,\n            'a' to append. Available modes depend on the type of object\n            specified by `path`. Default is 'r'.\n        encoding : {None, str}, optional\n            Open text file with given encoding. The default encoding will be\n            what `open` uses.\n        newline : {None, str}, optional\n            Newline to use when reading text file.\n    \n        Returns\n        -------\n        out : file object\n            File object.\n    \n        \"\"\"\n    \n        # TODO: There is no support for opening a file for writing which\n        #       doesn't exist yet (creating a file).  Should there be?\n    \n        # TODO: Add a ``subdir`` parameter for specifying the subdirectory\n        #       used to store URLs in self._destpath.\n    \n        if self._isurl(path) and self._iswritemode(mode):\n            raise ValueError(\"URLs are not writeable\")\n    \n        # NOTE: _findfile will fail on a new file opened for writing.\n        found = self._findfile(path)\n        if found:\n            _fname, ext = self._splitzipext(found)\n            if ext == 'bz2':\n                mode.replace(\"+\", \"\")\n            return _file_openers[ext](found, mode=mode,\n                                      encoding=encoding, newline=newline)\n        else:\n>           raise FileNotFoundError(f\"{path} not found.\")\nE           FileNotFoundError: /app/corner_counts.txt not found.\n\n.tbench-testing/lib/python3.11/site-packages/numpy/lib/_datasource.py:529: FileNotFoundError\n=========================== short test summary info ============================\nFAILED ../tests/test_outputs.py::test_corner_checker - FileNotFoundError: /ap...\nFAILED ../tests/test_outputs.py::test_corner_average - FileNotFoundError: /ap...\n============================== 2 failed in 0.87s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n",
+  "oracle_rc": null
+ },
+ "oracle": {
+  "passed": 2,
+  "failed": 0,
+  "total": 2,
+  "passed_names": [
+   "../tests/test_outputs.py::test_corner_checker",
+   "../tests/test_outputs.py::test_corner_average"
+  ],
+  "failed_names": [],
+  "raw_tail": "ORACLE_RC=0\nUsing CPython 3.11.18 interpreter at: /usr/local/bin/python\nCreating virtual environment at: .tbench-testing\nUsing Python 3.11.18 environment at: .tbench-testing\nResolved 6 packages in 3.98s\nDownloading numpy (16.1MiB)\n Downloading numpy\nPrepared 1 package in 1.39s\nInstalled 6 packages in 15.63s\n + iniconfig==2.3.1\n + numpy==2.4.6\n + packaging==26.3\n + pluggy==1.7.0\n + pygments==2.21.0\n + pytest==8.4.1\n============================= test session starts ==============================\nplatform linux -- Python 3.11.18, pytest-8.4.1, pluggy-1.7.0\nrootdir: /tests\ncollected 2 items\n\n../tests/test_outputs.py ..                                              [100%]\n\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED ../tests/test_outputs.py::test_corner_checker\nPASSED ../tests/test_outputs.py::test_corner_average\n============================== 2 passed in 1.03s ===============================\n",
+  "sub": {
+   "must": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "mustnot": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   },
+   "untested": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0,
+    "failed_names": []
+   }
+  },
+  "sub_raw_tail": "\n",
+  "oracle_rc": 0
+ },
+ "secs": 552
+}
